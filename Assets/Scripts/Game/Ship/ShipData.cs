@@ -1,26 +1,43 @@
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
-using static Unity.Burst.Intrinsics.X86.Avx;
-using static UnityEngine.Rendering.DebugUI;
+using static ComponentGrid;
 
 [CreateAssetMenu(fileName = "ShipData", menuName = "Scriptable Objects/ShipData")]
-public class ShipData : ScriptableObject
-{
+public class ShipData : ScriptableObject {
     /// <summary>
-    /// Width of the grid
+    /// The stored component grid. All things inside are references to prefabs, not instances.
     /// </summary>
-    public int width;
+    public ComponentGrid componentGrid {
+        get {
+#if UNITY_EDITOR
+            UnityEditor.EditorUtility.SetDirty(this);
+#endif
+            return _componentGrid;
+        }
+        set {
+            _componentGrid = value;
+#if UNITY_EDITOR
+            UnityEditor.EditorUtility.SetDirty(this);
+#endif
+        }
+    }
+
+    [SerializeField]
+    private ComponentGrid _componentGrid;
 
     /// <summary>
-    /// Height of the grid
+    /// Enables the component grid to be accessed like a matrix
     /// </summary>
-    public int height;
-
-    /// <summary>
-    /// 2D map of the components stored in 1D, because it is serializable like that
-    /// </summary>
-    public List<ShipComponentController> components;
+    /// <returns></returns>
+    public ComponentGridTile this[int z, int x] {
+        get {
+            return componentGrid[z, x];
+        }
+        set {
+            componentGrid[z, x] = value;
+        }
+    }
 
     /// <summary>
     /// Builds ship from data at position
@@ -31,16 +48,12 @@ public class ShipData : ScriptableObject
     /// <returns>List of references to instantiated components.</returns>
     public List<ShipComponentController> BuildShip(Vector3 position, Transform componentParent, ShipComponentController placeholder = null) {
         List<ShipComponentController> createdComponents = new();
-        for (int i = 0; i < height; i++) {
-            for (int j = 0; j < width; j++) {
-                var component = components[i * width + j];
-                if (component == null) {
-                    if (placeholder != null) {
-                        component = placeholder;
-                    }
-                    else {
-                        continue;
-                    }
+        for (int i = 0; i < componentGrid.height; i++) {
+            for (int j = 0; j < componentGrid.width; j++) {
+                var gridTile = componentGrid[i, j];
+                var component = gridTile.component;
+                if (gridTile.isPlaceholder || gridTile.hasOffset) {
+                    continue;
                 }
                 // If in editor, make sure objects stay as prefabs
 #if UNITY_EDITOR

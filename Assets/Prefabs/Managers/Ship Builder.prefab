@@ -45,9 +45,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dfd046b0bdab89d4bba1ed7437f627e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ShipBuildingController
-  ship: {fileID: 0}
   width: 10
   height: 20
+  componentGrid:
+    components: []
+    width: 0
+    height: 0
+    placeholderPrefab: {fileID: 0}
+    componentParent: {fileID: 0}
   placeholderComponent: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
   componentPrefabs:
   - {fileID: 6845047944256034405, guid: 9ea8d571fd3e8a74586990b7fea34728, type: 3}
