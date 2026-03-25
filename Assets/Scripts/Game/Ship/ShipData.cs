@@ -52,7 +52,7 @@ public class ShipData : ScriptableObject {
             for (int j = 0; j < componentGrid.width; j++) {
                 var gridTile = componentGrid[i, j];
                 var component = gridTile.component;
-                if (gridTile.isPlaceholder || gridTile.hasOffset) {
+                if (gridTile.isPlaceholder || gridTile.hasOffset) { 
                     continue;
                 }
                 // If in editor, make sure objects stay as prefabs

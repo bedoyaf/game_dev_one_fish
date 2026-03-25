@@ -84,14 +84,16 @@ public class ComponentGrid {
                 }
             }
         }
+
+        SetupBlocks(component, x, z, false);
     }
 
     /// <summary>
     /// Places the component in the grid. Removes all that are in the way.
-    /// Do not use for placing prefabs - use <see cref="RemoveComponent(int, int)"/>
+    /// Do not use for placing placeholders - use <see cref="RemoveComponent(int, int)"/>
     /// Works with bigger components
     /// </summary>
-    public void PlaceComponent(ShipComponentController componentPrefab, int x, int z) {
+    public void PlaceComponent(ShipComponentController componentPrefab, int x, int z, bool showPlaceholders = false) {
         var component = componentPrefab;
         if (shouldInstantiate) {
             var newComponent = GameObject.Instantiate(componentPrefab, componentParent);
@@ -100,10 +102,10 @@ public class ComponentGrid {
             component = newComponent;
         }
 
-        // Remove old things
+        // Remove old things in the area of the 
         for (int i = 0; i < component.placementRules.Height; i++) {
             for (int j = 0; j < component.placementRules.Width; j++) {
-                RemoveComponent(x + j, z + i);
+                RemoveComponent(x + j, z + i, showPlaceholders);
             }
         }
 
@@ -113,20 +115,74 @@ public class ComponentGrid {
                 grid[z + i, x + j].PlaceComponent(component, j, i);
             }
         }
+
+        SetupBlocks(component, x, z, true);
+    }
+
+    /// <summary>
+    /// Add block to surroundings of the component
+    /// x and z are the left bottom
+    /// </summary>
+    public void SetupBlocks(ShipComponentController component, int x, int z, bool addBlock) {
+        if (!component.placementRules.blockSurroundings) return;
+
+        int componentHeight = component.placementRules.Height;
+        int componentWidth = component.placementRules.Width;
+
+        // Boundaries (exclusive)
+        int top = Mathf.Min(z + componentHeight + component.placementRules.Top, height);
+        int bottom = Mathf.Max(z - component.placementRules.Bottom - 1, -1);
+        int left = Mathf.Max(x - component.placementRules.Left - 1, -1);
+        int right = Mathf.Min(x + componentWidth + component.placementRules.Right, width);
+
+
+        // Top
+        for (int j = 0; j < component.placementRules.Width; j++) {
+            for (int i = z + componentHeight; i < top; i++) {
+                grid[i, x + j].ChangeBlock(addBlock);
+            }
+        }
+
+        // Bottom
+        for (int j = 0; j < component.placementRules.Width; j++) {
+            for (int i = z - 1; i > bottom; i--) {
+                grid[i, x + j].ChangeBlock(addBlock);
+            }
+        }
+
+        // Left
+        for (int i = 0; i < component.placementRules.Height; i++) {
+            for (int j = x - 1; j > left; j--) {
+                grid[z + i, j].ChangeBlock(addBlock);
+            }
+        }
+
+        // Right
+        for (int i = 0; i < component.placementRules.Height; i++) {
+            for (int j = x + componentWidth; j < right; j++) {
+                grid[z + i, j].ChangeBlock(addBlock);
+            }
+        }
     }
 
     /// <summary>
     /// Checks whether the component can be placed at the coordinates
     /// </summary>
     /// <returns>True if valid placement, false otherwise</returns>
-    public bool IsValidPlacementPosition(ShipComponentController component, int x, int z) {
+    public bool IsValidPlacementPosition(ShipComponentController component, int x, int z, bool isPlaceholder) {
+        if (isPlaceholder) return true;
+        if (!DoesComponentFit(component, x, z)) return false;
+
+        // Check if any tile is blocked
         for (int i = 0; i < component.placementRules.Height; i++) {
             for (int j = 0; j < component.placementRules.Width; j++) {
-                if (grid[z + i, x + j].IsBlocked) {
+                if (grid[z + i, x + j].isBlocked) {
                     return false;
                 }
             }
         }
+
+        // Check if it connects to something - TODO
 
         return true;
     }
@@ -154,21 +210,25 @@ public class ComponentGrid {
         [SerializeField]
         private int blocked;
 
+        public int GetBlock => blocked;
+
         public bool isPlaceholder; // TODO
 
         public bool hasOffset => placementOffset != Vector2Int.zero;
 
-        public bool IsBlocked => blocked > 0;
+        public bool isBlocked => blocked > 0;
 
         public bool worksWithPrefabs;
+
+        private bool visible;
 
         /// <summary>
         /// Blocking is set to false, and no offset
         /// </summary>
         public ComponentGridTile(ShipComponentController component, bool worksWithPrefabs, bool isPlaceholder = false) {
             this.component = component;
-            this.isPlaceholder = isPlaceholder;
             this.worksWithPrefabs = worksWithPrefabs;
+            this.isPlaceholder = isPlaceholder;
         }
 
         private void DestroyCurrentComponent() {
@@ -186,25 +246,57 @@ public class ComponentGrid {
             DestroyCurrentComponent();
             component = placeholder;
             if (!isPlaceholder) {
-                RemoveBlock();
                 isPlaceholder = true;
+                ChangeBlock(false);
             }
             placementOffset = Vector2Int.zero;
+
+            if (!worksWithPrefabs) return;
+            placeholder.placementRules.connectedTile = this;
         }
 
         public void PlaceComponent(ShipComponentController component, int offsetX = 0, int offsetZ = 0) {
             DestroyCurrentComponent();
             this.component = component;
             if (isPlaceholder) {
-                AddBlock();
                 isPlaceholder = false;
+                ChangeBlock(true);
             }
             placementOffset = new Vector2Int(offsetX, offsetZ);
+
+            if (!worksWithPrefabs) return;
+            component.placementRules.connectedTile = this;
         }
 
         public void ToggleVisibility(bool toggle) {
             component.GetComponentInChildren<MeshRenderer>().enabled = toggle;
+            visible = toggle;
         }
+
+        public void ChangeBlock(bool add) {
+            if (add) AddBlock();
+            else RemoveBlock();
+
+            PlaceholderColor();
+        }
+        public void ChangeBlock(int add) {
+            blocked += add;
+
+            PlaceholderColor();
+        }
+
+        private void PlaceholderColor() {
+            if (!visible || !isPlaceholder) return;
+
+            if (isBlocked) {
+                component.GetComponentInChildren<MeshRenderer>().material.color = Color.lightCyan;
+            }
+            else {
+                component.GetComponentInChildren<MeshRenderer>().material.color = Color.white;
+            }
+        }
+
+        
 
         public void AddBlock() {
             blocked++;

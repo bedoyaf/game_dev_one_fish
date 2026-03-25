@@ -18,13 +18,16 @@ public class ShipBuildingController : MonoBehaviour
 
     [SerializeField] ShipData shipData;
 
-    [SerializeField] private bool placeholdersVisible;
-    private ComponentGrid componentGrid;
+    public ComponentGrid componentGrid;
 
     public Transform draggablesParent;
     public int draggableDistance = 2;
     public List<ComponentBuildingDrag> draggableComponents;
     public ComponentBuildingDrag currentlyDragging;
+
+    [SerializeField] private bool placeholdersVisible;
+    [SerializeField] private bool enabledPlacementRules;
+
 
     void Start()
     {
@@ -52,24 +55,30 @@ public class ShipBuildingController : MonoBehaviour
             }
         }
 
-        // Place the components from the data
-        if (useShipData) {
-            for (int i = 0; i < height; i++) {
-                for (int j = 0; j < width; j++) {
-                    var componentPrefab = shipData[i, j].component;
-                    if (shipData[i, j].isPlaceholder || shipData[i, j].placementOffset != Vector2Int.zero) {
-                        continue;
-                    }
-                    componentGrid.PlaceComponent(componentPrefab, j, i);
-                }
-            }
-        }
-
+        // Make placeholders visible
         if (placeholdersVisible) {
             placeholdersVisible = false;
             TogglePlaceholders();
         }
 
+        // Place the components from the data
+        if (useShipData) {
+            for (int i = 0; i < height; i++) {
+                for (int j = 0; j < width; j++) {
+                    var componentPrefab = shipData[i, j].component;
+                    if (shipData[i, j].placementOffset != Vector2Int.zero || shipData[i, j].isPlaceholder) {
+                        continue;
+                    }
+                    //if (shipData[i, j].isPlaceholder) {
+                    //    componentGrid[i, j].ChangeBlock(shipData[i, j].GetBlock);
+                    //}
+
+                    componentGrid.PlaceComponent(componentPrefab, j, i);
+                }
+            }
+        }
+
+        // Create components for dragging 
         draggableComponents = new();
         for (int i = 0; i < componentPrefabs.Count; i++) {
             var tmp = Instantiate(componentPrefabs[i], draggablesParent);
@@ -124,19 +133,27 @@ public class ShipBuildingController : MonoBehaviour
         if (Physics.Raycast(Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue()), out RaycastHit hit, 100)) {
             var component = hit.collider.gameObject.GetComponentInParent<ShipComponentController>();
             if (component == null) return;
+
+            // Get position of the click
             var position = component.transform.position;
             position = hit.point - component.transform.position + component.transform.localPosition;
-
             int x = (int)position.x;
             int z = (int)position.z;
 
-            if (!componentGrid.DoesComponentFit(componentPrefab, x, z)) return;
+            // Check if the placement is valid/we are not out of bounds
+            if (enabledPlacementRules) {
+                if (!componentGrid.IsValidPlacementPosition(componentPrefab, x, z, isPlaceholder)) return;
+            }
+            else {
+                if (!componentGrid.DoesComponentFit(componentPrefab, x, z)) return;
+            }
 
+            // Remove previous component and place the new one
             componentGrid.RemoveComponent(x, z, placeholdersVisible);
             shipData.componentGrid.RemoveComponent(x, z);
             if (!isPlaceholder) {
-                componentGrid.PlaceComponent(componentPrefab, x, z);
-                shipData.componentGrid.PlaceComponent(componentPrefab, x, z);
+                componentGrid.PlaceComponent(componentPrefab, x, z, placeholdersVisible);
+                shipData.componentGrid.PlaceComponent(componentPrefab, x, z, placeholdersVisible);
             }
         }
     }

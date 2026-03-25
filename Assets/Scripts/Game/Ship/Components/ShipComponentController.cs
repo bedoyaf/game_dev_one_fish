@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.Events;
+using static ComponentGrid;
 
 
 public class ShipComponentController : MonoBehaviour
@@ -52,5 +53,14 @@ public class ShipComponentController : MonoBehaviour
     public class ComponentPlacementRules {
         public int Width = 1;
         public int Height = 1;
+
+        public int Top;
+        public int Right;
+        public int Bottom;
+        public int Left;
+
+        public bool blockSurroundings => Top != 0 || Right != 0 || Bottom != 0 || Left != 0;
+
+        public ComponentGridTile connectedTile; 
     }
 }

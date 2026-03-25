@@ -15,16 +15,14 @@ public class ComponentBuildingDrag : MonoBehaviour
         if (beingDragged) {
             var mp = Mouse.current.position.ReadValue();
 
-            Plane plane = new Plane(Vector3.down, Vector3.up * 1.5f);
+            Plane plane = new Plane(Vector3.down, Vector3.up * 0.5f);
             Ray ray = Camera.main.ScreenPointToRay(mp);
             if (plane.Raycast(ray, out float enter)) {
                 Vector3 worldPosition = ray.GetPoint(enter);
-                worldPosition.y -= 0.5f;
-                // Now you have the world position you wanted.
+                worldPosition.y = 0.01f;
+                worldPosition.x = (int)(worldPosition.x);
+                worldPosition.z = (int)(worldPosition.z);
 
-                //Debug.Log($"{mp} {worldPosition}");
-                //var mousePos = cam.ScreenToWorldPoint(new Vector3(mp.x, mp.y, cam.transform.position.y));
-                //transform.position = new Vector3(mousePos.x, transform.position.y, mousePos.z);
                 transform.position = worldPosition;
             }
         }
