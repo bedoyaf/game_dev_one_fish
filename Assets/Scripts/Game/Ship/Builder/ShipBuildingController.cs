@@ -21,7 +21,7 @@ public class ShipBuildingController : MonoBehaviour
     public ComponentGrid componentGrid;
 
     public Transform draggablesParent;
-    public int draggableDistance = 2;
+    public float draggableDistance = 2;
     public List<ComponentBuildingDrag> draggableComponents;
     public ComponentBuildingDrag currentlyDragging;
 

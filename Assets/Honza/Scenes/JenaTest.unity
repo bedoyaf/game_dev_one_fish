@@ -317,37 +317,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 76b53dd701359c84195162e28f3a0cbb, type: 3}
---- !u!1 &1093197672
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1093197673}
-  m_Layer: 0
-  m_Name: Draggable components
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1093197673
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1093197672}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 10.3, y: -0, z: -2.3}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1838906863
 GameObject:
   m_ObjectHideFlags: 0
@@ -379,17 +348,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1942604484 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7143206592012587724, guid: 9101963b760786d4783a45530197e394, type: 3}
-  m_PrefabInstance: {fileID: 3640128915160673177}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 44f9d800271a3104da11547b6bcf4061, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ShipController
 --- !u!1 &2065964353
 GameObject:
   m_ObjectHideFlags: 0
@@ -525,30 +483,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1039438194971829982, guid: d62e4788b61ee3247b66f9b3f7ffe20d, type: 3}
-      propertyPath: ship
-      value: 
-      objectReference: {fileID: 1942604484}
-    - target: {fileID: 1039438194971829982, guid: d62e4788b61ee3247b66f9b3f7ffe20d, type: 3}
-      propertyPath: shipData
-      value: 
-      objectReference: {fileID: 11400000, guid: da9443da79faca84291a0aa6c3cb4652, type: 2}
-    - target: {fileID: 1039438194971829982, guid: d62e4788b61ee3247b66f9b3f7ffe20d, type: 3}
-      propertyPath: draggablesParent
-      value: 
-      objectReference: {fileID: 1093197673}
-    - target: {fileID: 1039438194971829982, guid: d62e4788b61ee3247b66f9b3f7ffe20d, type: 3}
-      propertyPath: componentPrefabs.Array.size
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 1039438194971829982, guid: d62e4788b61ee3247b66f9b3f7ffe20d, type: 3}
-      propertyPath: 'componentPrefabs.Array.data[4]'
-      value: 
-      objectReference: {fileID: 6845047944256034405, guid: 0ed541a6e2b2e564d9bed087c3815e6e, type: 3}
-    - target: {fileID: 1039438194971829982, guid: d62e4788b61ee3247b66f9b3f7ffe20d, type: 3}
-      propertyPath: 'componentPrefabs.Array.data[5]'
-      value: 
-      objectReference: {fileID: 6845047944256034405, guid: aab86f5cefa3c0b41bf4f36c7d7383a6, type: 3}
     - target: {fileID: 2779248880310250863, guid: d62e4788b61ee3247b66f9b3f7ffe20d, type: 3}
       propertyPath: m_LocalPosition.x
       value: 10
@@ -728,7 +662,6 @@ SceneRoots:
   - {fileID: 2065964355}
   - {fileID: 3640128915160673177}
   - {fileID: 3245852864749758676}
-  - {fileID: 1093197673}
   - {fileID: 1838906864}
   - {fileID: 3551741784660822679}
   - {fileID: 975992846}
