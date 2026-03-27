@@ -49,6 +49,21 @@ MonoBehaviour:
   OnDeath:
     m_PersistentCalls:
       m_Calls: []
+  activated: 0
+  placementRules:
+    Width: 1
+    Height: 1
+    Top: 0
+    Right: 0
+    Bottom: 0
+    Left: 0
+    connectedTile:
+      component: {fileID: 5385403880273499414}
+      x: 19
+      z: 9
+      placementOffset: {x: 0, y: 0}
+      blocked: -1
+      isPlaceholder: 1
 --- !u!1 &8104800591989940212
 GameObject:
   m_ObjectHideFlags: 0
@@ -99,7 +114,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8104800591989940212}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -174,3 +189,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d391792c9845d6846bd430fdc1277d84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ShipComponentCollisions
+  shipComponentController: {fileID: 0}

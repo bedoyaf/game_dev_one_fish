@@ -5,20 +5,23 @@ using UnityEngine;
 public class ShipController : MonoBehaviour
 {
     [SerializeField] private ShipData shipData;
-    private List<ShipComponentController> shipComponents = new List<ShipComponentController>();
+    [SerializeField] private ComponentGrid componentGrid;
+    //private List<ShipComponentController> shipComponents = new List<ShipComponentController>();
     public void BuildShip() {
         if (shipData == null) return;
         DeconstructShip();
-        shipComponents = shipData.BuildShip(transform.position, transform);
+        componentGrid = shipData.BuildShip(transform);
     }
 
     private void DeconstructShip()
     {
-        foreach(ShipComponentController component in shipComponents)
-        {
-            if(component != null)DestroyImmediate(component.gameObject);
-        }
-        shipComponents.Clear();
+        //foreach(ShipComponentController component in shipComponents)
+        //{
+        //    if(component != null)DestroyImmediate(component.gameObject);
+        //}
+        //shipComponents.Clear();
+        if (componentGrid == null) return;
+        componentGrid.DestroyGrid();
     }
 }
 

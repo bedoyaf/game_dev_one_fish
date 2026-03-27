@@ -34,25 +34,29 @@ public class ShipBuildingController : MonoBehaviour
         // Initialize width, height and the component grid
         bool useShipData = false;
         if (shipData.componentGrid == null || shipData.componentGrid.isEmpty) {
-            shipData.componentGrid = new(width, height, placeholderComponent);
+            shipData.componentGrid = new ComponentGrid(width, height, placeholderComponent, false);
         }
         else {
             height = shipData.componentGrid.height;
             width = shipData.componentGrid.width;
             useShipData = true;
         }
-        componentGrid = new(width, height, placeholderComponent, transform);
+        componentGrid = new ComponentGrid(width, height, placeholderComponent, true, transform);
 
         // Fill the grid with placeholders
-        for (int i = 0; i < height; i++) {
-            for (int j = 0; j < width; j++) {
-                var placeHolder = Instantiate(placeholderComponent, transform);
-                placeHolder.transform.localPosition = new Vector3(j, 0, i);
-                componentGrid.AddPlaceholder(placeHolder);
-                if (!useShipData) {
-                    shipData.componentGrid.AddPlaceholder(placeholderComponent);
-                }
-            }
+        //for (int i = 0; i < height; i++) {
+        //    for (int j = 0; j < width; j++) {
+        //        var placeHolder = Instantiate(placeholderComponent, transform);
+        //        placeHolder.transform.localPosition = new Vector3(j, 0, i);
+        //        componentGrid.AddPlaceholder(placeHolder);
+        //        if (!useShipData) {
+        //            shipData.componentGrid.AddPlaceholder(placeholderComponent);
+        //        }
+        //    }
+        //}
+        componentGrid.InitializeGrid();
+        if (!useShipData) {
+            shipData.componentGrid.InitializeGrid();
         }
 
         // Make placeholders visible
@@ -69,9 +73,6 @@ public class ShipBuildingController : MonoBehaviour
                     if (shipData[i, j].placementOffset != Vector2Int.zero || shipData[i, j].isPlaceholder) {
                         continue;
                     }
-                    //if (shipData[i, j].isPlaceholder) {
-                    //    componentGrid[i, j].ChangeBlock(shipData[i, j].GetBlock);
-                    //}
 
                     componentGrid.PlaceComponent(componentPrefab, j, i);
                 }
@@ -107,6 +108,7 @@ public class ShipBuildingController : MonoBehaviour
                 currentlyDragging.transform.position = draggable.transform.position + Vector3.up;
                 currentlyDragging.beingDragged = true;
                 currentlyDragging.GetComponentInChildren<Collider>().enabled = false;
+                currentlyDragging.GetComponentInChildren<ShipComponentMeshController>().enabled = false;
             }
         }
         // On release place the dragged component
