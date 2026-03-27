@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class ShipComponentMeshController : MonoBehaviour
 {
-    [SerializeField] private ShipComponentController shipComponentController;
+    private ShipComponentController shipComponentController;
 
     public void Awake()
     {
@@ -14,11 +14,16 @@ public class ShipComponentMeshController : MonoBehaviour
         Debug.Log("Component has been clicked");
         if(!shipComponentController.activated)
         {
-            shipComponentController.ActivateComponents();
+            shipComponentController.ActivateComponent();
         }
         else if(shipComponentController.activated)
         {
-            shipComponentController.DeactivateComponents();
+            shipComponentController.DeactivateComponent();
         }
+    }
+
+    public void OnDamagableCollision(float amount)
+    {
+        shipComponentController.TakeDamage(amount);
     }
 }
