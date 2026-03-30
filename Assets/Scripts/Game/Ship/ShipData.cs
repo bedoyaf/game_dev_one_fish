@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
-using static ComponentGrid;
 
 [CreateAssetMenu(fileName = "ShipData", menuName = "Scriptable Objects/ShipData")]
 public class ShipData : ScriptableObject {
@@ -52,11 +51,11 @@ public class ShipData : ScriptableObject {
         for (int i = 0; i < componentGrid.height; i++) {
             for (int j = 0; j < componentGrid.width; j++) {
                 var gridTile = componentGrid[i, j];
-                if (gridTile.placementOffset != Vector2Int.zero || gridTile.isPlaceholder) {
+                if (gridTile.hasOffset || gridTile.isPlaceholder) {
                     continue;
                 }
 
-                shipGrid.PlaceComponent(gridTile.component, j, i);
+                shipGrid.PlaceComponent(gridTile.component, j, i, gridTile.IsSolid);
             }
         }
 

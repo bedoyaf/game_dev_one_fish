@@ -1,12 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Security.Cryptography;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UIElements;
-using static Unity.Burst.Intrinsics.X86.Avx;
 
 [Serializable]
 public class ComponentGrid {
@@ -29,8 +29,6 @@ public class ComponentGrid {
 
     public ShipComponentController placeholderPrefab;
 
-
-
     /// <summary>
     /// Where the components are instantiated. If null, we only store reference to prefabs
     /// </summary>
@@ -48,6 +46,7 @@ public class ComponentGrid {
     /// </summary>
     private bool shouldInstantiate => componentParent != null;
 
+    private bool placeholdersVisible;
     public bool isEmpty => tiles.Count == 0;
 
     public ComponentGrid(int width, int height, ShipComponentController placeholderPrefab, bool shouldInstantiatePlaceholders, Transform componentParent = null) {
@@ -87,7 +86,7 @@ public class ComponentGrid {
                     placeholder = InstantiateComponent(placeholderPrefab, j, i);
                 }
 
-                var gridTile = new ComponentGridTile(i, j);
+                var gridTile = new ComponentGridTile(j, i);
                 gridTile.PlacePlaceholder(placeholder, instantiate);
                 tiles.Add(gridTile);
             }
@@ -161,17 +160,34 @@ public class ComponentGrid {
     }
 
     /// <summary>
+    /// Call when component should be destroyed.
+    /// Removes the component and other components if they are not connected to solid.
+    /// </summary>
+    /// <param name="componentTile"></param>
+    public void OnComponentDeath(ComponentGridTile componentTile) {
+        RemoveComponent(componentTile.x, componentTile.z, true);
+    }
+
+    /// <summary>
+    /// Removes the component at the coordinates and replaces it with placeholders
     /// If placeholder parent is not null, it will instantiate placeholders
     /// </summary>
     /// <param name="x"></param>
     /// <param name="z"></param>
     /// <param name="placeholderParent"></param>
-    public void RemoveComponent(int x, int z, bool showPlaceholder = false) {
+    public void RemoveComponent(int x, int z, bool recursive = false) {
+        (x, z) = GetOriginTileCoordinates(x, z);
         var gridTile = grid[z, x];
         if (gridTile.isPlaceholder) return;
 
-        x -= gridTile.placementOffset.x;
-        z -= gridTile.placementOffset.y;
+        // If recursive, find all components around the tile to later check if they are connected to solid
+        List<ComponentGridTile> surroundingTiles = null;
+        if (recursive) {
+            surroundingTiles = GetTilesAroundComponent(x, z);
+        }
+
+        //x -= gridTile.placementOffset.x;
+        //z -= gridTile.placementOffset.y;
         var component = gridTile.component;
 
         for (int i = 0; i < component.placementRules.Height; i++) {
@@ -182,13 +198,84 @@ public class ComponentGrid {
                 else {
                     var placeholder = InstantiateComponent(placeholderPrefab, x + j, z + i);
                     grid[z + i, x + j].PlacePlaceholder(placeholder, true);
-                    grid[z + i, x + j].ToggleVisibility(showPlaceholder);
+                    grid[z + i, x + j].ToggleVisibility(placeholdersVisible);
                 }
             }
         }
 
         SetupBlocking(component, x, z, false);
+
+        // Test if the surrounding components are connected to solid after this one was destroyed.
+        if (recursive) {
+            foreach (var tile in surroundingTiles) {
+                if (tile.isPlaceholder) continue;
+
+                (bool connected, var connectedTiles) = IsComponentConnectedToSolid(tile.x, tile.z);
+                if (!connected) {
+                    foreach (var tmpTile in connectedTiles) {
+                        RemoveComponent(tmpTile.x, tmpTile.z);
+                    }
+                }
+            }
+        }
+
+        if (recursive) {
+            Debug.Log("asdfasdf");
+        }
     }
+
+    /// <summary>
+    /// Searches the component grid space and tries to find if there is a connection 
+    /// between component at coordinates and any solid component.
+    /// Search ends when solid is found or searched the whole "graph component"
+    /// </summary>
+    /// <returns>Whether the component is connected to solid, and also list of all components it met during search</returns>
+    public (bool, HashSet<ComponentGridTile> connectedTiles) IsComponentConnectedToSolid(int x, int z) {
+        (x, z) = GetOriginTileCoordinates(x, z);
+
+        // Standard bfs algorithm without going back
+        var visitedTiles = new HashSet<ComponentGridTile> {
+            GetOriginTile(x, z)
+        };
+        var fringe = new Queue<ComponentGridTile>(GetTilesAroundComponent(x, z));
+        while (fringe.Count > 0) {
+            var tile = fringe.Dequeue();
+            var origin = GetOriginTile(tile.x, tile.z);
+
+            // Have we been here already?
+            if (origin.isPlaceholder || visitedTiles.Contains(origin)) continue;
+            visitedTiles.Add(origin);
+
+            if (origin.IsSolid) return (true, visitedTiles);
+
+            var surroundings = GetTilesAroundComponent(tile.x, tile.z);
+            foreach (var surrounding in surroundings) {
+                fringe.Enqueue(surrounding);
+            }
+        }
+
+        return (false, visitedTiles);
+    }
+
+    /// <summary>
+    /// Returns all tiles belonging to component at coordinates
+    /// </summary>
+    public List<ComponentGridTile> GetAllComponentTiles(int x, int z) {
+        (x, z) = GetOriginTileCoordinates(x, z);
+        var component = grid[z, x].component;
+        if (component.placementRules.Height == 1 && component.placementRules.Width == 1) return new List<ComponentGridTile> { grid[z, x] };
+        //x = x - grid[z, x].placementOffset.x; 
+        //z = z - grid[z, x].placementOffset.y; 
+        List<ComponentGridTile> tiles = new List<ComponentGridTile>();
+        for (int i = 0; i < component.placementRules.Height; i++) {
+            for (int j = 0; j < component.placementRules.Width; j++) {
+                tiles.Add(grid[z + i, x + j]);
+            }
+        }
+
+        return tiles;
+    }
+
 
     /// <summary>
     /// Places the component in the grid. Removes all that are in the way!
@@ -196,18 +283,17 @@ public class ComponentGrid {
     /// Works with bigger components
     /// </summary>
     /// <returns>The created component.</returns>
-    public ShipComponentController PlaceComponent(ShipComponentController componentPrefab, int x, int z, bool showPlaceholders = false) {
+    public ShipComponentController PlaceComponent(ShipComponentController componentPrefab, int x, int z, bool solid = false) {
         var component = componentPrefab;
         if (shouldInstantiate) {
             var newComponent = InstantiateComponent(componentPrefab, x, z);
-
             component = newComponent;
         }
 
         // Remove old things in the area of the 
         for (int i = 0; i < component.placementRules.Height; i++) {
             for (int j = 0; j < component.placementRules.Width; j++) {
-                RemoveComponent(x + j, z + i, showPlaceholders);
+                RemoveComponent(x + j, z + i);
             }
         }
 
@@ -218,8 +304,23 @@ public class ComponentGrid {
             }
         }
 
+        if (solid) {
+            grid[z, x].SetSolid(true);
+        } 
+
         SetupBlocking(component, x, z, true);
         return component;
+    }
+
+    public List<ShipComponentController> GetAllComponents() {
+        List<ShipComponentController> components = new();
+        foreach (var tile in tiles) {
+            if (tile.isPlaceholder || tile.hasOffset) continue;
+
+            components.Add(tile.component);
+        }
+
+        return components;
     }
 
     /// <summary>
@@ -268,6 +369,16 @@ public class ComponentGrid {
         }
     }
 
+    private (int, int) GetOriginTileCoordinates(int x, int z) {
+        var gridTile = grid[z, x];
+        return (x - gridTile.offsetX, z - gridTile.offsetZ);
+    }
+
+    private ComponentGridTile GetOriginTile(int x, int z) {
+        (x, z) = GetOriginTileCoordinates(x, z);
+        return grid[z, x];
+    }
+
     /// <summary>
     /// Checks whether the component can be placed at the coordinates
     /// </summary>
@@ -290,140 +401,88 @@ public class ComponentGrid {
         return true;
     }
 
-
+    public void SetPlaceholderVisibility(bool placeholdersVisible) {
+        this.placeholdersVisible = placeholdersVisible;
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                if (grid[i, j].isPlaceholder)
+                    grid[i, j].ToggleVisibility(placeholdersVisible);
+            }
+        }
+    }
 
     /// <summary>
-    /// Helper class providing info about the grid tiles
+    /// Returns tiles on the all sides of the component on the coordinates
+    /// TODO - not tested at all
     /// </summary>
-    [Serializable]
-    public class ComponentGridTile {
-        /// <summary>
-        /// The component in this tile
-        /// </summary>
-        public ShipComponentController component;
+    public List<ComponentGridTile> GetTilesAroundComponent(int x, int z) {
+        var tiles = new List<ComponentGridTile>();
+        GetTilesOnBottom(x, z, tiles);
+        GetTilesOnTop(x, z, tiles);
+        GetTilesOnLeft(x, z, tiles);
+        GetTilesOnRight(x, z, tiles);
 
-        /// <summary>
-        /// The x coordinate of the tile
-        /// </summary>
-        public int x;
+        return tiles;
+    }
 
-        /// <summary>
-        /// The z coordinate of the tile
-        /// </summary>
-        public int z;
+    /// <summary>
+    /// Returns tiles on the right of the component on coordinates
+    /// </summary>
+    public List<ComponentGridTile> GetTilesOnRight(int x, int z, List<ComponentGridTile> output = null) {
+        (x, z) = GetOriginTileCoordinates(x, z);
+        var gridTile = grid[z, x];
+        var tiles = output == null ? new List<ComponentGridTile>() : output;
+        if (x + gridTile.ComponentWidth >= width) return tiles;
 
-        /// <summary>
-        /// Grid offset to the position of the left bottom corner of the component
-        /// </summary>
-        public Vector2Int placementOffset;
-
-        /// <summary>
-        /// How many components are blocking this tile
-        /// </summary>
-        [SerializeField]
-        private int blocked;
-
-        public int GetBlock => blocked;
-
-        public bool isPlaceholder; // TODO
-
-        public bool hasOffset => placementOffset != Vector2Int.zero;
-
-        public bool isBlocked => blocked > 0;
-
-        //public bool worksWithPrefabs;
-
-        private bool visible;
-        private bool instantiatedComponent;
-
-        /// <summary>
-        /// Blocking is set to false, and no offset
-        /// </summary>
-        public ComponentGridTile(int x, int z) {
-            this.x = x;
-            this.z = z;
+        for (int i = 0; i < gridTile.ComponentHeight; i++) {
+            tiles.Add(grid[z + i, x + gridTile.ComponentWidth]);
         }
+        return tiles;
+    }
 
-        public void DestroyCurrentComponent() {
-            if (!instantiatedComponent) return;
+    /// <summary>
+    /// Returns tiles on the left of the component on coordinates
+    /// </summary>
+    public List<ComponentGridTile> GetTilesOnLeft(int x, int z, List<ComponentGridTile> output = null) {
+        (x, z) = GetOriginTileCoordinates(x, z);
+        var gridTile = grid[z, x];
+        var tiles = output == null ? new List<ComponentGridTile>() : output;
+        if (x <= 0) return tiles;
 
-            if (component != null && component.gameObject != null) {
-                component.gameObject.SmartDestroy();
-            }
+        for (int i = 0; i < gridTile.ComponentHeight; i++) {
+            tiles.Add(grid[z + i, x - 1]);
         }
+        return tiles;
+    }
 
-        /// <summary>
-        /// Do not use for placing normal components!!!
-        /// </summary>
-        public void PlacePlaceholder(ShipComponentController placeholder, bool isInstantiated) {
-            DestroyCurrentComponent();
-            component = placeholder;
-            if (!isPlaceholder) {
-                isPlaceholder = true;
-                ChangeBlock(false);
-            }
-            placementOffset = Vector2Int.zero;
+    /// <summary>
+    /// Returns tiles on the bottom of the component on coordinates
+    /// </summary>
+    public List<ComponentGridTile> GetTilesOnBottom(int x, int z, List<ComponentGridTile> output = null) {
+        (x, z) = GetOriginTileCoordinates(x, z);
+        var gridTile = grid[z, x];
+        var tiles = output == null ? new List<ComponentGridTile>() : output;
+        if (z <= 0) return tiles;
 
-            instantiatedComponent = isInstantiated;
-            if (!isInstantiated) return;
-            placeholder.placementRules.connectedTile = this;
+        for (int j = 0; j < gridTile.ComponentWidth; j++) {
+            tiles.Add(grid[z - 1, x + j]);
         }
+        return tiles;
+    }
 
-        /// <summary>
-        /// Do not use for placing placeholders!
-        /// Stores the component in the grid
-        /// </summary>
-        public void PlaceComponent(ShipComponentController component, bool isInstantiated, int offsetX = 0, int offsetZ = 0) {
-            DestroyCurrentComponent();
-            this.component = component;
-            if (isPlaceholder) {
-                isPlaceholder = false;
-                ChangeBlock(true);
-            }
-            placementOffset = new Vector2Int(offsetX, offsetZ);
+    /// <summary>
+    /// Returns tiles on the top of the component on coordinates
+    /// </summary>
+    public List<ComponentGridTile> GetTilesOnTop(int x, int z, List<ComponentGridTile> output = null) {
+        (x, z) = GetOriginTileCoordinates(x, z);
+        var gridTile = grid[z, x];
+        var tiles = output == null ? new List<ComponentGridTile>() : output;
+        if (z + gridTile.ComponentHeight >= height) return tiles;
 
-            instantiatedComponent = isInstantiated;
-            if (!isInstantiated) return;
-            component.placementRules.connectedTile = this;
+        for (int j = 0; j < gridTile.ComponentWidth; j++) {
+            tiles.Add(grid[z + gridTile.ComponentHeight, x + j]);
         }
-
-        public void ToggleVisibility(bool toggle) {
-            component.GetComponentInChildren<MeshRenderer>().enabled = toggle;
-            visible = toggle;
-        }
-
-        public void ChangeBlock(bool add) {
-            if (add) AddBlock();
-            else RemoveBlock();
-
-            PlaceholderColor();
-        }
-        public void ChangeBlock(int add) {
-            blocked += add;
-
-            PlaceholderColor();
-        }
-
-        private void PlaceholderColor() {
-            if (!visible || !isPlaceholder) return;
-
-            if (isBlocked) {
-                component.GetComponentInChildren<MeshRenderer>().material.color = Color.lightCyan;
-            }
-            else {
-                component.GetComponentInChildren<MeshRenderer>().material.color = Color.white;
-            }
-        }
-
-        
-
-        public void AddBlock() {
-            blocked++;
-        }
-
-        public void RemoveBlock() {
-            blocked--;
-        }
+        return tiles;
     }
 }
 

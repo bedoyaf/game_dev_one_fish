@@ -2,7 +2,6 @@ using System;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.Events;
-using static ComponentGrid;
 
 
 public class ShipComponentController : MonoBehaviour
@@ -13,7 +12,7 @@ public class ShipComponentController : MonoBehaviour
     [SerializeField] private bool requiresPower = true;
     public bool poweredOn = false;
 
-    public ComponentPlacementRules placementRules;
+    public ComponentPlacement placementRules;
 
     public ShipController shipController { get; private set; }
 
@@ -67,11 +66,15 @@ public class ShipComponentController : MonoBehaviour
     private void Die()
     {
         OnDeath?.Invoke();
-        Destroy(gameObject);
+
+        // Destroys the component and works with the grid.
+        shipController.componentGrid.OnComponentDeath(placementRules.connectedTile);
+        
+        //Destroy(gameObject);
     }
 
     [Serializable]
-    public class ComponentPlacementRules {
+    public class ComponentPlacement {
         public int Width = 1;
         public int Height = 1;
 
@@ -82,6 +85,6 @@ public class ShipComponentController : MonoBehaviour
 
         public bool blockSurroundings => Top != 0 || Right != 0 || Bottom != 0 || Left != 0;
 
-        public ComponentGridTile connectedTile; 
+        public ComponentGridTile connectedTile; // TODO - sorry, does not belong here
     }
 }

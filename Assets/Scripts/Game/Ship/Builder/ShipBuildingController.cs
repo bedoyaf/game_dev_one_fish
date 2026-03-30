@@ -70,11 +70,11 @@ public class ShipBuildingController : MonoBehaviour
             for (int i = 0; i < height; i++) {
                 for (int j = 0; j < width; j++) {
                     var componentPrefab = shipData[i, j].component;
-                    if (shipData[i, j].placementOffset != Vector2Int.zero || shipData[i, j].isPlaceholder) {
-                        continue;
+                    if (shipData[i, j].hasOffset || shipData[i, j].isPlaceholder) {
+                        continue; 
                     }
 
-                    componentGrid.PlaceComponent(componentPrefab, j, i);
+                    componentGrid.PlaceComponent(componentPrefab, j, i, shipData[i, j].IsSolid);
                 }
             }
         }
@@ -101,6 +101,19 @@ public class ShipBuildingController : MonoBehaviour
         // On press down start drag
         if (context.started) {
             if (Physics.Raycast(Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue()), out RaycastHit hit, 100)) {
+                // TODO just temporary
+                var comp = hit.collider.gameObject.GetComponentInParent<ShipComponentController>();
+                if (comp != null) {
+                    var gridTile = comp.placementRules.connectedTile;
+                    var tiles = componentGrid.GetAllComponentTiles(gridTile.x, gridTile.z);
+                    foreach(var tile in tiles) {
+                        componentGrid[tile.z, tile.x].ToggleSolid();
+                        shipData[tile.z, tile.x].ToggleSolid();
+                    }
+
+                    return;
+                }
+
                 var draggable = hit.collider.gameObject.GetComponentInParent<ComponentBuildingDrag>();
                 if (draggable == null) return;
 
@@ -137,8 +150,7 @@ public class ShipBuildingController : MonoBehaviour
             if (component == null) return;
 
             // Get position of the click
-            var position = component.transform.position;
-            position = hit.point - component.transform.position + component.transform.localPosition;
+            var position = hit.point - component.transform.position + component.transform.localPosition;
             int x = (int)position.x;
             int z = (int)position.z;
 
@@ -151,11 +163,11 @@ public class ShipBuildingController : MonoBehaviour
             }
 
             // Remove previous component and place the new one
-            componentGrid.RemoveComponent(x, z, placeholdersVisible);
+            componentGrid.RemoveComponent(x, z);
             shipData.componentGrid.RemoveComponent(x, z);
             if (!isPlaceholder) {
-                componentGrid.PlaceComponent(componentPrefab, x, z, placeholdersVisible);
-                shipData.componentGrid.PlaceComponent(componentPrefab, x, z, placeholdersVisible);
+                componentGrid.PlaceComponent(componentPrefab, x, z);
+                shipData.componentGrid.PlaceComponent(componentPrefab, x, z);
             }
         }
     }
@@ -165,11 +177,6 @@ public class ShipBuildingController : MonoBehaviour
     /// </summary>
     public void TogglePlaceholders() {
         placeholdersVisible = !placeholdersVisible;
-        for (int i = 0; i < height; i++) {
-            for (int j = 0; j < width; j++) {
-                if (componentGrid[i, j].isPlaceholder)
-                    componentGrid[i, j].ToggleVisibility(placeholdersVisible);
-            }
-        }
+        componentGrid.SetPlaceholderVisibility(placeholdersVisible);
     }
 }
