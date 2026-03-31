@@ -49,6 +49,16 @@ public class ComponentGrid {
     private bool placeholdersVisible;
     public bool isEmpty => tiles.Count == 0;
 
+    /// <summary>
+    /// Just for debug
+    /// </summary>
+    public int ID = UnityEngine.Random.Range(-2147483648, 2147483647);
+
+    /// <summary>
+    /// This grid will get same place and remove commands as this one
+    /// </summary>
+    private ComponentGrid connectedGrid; 
+
     public ComponentGrid(int width, int height, ShipComponentController placeholderPrefab, bool shouldInstantiatePlaceholders, Transform componentParent = null) {
         this.width = width;
         this.height = height;
@@ -108,27 +118,6 @@ public class ComponentGrid {
         tiles.Clear();
     }
 
-    ///// <summary>
-    ///// Creates a 1 to 1 copy of this grid.
-    ///// If <paramref name="componentParent"/> is filled, will use it as parent and initialize the components.
-    ///// Otherwise, it will just store the prefabs.
-    ///// TODO - this has to be only on ship data
-    ///// </summary>
-    //public void CreateCopy(Transform componentParent = null, bool instantiatePlaceholders = false) {
-    //    var otherGrid = new ComponentGrid(width, height, placeholderPrefab, componentParent);
-    //    otherGrid.InitializeGrid(instantiatePlaceholders);
-    //    for (int i = 0; i < height; i++) {
-    //        for (int j = 0; j < width; j++) {
-    //            var gridTile = grid[i, j];
-    //            if (gridTile.placementOffset != Vector2Int.zero || gridTile.isPlaceholder) {
-    //                continue;
-    //            }
-
-    //            otherGrid.PlaceComponent(gridTile.component, j, i);
-    //        }
-    //    }
-    //}
-
     /// <summary>
     /// Instantiates the component and places it at correct local! position 
     /// </summary>
@@ -176,6 +165,7 @@ public class ComponentGrid {
     /// <param name="z"></param>
     /// <param name="placeholderParent"></param>
     public void RemoveComponent(int x, int z, bool recursive = false) {
+        if (connectedGrid != null) connectedGrid.RemoveComponent(x, z, recursive);
         (x, z) = GetOriginTileCoordinates(x, z);
         var gridTile = grid[z, x];
         if (gridTile.isPlaceholder) return;
@@ -301,17 +291,26 @@ public class ComponentGrid {
         for (int i = 0; i < component.placementRules.Height; i++) {
             for (int j = 0; j < component.placementRules.Width; j++) {
                 grid[z + i, x + j].PlaceComponent(component, shouldInstantiate, j, i);
+                if (solid) {
+                    grid[z + i, x + j].SetSolid(true);
+                }
             }
         }
 
-        if (solid) {
-            grid[z, x].SetSolid(true);
-        } 
-
         SetupBlocking(component, x, z, true);
+
+        if (connectedGrid != null)
+            connectedGrid.PlaceComponent(componentPrefab, x, z, solid);
+
         return component;
     }
 
+
+    /// <summary>
+    /// Gets all components that are stored in the grid.
+    /// Multiple-tile components are still returned only once.
+    /// </summary>
+    /// <returns></returns>
     public List<ShipComponentController> GetAllComponents() {
         List<ShipComponentController> components = new();
         foreach (var tile in tiles) {
@@ -321,6 +320,29 @@ public class ComponentGrid {
         }
 
         return components;
+    }
+
+    /// <summary>
+    /// Copies this grid into another grid.
+    /// Expects newly created grid.
+    /// </summary>
+    /// <param name="otherGrid"></param>
+    public void CopyComponentGrid(ComponentGrid outputGrid) {
+        if (outputGrid.tiles.Count > 0) {
+            outputGrid.DestroyGrid();
+        }
+        outputGrid.InitializeGrid();
+
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                var gridTile = grid[i, j];
+                if (gridTile.hasOffset || gridTile.isPlaceholder) {
+                    continue;
+                }
+
+                outputGrid.PlaceComponent(gridTile.component, j, i, gridTile.IsSolid);
+            }
+        }
     }
 
     /// <summary>
@@ -369,11 +391,33 @@ public class ComponentGrid {
         }
     }
 
+    /// <summary>
+    /// Assigns a grid that will receive the same place and remove component calls.
+    /// </summary>
+    public void AssignConnectedGrid(ComponentGrid grid) {
+        connectedGrid = grid;
+    }
+
+    /// <summary>
+    /// Cuts the connection to the other grid
+    /// </summary>
+    public void RemoveConnectedGrid() {
+        connectedGrid = null;
+    }
+
+    /// <summary>
+    /// Gets the coordinates of the left bottom tile of the component at this coordinates.
+    /// Useful for multi-tile components, for others it returns the same coordinates.
+    /// </summary>
     private (int, int) GetOriginTileCoordinates(int x, int z) {
         var gridTile = grid[z, x];
         return (x - gridTile.offsetX, z - gridTile.offsetZ);
     }
 
+    /// <summary>
+    /// Gets the left bottom tile of the component at this coordinates.
+    /// Useful for multi-tile components, for others it returns just the tile at the coordinates
+    /// </summary>
     private ComponentGridTile GetOriginTile(int x, int z) {
         (x, z) = GetOriginTileCoordinates(x, z);
         return grid[z, x];
@@ -401,6 +445,9 @@ public class ComponentGrid {
         return true;
     }
 
+    /// <summary>
+    /// For editor only. Makes placeholders in/visible
+    /// </summary>
     public void SetPlaceholderVisibility(bool placeholdersVisible) {
         this.placeholdersVisible = placeholdersVisible;
         for (int i = 0; i < height; i++) {

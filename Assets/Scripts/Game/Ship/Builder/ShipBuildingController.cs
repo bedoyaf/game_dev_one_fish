@@ -79,6 +79,8 @@ public class ShipBuildingController : MonoBehaviour
             }
         }
 
+        componentGrid.AssignConnectedGrid(shipData.componentGrid);
+
         // Create components for dragging 
         draggableComponents = new();
         for (int i = 0; i < componentPrefabs.Count; i++) {
@@ -164,10 +166,10 @@ public class ShipBuildingController : MonoBehaviour
 
             // Remove previous component and place the new one
             componentGrid.RemoveComponent(x, z);
-            shipData.componentGrid.RemoveComponent(x, z);
+            //shipData.componentGrid.RemoveComponent(x, z);
             if (!isPlaceholder) {
                 componentGrid.PlaceComponent(componentPrefab, x, z);
-                shipData.componentGrid.PlaceComponent(componentPrefab, x, z);
+                //shipData.componentGrid.PlaceComponent(componentPrefab, x, z);
             }
         }
     }

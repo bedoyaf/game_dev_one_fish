@@ -47,17 +47,7 @@ public class ShipData : ScriptableObject {
     /// <returns>The component grid.</returns>
     public ComponentGrid BuildShip(Transform componentParent) {
         var shipGrid = new ComponentGrid(componentGrid.width, componentGrid.height, componentGrid.placeholderPrefab, false, componentParent);
-        shipGrid.InitializeGrid();
-        for (int i = 0; i < componentGrid.height; i++) {
-            for (int j = 0; j < componentGrid.width; j++) {
-                var gridTile = componentGrid[i, j];
-                if (gridTile.hasOffset || gridTile.isPlaceholder) {
-                    continue;
-                }
-
-                shipGrid.PlaceComponent(gridTile.component, j, i, gridTile.IsSolid);
-            }
-        }
+        componentGrid.CopyComponentGrid(shipGrid);
 
         return shipGrid;
     }
