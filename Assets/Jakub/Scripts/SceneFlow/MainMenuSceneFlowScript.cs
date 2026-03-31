@@ -1,3 +1,4 @@
+using NUnit.Framework;
 using UnityEngine;
 
 
@@ -14,7 +15,40 @@ using UnityEngine;
 /// </summary>
 public class MainMenuSceneFlowScript : MonoBehaviour
 {
-    
+
+    [Tooltip("The parent object for all main menu items")]
+    [SerializeField]
+    private GameObject mainMenuItemsParent;
+
+    [Tooltip("The parent object for all save slot selection items")]
+    [SerializeField]
+    private GameObject saveSelectionItemsParent;
+
+    public void Start()
+    {
+        mainMenuItemsParent.SetActive(true);
+        saveSelectionItemsParent.SetActive(false);
+    }
+
+    public void OnPlayButtonClicked()
+    {
+        mainMenuItemsParent.SetActive(false);
+        saveSelectionItemsParent.SetActive(true);
+    }
+
+    public void OnSettingsButtonClicked()
+    {
+        // TODO: show the settings scene etc.
+    }
+
+    public void OnBackFromSlotsClicked()
+    {
+        mainMenuItemsParent.SetActive(true);
+        saveSelectionItemsParent.SetActive(false);
+    }
+
+
+
     public void OnExitButtonClicked()
     {
       
@@ -24,7 +58,6 @@ public class MainMenuSceneFlowScript : MonoBehaviour
         Application.Quit();
 #endif
     }
-
 
 
 }

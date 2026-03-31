@@ -152,7 +152,7 @@ GameObject:
   - component: {fileID: 8677897527216558497}
   - component: {fileID: 4441045002695288629}
   m_Layer: 5
-  m_Name: Confirm
+  m_Name: ConfirmDeleteButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -258,7 +258,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 8677897527216558497}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 8863501394483440719}
+        m_TargetAssemblyTypeName: SaveSlotScript, Assembly-CSharp
+        m_MethodName: DeleteSlot
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &5506325697890774791
 GameObject:
   m_ObjectHideFlags: 0
@@ -379,7 +391,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 8285111480536101810}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 8863501394483440719}
+        m_TargetAssemblyTypeName: SaveSlotScript, Assembly-CSharp
+        m_MethodName: SelectSlot
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &6531765375899278252
 GameObject:
   m_ObjectHideFlags: 0
@@ -391,6 +415,7 @@ GameObject:
   - component: {fileID: 4295596585830732711}
   - component: {fileID: 393614458876685370}
   - component: {fileID: 2067561489863562082}
+  - component: {fileID: 8863501394483440719}
   m_Layer: 5
   m_Name: SaveSlot
   m_TagString: Untagged
@@ -458,6 +483,22 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &8863501394483440719
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6531765375899278252}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 061c4e3e46c56304b926bc74e42a3b26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SaveSlotScript
+  slotData: {fileID: 0}
+  slotInfoPanel: {fileID: 8211803686817656301}
+  deleteRequest: {fileID: 5457620900867646023}
+  confirmDeleteRequest: {fileID: 4441045002695288629}
 --- !u!1 &8855766845806754635
 GameObject:
   m_ObjectHideFlags: 0
@@ -471,7 +512,7 @@ GameObject:
   - component: {fileID: 2839559532821587405}
   - component: {fileID: 5457620900867646023}
   m_Layer: 5
-  m_Name: DeleteSlot
+  m_Name: DeleteSlotButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -577,4 +618,16 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2839559532821587405}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 8863501394483440719}
+        m_TargetAssemblyTypeName: SaveSlotScript, Assembly-CSharp
+        m_MethodName: DeleteRequest
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
