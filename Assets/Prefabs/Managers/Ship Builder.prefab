@@ -88,13 +88,15 @@ MonoBehaviour:
   - {fileID: 6845047944256034405, guid: 0ed541a6e2b2e564d9bed087c3815e6e, type: 3}
   - {fileID: 6845047944256034405, guid: aab86f5cefa3c0b41bf4f36c7d7383a6, type: 3}
   selectedComponent: 0
-  shipData: {fileID: 11400000, guid: da9443da79faca84291a0aa6c3cb4652, type: 2}
+  shipData: {fileID: 11400000, guid: 8e19447f7c3f7bc42a625b4afa69c847, type: 2}
   componentGrid:
-    components: []
+    tiles: []
     width: 0
     height: 0
     placeholderPrefab: {fileID: 0}
     componentParent: {fileID: 0}
+    shouldInstantiatePlaceholders: 0
+    ID: 0
   draggablesParent: {fileID: 1250431961410051891}
   draggableDistance: 2.2
   draggableComponents: []
@@ -108,7 +110,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6448978121080443775}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
   m_Name: 

@@ -147,7 +147,7 @@ public class ComponentGridTile {
         if (!visible || !isPlaceholder) return;
 
         if (isBlocked) {
-            component.GetComponentInChildren<MeshRenderer>().material.color = Color.lightCyan;
+            component.GetComponentInChildren<MeshRenderer>().material.color = new Color(1, 0.95f, 0.95f);
         }
         else {
             component.GetComponentInChildren<MeshRenderer>().material.color = Color.white;

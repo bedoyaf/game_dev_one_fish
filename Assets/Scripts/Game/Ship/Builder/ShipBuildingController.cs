@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -26,8 +27,34 @@ public class ShipBuildingController : MonoBehaviour
     public ComponentBuildingDrag currentlyDragging;
 
     [SerializeField] private bool placeholdersVisible;
-    [SerializeField] private bool enabledPlacementRules;
+    //[SerializeField] private bool enabledPlacementRules;
 
+    public BuilderMode builderMode;
+
+    private InputAction clickAction;
+    private InputAction rightClickAction;
+
+    private void Awake() {
+        // Setup mouse
+        clickAction = new InputAction(type: InputActionType.Button, binding: "<Mouse>/leftButton");
+        rightClickAction = new InputAction(type: InputActionType.Button, binding: "<Mouse>/rightButton");
+    }
+
+    private void OnEnable() {
+        clickAction.Enable();
+        rightClickAction.Enable();
+        clickAction.started += OnClick;
+        clickAction.canceled += OnClick;
+        rightClickAction.started += OnRightClick;
+    }
+
+    private void OnDisable() {
+        clickAction.Disable();
+        rightClickAction.Disable();
+        clickAction.started -= OnClick;
+        clickAction.canceled -= OnClick;
+        rightClickAction.started -= OnRightClick;
+    }
 
     void Start()
     {
@@ -108,7 +135,7 @@ public class ShipBuildingController : MonoBehaviour
                 if (comp != null) {
                     var gridTile = comp.placementRules.connectedTile;
                     var tiles = componentGrid.GetAllComponentTiles(gridTile.x, gridTile.z);
-                    foreach(var tile in tiles) {
+                    foreach (var tile in tiles) {
                         componentGrid[tile.z, tile.x].ToggleSolid();
                         shipData[tile.z, tile.x].ToggleSolid();
                     }
@@ -124,14 +151,27 @@ public class ShipBuildingController : MonoBehaviour
                 currentlyDragging.beingDragged = true;
                 currentlyDragging.GetComponentInChildren<Collider>().enabled = false;
                 currentlyDragging.GetComponentInChildren<ShipComponentMeshController>().enabled = false;
+                currentlyDragging.originalObject = draggable;
+                if (builderMode == BuilderMode.Player) {
+                    currentlyDragging.originalObject.gameObject.SetActive(false);
+                }
             }
         }
         // On release place the dragged component
         else if (context.canceled) {
             if (currentlyDragging == null) return;
 
-            RaycastAndPlaceComponent(currentlyDragging.componentPrefab);
-            Destroy(currentlyDragging.gameObject);
+            var successful = RaycastAndPlaceComponent(currentlyDragging.componentPrefab);
+
+            // Destroy the object and possibly the 
+            if (builderMode == BuilderMode.Player) {
+                if (successful)
+                    currentlyDragging.originalObject.gameObject.SmartDestroy();
+                else
+                    currentlyDragging.originalObject.gameObject.SetActive(true);
+            }
+
+            currentlyDragging.gameObject.SmartDestroy();
         }
     }
 
@@ -140,16 +180,16 @@ public class ShipBuildingController : MonoBehaviour
     /// </summary>
     public void OnRightClick(InputAction.CallbackContext context) {
         if (!context.started) return;
-        RaycastAndPlaceComponent(placeholderComponent, true);
+        RaycastAndPlaceComponent(placeholderComponent, true); 
     }
 
     /// <summary>
     /// Raycasts in the scene and tries to place the given component
     /// </summary>
-    private void RaycastAndPlaceComponent(ShipComponentController componentPrefab, bool isPlaceholder = false) {
+    private bool RaycastAndPlaceComponent(ShipComponentController componentPrefab, bool isPlaceholder = false) {
         if (Physics.Raycast(Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue()), out RaycastHit hit, 100)) {
             var component = hit.collider.gameObject.GetComponentInParent<ShipComponentController>();
-            if (component == null) return;
+            if (component == null) return false;
 
             // Get position of the click
             var position = hit.point - component.transform.position + component.transform.localPosition;
@@ -157,12 +197,16 @@ public class ShipBuildingController : MonoBehaviour
             int z = (int)position.z;
 
             // Check if the placement is valid/we are not out of bounds
-            if (enabledPlacementRules) {
-                if (!componentGrid.IsValidPlacementPosition(componentPrefab, x, z, isPlaceholder)) return;
-            }
-            else {
-                if (!componentGrid.DoesComponentFit(componentPrefab, x, z)) return;
-            }
+            //if (enabledPlacementRules) {
+            //    if (!componentGrid.IsValidPlacementPosition(componentPrefab, x, z, isPlaceholder)) return;
+            //}
+            //else {
+            //    if (!componentGrid.DoesComponentFit(componentPrefab, x, z)) return;
+            //}
+
+            // Check if the placement is valid - if we are in player mode, it additionaly has to connect to other component
+            if (!componentGrid.IsValidPlacementPosition(componentPrefab, x, z, isPlaceholder, builderMode == BuilderMode.Player))
+                return false;
 
             // Remove previous component and place the new one
             componentGrid.RemoveComponent(x, z);
@@ -171,7 +215,11 @@ public class ShipBuildingController : MonoBehaviour
                 componentGrid.PlaceComponent(componentPrefab, x, z);
                 //shipData.componentGrid.PlaceComponent(componentPrefab, x, z);
             }
+
+            return true;
         }
+
+        return false;
     }
 
     /// <summary>
@@ -180,5 +228,10 @@ public class ShipBuildingController : MonoBehaviour
     public void TogglePlaceholders() {
         placeholdersVisible = !placeholdersVisible;
         componentGrid.SetPlaceholderVisibility(placeholdersVisible);
+    }
+
+    public enum BuilderMode {
+        Editor,
+        Player,
     }
 }

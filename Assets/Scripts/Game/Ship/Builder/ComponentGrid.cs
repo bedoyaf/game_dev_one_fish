@@ -1,12 +1,14 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Data;
 using System.Security.Cryptography;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UIElements;
+using static ShipComponentController;
 
 [Serializable]
 public class ComponentGrid {
@@ -325,9 +327,11 @@ public class ComponentGrid {
     /// <summary>
     /// Copies this grid into another grid.
     /// Expects newly created grid.
+    /// If this grid already has instantiated component, only copies the refences.
     /// </summary>
-    /// <param name="otherGrid"></param>
-    public void CopyComponentGrid(ComponentGrid outputGrid) {
+    /// <param name="outputGrid">The target grid. Will be overridden.</param>
+    /// <param name="componentsInstantiated">If current grid has already instantiated components</param>
+    public void CopyComponentGrid(ComponentGrid outputGrid, bool componentsInstantiated = false) {
         if (outputGrid.tiles.Count > 0) {
             outputGrid.DestroyGrid();
         }
@@ -426,8 +430,13 @@ public class ComponentGrid {
     /// <summary>
     /// Checks whether the component can be placed at the coordinates
     /// </summary>
+    /// <param name="component">The component I'm trying to place</param>
+    /// <param name="x">The x coordinate</param>
+    /// <param name="z">The z coordinate</param>
+    /// <param name="isPlaceholder">Whether the component I'm placing is a placeholder</param>
+    /// <param name="mustConnect">Whether the component must be connected to some other component</param>
     /// <returns>True if valid placement, false otherwise</returns>
-    public bool IsValidPlacementPosition(ShipComponentController component, int x, int z, bool isPlaceholder) {
+    public bool IsValidPlacementPosition(ShipComponentController component, int x, int z, bool isPlaceholder, bool mustConnect) {
         if (isPlaceholder) return true;
         if (!DoesComponentFit(component, x, z)) return false;
 
@@ -440,7 +449,18 @@ public class ComponentGrid {
             }
         }
 
-        // Check if it connects to something - TODO
+        // Check if it connects to something
+        if (mustConnect) {
+            bool foundNeighbor = false;
+            var surroundings = GetTilesAroundComponent(x, z, component);
+            foreach (var tile in surroundings) {
+                if (!tile.isPlaceholder) {
+                    foundNeighbor = true;
+                    break;
+                }
+            }
+            if (!foundNeighbor) return false;
+        }
 
         return true;
     }
@@ -460,14 +480,20 @@ public class ComponentGrid {
 
     /// <summary>
     /// Returns tiles on the all sides of the component on the coordinates
-    /// TODO - not tested at all
+    /// If component is set, it will act as if the component was placed at the tile.
+    /// If not, it will use the one in the grid.
     /// </summary>
-    public List<ComponentGridTile> GetTilesAroundComponent(int x, int z) {
+    public List<ComponentGridTile> GetTilesAroundComponent(int x, int z, ShipComponentController component = null) {
+        if (component == null) {
+            component = grid[z, x].component;
+            (x, z) = GetOriginTileCoordinates(x, z);
+        }
         var tiles = new List<ComponentGridTile>();
-        GetTilesOnBottom(x, z, tiles);
-        GetTilesOnTop(x, z, tiles);
-        GetTilesOnLeft(x, z, tiles);
-        GetTilesOnRight(x, z, tiles);
+        var rules = component.placementRules;
+        GetTilesOnBottom(rules, x, z, tiles);
+        GetTilesOnTop(rules, x, z, tiles);
+        GetTilesOnLeft(rules, x, z, tiles);
+        GetTilesOnRight(rules, x, z, tiles);
 
         return tiles;
     }
@@ -475,14 +501,12 @@ public class ComponentGrid {
     /// <summary>
     /// Returns tiles on the right of the component on coordinates
     /// </summary>
-    public List<ComponentGridTile> GetTilesOnRight(int x, int z, List<ComponentGridTile> output = null) {
-        (x, z) = GetOriginTileCoordinates(x, z);
-        var gridTile = grid[z, x];
+    public List<ComponentGridTile> GetTilesOnRight(ComponentPlacement rules, int x, int z, List<ComponentGridTile> output = null) {
         var tiles = output == null ? new List<ComponentGridTile>() : output;
-        if (x + gridTile.ComponentWidth >= width) return tiles;
+        if (x + rules.Width >= width) return tiles;
 
-        for (int i = 0; i < gridTile.ComponentHeight; i++) {
-            tiles.Add(grid[z + i, x + gridTile.ComponentWidth]);
+        for (int i = 0; i < rules.Height; i++) {
+            tiles.Add(grid[z + i, x + rules.Width]);
         }
         return tiles;
     }
@@ -490,13 +514,11 @@ public class ComponentGrid {
     /// <summary>
     /// Returns tiles on the left of the component on coordinates
     /// </summary>
-    public List<ComponentGridTile> GetTilesOnLeft(int x, int z, List<ComponentGridTile> output = null) {
-        (x, z) = GetOriginTileCoordinates(x, z);
-        var gridTile = grid[z, x];
+    public List<ComponentGridTile> GetTilesOnLeft(ComponentPlacement rules, int x, int z, List<ComponentGridTile> output = null) {
         var tiles = output == null ? new List<ComponentGridTile>() : output;
         if (x <= 0) return tiles;
 
-        for (int i = 0; i < gridTile.ComponentHeight; i++) {
+        for (int i = 0; i < rules.Height; i++) {
             tiles.Add(grid[z + i, x - 1]);
         }
         return tiles;
@@ -505,13 +527,11 @@ public class ComponentGrid {
     /// <summary>
     /// Returns tiles on the bottom of the component on coordinates
     /// </summary>
-    public List<ComponentGridTile> GetTilesOnBottom(int x, int z, List<ComponentGridTile> output = null) {
-        (x, z) = GetOriginTileCoordinates(x, z);
-        var gridTile = grid[z, x];
+    public List<ComponentGridTile> GetTilesOnBottom(ComponentPlacement rules, int x, int z, List<ComponentGridTile> output = null) {
         var tiles = output == null ? new List<ComponentGridTile>() : output;
         if (z <= 0) return tiles;
 
-        for (int j = 0; j < gridTile.ComponentWidth; j++) {
+        for (int j = 0; j < rules.Width; j++) {
             tiles.Add(grid[z - 1, x + j]);
         }
         return tiles;
@@ -520,14 +540,12 @@ public class ComponentGrid {
     /// <summary>
     /// Returns tiles on the top of the component on coordinates
     /// </summary>
-    public List<ComponentGridTile> GetTilesOnTop(int x, int z, List<ComponentGridTile> output = null) {
-        (x, z) = GetOriginTileCoordinates(x, z);
-        var gridTile = grid[z, x];
+    public List<ComponentGridTile> GetTilesOnTop(ComponentPlacement rules, int x, int z, List<ComponentGridTile> output = null) {
         var tiles = output == null ? new List<ComponentGridTile>() : output;
-        if (z + gridTile.ComponentHeight >= height) return tiles;
+        if (z + rules.Height >= height) return tiles;
 
-        for (int j = 0; j < gridTile.ComponentWidth; j++) {
-            tiles.Add(grid[z + gridTile.ComponentHeight, x + j]);
+        for (int j = 0; j < rules.Width; j++) {
+            tiles.Add(grid[z + rules.Height, x + j]);
         }
         return tiles;
     }
@@ -543,3 +561,69 @@ public static class GameObjectExtensions {
         }
     }
 }
+
+
+
+
+/*
+ * 
+    /// <summary>
+    /// Returns tiles on the right of the component on coordinates
+    /// </summary>
+    public List<ComponentGridTile> GetTilesOnRight(ShipComponentController component, int x, int z, List<ComponentGridTile> output = null) {
+        (x, z) = GetOriginTileCoordinates(x, z);
+        var gridTile = grid[z, x];
+        var tiles = output == null ? new List<ComponentGridTile>() : output;
+        if (x + gridTile.ComponentWidth >= width) return tiles;
+
+        for (int i = 0; i < gridTile.ComponentHeight; i++) {
+            tiles.Add(grid[z + i, x + gridTile.ComponentWidth]);
+        }
+        return tiles;
+    }
+
+    /// <summary>
+    /// Returns tiles on the left of the component on coordinates
+    /// </summary>
+    public List<ComponentGridTile> GetTilesOnLeft(ShipComponentController component, int x, int z, List<ComponentGridTile> output = null) {
+        (x, z) = GetOriginTileCoordinates(x, z);
+        var gridTile = grid[z, x];
+        var tiles = output == null ? new List<ComponentGridTile>() : output;
+        if (x <= 0) return tiles;
+
+        for (int i = 0; i < gridTile.ComponentHeight; i++) {
+            tiles.Add(grid[z + i, x - 1]);
+        }
+        return tiles;
+    }
+
+    /// <summary>
+    /// Returns tiles on the bottom of the component on coordinates
+    /// </summary>
+    public List<ComponentGridTile> GetTilesOnBottom(ShipComponentController component, int x, int z, List<ComponentGridTile> output = null) {
+        (x, z) = GetOriginTileCoordinates(x, z);
+        var gridTile = grid[z, x];
+        var tiles = output == null ? new List<ComponentGridTile>() : output;
+        if (z <= 0) return tiles;
+
+        for (int j = 0; j < gridTile.ComponentWidth; j++) {
+            tiles.Add(grid[z - 1, x + j]);
+        }
+        return tiles;
+    }
+
+    /// <summary>
+    /// Returns tiles on the top of the component on coordinates
+    /// </summary>
+    public List<ComponentGridTile> GetTilesOnTop(ShipComponentController component, int x, int z, List<ComponentGridTile> output = null) {
+        (x, z) = GetOriginTileCoordinates(x, z);
+        var gridTile = grid[z, x];
+        var tiles = output == null ? new List<ComponentGridTile>() : output;
+        if (z + gridTile.ComponentHeight >= height) return tiles;
+
+        for (int j = 0; j < gridTile.ComponentWidth; j++) {
+            tiles.Add(grid[z + gridTile.ComponentHeight, x + j]);
+        }
+        return tiles;
+    }
+*/
