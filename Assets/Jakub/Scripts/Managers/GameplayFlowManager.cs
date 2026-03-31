@@ -13,6 +13,10 @@ public class GameplayFlowManager : MonoBehaviour
     [SerializeField]
     private SFXGameplayManager sfx;
 
+    void Awake()
+    {
+        GameManager_Jakub.Instance.SetGameplayFlowInstance(this);
+    }
 
     // TODO: pass argument of the loaded ship etc..
     public void LoadEnemy()
@@ -22,4 +26,20 @@ public class GameplayFlowManager : MonoBehaviour
         sfx.EnterEnemyShip();
     }
 
+
+    public void EndCombat()
+    {
+        // kill the enemy / remove them
+
+        // spawn the component
+    }
+
+    // TODO: properly 
+    private void ModifyShip()
+    {
+
+    }
+    
+
+    // TODO: (if will ever do) map selection
 }

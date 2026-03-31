@@ -5,8 +5,7 @@ using UnityEngine.UI;
 
 public class SceneTransitionScript : MonoBehaviour
 {
-    // NOTE: this would be better via DotTween eventually maybe
-
+   
     private Image fade;
     private float fadeDuration = 0.2f;
 
@@ -39,10 +38,11 @@ public class SceneTransitionScript : MonoBehaviour
         fade.color = new Color(0, 0, 0, 0);
     }
 
-    
 
 
 
+
+    // NOTE: this would be better via DotTween eventually maybe
 
     public void LoadScene(string sceneName)
     {

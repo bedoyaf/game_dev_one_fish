@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 /// <summary>
 /// Current state:
@@ -13,6 +12,16 @@ using UnityEngine.SceneManagement;
 public class GameManager_Jakub : SmartSingleton<GameManager_Jakub>
 {
 
+    // Add to any scene
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+    private static void Init()
+    {
+        // Create the black scene transition instance
+        var obj = new GameObject("GameManager_Jakub[Persistent]");
+        obj.AddComponent<GameManager_Jakub>();
+        DontDestroyOnLoad(obj);
+    }
+
 
     private SceneTransitionScript sceneTransitionInstance;
     public void TransitionScene(string sceneName)
@@ -25,6 +34,25 @@ public class GameManager_Jakub : SmartSingleton<GameManager_Jakub>
     {
         sceneTransitionInstance = instance;
     }
+
+
+
+
+
+    // NOTE: maybe overcomplicated
+    // But I like the split of certain features between
+    //                                      the GameManager (high level management - starting/killing the game) 
+    //                                  and the Flow Manager (spawning enemies, events, handling this stuff)
+    public GameplayFlowManager currentGameplayManager;
+    public void SetGameplayFlowInstance(GameplayFlowManager instance)
+    {
+        currentGameplayManager = instance;
+    }
+
+
+
+
+
 
 
     /// <summary>
@@ -50,9 +78,11 @@ public class GameManager_Jakub : SmartSingleton<GameManager_Jakub>
     /// <summary>
     /// Call to change the current Run Data aka reset the Run.
     /// </summary>
-    public void ResetGame()
+    public void RestartGame()
     {
 
+        // Maybe like this ?
+        TransitionScene("GameplayScene");
     }
 
     /// <summary>
@@ -62,7 +92,8 @@ public class GameManager_Jakub : SmartSingleton<GameManager_Jakub>
     {
         // TODO: actually pause 
         // disable in-game interactions etc.
-            
+        
+        // maybe gameplay manager needs to know too
     }
 
     /// <summary>
@@ -70,6 +101,10 @@ public class GameManager_Jakub : SmartSingleton<GameManager_Jakub>
     /// </summary>
     public void ResumeGame()
     {
+        // TODO: actually unpause
+        // re-enable interactions etc.
+
+        // gameplay manager again ?
 
     }
 

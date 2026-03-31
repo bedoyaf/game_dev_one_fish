@@ -7,7 +7,5 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "GameSettings", menuName = "Scriptable Objects/GameSettings")]
 public class GameSettings : ScriptableObject
 {
-    [Tooltip("Scene transition object prefab")]
-    public GameObject sceneTransitionPrefab;
 
 }
