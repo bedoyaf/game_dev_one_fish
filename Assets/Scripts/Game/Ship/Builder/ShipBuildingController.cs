@@ -131,6 +131,7 @@ public class ShipBuildingController : MonoBehaviour
         if (context.started) {
             if (Physics.Raycast(Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue()), out RaycastHit hit, 100)) {
                 // TODO just temporary
+                // Toggle solid on a component
                 var comp = hit.collider.gameObject.GetComponentInParent<ShipComponentController>();
                 if (comp != null) {
                     var gridTile = comp.placementRules.connectedTile;
@@ -143,6 +144,7 @@ public class ShipBuildingController : MonoBehaviour
                     return;
                 }
 
+                // Start dragging an object
                 var draggable = hit.collider.gameObject.GetComponentInParent<ComponentBuildingDrag>();
                 if (draggable == null) return;
 

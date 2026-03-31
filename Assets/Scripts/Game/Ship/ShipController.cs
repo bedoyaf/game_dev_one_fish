@@ -12,11 +12,7 @@ public class ShipController : MonoBehaviour
     public ComponentGrid componentGrid { get => _componentGrid; private set => _componentGrid = value; }
 
     private void Start() {
-        //BuildShip();
-        var components = componentGrid.GetAllComponents();
-        foreach (var component in components) {
-            component.SetShipController(this);
-        }
+        AssignShipController();
     }
 
     public void BuildShip() {
@@ -29,6 +25,13 @@ public class ShipController : MonoBehaviour
 #if UNITY_EDITOR
         UnityEditor.EditorUtility.SetDirty(this);
 #endif
+    }
+
+    public void AssignShipController() {
+        var components = componentGrid.GetAllComponents();
+        foreach (var component in components) {
+            component.SetShipController(this);
+        }
     }
 
     private void DeconstructShip()

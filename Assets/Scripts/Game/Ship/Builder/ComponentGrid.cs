@@ -325,6 +325,27 @@ public class ComponentGrid {
     }
 
     /// <summary>
+    /// Checks if any component is solid in the grid
+    /// </summary>
+    public bool ContainsSolid() {
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                if (grid[i, j].IsSolid) return true;
+            }
+        }
+
+        return false;
+    }
+
+    public void SetEverythingSolid() {
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                grid[i, j].SetSolid(true);
+            }
+        }
+    }
+
+    /// <summary>
     /// Copies this grid into another grid.
     /// Expects newly created grid.
     /// If this grid already has instantiated component, only copies the refences.
@@ -379,7 +400,7 @@ public class ComponentGrid {
                 grid[i, x + j].ChangeBlock(addBlock);
             }
         }
-
+        
         // Left
         for (int i = 0; i < component.placementRules.Height; i++) {
             for (int j = x - 1; j > left; j--) {
@@ -393,6 +414,22 @@ public class ComponentGrid {
                 grid[z + i, j].ChangeBlock(addBlock);
             }
         }
+    }
+
+    /// <summary>
+    /// Returns all tiles on which the component can be placed.
+    /// </summary>
+    public List<ComponentGridTile> GetAllValidPositions(ShipComponentController component) {
+        var tiles = new List<ComponentGridTile>();
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                if (IsValidPlacementPosition(component, j, i, false, true)) {
+                    tiles.Add(grid[i, j]);
+                }
+            }
+        }
+
+        return tiles;
     }
 
     /// <summary>
@@ -440,15 +477,6 @@ public class ComponentGrid {
         if (isPlaceholder) return true;
         if (!DoesComponentFit(component, x, z)) return false;
 
-        // Check if any tile is blocked
-        for (int i = 0; i < component.placementRules.Height; i++) {
-            for (int j = 0; j < component.placementRules.Width; j++) {
-                if (grid[z + i, x + j].isBlocked) {
-                    return false;
-                }
-            }
-        }
-
         // Check if it connects to something
         if (mustConnect) {
             bool foundNeighbor = false;
@@ -460,6 +488,15 @@ public class ComponentGrid {
                 }
             }
             if (!foundNeighbor) return false;
+        }
+
+        // Check if any tile is blocked
+        for (int i = 0; i < component.placementRules.Height; i++) {
+            for (int j = 0; j < component.placementRules.Width; j++) {
+                if (grid[z + i, x + j].isBlocked) {
+                    return false;
+                }
+            }
         }
 
         return true;

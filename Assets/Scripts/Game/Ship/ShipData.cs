@@ -49,6 +49,11 @@ public class ShipData : ScriptableObject {
         var shipGrid = new ComponentGrid(componentGrid.width, componentGrid.height, componentGrid.placeholderPrefab, false, componentParent);
         componentGrid.CopyComponentGrid(shipGrid);
 
+        // If someone forgets to make a solid component
+        if (!componentGrid.ContainsSolid()) {
+            shipGrid.SetEverythingSolid();
+        }
+
         return shipGrid;
     }
 
