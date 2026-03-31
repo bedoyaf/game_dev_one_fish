@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 /// <summary>
 /// Current state:
@@ -11,27 +12,94 @@ using UnityEngine;
 /// </summary>
 public class GameManager_Jakub : SmartSingleton<GameManager_Jakub>
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
 
+
+    private SceneTransitionScript sceneTransitionInstance;
+    public void TransitionScene(string sceneName)
+    {
+        sceneTransitionInstance.LoadScene(sceneName);
     }
 
-    // Update is called once per frame
-    void Update()
+    // NOTE: redo this maybe 
+    public void SetTransitionInstance(SceneTransitionScript instance)
     {
-
+        sceneTransitionInstance = instance;
     }
 
 
+    /// <summary>
+    /// Called when a Save Slot IS selected*
+    /// 
+    /// Instantiates the Gameplay Scene and begins the main Game loop.
+    /// 
+    /// * if in Editor Debug etc. if no slot is selected, a default one will be provided
+    /// </summary>
     public void StartGame()
     {
-        // Take the current save slot data
+        // Take the current save slot data (TODO)
+        // TODO: play cutscene maybe if first time
 
         // Start the game depending on it
+        // TODO: whatever needs to be done
 
         // Scene transition
+        // NOTE: is it okay to do like this ?
+        TransitionScene("GameplayScene");
     }
+
+    /// <summary>
+    /// Call to change the current Run Data aka reset the Run.
+    /// </summary>
+    public void ResetGame()
+    {
+
+    }
+
+    /// <summary>
+    /// Shows a game menu with settings and the ability to leave the game.
+    /// </summary>
+    public void PauseGame()
+    {
+        // TODO: actually pause 
+        // disable in-game interactions etc.
+            
+    }
+
+    /// <summary>
+    /// Called when the game should resume.
+    /// </summary>
+    public void ResumeGame()
+    {
+
+    }
+
+    /// <summary>
+    /// Ends the current run and opens the main menu again 
+    /// </summary>
+    public void ExitGame()
+    {
+        // TODO: save what needs to be saved
+        // etc..
+
+        TransitionScene("MainMenuScene");
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -39,15 +107,31 @@ public class GameManager_Jakub : SmartSingleton<GameManager_Jakub>
 
     // -------------------------------------------------------
 
+
     // 0-data
-    private GameSettings GameSettingsInstance;
+    private GameSettings _gameSettingsInstance;
+
+    public GameSettings GameSettingsInstance
+    {
+        get { 
+
+            // Default run-time only settings
+            if(_gameSettingsInstance == null)
+            {
+                _gameSettingsInstance = ScriptableObject.CreateInstance<GameSettings>();
+            }
+            
+            return _gameSettingsInstance; }
+
+        set { _gameSettingsInstance = value; }
+    }
 
 
     // -------------------------------------------------------
 
     // 1-data
     private SaveSlotData _activeSaveSlot;
-    private SaveSlotData ActiveSaveSlot
+    private SaveSlotData activeSaveSlot
     {
         get
         {
@@ -70,13 +154,13 @@ public class GameManager_Jakub : SmartSingleton<GameManager_Jakub>
     public void SelectSaveSlot(SaveSlotData slot)
     {
         // Maybe some checks ?
-        ActiveSaveSlot = slot;
+        activeSaveSlot = slot;
     }
 
-    
+
 
     // -------------------------------------------------------
 
     // 2-data 
-
+    private RunData currentRunData;
 }
