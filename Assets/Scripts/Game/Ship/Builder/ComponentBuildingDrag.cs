@@ -18,9 +18,19 @@ public class ComponentBuildingDrag : MonoBehaviour
     public ComponentBuildingDrag originalObject;
     public bool beingDragged;
     private Camera cam;
+    private Vector3 builderOffsetFromGrid;
 
     private void Awake() {
         cam = Camera.main;
+    }
+
+    public void Setup(Transform builderTransform, ComponentBuildingDrag original) {
+        beingDragged = true;
+        originalObject = original;
+        var pos = builderTransform.position;
+        builderOffsetFromGrid = pos - new Vector3((int)pos.x, (int)pos.y, (int)pos.z);
+        GetComponentInChildren<Collider>().enabled = false;
+        GetComponentInChildren<ShipComponentMeshController>().enabled = false;
     }
 
     /// <summary>
@@ -33,14 +43,14 @@ public class ComponentBuildingDrag : MonoBehaviour
             Plane plane = new Plane(Vector3.down, Vector3.up * 0.5f);
             Ray ray = Camera.main.ScreenPointToRay(mp);
             if (plane.Raycast(ray, out float enter)) {
-                Vector3 worldPosition = ray.GetPoint(enter);
+                Vector3 worldPosition = ray.GetPoint(enter) - builderOffsetFromGrid;
                 worldPosition.y = 0.01f;
                 worldPosition.x = (int)(worldPosition.x);
                 worldPosition.z = (int)(worldPosition.z);
                 //if (worldPosition.x < 0) worldPosition.x -= 1;
                 //if (worldPosition.z < 0) worldPosition.z -= 1;
 
-                transform.position = worldPosition;
+                transform.position = worldPosition + builderOffsetFromGrid;
             }
         }
     }

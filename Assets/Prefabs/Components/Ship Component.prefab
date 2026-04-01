@@ -49,6 +49,27 @@ MonoBehaviour:
   OnDeath:
     m_PersistentCalls:
       m_Calls: []
+  activated: 0
+  requiresPower: 1
+  poweredOn: 0
+  placementRules:
+    Width: 1
+    Height: 1
+    Top: 0
+    Right: 0
+    Bottom: 0
+    Left: 0
+    connectedTile:
+      component: {fileID: 0}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 0
+      isPlaceholder: 0
+      _instantiatedComponent: 0
+      isSolid: 0
+  componentPrefab: {fileID: 5385403880273499414}
 --- !u!1 &8104800591989940212
 GameObject:
   m_ObjectHideFlags: 0
@@ -174,4 +195,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d391792c9845d6846bd430fdc1277d84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ShipComponentMeshController
-  shipComponentController: {fileID: 0}

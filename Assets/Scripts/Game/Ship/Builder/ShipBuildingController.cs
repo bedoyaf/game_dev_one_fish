@@ -9,27 +9,31 @@ using UnityEngine.InputSystem;
 /// </summary>
 public class ShipBuildingController : MonoBehaviour
 {
+    [Header("Grid settings")]
     [SerializeField] private int width = 10;
     [SerializeField] private int height = 20;
-    [SerializeField] private ShipComponentController placeholderComponent;
+    [SerializeField] private bool InitializeOnStart = true;
 
+    [Header("Components and the grid")]
     [SerializeField] List<ShipComponentController> componentPrefabs;
-
-    [SerializeField] int selectedComponent;
-
     [SerializeField] ShipData shipData;
-
     public ComponentGrid componentGrid;
 
+    [Header("Placeholder settings")]
+    [SerializeField] private ShipComponentController placeholderComponent;
+    [SerializeField] private bool placeholdersVisible;
+    //[SerializeField] private bool enabledPlacementRules;
+
+    [Header("Draggable components")]
     public Transform draggablesParent;
     public float draggableDistance = 2;
     public List<ComponentBuildingDrag> draggableComponents;
     public ComponentBuildingDrag currentlyDragging;
 
-    [SerializeField] private bool placeholdersVisible;
-    //[SerializeField] private bool enabledPlacementRules;
+
 
     public BuilderMode builderMode;
+    private bool isPlayer => builderMode == BuilderMode.Player;
 
     [Header("Builder arrows")]
     public GameObject arrowPrefab;
@@ -64,6 +68,51 @@ public class ShipBuildingController : MonoBehaviour
 
     void Start()
     {
+        if (InitializeOnStart) {
+            InitializeEditor();
+        }
+        else {
+            gameObject.SetActive(false);
+        }
+    }
+
+    /// <summary>
+    /// Expects to be called from the ship.
+    /// </summary>
+    /// <param name="gridToUse">The grid of the ship</param>
+    /// <param name="componentPrefabs">Prefabs of components to add. Has to be prefabs!</param>
+    public void InitializeBuilder(ComponentGrid gridToUse, List<ShipComponentController> componentPrefabs) {
+        componentGrid = gridToUse;
+        componentGrid.ChangePlaceholderSetting(true);
+        gameObject.SetActive(true);
+
+        // Make placeholders visible
+        if (placeholdersVisible) {
+            placeholdersVisible = false;
+            TogglePlaceholders();
+        }
+
+        InitializeDraggableComponents(componentPrefabs);
+        MouseController.Instance.enabled = false;
+    }
+
+    /// <summary>
+    /// End editing and clean up
+    /// </summary>
+    public void RemoveBuilderConnection() {
+        componentGrid.ChangePlaceholderSetting(false);
+        componentGrid = null;
+        gameObject.SetActive(false);
+
+        draggablesParent.DestroyAllChildren();
+        draggableComponents.Clear();
+        MouseController.Instance.enabled = true;
+    }
+
+    /// <summary>
+    /// Initializes the editor for normal editor scene
+    /// </summary>
+    private void InitializeEditor() {
         // Initialize width, height and the component grid
         bool useShipData = false;
         if (shipData.componentGrid == null || shipData.componentGrid.isEmpty) {
@@ -76,17 +125,6 @@ public class ShipBuildingController : MonoBehaviour
         }
         componentGrid = new ComponentGrid(width, height, placeholderComponent, true, transform);
 
-        // Fill the grid with placeholders
-        //for (int i = 0; i < height; i++) {
-        //    for (int j = 0; j < width; j++) {
-        //        var placeHolder = Instantiate(placeholderComponent, transform);
-        //        placeHolder.transform.localPosition = new Vector3(j, 0, i);
-        //        componentGrid.AddPlaceholder(placeHolder);
-        //        if (!useShipData) {
-        //            shipData.componentGrid.AddPlaceholder(placeholderComponent);
-        //        }
-        //    }
-        //}
         componentGrid.InitializeGrid();
         if (!useShipData) {
             shipData.componentGrid.InitializeGrid();
@@ -104,21 +142,28 @@ public class ShipBuildingController : MonoBehaviour
                 for (int j = 0; j < width; j++) {
                     var componentPrefab = shipData[i, j].component;
                     if (shipData[i, j].hasOffset || shipData[i, j].isPlaceholder) {
-                        continue; 
+                        continue;
                     }
 
-                    componentGrid.PlaceComponent(componentPrefab, j, i, shipData[i, j].IsSolid);
+                    componentGrid.PlaceComponent(componentPrefab, j, i, false, shipData[i, j].IsSolid);
                 }
             }
         }
 
-        componentGrid.AssignConnectedGrid(shipData.componentGrid);
+        componentGrid.ConnectGrid(shipData.componentGrid);
 
+        InitializeDraggableComponents(componentPrefabs);
+    }
+
+    private void InitializeDraggableComponents(List<ShipComponentController> componentPrefabs) {
         // Create components for dragging 
         draggableComponents = new();
+        float left = 0;
         for (int i = 0; i < componentPrefabs.Count; i++) {
             var tmp = Instantiate(componentPrefabs[i], draggablesParent);
-            tmp.transform.localPosition = new Vector3(i * draggableDistance, 0, 0);
+            tmp.transform.localPosition = new Vector3(left, 0, 0);
+            left += tmp.placementRules.Width;
+            left += draggableDistance;
 
             var obj = tmp.gameObject;
             var draggable = obj.AddComponent<ComponentBuildingDrag>();
@@ -139,7 +184,7 @@ public class ShipBuildingController : MonoBehaviour
                 // TODO just temporary
                 // Toggle solid on a component
                 var comp = hit.collider.gameObject.GetComponentInParent<ShipComponentController>();
-                if (comp != null) {
+                if (comp != null && !isPlayer) {
                     var gridTile = comp.placementRules.connectedTile;
                     var tiles = componentGrid.GetAllComponentTiles(gridTile.x, gridTile.z);
                     foreach (var tile in tiles) {
@@ -155,12 +200,13 @@ public class ShipBuildingController : MonoBehaviour
                 if (draggable == null) return;
 
                 currentlyDragging = Instantiate(draggable, draggablesParent);
-                currentlyDragging.transform.position = draggable.transform.position + Vector3.up;
-                currentlyDragging.beingDragged = true;
-                currentlyDragging.GetComponentInChildren<Collider>().enabled = false;
-                currentlyDragging.GetComponentInChildren<ShipComponentMeshController>().enabled = false;
-                currentlyDragging.originalObject = draggable;
-                if (builderMode == BuilderMode.Player) {
+                currentlyDragging.Setup(transform, draggable);
+                //currentlyDragging.transform.position = draggable.transform.position + Vector3.up;
+                //currentlyDragging.beingDragged = true;
+                //currentlyDragging.GetComponentInChildren<Collider>().enabled = false;
+                //currentlyDragging.GetComponentInChildren<ShipComponentMeshController>().enabled = false;
+                //currentlyDragging.originalObject = draggable;
+                if (isPlayer) {
                     currentlyDragging.originalObject.gameObject.SetActive(false);
                 }
 
@@ -206,8 +252,8 @@ public class ShipBuildingController : MonoBehaviour
 
             var successful = RaycastAndPlaceComponent(currentlyDragging.componentPrefab);
 
-            // Destroy the object and possibly the 
-            if (builderMode == BuilderMode.Player) {
+            // Destroy the object and possibly the original one as well
+            if (isPlayer) {
                 if (successful)
                     currentlyDragging.originalObject.gameObject.SmartDestroy();
                 else
@@ -225,7 +271,7 @@ public class ShipBuildingController : MonoBehaviour
     /// Removes component
     /// </summary>
     public void OnRightClick(InputAction.CallbackContext context) {
-        if (!context.started) return;
+        if (!context.started || isPlayer) return;
         RaycastAndPlaceComponent(placeholderComponent, true); 
     }
 
@@ -258,7 +304,7 @@ public class ShipBuildingController : MonoBehaviour
             componentGrid.RemoveComponent(x, z);
             //shipData.componentGrid.RemoveComponent(x, z);
             if (!isPlaceholder) {
-                componentGrid.PlaceComponent(componentPrefab, x, z);
+                componentGrid.PlaceComponent(componentPrefab, x, z, false, false);
                 //shipData.componentGrid.PlaceComponent(componentPrefab, x, z);
             }
 

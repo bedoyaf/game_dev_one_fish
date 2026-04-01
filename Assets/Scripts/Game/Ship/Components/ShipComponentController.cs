@@ -16,6 +16,9 @@ public class ShipComponentController : MonoBehaviour
 
     public ShipController shipController { get; private set; }
 
+
+    public ShipComponentController componentPrefab;
+
     private IShipComponentBehaviour componentBehaviour;
 
     void Start()

@@ -59,7 +59,9 @@ public class ComponentGrid {
     /// <summary>
     /// This grid will get same place and remove commands as this one
     /// </summary>
-    private ComponentGrid connectedGrid; 
+    private ComponentGrid connectedGrid;
+
+    private bool everythingSolid;
 
     public ComponentGrid(int width, int height, ShipComponentController placeholderPrefab, bool shouldInstantiatePlaceholders, Transform componentParent = null) {
         this.width = width;
@@ -88,7 +90,6 @@ public class ComponentGrid {
     /// <summary>
     /// Fills the grid with placeholders.
     /// </summary>
-    /// <param name="instantiatePlaceholders">Whether the placeholders should be instantiated or not</param>
     public void InitializeGrid() {
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
@@ -105,14 +106,14 @@ public class ComponentGrid {
         }
     }
 
+    /// <summary>
+    /// Destroys all components and tiles in the grid.
+    /// </summary>
     public void DestroyGrid() {
         if (shouldInstantiate && !isEmpty) {
             for (int i = 0; i < height; i++) {
                 for (int j = 0; j < width; j++) {
                     grid[i, j].DestroyCurrentComponent();
-                    //var comp = grid[i, j].component;
-                    //if (comp == null || comp.gameObject == null) continue;
-                    //comp.gameObject.SmartDestroy();
                 }
             }
         }
@@ -120,52 +121,52 @@ public class ComponentGrid {
         tiles.Clear();
     }
 
+
     /// <summary>
-    /// Instantiates the component and places it at correct local! position 
+    /// Places the component in the grid. Removes all that are in the way!
+    /// Do not use for placing placeholders - use <see cref="RemoveComponent(int, int)"/>
+    /// Works with bigger components
     /// </summary>
-    private ShipComponentController InstantiateComponent(ShipComponentController componentPrefab, int x, int z) {
-        ShipComponentController component = null;
-#if UNITY_EDITOR
-        if (Application.isPlaying) {
-            component = GameObject.Instantiate(componentPrefab, componentParent);
+    /// <param name="alreadyInstantiated">Whether the component is already instantiated, so I should not instantiate it again.</param>
+    /// <param name="solid">Whether the component should be solid or not</param>
+    /// <returns>The created component.</returns>
+    public ShipComponentController PlaceComponent(ShipComponentController componentPrefab, int x, int z, bool alreadyInstantiated, bool solid) {
+        var component = componentPrefab;
+        if (shouldInstantiate && !alreadyInstantiated) {
+            var newComponent = InstantiateComponent(componentPrefab, x, z);
+            component = newComponent;
         }
-        else {
-            component = PrefabUtility.InstantiatePrefab(componentPrefab, componentParent) as ShipComponentController;
+
+        // Remove old things in the area of the 
+        for (int i = 0; i < component.placementRules.Height; i++) {
+            for (int j = 0; j < component.placementRules.Width; j++) {
+                RemoveComponent(x + j, z + i);
+            }
         }
-#else
-        component = GameObject.Instantiate(componentPrefab, componentParent);
-#endif
-        component.transform.localPosition = new Vector3(x, 0, z);
+
+        // Place the component
+        for (int i = 0; i < component.placementRules.Height; i++) {
+            for (int j = 0; j < component.placementRules.Width; j++) {
+                grid[z + i, x + j].PlaceComponent(component, shouldInstantiate, j, i);
+                if (solid || everythingSolid) {
+                    grid[z + i, x + j].SetSolid(true);
+                }
+            }
+        }
+
+        SetupBlocking(component, x, z, true);
+
+        if (connectedGrid != null)
+            connectedGrid.PlaceComponent(componentPrefab, x, z, alreadyInstantiated, solid);
+
         return component;
-    }
-
-    ///// <summary>
-    ///// Use only for initializing the grid
-    ///// </summary>
-    //public void AddPlaceholder(ShipComponentController component) {
-    //    components.Add(new ComponentGridTile(component, shouldInstantiate, true));
-    //}
-
-    public bool DoesComponentFit(ShipComponentController component, int x, int z) {
-        return x + component.placementRules.Width - 1 < width && z + component.placementRules.Height - 1 < height;
-    }
-
-    /// <summary>
-    /// Call when component should be destroyed.
-    /// Removes the component and other components if they are not connected to solid.
-    /// </summary>
-    /// <param name="componentTile"></param>
-    public void OnComponentDeath(ComponentGridTile componentTile) {
-        RemoveComponent(componentTile.x, componentTile.z, true);
     }
 
     /// <summary>
     /// Removes the component at the coordinates and replaces it with placeholders
     /// If placeholder parent is not null, it will instantiate placeholders
     /// </summary>
-    /// <param name="x"></param>
-    /// <param name="z"></param>
-    /// <param name="placeholderParent"></param>
+    /// <param name="recursive">If true, it will check if surrounding components are connected to solid and potentially remove them</param>
     public void RemoveComponent(int x, int z, bool recursive = false) {
         if (connectedGrid != null) connectedGrid.RemoveComponent(x, z, recursive);
         (x, z) = GetOriginTileCoordinates(x, z);
@@ -210,10 +211,49 @@ public class ComponentGrid {
                 }
             }
         }
+    }
 
-        if (recursive) {
-            Debug.Log("asdfasdf");
+    /// <summary>
+    /// Changes between instanciating and not instaciating placeholders.
+    /// </summary>
+    public void ChangePlaceholderSetting(bool shouldInstantiatePlaceholders) {
+        if (this.shouldInstantiatePlaceholders == shouldInstantiatePlaceholders) return;
+
+        this.shouldInstantiatePlaceholders = shouldInstantiatePlaceholders;
+        for(int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                var tile = grid[i, j];
+                if (tile.isPlaceholder) {
+                    if (!shouldInstantiate || !shouldInstantiatePlaceholders) {
+                        tile.PlacePlaceholder(placeholderPrefab, false);
+                    }
+                    else {
+                        var placeholder = InstantiateComponent(placeholderPrefab, j, i);
+                        tile.PlacePlaceholder(placeholder, true);
+                        tile.ToggleVisibility(placeholdersVisible);
+                    }
+                }
+            }
         }
+    }
+
+    ///// <summary>
+    ///// Use only for initializing the grid
+    ///// </summary>
+    //public void AddPlaceholder(ShipComponentController component) {
+    //    components.Add(new ComponentGridTile(component, shouldInstantiate, true));
+    //}
+    public bool DoesComponentFit(ShipComponentController component, int x, int z) {
+        return x + component.placementRules.Width - 1 < width && z + component.placementRules.Height - 1 < height;
+    }
+
+    /// <summary>
+    /// Call when component should be destroyed.
+    /// Removes the component and other components if they are not connected to solid.
+    /// </summary>
+    /// <param name="componentTile"></param>
+    public void OnComponentDeath(ComponentGridTile componentTile) {
+        RemoveComponent(componentTile.x, componentTile.z, true);
     }
 
     /// <summary>
@@ -268,43 +308,50 @@ public class ComponentGrid {
         return tiles;
     }
 
-
     /// <summary>
-    /// Places the component in the grid. Removes all that are in the way!
-    /// Do not use for placing placeholders - use <see cref="RemoveComponent(int, int)"/>
-    /// Works with bigger components
+    /// Add block to surroundings of the component
+    /// x and z are the left bottom
     /// </summary>
-    /// <returns>The created component.</returns>
-    public ShipComponentController PlaceComponent(ShipComponentController componentPrefab, int x, int z, bool solid = false) {
-        var component = componentPrefab;
-        if (shouldInstantiate) {
-            var newComponent = InstantiateComponent(componentPrefab, x, z);
-            component = newComponent;
-        }
+    public void SetupBlocking(ShipComponentController component, int x, int z, bool addBlock) {
+        if (!component.placementRules.blockSurroundings) return;
 
-        // Remove old things in the area of the 
-        for (int i = 0; i < component.placementRules.Height; i++) {
-            for (int j = 0; j < component.placementRules.Width; j++) {
-                RemoveComponent(x + j, z + i);
+        int componentHeight = component.placementRules.Height;
+        int componentWidth = component.placementRules.Width;
+
+        // Boundaries (exclusive)
+        int top = Mathf.Min(z + componentHeight + component.placementRules.Top, height);
+        int bottom = Mathf.Max(z - component.placementRules.Bottom - 1, -1);
+        int left = Mathf.Max(x - component.placementRules.Left - 1, -1);
+        int right = Mathf.Min(x + componentWidth + component.placementRules.Right, width);
+
+
+        // Top
+        for (int j = 0; j < component.placementRules.Width; j++) {
+            for (int i = z + componentHeight; i < top; i++) {
+                grid[i, x + j].ChangeBlock(addBlock);
             }
         }
 
-        // Place the component
-        for (int i = 0; i < component.placementRules.Height; i++) {
-            for (int j = 0; j < component.placementRules.Width; j++) {
-                grid[z + i, x + j].PlaceComponent(component, shouldInstantiate, j, i);
-                if (solid) {
-                    grid[z + i, x + j].SetSolid(true);
-                }
+        // Bottom
+        for (int j = 0; j < component.placementRules.Width; j++) {
+            for (int i = z - 1; i > bottom; i--) {
+                grid[i, x + j].ChangeBlock(addBlock);
             }
         }
 
-        SetupBlocking(component, x, z, true);
+        // Left
+        for (int i = 0; i < component.placementRules.Height; i++) {
+            for (int j = x - 1; j > left; j--) {
+                grid[z + i, j].ChangeBlock(addBlock);
+            }
+        }
 
-        if (connectedGrid != null)
-            connectedGrid.PlaceComponent(componentPrefab, x, z, solid);
-
-        return component;
+        // Right
+        for (int i = 0; i < component.placementRules.Height; i++) {
+            for (int j = x + componentWidth; j < right; j++) {
+                grid[z + i, j].ChangeBlock(addBlock);
+            }
+        }
     }
 
 
@@ -346,6 +393,7 @@ public class ComponentGrid {
                 grid[i, j].SetSolid(true);
             }
         }
+        everythingSolid = true;
     }
 
     /// <summary>
@@ -368,53 +416,7 @@ public class ComponentGrid {
                     continue;
                 }
 
-                outputGrid.PlaceComponent(gridTile.component, j, i, gridTile.IsSolid);
-            }
-        }
-    }
-
-    /// <summary>
-    /// Add block to surroundings of the component
-    /// x and z are the left bottom
-    /// </summary>
-    public void SetupBlocking(ShipComponentController component, int x, int z, bool addBlock) {
-        if (!component.placementRules.blockSurroundings) return;
-
-        int componentHeight = component.placementRules.Height;
-        int componentWidth = component.placementRules.Width;
-
-        // Boundaries (exclusive)
-        int top = Mathf.Min(z + componentHeight + component.placementRules.Top, height);
-        int bottom = Mathf.Max(z - component.placementRules.Bottom - 1, -1);
-        int left = Mathf.Max(x - component.placementRules.Left - 1, -1);
-        int right = Mathf.Min(x + componentWidth + component.placementRules.Right, width);
-
-
-        // Top
-        for (int j = 0; j < component.placementRules.Width; j++) {
-            for (int i = z + componentHeight; i < top; i++) {
-                grid[i, x + j].ChangeBlock(addBlock);
-            }
-        }
-
-        // Bottom
-        for (int j = 0; j < component.placementRules.Width; j++) {
-            for (int i = z - 1; i > bottom; i--) {
-                grid[i, x + j].ChangeBlock(addBlock);
-            }
-        }
-        
-        // Left
-        for (int i = 0; i < component.placementRules.Height; i++) {
-            for (int j = x - 1; j > left; j--) {
-                grid[z + i, j].ChangeBlock(addBlock);
-            }
-        }
-
-        // Right
-        for (int i = 0; i < component.placementRules.Height; i++) {
-            for (int j = x + componentWidth; j < right; j++) {
-                grid[z + i, j].ChangeBlock(addBlock);
+                outputGrid.PlaceComponent(gridTile.component, j, i, componentsInstantiated, gridTile.IsSolid || everythingSolid);
             }
         }
     }
@@ -438,7 +440,7 @@ public class ComponentGrid {
     /// <summary>
     /// Assigns a grid that will receive the same place and remove component calls.
     /// </summary>
-    public void AssignConnectedGrid(ComponentGrid grid) {
+    public void ConnectGrid(ComponentGrid grid) {
         connectedGrid = grid;
     }
 
@@ -593,20 +595,27 @@ public class ComponentGrid {
         }
         return tiles;
     }
-}
 
-public static class GameObjectExtensions {
-    public static void SmartDestroy(this GameObject gameObject) {
+
+    /// <summary>
+    /// Instantiates the component and places it at correct local! position 
+    /// </summary>
+    private ShipComponentController InstantiateComponent(ShipComponentController componentPrefab, int x, int z) {
+        ShipComponentController component = null;
+#if UNITY_EDITOR
         if (Application.isPlaying) {
-            GameObject.Destroy(gameObject);
+            component = GameObject.Instantiate(componentPrefab, componentParent);
         }
         else {
-            GameObject.DestroyImmediate(gameObject);
+            component = PrefabUtility.InstantiatePrefab(componentPrefab, componentParent) as ShipComponentController;
         }
+#else
+        component = GameObject.Instantiate(componentPrefab, componentParent);
+#endif
+        component.transform.localPosition = new Vector3(x, 0, z);
+        return component;
     }
 }
-
-
 
 
 /*
