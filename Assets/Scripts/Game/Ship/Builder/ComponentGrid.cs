@@ -337,6 +337,9 @@ public class ComponentGrid {
         return false;
     }
 
+    /// <summary>
+    /// Sets every single component solid
+    /// </summary>
     public void SetEverythingSolid() {
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
@@ -513,6 +516,10 @@ public class ComponentGrid {
                     grid[i, j].ToggleVisibility(placeholdersVisible);
             }
         }
+    }
+
+    public bool ValidCoordinates(int x, int z) {
+        return x >= 0 && z >= 0 && x < width && z < height;
     }
 
     /// <summary>

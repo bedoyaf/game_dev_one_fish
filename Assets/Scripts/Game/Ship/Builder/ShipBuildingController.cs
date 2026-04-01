@@ -32,10 +32,10 @@ public class ShipBuildingController : MonoBehaviour
     public BuilderMode builderMode;
 
     [Header("Builder arrows")]
-    public BuilderArrow arrowPrefab;
+    public GameObject arrowPrefab;
     public Transform arrowParent;
     [SerializeField] private Vector3 arrowOffset;
-    private List<BuilderArrow> instantiatedArrows = new();
+    private List<GameObject> instantiatedArrows = new();
 
     private InputAction clickAction;
     private InputAction rightClickAction;
@@ -165,15 +165,38 @@ public class ShipBuildingController : MonoBehaviour
                 }
 
                 // Show valid positions
-                // First make enough arrows
+                // Uses object pooling for arrows
                 var valid = componentGrid.GetAllValidPositions(draggable.componentPrefab);
                 for (int i = instantiatedArrows.Count; i < valid.Count; i++) {
                     instantiatedArrows.Add(Instantiate(arrowPrefab, arrowParent));
                 }
+                Vector2Int[] directions = new[] { Vector2Int.left, Vector2Int.right, Vector2Int.up, Vector2Int.down };
                 for(int i = 0; i < valid.Count; i++) {
+                    // Place the arrow on the correct position
+                    var tile = valid[i];
                     var arrow = instantiatedArrows[i];
                     arrow.gameObject.SetActive(true);
-                    arrow.transform.position = new Vector3(valid[i].x, 0, valid[i].z) + arrowOffset;
+                    arrow.transform.localPosition = new Vector3(tile.x, 0, tile.z) + arrowOffset;
+
+                    Vector2Int sum = Vector2Int.zero;
+                    // Figure out orientation
+                    foreach (var dir in directions) {
+                        int x = tile.x + dir.x;
+                        int z = tile.z - dir.y;
+
+                        if (componentGrid.ValidCoordinates(x, z) && !componentGrid[z, x].isPlaceholder) {
+                            sum += dir;
+                        }
+                    }
+
+                    if (sum != Vector2Int.zero) {
+                        Vector2 arrowDirection = new Vector2(sum.x, sum.y).normalized;
+                        float angle = Mathf.Atan2(arrowDirection.y, arrowDirection.x) * Mathf.Rad2Deg + 90;
+                        arrow.transform.eulerAngles = Vector3.up * angle;
+                    }
+                    else {
+                        arrow.transform.eulerAngles = Vector3.left * -90;
+                    }
                 }
             }
         }
@@ -191,6 +214,9 @@ public class ShipBuildingController : MonoBehaviour
                     currentlyDragging.originalObject.gameObject.SetActive(true);
             }
 
+            for (int i = 0; i < instantiatedArrows.Count; i++) {
+                instantiatedArrows[i].gameObject.SetActive(false);
+            }
             currentlyDragging.gameObject.SmartDestroy();
         }
     }
