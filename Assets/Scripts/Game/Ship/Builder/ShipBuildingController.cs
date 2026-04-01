@@ -31,6 +31,12 @@ public class ShipBuildingController : MonoBehaviour
 
     public BuilderMode builderMode;
 
+    [Header("Builder arrows")]
+    public BuilderArrow arrowPrefab;
+    public Transform arrowParent;
+    [SerializeField] private Vector3 arrowOffset;
+    private List<BuilderArrow> instantiatedArrows = new();
+
     private InputAction clickAction;
     private InputAction rightClickAction;
 
@@ -156,6 +162,18 @@ public class ShipBuildingController : MonoBehaviour
                 currentlyDragging.originalObject = draggable;
                 if (builderMode == BuilderMode.Player) {
                     currentlyDragging.originalObject.gameObject.SetActive(false);
+                }
+
+                // Show valid positions
+                // First make enough arrows
+                var valid = componentGrid.GetAllValidPositions(draggable.componentPrefab);
+                for (int i = instantiatedArrows.Count; i < valid.Count; i++) {
+                    instantiatedArrows.Add(Instantiate(arrowPrefab, arrowParent));
+                }
+                for(int i = 0; i < valid.Count; i++) {
+                    var arrow = instantiatedArrows[i];
+                    arrow.gameObject.SetActive(true);
+                    arrow.transform.position = new Vector3(valid[i].x, 0, valid[i].z) + arrowOffset;
                 }
             }
         }
