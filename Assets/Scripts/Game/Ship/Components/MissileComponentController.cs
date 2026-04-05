@@ -1,31 +1,26 @@
 using UnityEngine;
 
-public class MissileComponentController : MonoBehaviour, IShipComponentBehaviour
+
+[RequireComponent(typeof(ShipComponentController))]
+public class MissileComponentController : BehaviourComponentControllerAbstract 
 {
     [SerializeField] GameObject missilePrefab;
     [SerializeField] Transform missileSpawnPoint;
-    private ShipController shipController;  
-    private ShipComponentController shipComponentController;
 
-    public void OnActivate()
+    public override void OnActivate()
     {
         Debug.Log("Missile ready");
 
         // zapni targeting mode
         MouseController.Instance.EnterTargetingMode(this);
-        if (shipController == null) shipController = transform.parent.GetComponent<ShipController>();
     }
 
-    public void OnDeactivate()
+    public override void OnDeactivate()
     {
         Debug.Log("Missile offline");
-
-       // MouseController.Instance.ClearClickAction();
-        if(shipComponentController == null ) shipComponentController = GetComponent<ShipComponentController>();
-        if (shipController == null) shipController = transform.parent.GetComponent<ShipController>();
     }
 
-    public void OnTargetSelected(ShipComponentMeshController target)
+    public override void OnTargetSelected(ShipComponentMeshController target)
     {
         ShipComponentController targetShipComponent = target.transform.parent.GetComponent<ShipComponentController>();
         var targetShip = targetShipComponent.transform.parent.GetComponent<ShipController>();
@@ -38,8 +33,6 @@ public class MissileComponentController : MonoBehaviour, IShipComponentBehaviour
 
         Shoot(target, targetShip);
 
-        // po výstøelu vypni targeting
-        if(shipComponentController ==null) shipComponentController = GetComponent<ShipComponentController>();
         shipComponentController.DeactivateComponent();
       //  MouseController.Instance.ClearClickAction();
     }
