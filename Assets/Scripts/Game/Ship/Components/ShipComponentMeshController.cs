@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class ShipComponentMeshController : MonoBehaviour
+public class ShipComponentMeshController : MonoBehaviour, IDamagableCollider
 {
     private ShipComponentController shipComponentController;
 

@@ -24,7 +24,7 @@ public class Projectile : MonoBehaviour
     {
         Debug.Log("Hit: " + collision.gameObject.name);
 
-        var target = collision.gameObject.GetComponentInParent<ShipComponentMeshController>();
+        var target = collision.gameObject.GetComponent<ShipComponentMeshController>();
 
         if (target != null)
         {
