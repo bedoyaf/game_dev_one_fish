@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public interface IDamagable
+public interface IDamagableCollider
 {
     public void OnDamagableCollision(float amount);
 

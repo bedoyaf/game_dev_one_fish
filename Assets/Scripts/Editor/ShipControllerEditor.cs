@@ -10,5 +10,19 @@ public class ShipControllerEditor : Editor {
         if (GUILayout.Button("Build Ship")) {
             ship.BuildShip();
         }
+
+        if (!Application.isPlaying) {
+            return;
+        }
+
+        if (ship.shipEditor == null) return;
+
+        if (GUILayout.Button("Swich to editor")) {
+            ship.GiveControlToEditor();
+        }
+
+        if (GUILayout.Button("Switch from editor")) {
+            ship.RemoveControlFromEditor();
+        }
     }
 }

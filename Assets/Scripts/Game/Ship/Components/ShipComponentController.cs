@@ -12,11 +12,14 @@ public class ShipComponentController : MonoBehaviour
     [SerializeField] private bool requiresPower = true;
     public bool poweredOn = false;
 
+    private IShipComponentBehaviour componentBehaviour;
+
+    [Header("Builder stuff")]
     public ComponentPlacement placementRules;
 
     public ShipController shipController { get; private set; }
-
-    private IShipComponentBehaviour componentBehaviour;
+    public ShipComponentController componentPrefab;
+    public GameObject ComponentMesh; // The child of the component, that has the mesh on it
 
     void Start()
     {

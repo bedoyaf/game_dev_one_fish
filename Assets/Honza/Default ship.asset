@@ -1,0 +1,1822 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a644c46634b5a2b4fa8345047fe9500a, type: 3}
+  m_Name: Default ship
+  m_EditorClassIdentifier: Assembly-CSharp::ShipData
+  _componentGrid:
+    tiles:
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 0
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 0
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 0
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 0
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 0
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 1
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 1
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 0
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 0
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 0
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 0
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 0
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 0
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 1
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 1
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 0
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 0
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 0
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 0
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 0
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 0
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 0
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 0
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 1
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 1
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 0
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 0
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 0
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 0
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 0
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 0
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 0
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 0
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 0
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 0
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 0
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 0
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 0
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 0
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 0
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 1
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 1
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 3
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 3
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 1
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 0
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: -1
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 0
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 0
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 0
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 1
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 1
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 3
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 3
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 1
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 1
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 0
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 0
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 0
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 0
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 0
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 0
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 2
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 2
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 1
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 1
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 0
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 0
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 1
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 1
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 2
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 6845047944256034405, guid: 9ea8d571fd3e8a74586990b7fea34728, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 2
+      isPlaceholder: 0
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 6845047944256034405, guid: 0ed541a6e2b2e564d9bed087c3815e6e, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 2
+      isPlaceholder: 0
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 6845047944256034405, guid: 0ed541a6e2b2e564d9bed087c3815e6e, type: 3}
+      x: 0
+      z: 0
+      offsetX: 1
+      offsetZ: 0
+      blocked: 2
+      isPlaceholder: 0
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 2
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 2
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 2
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 0
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 1
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 1
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 1
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 1
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 6845047944256034405, guid: 0ed541a6e2b2e564d9bed087c3815e6e, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 1
+      blocked: 2
+      isPlaceholder: 0
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 6845047944256034405, guid: 0ed541a6e2b2e564d9bed087c3815e6e, type: 3}
+      x: 0
+      z: 0
+      offsetX: 1
+      offsetZ: 1
+      blocked: 2
+      isPlaceholder: 0
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 6845047944256034405, guid: b08409fe63a51854697c0a666f536de1, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 3
+      isPlaceholder: 0
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 6845047944256034405, guid: 2830b339b4f764746b89c4505b1d6cbf, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 3
+      isPlaceholder: 0
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 3
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 0
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 0
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 0
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 0
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 1
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 6845047944256034405, guid: aab86f5cefa3c0b41bf4f36c7d7383a6, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 2
+      isPlaceholder: 0
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 6845047944256034405, guid: aab86f5cefa3c0b41bf4f36c7d7383a6, type: 3}
+      x: 0
+      z: 0
+      offsetX: 1
+      offsetZ: 0
+      blocked: 2
+      isPlaceholder: 0
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 6845047944256034405, guid: aab86f5cefa3c0b41bf4f36c7d7383a6, type: 3}
+      x: 0
+      z: 0
+      offsetX: 2
+      offsetZ: 0
+      blocked: 2
+      isPlaceholder: 0
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 6845047944256034405, guid: aab86f5cefa3c0b41bf4f36c7d7383a6, type: 3}
+      x: 0
+      z: 0
+      offsetX: 3
+      offsetZ: 0
+      blocked: 3
+      isPlaceholder: 0
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 6845047944256034405, guid: b08409fe63a51854697c0a666f536de1, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 4
+      isPlaceholder: 0
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 3
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 3
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 1
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 1
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 6845047944256034405, guid: 9ea8d571fd3e8a74586990b7fea34728, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 2
+      isPlaceholder: 0
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 6845047944256034405, guid: aab86f5cefa3c0b41bf4f36c7d7383a6, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 1
+      blocked: 2
+      isPlaceholder: 0
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 6845047944256034405, guid: aab86f5cefa3c0b41bf4f36c7d7383a6, type: 3}
+      x: 0
+      z: 0
+      offsetX: 1
+      offsetZ: 1
+      blocked: 2
+      isPlaceholder: 0
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 6845047944256034405, guid: aab86f5cefa3c0b41bf4f36c7d7383a6, type: 3}
+      x: 0
+      z: 0
+      offsetX: 2
+      offsetZ: 1
+      blocked: 2
+      isPlaceholder: 0
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 6845047944256034405, guid: aab86f5cefa3c0b41bf4f36c7d7383a6, type: 3}
+      x: 0
+      z: 0
+      offsetX: 3
+      offsetZ: 1
+      blocked: 3
+      isPlaceholder: 0
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 6845047944256034405, guid: b08409fe63a51854697c0a666f536de1, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 4
+      isPlaceholder: 0
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 3
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 3
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 1
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 0
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 0
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 2
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 3
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 6845047944256034405, guid: 6f05b655c31756b40a087f6dcfe7ee9c, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 3
+      isPlaceholder: 0
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 6845047944256034405, guid: 2830b339b4f764746b89c4505b1d6cbf, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 2
+      isPlaceholder: 0
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 2
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 0
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 0
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 0
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 0
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 0
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 1
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 2
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 2
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 1
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 1
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 0
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 0
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 0
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 0
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 0
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 1
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 1
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 1
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 1
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 0
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 0
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 0
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 0
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 0
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 0
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 2
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 2
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 1
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 1
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 0
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 0
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 0
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 0
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 0
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 0
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 2
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 2
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 1
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 1
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 0
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 0
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 0
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 0
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 0
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 0
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 0
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 0
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 0
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 0
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 0
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 0
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 0
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 0
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 0
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 0
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 0
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 0
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 0
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 0
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 0
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 0
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 0
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 0
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 0
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 0
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 0
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 0
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 0
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 0
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 0
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 0
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 0
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 0
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 0
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 0
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 0
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 0
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 0
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 0
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 0
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 0
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 0
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 0
+      z: 0
+      offsetX: 0
+      offsetZ: 0
+      blocked: 0
+      isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+    width: 10
+    height: 20
+    placeholderPrefab: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+    componentParent: {fileID: 0}
+    shouldInstantiatePlaceholders: 0
+    ID: 0

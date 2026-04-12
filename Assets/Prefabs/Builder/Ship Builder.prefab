@@ -63,6 +63,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1250431961410051891}
+  - {fileID: 3725498546007395717}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1039438194971829982
@@ -79,7 +80,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ShipBuildingController
   width: 10
   height: 20
-  placeholderComponent: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+  InitializeOnStart: 1
   componentPrefabs:
   - {fileID: 6845047944256034405, guid: 9ea8d571fd3e8a74586990b7fea34728, type: 3}
   - {fileID: 6845047944256034405, guid: b08409fe63a51854697c0a666f536de1, type: 3}
@@ -87,20 +88,25 @@ MonoBehaviour:
   - {fileID: 6845047944256034405, guid: 6f05b655c31756b40a087f6dcfe7ee9c, type: 3}
   - {fileID: 6845047944256034405, guid: 0ed541a6e2b2e564d9bed087c3815e6e, type: 3}
   - {fileID: 6845047944256034405, guid: aab86f5cefa3c0b41bf4f36c7d7383a6, type: 3}
-  selectedComponent: 0
-  shipData: {fileID: 11400000, guid: da9443da79faca84291a0aa6c3cb4652, type: 2}
+  shipData: {fileID: 11400000, guid: 8e19447f7c3f7bc42a625b4afa69c847, type: 2}
   componentGrid:
-    components: []
+    tiles: []
     width: 0
     height: 0
     placeholderPrefab: {fileID: 0}
     componentParent: {fileID: 0}
+    shouldInstantiatePlaceholders: 0
+    ID: 0
+  placeholderComponent: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+  placeholdersVisible: 1
   draggablesParent: {fileID: 1250431961410051891}
-  draggableDistance: 2.2
+  draggableDistance: 1
   draggableComponents: []
   currentlyDragging: {fileID: 0}
-  placeholdersVisible: 1
-  enabledPlacementRules: 1
+  builderMode: 0
+  arrowPrefab: {fileID: 94088519049623338, guid: a9ac6d1b9a5967b4ba7ed72268c607ef, type: 3}
+  arrowParent: {fileID: 3725498546007395717}
+  arrowOffset: {x: 0.5, y: 1, z: 0.5}
 --- !u!114 &5835962800365350490
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -108,7 +114,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6448978121080443775}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
   m_Name: 
@@ -251,3 +257,34 @@ MonoBehaviour:
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!1 &8527416908769961746
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3725498546007395717}
+  m_Layer: 0
+  m_Name: Arrows
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3725498546007395717
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8527416908769961746}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2779248880310250863}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

@@ -25,11 +25,14 @@ public class MouseController : MonoBehaviour
         cam = Camera.main;
 
         clickAction = new InputAction(type: InputActionType.Button, binding: "<Mouse>/leftButton");
-        clickAction.performed += OnClick;
+        //clickAction.performed += OnClick;
     }
 
 
-    void OnEnable() => clickAction.Enable();
+    void OnEnable() {
+        clickAction.performed += OnClick;
+        clickAction.Enable();
+    }
     void OnDisable()
     {
         clickAction.performed -= OnClick;
