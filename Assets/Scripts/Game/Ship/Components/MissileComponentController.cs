@@ -11,7 +11,6 @@ public class MissileComponentController : BehaviourComponentControllerAbstract
     {
         Debug.Log("Missile ready");
 
-        // zapni targeting mode
         MouseController.Instance.EnterTargetingMode(this);
     }
 
@@ -53,7 +52,7 @@ public class MissileComponentController : BehaviourComponentControllerAbstract
 
         if (proj != null)
         {
-            proj.Init(dir, target);
+            proj.Init( target.transform);
         }
     }
 }
