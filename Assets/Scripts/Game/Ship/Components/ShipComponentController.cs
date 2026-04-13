@@ -3,10 +3,12 @@ using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.Events;
 
-
+/// <summary>
+/// Takes energy through the component system, makes sure it fits the batteries. Returns true false if it had enaugh
+/// </summary>
 public class ShipComponentController : MonoBehaviour
 {
-    public float health = 100f;
+    public int health = 10;
     public UnityEvent OnDeath;
     public bool activated = false;
     [SerializeField] private bool requiresPower = true;
@@ -18,8 +20,11 @@ public class ShipComponentController : MonoBehaviour
     public ComponentPlacement placementRules;
 
     public ShipController shipController { get; private set; }
-    public ShipComponentController componentPrefab;
+
+    public ShipComponentController componentPrefab; //TODO, might be useless delete these
     public GameObject ComponentMesh; // The child of the component, that has the mesh on it
+    
+    private Shield shield;
 
     void Start()
     {
@@ -38,8 +43,13 @@ public class ShipComponentController : MonoBehaviour
         this.shipController = shipController;
     }
 
-    public void TakeDamage(float dmg)
+    public void TakeDamage(int dmg)
     {
+        if(shield!=null)
+        {
+            shield.TakeDamage(dmg);
+        }
+
         health -= dmg;
 
         if (health <= 0)
@@ -50,10 +60,10 @@ public class ShipComponentController : MonoBehaviour
 
     public void ActivateComponent()
     {
-        if(!activated)
+        if(!activated && componentBehaviour!=null)
         {
-            componentBehaviour.OnActivate();
             activated = true;
+            componentBehaviour.OnActivate();
         }
     }
 
@@ -75,6 +85,18 @@ public class ShipComponentController : MonoBehaviour
         
         //Destroy(gameObject);
     }
+
+    public void ActivateShield(Shield shield)
+    {
+        this.shield = shield;
+        shield.OnShieldDestroyed.AddListener(ResetShield);
+    }
+
+    private void ResetShield()
+    {
+        this.shield = null;
+    }
+
 
     [Serializable]
     public class ComponentPlacement {

@@ -11,7 +11,7 @@ public class ShipComponentMeshController : MonoBehaviour, IDamagableCollider
     }
     public void OnMouseClick()
     {
-        Debug.Log("Component has been clicked");
+        Debug.Log("Component has been clicked, currently active:"+ shipComponentController.activated.ToString());
         if(!shipComponentController.activated)
         {
             shipComponentController.ActivateComponent();
@@ -22,7 +22,7 @@ public class ShipComponentMeshController : MonoBehaviour, IDamagableCollider
         }
     }
 
-    public void OnDamagableCollision(float amount)
+    public void OnDamagableCollision(int amount)
     {
         shipComponentController.TakeDamage(amount);
     }

@@ -12,6 +12,27 @@ public class MouseController : MonoBehaviour
     private ClickMode currentMode = ClickMode.Default;
     private IShipComponentBehaviour activeComponent;
 
+    //Directional targeting
+    private Vector3 currentDirection = Vector3.up;
+
+    private Vector3[] directions = new Vector3[]
+    {
+    Vector3.up,
+    Vector3.right,
+    Vector3.down,
+    Vector3.left
+    };
+
+    private string[] directionNames = new string[]
+    {
+    "UP",
+    "RIGHT",
+    "DOWN",
+    "LEFT"
+    };
+
+    private int directionIndex = 0;
+
     void Awake()
     {
         if (Instance != null && Instance != this)
@@ -76,7 +97,8 @@ public class MouseController : MonoBehaviour
     private void HandleComponentTargetClick(ShipComponentMeshController target)
     {
         Debug.Log($"Targeting {target.name}");
-        activeComponent.OnTargetSelected(target);/*.transform.parent.GetComponent<IShipComponentBehaviour>()*/
+
+        activeComponent.OnTargetSelected(new TargetingData(target, currentDirection));
 
         ExitTargetingMode();
     }
@@ -105,5 +127,27 @@ public class MouseController : MonoBehaviour
     {
         Default,
         ComponentTargeting
+    }
+
+
+
+    //Directional shit
+    void OnGUI()
+    {
+        GUIStyle style = new GUIStyle(GUI.skin.button);
+        style.fontSize = 20;
+
+        if (GUI.Button(new Rect(10, 60, 120, 40), directionNames[directionIndex], style))
+        {
+            CycleDirection();
+        }
+    }
+
+    private void CycleDirection()
+    {
+        directionIndex = (directionIndex + 1) % directions.Length;
+        currentDirection = directions[directionIndex];
+
+        Debug.Log("Direction set to: " + currentDirection);
     }
 }

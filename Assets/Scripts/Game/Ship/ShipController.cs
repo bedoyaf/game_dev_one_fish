@@ -1,13 +1,16 @@
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Serialization;
+using static UnityEngine.EventSystems.EventTrigger;
 
 public class ShipController : MonoBehaviour
 {
     public ShipBuildingController shipEditor;
     public Transform componentsParent;
+
 
     /// <summary>
     /// The original ship data.
@@ -24,6 +27,20 @@ public class ShipController : MonoBehaviour
     [FormerlySerializedAs("componentGrid")]
     [SerializeField] private ComponentGrid _componentGrid;
     public ComponentGrid componentGrid { get => _componentGrid; private set => _componentGrid = value; }
+
+
+    //ENERGY
+    public int storedEnergy = 0;
+    private int batteryCapacity = 0;
+    private List<BatteryComponentController> batteries = new List<BatteryComponentController>();
+
+
+    //Combat
+    public Transform LeftProjectileSpawn;
+    public Transform RightProjectileSpawn;
+    public Transform UpProjectileSpawn;
+    public Transform DownProjectileSpawn;
+
 
     private void Start() {
         // Create temporary ship data that will be used during game time
@@ -83,6 +100,74 @@ public class ShipController : MonoBehaviour
 
     public void RemoveControlFromEditor() {
         shipEditor.RemoveBuilderConnection();
+    }
+
+    /// <summary>
+    /// Adds energy through the generator system, makes sure it fits the batteries
+    /// </summary>
+    public void AddEnergy(int energy)
+    {
+        if(batteries.Count==0)//TODO BETTER LOADING OF BATTERIES
+        {
+            batteries = componentGrid.GetSpecificComponentType<BatteryComponentController>();
+            if (batteries.Count == 0)
+            {
+                Debug.LogError("No batteries");
+                return;
+            }
+            batteryCapacity = batteries.Count * batteries[0].energyMax;
+        }
+        
+        int totalEnergy = Mathf.Min(storedEnergy+energy,batteryCapacity);
+        int remaining = totalEnergy-storedEnergy;
+        foreach (var component in batteries)
+        {
+            if (remaining == 0) break;
+            remaining = component.Chargenergy(remaining);
+        }
+        storedEnergy = totalEnergy;
+    }
+
+    /// <summary>
+    /// Takes energy through the component system, makes sure it fits the batteries. Returns true false if it had enaugh
+    /// </summary>
+    public bool UseEnergy(int energy)
+    {
+        if (batteries.Count == 0)//TODO BETTER LOADING OF BATTERIES
+        {
+            batteries = componentGrid.GetSpecificComponentType<BatteryComponentController>();
+            if(batteries.Count == 0) 
+            {
+                Debug.LogError("No batteries");
+                return false;
+            }
+            batteryCapacity = batteries.Count * batteries[0].energyMax;
+        }
+        //not enough energy
+        if(storedEnergy-energy<0)
+        {
+            return false;
+        }
+
+        int totalEnergy = Mathf.Max(storedEnergy - energy, 0);
+        int remaining = storedEnergy-totalEnergy;
+        foreach (var component in batteries)
+        {
+            if (remaining == 0) break;
+            remaining = component.DrainEnergy(remaining);
+        }
+        storedEnergy = totalEnergy;
+
+        return true;
+    }
+
+    void OnGUI()
+    {
+        GUIStyle style = new GUIStyle(GUI.skin.label);
+        style.fontSize = 24;
+        style.normal.textColor = Color.white;
+        style.fontStyle = FontStyle.Bold;
+        GUI.Label(new Rect(10, 10, 300, 40), $" {storedEnergy} / {batteryCapacity}", style);
     }
 }
 

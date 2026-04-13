@@ -655,6 +655,26 @@ public class ComponentGrid {
         component.transform.localPosition = new Vector3(x, 0, z);
         return component;
     }
+
+    /// <summary>
+    /// Returns a list of all components from the grid that contain the specific behaviour
+    /// </summary>
+    public List<T> GetSpecificComponentType<T>() where T : BehaviourComponentControllerAbstract
+    {
+        List<T> result = new List<T>();
+
+        foreach (var comp in GetAllComponents())
+        {
+            var behaviour = comp.GetComponent<T>();
+
+            if (behaviour != null)
+            {
+                result.Add(behaviour);
+            }
+        }
+
+        return result;
+    }
 }
 
 

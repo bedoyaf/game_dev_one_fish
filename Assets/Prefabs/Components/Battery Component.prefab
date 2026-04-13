@@ -10,7 +10,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3143172193047539597, guid: 76b53dd701359c84195162e28f3a0cbb, type: 3}
       propertyPath: m_Name
-      value: Generator Component
+      value: Battery Component
       objectReference: {fileID: 0}
     - target: {fileID: 3549073369916533152, guid: 76b53dd701359c84195162e28f3a0cbb, type: 3}
       propertyPath: m_LocalPosition.x
@@ -55,7 +55,7 @@ PrefabInstance:
     - target: {fileID: 4898772173142610036, guid: 76b53dd701359c84195162e28f3a0cbb, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: b49d1ab6bfd862f45a6af0bc979dff52, type: 2}
+      objectReference: {fileID: 2100000, guid: 5fc8cb224e3239143886eb12de88abcf, type: 2}
     - target: {fileID: 5385403880273499414, guid: 76b53dd701359c84195162e28f3a0cbb, type: 3}
       propertyPath: placementRules.Top
       value: 0
@@ -78,14 +78,14 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 3143172193047539597, guid: 76b53dd701359c84195162e28f3a0cbb, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 5564892331900611739}
+      addedObject: {fileID: 1149677088349550104}
   m_SourcePrefab: {fileID: 100100000, guid: 76b53dd701359c84195162e28f3a0cbb, type: 3}
 --- !u!1 &4601685864176397566 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3143172193047539597, guid: 76b53dd701359c84195162e28f3a0cbb, type: 3}
   m_PrefabInstance: {fileID: 1459925618552488819}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &5564892331900611739
+--- !u!114 &1149677088349550104
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -94,9 +94,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 4601685864176397566}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f485a14059609a3418e4440726f1e11f, type: 3}
+  m_Script: {fileID: 11500000, guid: 4274e506785cc404f837c34038dd803a, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::GeneratorComponentController
+  m_EditorClassIdentifier: Assembly-CSharp::BatteryComponentController
   energyStored: 0
-  energyMax: 5
-  energyPerSecond: 0.5
+  energyMax: 10
