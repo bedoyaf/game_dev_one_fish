@@ -41,9 +41,9 @@ public class ShipController : MonoBehaviour
         componentGrid = shipData.BuildShip(componentsParent);
 
         // Needs to be here for Unity to save the ship
-#if UNITY_EDITOR
-        UnityEditor.EditorUtility.SetDirty(this);
-#endif
+        #if UNITY_EDITOR
+            UnityEditor.EditorUtility.SetDirty(this);
+        #endif
     }
 
     private void DeconstructShip()

@@ -354,7 +354,6 @@ public class ComponentGrid {
         }
     }
 
-
     /// <summary>
     /// Gets all components that are stored in the grid.
     /// Multiple-tile components are still returned only once.
@@ -500,6 +499,47 @@ public class ComponentGrid {
             for (int j = 0; j < component.placementRules.Width; j++) {
                 if (grid[z + i, x + j].isBlocked) {
                     return false;
+                }
+            }
+        }
+
+        // If the block is blocking, check if to-be-blocked tiles are empty
+        // TODO copied from SetupBlocking
+        if (component.placementRules.blockSurroundings) {
+            int componentHeight = component.placementRules.Height;
+            int componentWidth = component.placementRules.Width;
+
+            // Boundaries (exclusive)
+            int top = Mathf.Min(z + componentHeight + component.placementRules.Top, height);
+            int bottom = Mathf.Max(z - component.placementRules.Bottom - 1, -1);
+            int left = Mathf.Max(x - component.placementRules.Left - 1, -1);
+            int right = Mathf.Min(x + componentWidth + component.placementRules.Right, width);
+
+            // Top
+            for (int j = 0; j < component.placementRules.Width; j++) {
+                for (int i = z + componentHeight; i < top; i++) {
+                    if (!grid[i, x + j].isPlaceholder) return false;
+                }
+            }
+
+            // Bottom
+            for (int j = 0; j < component.placementRules.Width; j++) {
+                for (int i = z - 1; i > bottom; i--) {
+                    if (!grid[i, x + j].isPlaceholder) return false;
+        }
+            }
+
+            // Left
+            for (int i = 0; i < component.placementRules.Height; i++) {
+                for (int j = x - 1; j > left; j--) {
+                    if (!grid[z + i, j].isPlaceholder) return false;
+                }
+            }
+
+            // Right
+            for (int i = 0; i < component.placementRules.Height; i++) {
+                for (int j = x + componentWidth; j < right; j++) {
+                    if (!grid[z + i, j].isPlaceholder) return false;
                 }
             }
         }

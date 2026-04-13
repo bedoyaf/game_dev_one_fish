@@ -160,17 +160,19 @@ public class ShipBuildingController : MonoBehaviour
         draggableComponents = new();
         float left = 0;
         for (int i = 0; i < componentPrefabs.Count; i++) {
-            var tmp = Instantiate(componentPrefabs[i], draggablesParent);
-            tmp.transform.localPosition = new Vector3(left, 0, 0);
-            left += tmp.placementRules.Width;
+            var comp = componentPrefabs[i];
+            var parent = new GameObject(comp.name + "Draggable");
+            parent.transform.SetParent(draggablesParent);
+            var tmp = Instantiate(comp.ComponentMesh, parent.transform);
+            parent.transform.localPosition = new Vector3(left, 0, 0);
+            left += comp.placementRules.Width;
             left += draggableDistance;
 
-            var obj = tmp.gameObject;
-            var draggable = obj.AddComponent<ComponentBuildingDrag>();
+            var draggable = parent.AddComponent<ComponentBuildingDrag>();
             draggable.componentPrefab = componentPrefabs[i];
             draggableComponents.Add(draggable);
 
-            Destroy(tmp);
+            //Destroy(tmp);
         }
     }
 
@@ -201,11 +203,6 @@ public class ShipBuildingController : MonoBehaviour
 
                 currentlyDragging = Instantiate(draggable, draggablesParent);
                 currentlyDragging.Setup(transform, draggable);
-                //currentlyDragging.transform.position = draggable.transform.position + Vector3.up;
-                //currentlyDragging.beingDragged = true;
-                //currentlyDragging.GetComponentInChildren<Collider>().enabled = false;
-                //currentlyDragging.GetComponentInChildren<ShipComponentMeshController>().enabled = false;
-                //currentlyDragging.originalObject = draggable;
                 if (isPlayer) {
                     currentlyDragging.originalObject.gameObject.SetActive(false);
                 }
