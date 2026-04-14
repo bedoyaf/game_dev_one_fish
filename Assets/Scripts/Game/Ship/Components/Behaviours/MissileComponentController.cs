@@ -65,21 +65,21 @@ public class MissileComponentController : BehaviourComponentControllerAbstract
                 shootDir = new Vector3(0, 0, 1);
             }
 
-            spawnPos = new Vector3(targetPos.x-offset, 0, spawnPoint.position.z);
+            spawnPos = new Vector3(targetPos.x-offset, 0+offset, spawnPoint.position.z);
         }
         else
         {
             if (dotRight < 0)
             {
                 spawnPoint = targetShip.RightProjectileSpawn;
-                shootDir = new Vector3(1, 0, 0);
+                shootDir = new Vector3(-1, 0, 0);
             }
             else
             {
                 spawnPoint = targetShip.LeftProjectileSpawn;
-                shootDir = new Vector3(-1, 0, 0);
+                shootDir = new Vector3(1, 0, 0);
             }
-            spawnPos = new Vector3(spawnPoint.position.x, 0, targetPos.z+offset);
+            spawnPos = new Vector3(spawnPoint.position.x, 0+offset, targetPos.z+offset);
         }
 
 

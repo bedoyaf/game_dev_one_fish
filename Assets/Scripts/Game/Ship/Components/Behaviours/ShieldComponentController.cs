@@ -1,3 +1,4 @@
+using NUnit.Framework;
 using UnityEngine;
 
 /// <summary>
@@ -7,10 +8,11 @@ using UnityEngine;
 public class ShieldComponentController : BehaviourComponentControllerAbstract
 {
     [SerializeField] GameObject shieldPrefab;
-    private bool shieldUp = false;
+    private int shieldsUp = 0;
+    [SerializeField] private int maxAviableShields = 2;
     public override void OnActivate()
     {
-        if(shieldUp)
+        if(shieldsUp>=maxAviableShields)
         {
             Debug.Log("shield already placed");
             shipComponentController.DeactivateComponent();
@@ -54,13 +56,13 @@ public class ShieldComponentController : BehaviourComponentControllerAbstract
         shieldObj.transform.SetParent(targetTransform);
 
         Shield shield = shieldObj.GetComponent<Shield>();
-        shieldUp = true;
+        shieldsUp ++;
         shield.OnShieldDestroyed.AddListener(OnShieldDestroyed);
         shipComponentController.ActivateShield(shield);
     }
 
     private void OnShieldDestroyed()
     {
-        shieldUp = false;
+        shieldsUp--;
     }
 }
