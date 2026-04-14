@@ -9,11 +9,11 @@ public class GeneratorComponentController : BehaviourComponentControllerAbstract
     [SerializeField] private int energyStored;
     [SerializeField] private int energyMax;
 
-    [SerializeField] private float energyPerSecond = 0.5f;
+    [SerializeField] private float energyPerSecond = 0.7f;
 
     private TextMesh debugText;
 
-    private float energyBuffer;
+    private float energyBuffer =0;
 
     public override void OnActivate()
     {
@@ -52,13 +52,12 @@ public class GeneratorComponentController : BehaviourComponentControllerAbstract
 
         energyBuffer += energyPerSecond * Time.deltaTime;
 
-        if (energyBuffer >= 1f)
+        while (energyBuffer >= 1f)
         {
-            int amount = Mathf.FloorToInt(energyBuffer);
-            energyBuffer -= amount;
+            energyBuffer -= 1f;
 
-            energyStored += amount;
-            energyStored = Mathf.Clamp(energyStored, 0, energyMax);
+            energyStored++;
+            energyStored = Mathf.Min(energyStored, energyMax);
         }
     }
 

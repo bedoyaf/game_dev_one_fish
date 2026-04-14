@@ -9,11 +9,13 @@ using UnityEngine.Serialization;
 /// </summary>
 public class ShipComponentController : MonoBehaviour
 {
+    public int maxHealth = 10;
     public int health = 10;
-    public UnityEvent OnDeath;
+    public UnityEvent<ShipComponentController> OnDeath;
     public bool activated = false;
     [SerializeField] private bool requiresPower = true;
-    public bool poweredOn = false;
+
+    public int requiredEnergy = 0;
 
     private IShipComponentBehaviour componentBehaviour;
 
@@ -26,6 +28,10 @@ public class ShipComponentController : MonoBehaviour
     public GameObject ComponentMesh; // The child of the component, that has the mesh on it
     
     private Shield shield;
+
+    public ShipComponentMeshController shipComponentMeshController;
+
+    public bool broken {  get; private set; } = false;
 
     void Start()
     {
@@ -61,8 +67,16 @@ public class ShipComponentController : MonoBehaviour
 
     public void ActivateComponent()
     {
+        if(broken) return;
+
         if(!activated && componentBehaviour!=null)
         {
+            if(!shipController.UseEnergy(requiredEnergy))
+            {
+                Debug.Log("Not enaugh energy");
+                return;
+            }
+
             activated = true;
             componentBehaviour.OnActivate();
         }
@@ -77,14 +91,26 @@ public class ShipComponentController : MonoBehaviour
         }
     }
 
-    private void Die()
+    private void Die()//TODO MAKE BROKEN VERSION OF COMPONENT
     {
-        OnDeath?.Invoke();
+        OnDeath?.Invoke(this);
 
         // Destroys the component and works with the grid.
-        shipController.componentGrid.OnComponentDeath(placementRules.connectedTile);
-        
-        //Destroy(gameObject);
+        //shipController.componentGrid.OnComponentDeath(placementRules.connectedTile);
+        BreakComponent();
+    }
+
+    private void BreakComponent()
+    {
+        broken = true;
+        shipComponentMeshController.ChangeMeshToBroken();
+    }
+
+    public void RepaireComponent()
+    {
+        broken = false;
+        health = maxHealth;
+        shipComponentMeshController.ChangeMeshToWorking();
     }
 
     public void ActivateShield(Shield shield)
