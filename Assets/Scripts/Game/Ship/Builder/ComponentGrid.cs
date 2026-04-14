@@ -138,17 +138,17 @@ public class ComponentGrid {
         }
 
         // Remove old things in the area of the 
-        for (int i = 0; i < component.placementRules.Height; i++) {
-            for (int j = 0; j < component.placementRules.Width; j++) {
+        for (int i = 0; i < component.placementRules.height; i++) {
+            for (int j = 0; j < component.placementRules.width; j++) {
                 RemoveComponent(x + j, z + i);
             }
         }
 
         // Place the component
-        for (int i = 0; i < component.placementRules.Height; i++) {
-            for (int j = 0; j < component.placementRules.Width; j++) {
+        for (int i = 0; i < component.placementRules.height; i++) {
+            for (int j = 0; j < component.placementRules.width; j++) {
                 grid[z + i, x + j].PlaceComponent(component, shouldInstantiate, j, i);
-                if (solid || everythingSolid) {
+                if (solid || everythingSolid || component.placementRules.solid) {
                     grid[z + i, x + j].SetSolid(true);
                 }
             }
@@ -183,8 +183,8 @@ public class ComponentGrid {
         //z -= gridTile.placementOffset.y;
         var component = gridTile.component;
 
-        for (int i = 0; i < component.placementRules.Height; i++) {
-            for (int j = 0; j < component.placementRules.Width; j++) {
+        for (int i = 0; i < component.placementRules.height; i++) {
+            for (int j = 0; j < component.placementRules.width; j++) {
                 if (!shouldInstantiate || !shouldInstantiatePlaceholders) {
                     grid[z + i, x + j].PlacePlaceholder(placeholderPrefab, false);
                 }
@@ -244,7 +244,7 @@ public class ComponentGrid {
     //    components.Add(new ComponentGridTile(component, shouldInstantiate, true));
     //}
     public bool DoesComponentFit(ShipComponentController component, int x, int z) {
-        return x + component.placementRules.Width - 1 < width && z + component.placementRules.Height - 1 < height;
+        return x + component.placementRules.width - 1 < width && z + component.placementRules.height - 1 < height;
     }
 
     /// <summary>
@@ -295,12 +295,12 @@ public class ComponentGrid {
     public List<ComponentGridTile> GetAllComponentTiles(int x, int z) {
         (x, z) = GetOriginTileCoordinates(x, z);
         var component = grid[z, x].component;
-        if (component.placementRules.Height == 1 && component.placementRules.Width == 1) return new List<ComponentGridTile> { grid[z, x] };
+        if (component.placementRules.height == 1 && component.placementRules.width == 1) return new List<ComponentGridTile> { grid[z, x] };
         //x = x - grid[z, x].placementOffset.x; 
         //z = z - grid[z, x].placementOffset.y; 
         List<ComponentGridTile> tiles = new List<ComponentGridTile>();
-        for (int i = 0; i < component.placementRules.Height; i++) {
-            for (int j = 0; j < component.placementRules.Width; j++) {
+        for (int i = 0; i < component.placementRules.height; i++) {
+            for (int j = 0; j < component.placementRules.width; j++) {
                 tiles.Add(grid[z + i, x + j]);
             }
         }
@@ -315,39 +315,39 @@ public class ComponentGrid {
     public void SetupBlocking(ShipComponentController component, int x, int z, bool addBlock) {
         if (!component.placementRules.blockSurroundings) return;
 
-        int componentHeight = component.placementRules.Height;
-        int componentWidth = component.placementRules.Width;
+        int componentHeight = component.placementRules.height;
+        int componentWidth = component.placementRules.width;
 
         // Boundaries (exclusive)
-        int top = Mathf.Min(z + componentHeight + component.placementRules.Top, height);
-        int bottom = Mathf.Max(z - component.placementRules.Bottom - 1, -1);
-        int left = Mathf.Max(x - component.placementRules.Left - 1, -1);
-        int right = Mathf.Min(x + componentWidth + component.placementRules.Right, width);
+        int top = Mathf.Min(z + componentHeight + component.placementRules.top, height);
+        int bottom = Mathf.Max(z - component.placementRules.bottom - 1, -1);
+        int left = Mathf.Max(x - component.placementRules.left - 1, -1);
+        int right = Mathf.Min(x + componentWidth + component.placementRules.right, width);
 
 
         // Top
-        for (int j = 0; j < component.placementRules.Width; j++) {
+        for (int j = 0; j < component.placementRules.width; j++) {
             for (int i = z + componentHeight; i < top; i++) {
                 grid[i, x + j].ChangeBlock(addBlock);
             }
         }
 
         // Bottom
-        for (int j = 0; j < component.placementRules.Width; j++) {
+        for (int j = 0; j < component.placementRules.width; j++) {
             for (int i = z - 1; i > bottom; i--) {
                 grid[i, x + j].ChangeBlock(addBlock);
             }
         }
 
         // Left
-        for (int i = 0; i < component.placementRules.Height; i++) {
+        for (int i = 0; i < component.placementRules.height; i++) {
             for (int j = x - 1; j > left; j--) {
                 grid[z + i, j].ChangeBlock(addBlock);
             }
         }
 
         // Right
-        for (int i = 0; i < component.placementRules.Height; i++) {
+        for (int i = 0; i < component.placementRules.height; i++) {
             for (int j = x + componentWidth; j < right; j++) {
                 grid[z + i, j].ChangeBlock(addBlock);
             }
@@ -495,8 +495,8 @@ public class ComponentGrid {
         }
 
         // Check if any tile is blocked
-        for (int i = 0; i < component.placementRules.Height; i++) {
-            for (int j = 0; j < component.placementRules.Width; j++) {
+        for (int i = 0; i < component.placementRules.height; i++) {
+            for (int j = 0; j < component.placementRules.width; j++) {
                 if (grid[z + i, x + j].isBlocked) {
                     return false;
                 }
@@ -506,38 +506,38 @@ public class ComponentGrid {
         // If the block is blocking, check if to-be-blocked tiles are empty
         // TODO copied from SetupBlocking
         if (component.placementRules.blockSurroundings) {
-            int componentHeight = component.placementRules.Height;
-            int componentWidth = component.placementRules.Width;
+            int componentHeight = component.placementRules.height;
+            int componentWidth = component.placementRules.width;
 
             // Boundaries (exclusive)
-            int top = Mathf.Min(z + componentHeight + component.placementRules.Top, height);
-            int bottom = Mathf.Max(z - component.placementRules.Bottom - 1, -1);
-            int left = Mathf.Max(x - component.placementRules.Left - 1, -1);
-            int right = Mathf.Min(x + componentWidth + component.placementRules.Right, width);
+            int top = Mathf.Min(z + componentHeight + component.placementRules.top, height);
+            int bottom = Mathf.Max(z - component.placementRules.bottom - 1, -1);
+            int left = Mathf.Max(x - component.placementRules.left - 1, -1);
+            int right = Mathf.Min(x + componentWidth + component.placementRules.right, width);
 
             // Top
-            for (int j = 0; j < component.placementRules.Width; j++) {
+            for (int j = 0; j < component.placementRules.width; j++) {
                 for (int i = z + componentHeight; i < top; i++) {
                     if (!grid[i, x + j].isPlaceholder) return false;
                 }
             }
 
             // Bottom
-            for (int j = 0; j < component.placementRules.Width; j++) {
+            for (int j = 0; j < component.placementRules.width; j++) {
                 for (int i = z - 1; i > bottom; i--) {
                     if (!grid[i, x + j].isPlaceholder) return false;
         }
             }
 
             // Left
-            for (int i = 0; i < component.placementRules.Height; i++) {
+            for (int i = 0; i < component.placementRules.height; i++) {
                 for (int j = x - 1; j > left; j--) {
                     if (!grid[z + i, j].isPlaceholder) return false;
                 }
             }
 
             // Right
-            for (int i = 0; i < component.placementRules.Height; i++) {
+            for (int i = 0; i < component.placementRules.height; i++) {
                 for (int j = x + componentWidth; j < right; j++) {
                     if (!grid[z + i, j].isPlaceholder) return false;
                 }
@@ -589,10 +589,10 @@ public class ComponentGrid {
     /// </summary>
     public List<ComponentGridTile> GetTilesOnRight(ComponentPlacement rules, int x, int z, List<ComponentGridTile> output = null) {
         var tiles = output == null ? new List<ComponentGridTile>() : output;
-        if (x + rules.Width >= width) return tiles;
+        if (x + rules.width >= width) return tiles;
 
-        for (int i = 0; i < rules.Height; i++) {
-            tiles.Add(grid[z + i, x + rules.Width]);
+        for (int i = 0; i < rules.height; i++) {
+            tiles.Add(grid[z + i, x + rules.width]);
         }
         return tiles;
     }
@@ -604,7 +604,7 @@ public class ComponentGrid {
         var tiles = output == null ? new List<ComponentGridTile>() : output;
         if (x <= 0) return tiles;
 
-        for (int i = 0; i < rules.Height; i++) {
+        for (int i = 0; i < rules.height; i++) {
             tiles.Add(grid[z + i, x - 1]);
         }
         return tiles;
@@ -617,7 +617,7 @@ public class ComponentGrid {
         var tiles = output == null ? new List<ComponentGridTile>() : output;
         if (z <= 0) return tiles;
 
-        for (int j = 0; j < rules.Width; j++) {
+        for (int j = 0; j < rules.width; j++) {
             tiles.Add(grid[z - 1, x + j]);
         }
         return tiles;
@@ -628,10 +628,10 @@ public class ComponentGrid {
     /// </summary>
     public List<ComponentGridTile> GetTilesOnTop(ComponentPlacement rules, int x, int z, List<ComponentGridTile> output = null) {
         var tiles = output == null ? new List<ComponentGridTile>() : output;
-        if (z + rules.Height >= height) return tiles;
+        if (z + rules.height >= height) return tiles;
 
-        for (int j = 0; j < rules.Width; j++) {
-            tiles.Add(grid[z + rules.Height, x + j]);
+        for (int j = 0; j < rules.width; j++) {
+            tiles.Add(grid[z + rules.height, x + j]);
         }
         return tiles;
     }

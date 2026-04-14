@@ -165,7 +165,7 @@ public class ShipBuildingController : MonoBehaviour
             parent.transform.SetParent(draggablesParent);
             var tmp = Instantiate(comp.ComponentMesh, parent.transform);
             parent.transform.localPosition = new Vector3(left, 0, 0);
-            left += comp.placementRules.Width;
+            left += comp.placementRules.width;
             left += draggableDistance;
 
             var draggable = parent.AddComponent<ComponentBuildingDrag>();

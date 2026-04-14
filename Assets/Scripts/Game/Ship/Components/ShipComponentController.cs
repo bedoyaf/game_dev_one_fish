@@ -2,6 +2,7 @@ using System;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Serialization;
 
 /// <summary>
 /// Takes energy through the component system, makes sure it fits the batteries. Returns true false if it had enaugh
@@ -100,15 +101,18 @@ public class ShipComponentController : MonoBehaviour
 
     [Serializable]
     public class ComponentPlacement {
-        public int Width = 1;
-        public int Height = 1;
+        public int width = 1;
+        public int height = 1;
 
-        public int Top;
-        public int Right;
-        public int Bottom;
-        public int Left;
+        public bool solid;
 
-        public bool blockSurroundings => Top != 0 || Right != 0 || Bottom != 0 || Left != 0;
+        [Header("Blocks to sides")]
+        public int top;
+        public int right;
+        public int bottom;
+        public int left;
+
+        public bool blockSurroundings => top != 0 || right != 0 || bottom != 0 || left != 0;
 
         public ComponentGridTile connectedTile; // TODO - sorry, does not belong here
     }

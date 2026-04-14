@@ -51,8 +51,8 @@ public class ComponentGridTile {
 
     public bool isBlocked => blocked > 0;
 
-    public int ComponentHeight => component.placementRules.Height;
-    public int ComponentWidth => component.placementRules.Width;
+    public int ComponentHeight => component.placementRules.height;
+    public int ComponentWidth => component.placementRules.width;
 
     //public bool worksWithPrefabs;
 
@@ -76,7 +76,7 @@ public class ComponentGridTile {
     }
 
     [SerializeField] private bool isSolid;
-    public bool IsSolid => isSolid;
+    public bool IsSolid => isSolid || (component != null && component.placementRules.solid);
 
     //[SerializeReference]
     //private ComponentGrid componentGrid;
