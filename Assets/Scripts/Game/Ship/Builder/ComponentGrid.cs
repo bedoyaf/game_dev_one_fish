@@ -681,7 +681,7 @@ public class ComponentGrid {
     {
         List<T> result = new List<T>();
 
-        Debug.Log(GetAllComponents().Count);
+       // Debug.Log(GetAllComponents().Count);
 
         foreach (var comp in GetAllComponents())
         {

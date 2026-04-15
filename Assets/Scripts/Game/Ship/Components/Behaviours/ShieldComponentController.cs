@@ -3,6 +3,7 @@ using UnityEngine;
 
 /// <summary>
 /// spawns a shield on a ship component
+/// Shield just spawns visualy, damage and collision is still handeled by shipcomponentcontroller
 /// </summary>
 [RequireComponent(typeof(ShipComponentController))]
 public class ShieldComponentController : BehaviourComponentControllerAbstract
@@ -26,7 +27,7 @@ public class ShieldComponentController : BehaviourComponentControllerAbstract
 
     public override void OnDeactivate()
     {
-        Debug.Log("Shield off");
+        
     }
 
     public override void OnTargetSelected(TargetingData target)
@@ -44,6 +45,8 @@ public class ShieldComponentController : BehaviourComponentControllerAbstract
 
     private void SpawnShield(ShipComponentController target)
     {
+        if (target.shield != null) return;
+
         Transform targetTransform = target.transform;
 
         float offset = 0.5f;
@@ -58,7 +61,7 @@ public class ShieldComponentController : BehaviourComponentControllerAbstract
         Shield shield = shieldObj.GetComponent<Shield>();
         shieldsUp ++;
         shield.OnShieldDestroyed.AddListener(OnShieldDestroyed);
-        shipComponentController.ActivateShield(shield);
+        target.ActivateShield(shield);
     }
 
     private void OnShieldDestroyed()

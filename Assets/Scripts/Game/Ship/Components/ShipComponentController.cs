@@ -1,11 +1,12 @@
 using System;
 using System.Runtime.CompilerServices;
+using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Serialization;
 
 /// <summary>
-/// Takes energy through the component system, makes sure it fits the batteries. Returns true false if it had enaugh
+/// main components manages, handles activation, damage and more
 /// </summary>
 public class ShipComponentController : MonoBehaviour
 {
@@ -27,7 +28,7 @@ public class ShipComponentController : MonoBehaviour
     public ShipComponentController componentPrefab; //TODO, might be useless delete these
     public GameObject ComponentMesh; // The child of the component, that has the mesh on it
     
-    private Shield shield;
+    public Shield shield { private set; get; }
 
     public ShipComponentMeshController shipComponentMeshController;
 
@@ -52,10 +53,15 @@ public class ShipComponentController : MonoBehaviour
 
     public void TakeDamage(int dmg)
     {
-        if(shield!=null)
+
+        if (shield != null)
         {
+            Debug.Log("Shield catched damage");
             shield.TakeDamage(dmg);
+            return;
         }
+
+        Debug.Log("No shield -> damaging HP");
 
         health -= dmg;
 
@@ -115,12 +121,15 @@ public class ShipComponentController : MonoBehaviour
 
     public void ActivateShield(Shield shield)
     {
+        Debug.Log("Shield activated");
         this.shield = shield;
         shield.OnShieldDestroyed.AddListener(ResetShield);
     }
 
     private void ResetShield()
     {
+        Debug.Log("Shield gone");
+        if (shield != null) Destroy(shield);
         this.shield = null;
     }
 

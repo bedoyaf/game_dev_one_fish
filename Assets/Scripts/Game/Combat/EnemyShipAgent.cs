@@ -18,7 +18,7 @@ public class EnemyShipAgent : MonoBehaviour
         shipController= GetComponent<ShipController>();
     }
 
-    private void GetAllImportantEnemySystems()
+    private void GetAllImportantPlayerSystems()
     {
 
     }
