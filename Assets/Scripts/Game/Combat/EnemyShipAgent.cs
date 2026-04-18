@@ -4,66 +4,134 @@ using System.Collections.Generic;
 
 public class EnemyShipAgent : MonoBehaviour
 {
+    public bool thinking = false; 
+    [SerializeField] private float actInterval = 1.0f;
+    private float nextActTime;
+
+
+
     private ShipController shipController;
+    //player
     [SerializeField] private ShipController playerShip;
 
-    private List<ShipComponentController> enemeyBatteries = new List<ShipComponentController> ();
-    private List<ShipComponentController> enemyGenerators = new List<ShipComponentController>();
-    private List<ShipComponentController> enemyShields = new List<ShipComponentController>();
-    private List<ShipComponentController> enemyGuns = new List<ShipComponentController>();
-    private ShipComponentController enemyCabin;
+    private List<ShipComponentController> batteries = new List<ShipComponentController>();
+    private List<ShipComponentController> generators = new List<ShipComponentController>();
+    private List<ShipComponentController> shields = new List<ShipComponentController>();
+    private List<ShipComponentController> missiles = new List<ShipComponentController>();
+
+    private List<ShipComponentController> playerBatteries = new List<ShipComponentController> ();
+    private List<ShipComponentController> playerGenerators = new List<ShipComponentController>();
+    private List<ShipComponentController> playerShields = new List<ShipComponentController>();
+    private List<ShipComponentController> playerMissiles = new List<ShipComponentController>();
+    private ShipComponentController playerCabin;
 
     void Start()
     {
         shipController= GetComponent<ShipController>();
     }
 
-    private void GetAllImportantPlayerSystems()
+    private void SetupAllImportantSystems()
     {
+        if(shipController == null)
+        {
+            shipController = GetComponent<ShipController>();
+        }
+        if(playerShip == null)
+        {
+            Debug.LogError("Missing player controller");
+            return;
+        }
+        batteries = Utils.ConvertBehaviourListToComponentList(shipController.componentGrid.GetComponentsOfType<BatteryComponentController>());
+        generators = Utils.ConvertBehaviourListToComponentList(shipController.componentGrid.GetComponentsOfType<GeneratorComponentController>());
+        shields = Utils.ConvertBehaviourListToComponentList(shipController.componentGrid.GetComponentsOfType<ShieldComponentController>());
+        missiles = Utils.ConvertBehaviourListToComponentList(shipController.componentGrid.GetComponentsOfType<MissileComponentController>());
 
+        playerBatteries = Utils.ConvertBehaviourListToComponentList(playerShip.componentGrid.GetComponentsOfType<BatteryComponentController>());
+        playerGenerators = Utils.ConvertBehaviourListToComponentList(playerShip.componentGrid.GetComponentsOfType<GeneratorComponentController>());
+        playerShields = Utils.ConvertBehaviourListToComponentList(playerShip.componentGrid.GetComponentsOfType<ShieldComponentController>());
+        playerMissiles = Utils.ConvertBehaviourListToComponentList(playerShip.componentGrid.GetComponentsOfType<MissileComponentController>());
+    }
+    //Missleading name, hope in future it fits better
+    public void ActivateAgent()
+    {
+        SetupAllImportantSystems();
     }
 
     void Update()
     {
-
+        if (Time.time >= nextActTime && thinking)
+        {
+            Act();
+            nextActTime = Time.time + actInterval;
+        }
     }
 
     void Act()
     {
-        var weapons = shipController.componentGrid.GetComponentsOfType<MissileComponentController>(false);
+        ActivateGenerators();
+        ActivateShields();
+        FireWeapons();
+    }
 
-        if (weapons.Count == 0)
-            return;
+    void ActivateGenerators()
+    {
+        foreach (var gen in generators)
+        {
+            var comp = gen.GetComponent<ShipComponentController>();
 
-        var weapon = weapons[0];
+            if (!comp.activated)
+            {
+                comp.AgentActivateComponent();
+            }
+        }
+    }
 
-        var target = GetWeakestEnemyComponent();
+    void ActivateShields()
+    {
+        foreach (var shield in shields)
+        {
+            var comp = shield.GetComponent<ShipComponentController>();
 
-        if (target == null)
-            return;
+            if (!comp.activated)
+            {
+                var target = GetWeakestComponent(shipController);
+                if (target.shield != null) continue;
+                comp.AgentActivateComponent( new TargetingData(target.shipComponentMeshController));
+            }
+        }
+    }
 
-        weapon.OnTargetSelected(new TargetingData(
-            target.GetComponentInChildren<ShipComponentMeshController>(),
-            Vector3.forward // Shit
-        ));
+    void FireWeapons()
+    {
+        var target = GetWeakestComponent(playerShip);
+        if (target == null) return;
+
+        foreach (var weapon in missiles)
+        {
+            weapon.AgentActivateComponent(new TargetingData(
+            target.shipComponentMeshController,
+            Vector3.forward //TODO Shit, make real aiming
+            ));
+        }
     }
 
 
-    public ShipComponentController GetRandomEnemyComponent()
+    public ShipComponentController GetRandomPlayerComponent()
     {
         var comps = playerShip.componentGrid.GetAllNonBrokenComponents();
         return comps[Random.Range(0, comps.Count)];
     }
 
-    public ShipComponentController GetWeakestEnemyComponent()
+    public ShipComponentController GetWeakestComponent(ShipController ship)
     {
-        var comps = playerShip.componentGrid.GetAllNonBrokenComponents();
+        var comps = ship.componentGrid.GetAllNonBrokenComponents();
 
         ShipComponentController weakest = null;
         float lowestHp = float.MaxValue;
 
         foreach (var comp in comps)
         {
+          //  if (comp.broken) continue;
             if (comp.health < lowestHp)
             {
                 lowestHp = comp.health;

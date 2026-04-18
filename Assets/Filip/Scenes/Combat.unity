@@ -1264,7 +1264,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7143206592012587724, guid: 9101963b760786d4783a45530197e394, type: 3}
       propertyPath: DebugTextOffset
-      value: 100
+      value: 1000
       objectReference: {fileID: 0}
     - target: {fileID: 7143206592012587724, guid: 9101963b760786d4783a45530197e394, type: 3}
       propertyPath: _componentGrid.ID
@@ -6045,6 +6045,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7437ff2ba073a24bbc13dc4700e32f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyShipAgent
+  thinking: 0
+  actInterval: 1
   playerShip: {fileID: 1455600345}
 --- !u!1001 &1683709486
 PrefabInstance:

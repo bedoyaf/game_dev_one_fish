@@ -5,7 +5,6 @@ using UnityEngine;
 /// spawns a shield on a ship component
 /// Shield just spawns visualy, damage and collision is still handeled by shipcomponentcontroller
 /// </summary>
-[RequireComponent(typeof(ShipComponentController))]
 public class ShieldComponentController : BehaviourComponentControllerAbstract
 {
     [SerializeField] GameObject shieldPrefab;
@@ -23,6 +22,11 @@ public class ShieldComponentController : BehaviourComponentControllerAbstract
      //   SpawnShield();
         MouseController.Instance.EnterTargetingMode(this);
      //   shipComponentController.DeactivateComponent();
+    }
+
+    public override void OnAgentActivate(TargetingData data)
+    {
+        OnTargetSelected(data);
     }
 
     public override void OnDeactivate()
@@ -51,9 +55,14 @@ public class ShieldComponentController : BehaviourComponentControllerAbstract
 
         float offset = 0.5f;
 
+
+        Vector3 position = new Vector3(targetTransform.position.x + offset, targetTransform.position.y + offset, targetTransform.position.z + offset);
+
+        if (!shipComponentController.shipController.playerShip) position = new Vector3(targetTransform.position.x - offset, targetTransform.position.y + offset, targetTransform.position.z + offset);
+
         GameObject shieldObj = Instantiate(
-        shieldPrefab,
-        new Vector3(targetTransform.position.x+offset, targetTransform.position.y +offset, targetTransform.position.z+offset),
+        shieldPrefab, 
+        position,
         targetTransform.rotation
         );
         shieldObj.transform.SetParent(targetTransform);

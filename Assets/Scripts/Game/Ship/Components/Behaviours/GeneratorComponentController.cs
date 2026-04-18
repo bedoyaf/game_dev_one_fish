@@ -3,7 +3,6 @@ using UnityEngine;
 /// <summary>
 /// Takes energy through the component system, makes sure it fits the batteries. Returns true false if it had enaugh
 /// </summary>
-[RequireComponent(typeof(ShipComponentController))]
 public class GeneratorComponentController : BehaviourComponentControllerAbstract
 {
     [SerializeField] private int energyStored;
@@ -16,6 +15,12 @@ public class GeneratorComponentController : BehaviourComponentControllerAbstract
     private float energyBuffer =0;
 
     public override void OnActivate()
+    {
+        RetreivePower();
+        shipComponentController.DeactivateComponent();
+    }
+
+    public override void OnAgentActivate(TargetingData data)
     {
         RetreivePower();
         shipComponentController.DeactivateComponent();

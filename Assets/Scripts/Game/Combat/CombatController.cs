@@ -9,11 +9,19 @@ public class CombatController : MonoBehaviour
 
     [SerializeField] private List<ShipData> enemyShipDesigns;
 
+
     public bool isPaused { private set; get; } = false;
     public bool combatEnded { private set; get; } = false;
 
+    private EnemyShipAgent enemyShipAgent;
+
     public void Start()
     {
+        enemyShipAgent = enemyShip.GetComponent<EnemyShipAgent>();
+        if(enemyShipAgent == null )
+        {
+            Debug.LogError("Enemy has no agent, lobotom");
+        }
         StartCombat();
     }
 
@@ -21,6 +29,7 @@ public class CombatController : MonoBehaviour
     {
         enemyShip.shipData = enemyShipDesigns[0];
         enemyShip.BuildShip();
+        enemyShipAgent.ActivateAgent();
     }
 
     public void StopGame()
@@ -63,6 +72,7 @@ public class CombatController : MonoBehaviour
         }
         else if (destroyedShip == enemyShip)
         {
+            enemyShipAgent.thinking = false;
             Debug.Log("Player won");
         }
 

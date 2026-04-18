@@ -1,5 +1,6 @@
 using System;
 using System.Runtime.CompilerServices;
+using Unity.VisualScripting;
 using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEngine;
 using UnityEngine.Events;
@@ -14,7 +15,6 @@ public class ShipComponentController : MonoBehaviour
     public int health = 10;
     public UnityEvent<ShipComponentController> OnDeath;
     public bool activated = false;
-    [SerializeField] private bool requiresPower = true;
 
     public int requiredEnergy = 0;
 
@@ -28,9 +28,11 @@ public class ShipComponentController : MonoBehaviour
     public ShipComponentController componentPrefab; //TODO, might be useless delete these
     public GameObject ComponentMesh; // The child of the component, that has the mesh on it
     
+    
     public Shield shield { private set; get; }
 
-    public ShipComponentMeshController shipComponentMeshController;
+    [HideInInspector] public ShipComponentMeshController shipComponentMeshController;
+    private ComponentCooldown cooldown;
 
     public bool broken {  get; private set; } = false;
 
@@ -38,7 +40,9 @@ public class ShipComponentController : MonoBehaviour
     {
         componentBehaviour = GetComponent<IShipComponentBehaviour>();
         if (componentBehaviour == null) Debug.LogWarning("Missing behaviour");//Make it error
+        cooldown = GetComponent<ComponentCooldown>();
     }
+
 
     // Update is called once per frame
     void Update()
@@ -74,8 +78,15 @@ public class ShipComponentController : MonoBehaviour
     public void ActivateComponent()
     {
         if(broken) return;
+        if (componentBehaviour == null) return;
 
-        if(!activated && componentBehaviour!=null)
+        if (cooldown != null && !cooldown.IsReady)
+        {
+            Debug.Log("Component is on cooldown");
+            return;
+        }
+
+        if (!activated)
         {
             if(!shipController.UseEnergy(requiredEnergy))
             {
@@ -85,6 +96,28 @@ public class ShipComponentController : MonoBehaviour
 
             activated = true;
             componentBehaviour.OnActivate();
+        }
+    }
+
+    public void AgentActivateComponent(TargetingData target = null)
+    {
+        if (broken) return;
+        if (componentBehaviour == null) return;
+
+        if (cooldown != null && !cooldown.IsReady)
+        {
+            return;
+        }
+
+        if (!activated)
+        {
+            if (!shipController.UseEnergy(requiredEnergy))
+            {
+                return;
+            }
+
+            activated = true;
+            componentBehaviour.OnAgentActivate(target);
         }
     }
 

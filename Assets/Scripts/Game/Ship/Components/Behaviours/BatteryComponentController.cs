@@ -3,7 +3,6 @@ using UnityEngine;
 /// <summary>
 /// Battery component, just stores values and has charge drain functions
 /// </summary>
-[RequireComponent(typeof(ShipComponentController))]
 public class BatteryComponentController : BehaviourComponentControllerAbstract
 {
 
@@ -11,6 +10,11 @@ public class BatteryComponentController : BehaviourComponentControllerAbstract
     public int energyMax = 10;
     private TextMesh debugText;
     public override void OnActivate()
+    {
+        shipComponentController.DeactivateComponent();
+    }
+
+    public override void OnAgentActivate(TargetingData data)
     {
         shipComponentController.DeactivateComponent();
     }

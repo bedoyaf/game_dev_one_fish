@@ -1,17 +1,28 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 
-[RequireComponent(typeof(ShipComponentController))]
+
 public class MissileComponentController : BehaviourComponentControllerAbstract 
 {
     [SerializeField] GameObject missilePrefab;
     [SerializeField] Transform missileSpawnPoint;
+
+    private void Start()
+    {
+        cooldown = GetComponent<ComponentCooldown>();
+    }
 
     public override void OnActivate()
     {
         Debug.Log("Missile ready");
 
         MouseController.Instance.EnterTargetingMode(this);
+    }
+
+    public override void OnAgentActivate(TargetingData data)
+    {
+        OnTargetSelected(data);
     }
 
     public override void OnDeactivate()
@@ -22,7 +33,7 @@ public class MissileComponentController : BehaviourComponentControllerAbstract
     public override void OnTargetSelected(TargetingData target)
     {
         var targetMesh = target.target;
-        Vector3 dir = target.direction;
+        Vector3 dir = new Vector3(target.direction.Value.x, target.direction.Value.y, target.direction.Value.z);
 
         ShipComponentController targetShipComponent = targetMesh.transform.parent.GetComponent<ShipComponentController>();
         ShipController targetShip = targetShipComponent.shipController;
@@ -95,6 +106,9 @@ public class MissileComponentController : BehaviourComponentControllerAbstract
         {
             proj.Init(shootDir);
         }
+
+
+        if(cooldown!=null) cooldown.Trigger();
     }
 }
 
