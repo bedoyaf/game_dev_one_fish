@@ -45,8 +45,9 @@ public class BatteryComponentController : BehaviourComponentControllerAbstract
 
     public int DrainEnergy(int energy)
     {
-        energyStored -= energy;
-        int remaining = -energyStored;
+        int newEnergy = energyStored - energy;
+        energyStored = Mathf.Max(0, newEnergy);
+        int remaining = -newEnergy;
         return Mathf.Max(0, remaining);
     }
 
