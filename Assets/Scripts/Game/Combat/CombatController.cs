@@ -32,6 +32,11 @@ public class CombatController : MonoBehaviour
         enemyShipAgent.ActivateAgent();
     }
 
+    private void SetupPlayerShip()
+    {
+        enemyShip.ResetShipForCombat();
+    }
+
     public void StopGame()
     {
         Time.timeScale = 0f;
@@ -53,6 +58,8 @@ public class CombatController : MonoBehaviour
 
         Debug.Log("Combat Restarted");
         GenerateEnemyShip();
+        SetupPlayerShip();
+        enemyShip.ResetShipForCombat();
         combatEnded = false;
 
         playerShip.GetMainCabin().OnDeath.RemoveAllListeners();
@@ -72,10 +79,9 @@ public class CombatController : MonoBehaviour
         }
         else if (destroyedShip == enemyShip)
         {
-            enemyShipAgent.thinking = false;
             Debug.Log("Player won");
         }
-
+        enemyShipAgent.thinking = false;
         combatEnded = true;
     }
 

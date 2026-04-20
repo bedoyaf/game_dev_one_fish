@@ -36,6 +36,8 @@ public class ShipComponentController : MonoBehaviour
 
     public bool broken {  get; private set; } = false;
 
+  //  public UnityEvent OnBroken; Ondeath preferable 
+
     void Start()
     {
         componentBehaviour = GetComponent<IShipComponentBehaviour>();
@@ -159,7 +161,7 @@ public class ShipComponentController : MonoBehaviour
         shield.OnShieldDestroyed.AddListener(ResetShield);
     }
 
-    private void ResetShield()
+    private void ResetShield(Shield shield)
     {
         Debug.Log("Shield gone");
         if (shield != null) Destroy(shield);

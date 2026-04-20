@@ -9,7 +9,7 @@ public class Shield : MonoBehaviour
     [SerializeField] private float health = 10;
     [SerializeField] private float lifeSpan = 5;
 
-    public UnityEvent OnShieldDestroyed;
+    public UnityEvent<Shield> OnShieldDestroyed;
 
     public void Start()
     {
@@ -33,6 +33,6 @@ public class Shield : MonoBehaviour
 
     private void OnDestroy()
     {
-        OnShieldDestroyed?.Invoke();
+        OnShieldDestroyed?.Invoke(this);
     }
 }

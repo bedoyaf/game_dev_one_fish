@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 /// <summary>
@@ -29,6 +30,11 @@ public class BatteryComponentController : BehaviourComponentControllerAbstract
 
     }
 
+    public override void ResetBehaviour()
+    {
+        energyStored = 0;
+    }
+
     public int Chargenergy(int energy)
     {
         energyStored += energy;
@@ -48,6 +54,7 @@ public class BatteryComponentController : BehaviourComponentControllerAbstract
 
     void Start()
     {
+        shipComponentController.OnDeath.AddListener(OnDestroyedBattery);
         CreateDebugText();
     }
 
@@ -86,5 +93,12 @@ public class BatteryComponentController : BehaviourComponentControllerAbstract
         debugText.text = $"{energyStored}/{energyMax}";
 
         debugText.transform.rotation = Camera.main.transform.rotation;
+    }
+
+    private void OnDestroyedBattery(ShipComponentController com)
+    {
+        shipController.UseEnergy(energyStored);
+        energyStored = 0;
+        UpdateDebugText();
     }
 }

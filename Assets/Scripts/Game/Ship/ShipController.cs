@@ -184,6 +184,25 @@ public class ShipController : MonoBehaviour
         return true;
     }
 
+    public void RepaireShip()
+    {
+        foreach(var component in componentGrid.GetAllComponents())
+        {
+            component.RepaireComponent();
+        }
+    }
+
+    public void ResetShipForCombat()
+    {
+        RepaireShip();
+        storedEnergy = 0;
+        var componentBehaviours = componentGrid.GetComponentsOfType<BehaviourComponentControllerAbstract>();
+        foreach(var com in componentBehaviours)
+        {
+            com.ResetBehaviour();
+        }
+    }
+
     void OnGUI()
     {
         GUIStyle style = new GUIStyle(GUI.skin.label);

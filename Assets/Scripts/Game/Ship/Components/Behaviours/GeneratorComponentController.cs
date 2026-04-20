@@ -26,6 +26,11 @@ public class GeneratorComponentController : BehaviourComponentControllerAbstract
         shipComponentController.DeactivateComponent();
     }
 
+    public override void ResetBehaviour()
+    {
+        energyStored = 0;
+    }
+
     /// <summary>
     /// Returns stored power
     /// </summary>

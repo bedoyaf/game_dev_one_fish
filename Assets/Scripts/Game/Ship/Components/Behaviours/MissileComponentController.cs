@@ -41,7 +41,7 @@ public class MissileComponentController : BehaviourComponentControllerAbstract
         if (targetShipComponent.transform.parent == transform.parent)
         {
             Debug.Log("Wrong ship");
-            OnDeactivate();
+            shipComponentController.DeactivateComponent();
             return;
         }
         Vector3 exactTargetPosition = targetShipComponent.transform.position;

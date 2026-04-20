@@ -31,4 +31,9 @@ public abstract class BehaviourComponentControllerAbstract : MonoBehaviour, IShi
     /// On targeting of another component, for components that use the mouse script and need another component to do its job
     /// </summary>
     public abstract void OnTargetSelected(TargetingData target);
+
+    public virtual void ResetBehaviour()
+    {
+
+    }
 }
