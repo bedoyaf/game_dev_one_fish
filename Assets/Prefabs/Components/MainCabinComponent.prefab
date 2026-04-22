@@ -10,7 +10,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3143172193047539597, guid: 76b53dd701359c84195162e28f3a0cbb, type: 3}
       propertyPath: m_Name
-      value: Rocket Component
+      value: MainCabinComponent
       objectReference: {fileID: 0}
     - target: {fileID: 3549073369916533152, guid: 76b53dd701359c84195162e28f3a0cbb, type: 3}
       propertyPath: m_LocalPosition.x
@@ -55,22 +55,30 @@ PrefabInstance:
     - target: {fileID: 4898772173142610036, guid: 76b53dd701359c84195162e28f3a0cbb, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 50f4c7ce340d42345a63506ff4a12392, type: 2}
+      objectReference: {fileID: 2100000, guid: 4c5ffed475d86544b8d1f680eef85310, type: 2}
     - target: {fileID: 5385403880273499414, guid: 76b53dd701359c84195162e28f3a0cbb, type: 3}
       propertyPath: health
       value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 5385403880273499414, guid: 76b53dd701359c84195162e28f3a0cbb, type: 3}
-      propertyPath: requiredEnergy
-      value: 3
+      propertyPath: placementRules.Top
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5385403880273499414, guid: 76b53dd701359c84195162e28f3a0cbb, type: 3}
+      propertyPath: placementRules.Left
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5385403880273499414, guid: 76b53dd701359c84195162e28f3a0cbb, type: 3}
       propertyPath: placementRules.Right
-      value: 10
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5385403880273499414, guid: 76b53dd701359c84195162e28f3a0cbb, type: 3}
-      propertyPath: placementRules.right
-      value: 10
+      propertyPath: placementRules.solid
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5385403880273499414, guid: 76b53dd701359c84195162e28f3a0cbb, type: 3}
+      propertyPath: placementRules.Bottom
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -78,17 +86,14 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 3143172193047539597, guid: 76b53dd701359c84195162e28f3a0cbb, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 787439523021449703}
-    - targetCorrespondingSourceObject: {fileID: 3143172193047539597, guid: 76b53dd701359c84195162e28f3a0cbb, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: -6365399140400035441}
+      addedObject: {fileID: 334562515920405706}
   m_SourcePrefab: {fileID: 100100000, guid: 76b53dd701359c84195162e28f3a0cbb, type: 3}
 --- !u!1 &4601685864176397566 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3143172193047539597, guid: 76b53dd701359c84195162e28f3a0cbb, type: 3}
   m_PrefabInstance: {fileID: 1459925618552488819}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &787439523021449703
+--- !u!114 &334562515920405706
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -97,21 +102,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 4601685864176397566}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7adbfe32d0522374cbd8d6a153360739, type: 3}
+  m_Script: {fileID: 11500000, guid: daf1804bb333dd3438635152b32b15e7, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::MissileComponentController
-  missilePrefab: {fileID: 8952158175997611939, guid: d35843475d7273f478802065c18b4a25, type: 3}
-  missileSpawnPoint: {fileID: 0}
---- !u!114 &-6365399140400035441
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4601685864176397566}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ab847726f202de84f8cde2fb6905ab2a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ComponentCooldown
-  cooldownTime: 2
+  m_EditorClassIdentifier: Assembly-CSharp::MainCabinComponentController

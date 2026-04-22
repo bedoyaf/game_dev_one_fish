@@ -45,25 +45,35 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a78efac9f7c46a04db9731659d060f9b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ShipComponentController
-  health: 100
+  maxHealth: 10
+  health: 10
   OnDeath:
     m_PersistentCalls:
       m_Calls: []
   activated: 0
+  requiresPower: 1
+  requiredEnergy: 0
   placementRules:
-    Width: 1
-    Height: 1
-    Top: 0
-    Right: 0
-    Bottom: 0
-    Left: 0
+    width: 1
+    height: 1
+    solid: 0
+    top: 0
+    right: 0
+    bottom: 0
+    left: 0
     connectedTile:
       component: {fileID: 5385403880273499414}
       x: 19
       z: 9
-      placementOffset: {x: 0, y: 0}
+      offsetX: 0
+      offsetZ: 0
       blocked: -1
       isPlaceholder: 1
+      _instantiatedComponent: 0
+      isSolid: 0
+  componentPrefab: {fileID: 0}
+  ComponentMesh: {fileID: 0}
+  shipComponentMeshController: {fileID: 0}
 --- !u!1 &8104800591989940212
 GameObject:
   m_ObjectHideFlags: 0
@@ -189,4 +199,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d391792c9845d6846bd430fdc1277d84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ShipComponentCollisions
-  shipComponentController: {fileID: 0}
+  brokenColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}

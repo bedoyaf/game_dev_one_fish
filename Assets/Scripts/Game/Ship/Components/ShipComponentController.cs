@@ -1,19 +1,22 @@
 using System;
 using System.Runtime.CompilerServices;
+using Unity.VisualScripting;
+using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Serialization;
 
 /// <summary>
-/// Takes energy through the component system, makes sure it fits the batteries. Returns true false if it had enaugh
+/// main components manages, handles activation, damage and more
 /// </summary>
 public class ShipComponentController : MonoBehaviour
 {
+    public int maxHealth = 10;
     public int health = 10;
-    public UnityEvent OnDeath;
+    public UnityEvent<ShipComponentController> OnDeath;
     public bool activated = false;
-    [SerializeField] private bool requiresPower = true;
-    public bool poweredOn = false;
+
+    public int requiredEnergy = 0;
 
     private IShipComponentBehaviour componentBehaviour;
 
@@ -25,13 +28,23 @@ public class ShipComponentController : MonoBehaviour
     public ShipComponentController componentPrefab; //TODO, might be useless delete these
     public GameObject ComponentMesh; // The child of the component, that has the mesh on it
     
-    private Shield shield;
+    
+    public Shield shield { private set; get; }
+
+    [HideInInspector] public ShipComponentMeshController shipComponentMeshController;
+    private ComponentCooldown cooldown;
+
+    public bool broken {  get; private set; } = false;
+
+  //  public UnityEvent OnBroken; Ondeath preferable 
 
     void Start()
     {
         componentBehaviour = GetComponent<IShipComponentBehaviour>();
         if (componentBehaviour == null) Debug.LogWarning("Missing behaviour");//Make it error
+        cooldown = GetComponent<ComponentCooldown>();
     }
+
 
     // Update is called once per frame
     void Update()
@@ -46,10 +59,15 @@ public class ShipComponentController : MonoBehaviour
 
     public void TakeDamage(int dmg)
     {
-        if(shield!=null)
+
+        if (shield != null)
         {
+            Debug.Log("Shield catched damage");
             shield.TakeDamage(dmg);
+            return;
         }
+
+        Debug.Log("No shield -> damaging HP");
 
         health -= dmg;
 
@@ -61,10 +79,47 @@ public class ShipComponentController : MonoBehaviour
 
     public void ActivateComponent()
     {
-        if(!activated && componentBehaviour!=null)
+        if(broken) return;
+        if (componentBehaviour == null) return;
+
+        if (cooldown != null && !cooldown.IsReady)
         {
+            Debug.Log("Component is on cooldown");
+            return;
+        }
+
+        if (!activated)
+        {
+            if(!shipController.UseEnergy(requiredEnergy))
+            {
+                Debug.Log("Not enaugh energy");
+                return;
+            }
+
             activated = true;
             componentBehaviour.OnActivate();
+        }
+    }
+
+    public void AgentActivateComponent(TargetingData target = null)
+    {
+        if (broken) return;
+        if (componentBehaviour == null) return;
+
+        if (cooldown != null && !cooldown.IsReady)
+        {
+            return;
+        }
+
+        if (!activated)
+        {
+            if (!shipController.UseEnergy(requiredEnergy))
+            {
+                return;
+            }
+
+            activated = true;
+            componentBehaviour.OnAgentActivate(target);
         }
     }
 
@@ -77,24 +132,39 @@ public class ShipComponentController : MonoBehaviour
         }
     }
 
-    private void Die()
+    private void Die()//TODO MAKE BROKEN VERSION OF COMPONENT
     {
-        OnDeath?.Invoke();
+        OnDeath?.Invoke(this);
 
         // Destroys the component and works with the grid.
-        shipController.componentGrid.OnComponentDeath(placementRules.connectedTile);
-        
-        //Destroy(gameObject);
+        //shipController.componentGrid.OnComponentDeath(placementRules.connectedTile);
+        BreakComponent();
+    }
+
+    private void BreakComponent()
+    {
+        broken = true;
+        shipComponentMeshController.ChangeMeshToBroken();
+    }
+
+    public void RepaireComponent()
+    {
+        broken = false;
+        health = maxHealth;
+        shipComponentMeshController.ChangeMeshToWorking();
     }
 
     public void ActivateShield(Shield shield)
     {
+        Debug.Log("Shield activated");
         this.shield = shield;
         shield.OnShieldDestroyed.AddListener(ResetShield);
     }
 
-    private void ResetShield()
+    private void ResetShield(Shield shield)
     {
+        Debug.Log("Shield gone");
+        if (shield != null) Destroy(shield);
         this.shield = null;
     }
 

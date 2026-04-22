@@ -23,12 +23,12 @@ public class MouseController : MonoBehaviour
     Vector3.left
     };
 
-    private string[] directionNames = new string[]
+    private string[] directionNames = new string[] //switched left and right:(
     {
     "UP",
-    "RIGHT",
+    "LEFT",
     "DOWN",
-    "LEFT"
+    "RIGHT"
     };
 
     private int directionIndex = 0;

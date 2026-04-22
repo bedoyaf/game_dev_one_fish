@@ -1,16 +1,26 @@
+using NUnit.Framework;
 using UnityEngine;
+using System.Collections.Generic;
+using Unity.VisualScripting;
 
 /// <summary>
 /// spawns a shield on a ship component
+/// Shield just spawns visualy, damage and collision is still handeled by shipcomponentcontroller
 /// </summary>
-[RequireComponent(typeof(ShipComponentController))]
 public class ShieldComponentController : BehaviourComponentControllerAbstract
 {
     [SerializeField] GameObject shieldPrefab;
-    private bool shieldUp = false;
+    private int shieldsUp = 0;
+    [SerializeField] private int maxAviableShields = 2;
+    private List<Shield> shields = new List<Shield>();
+
+    public void Start()
+    {
+        cooldown = GetComponent<ComponentCooldown>();
+    }
     public override void OnActivate()
     {
-        if(shieldUp)
+        if(shieldsUp>=maxAviableShields)
         {
             Debug.Log("shield already placed");
             shipComponentController.DeactivateComponent();
@@ -22,9 +32,14 @@ public class ShieldComponentController : BehaviourComponentControllerAbstract
      //   shipComponentController.DeactivateComponent();
     }
 
+    public override void OnAgentActivate(TargetingData data)
+    {
+        OnTargetSelected(data);
+    }
+
     public override void OnDeactivate()
     {
-        Debug.Log("Shield off");
+        
     }
 
     public override void OnTargetSelected(TargetingData target)
@@ -35,32 +50,67 @@ public class ShieldComponentController : BehaviourComponentControllerAbstract
         if (targetShipComponent.transform.parent != transform.parent)
         {
             Debug.Log("Wrong ship");
+            shipComponentController.DeactivateComponent();
+            return;
         }
+        if (targetShipComponent.shield != null)
+        {
+            shipComponentController.DeactivateComponent();
+            return;
+        }
+
         SpawnShield(targetShipComponent);
         shipComponentController.DeactivateComponent();
+        if (cooldown != null) cooldown.Trigger();
     }
 
     private void SpawnShield(ShipComponentController target)
     {
+
         Transform targetTransform = target.transform;
 
         float offset = 0.5f;
 
+
+        Vector3 position = new Vector3(targetTransform.position.x + offset, targetTransform.position.y + offset, targetTransform.position.z + offset);
+
+        if (!shipComponentController.shipController.playerShip) position = new Vector3(targetTransform.position.x - offset, targetTransform.position.y + offset, targetTransform.position.z + offset);
+
         GameObject shieldObj = Instantiate(
-        shieldPrefab,
-        new Vector3(targetTransform.position.x+offset, targetTransform.position.y +offset, targetTransform.position.z+offset),
+        shieldPrefab, 
+        position,
         targetTransform.rotation
         );
         shieldObj.transform.SetParent(targetTransform);
 
         Shield shield = shieldObj.GetComponent<Shield>();
-        shieldUp = true;
+        shields.Add( shield);
+        shieldsUp ++;
         shield.OnShieldDestroyed.AddListener(OnShieldDestroyed);
-        shipComponentController.ActivateShield(shield);
+        target.ActivateShield(shield);
     }
 
-    private void OnShieldDestroyed()
+    private void OnShieldDestroyed(Shield shield)
     {
-        shieldUp = false;
+        for(int i =0; i<shields.Count; i++)
+        {
+            if (shields[i] == shield)
+            {
+                Destroy(shields[i]);
+                shields.Remove(shield);
+                break;
+            }
+        }
+        shieldsUp--;
+    }
+
+    public override void ResetBehaviour()
+    {
+        shieldsUp = 0;
+
+        foreach(var shield in shields)
+        {
+            Destroy(shield);
+        }
     }
 }

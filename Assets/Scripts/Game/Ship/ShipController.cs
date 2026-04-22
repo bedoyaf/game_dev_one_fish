@@ -8,6 +8,7 @@ using static UnityEngine.EventSystems.EventTrigger;
 
 public class ShipController : MonoBehaviour
 {
+    public bool playerShip = true;
     public ShipBuildingController shipEditor;
     public Transform componentsParent;
 
@@ -15,7 +16,7 @@ public class ShipController : MonoBehaviour
     /// <summary>
     /// The original ship data.
     /// </summary>
-    [SerializeField] private ShipData shipData;
+    [SerializeField] public ShipData shipData;
     private bool everythingSolid;
 
     /// <summary>
@@ -36,10 +37,13 @@ public class ShipController : MonoBehaviour
 
 
     //Combat
+    //Projectile spawnpoints
     public Transform LeftProjectileSpawn;
     public Transform RightProjectileSpawn;
     public Transform UpProjectileSpawn;
     public Transform DownProjectileSpawn;
+
+    public float DebugTextOffset = 0;
 
 
     private void Start() {
@@ -56,6 +60,8 @@ public class ShipController : MonoBehaviour
         if (shipData == null) return;
         DeconstructShip();
         componentGrid = shipData.BuildShip(componentsParent);
+
+        AssignShipController();
 
         // Needs to be here for Unity to save the ship
         #if UNITY_EDITOR
@@ -102,21 +108,37 @@ public class ShipController : MonoBehaviour
         shipEditor.RemoveBuilderConnection();
     }
 
+
+
+
+    public ShipComponentController GetMainCabin()
+    {
+        var maincabins = componentGrid.GetComponentsOfType<MainCabinComponentController>();
+        if(maincabins.Count != 1)
+        {
+            Debug.LogError("Wrong number of main cabings");
+        }
+        var maincabin = maincabins[0];
+
+        return maincabin.GetComponent<ShipComponentController>();
+    }
+
+
     /// <summary>
     /// Adds energy through the generator system, makes sure it fits the batteries
     /// </summary>
     public void AddEnergy(int energy)
     {
-        if(batteries.Count==0)//TODO BETTER LOADING OF BATTERIES
+        //TODO BETTER LOADING OF BATTERIES
+        
+        batteries = componentGrid.GetComponentsOfType<BatteryComponentController>(false);
+        if (batteries.Count == 0)
         {
-            batteries = componentGrid.GetSpecificComponentType<BatteryComponentController>();
-            if (batteries.Count == 0)
-            {
-                Debug.LogError("No batteries");
-                return;
-            }
-            batteryCapacity = batteries.Count * batteries[0].energyMax;
+            Debug.LogError("No batteries");
+            return;
         }
+        batteryCapacity = batteries.Count * batteries[0].energyMax;
+        
         
         int totalEnergy = Mathf.Min(storedEnergy+energy,batteryCapacity);
         int remaining = totalEnergy-storedEnergy;
@@ -126,6 +148,7 @@ public class ShipController : MonoBehaviour
             remaining = component.Chargenergy(remaining);
         }
         storedEnergy = totalEnergy;
+        Debug.Log("energy" + totalEnergy);
     }
 
     /// <summary>
@@ -135,7 +158,7 @@ public class ShipController : MonoBehaviour
     {
         if (batteries.Count == 0)//TODO BETTER LOADING OF BATTERIES
         {
-            batteries = componentGrid.GetSpecificComponentType<BatteryComponentController>();
+            batteries = componentGrid.GetComponentsOfType<BatteryComponentController>();
             if(batteries.Count == 0) 
             {
                 Debug.LogError("No batteries");
@@ -161,13 +184,32 @@ public class ShipController : MonoBehaviour
         return true;
     }
 
+    public void RepaireShip()
+    {
+        foreach(var component in componentGrid.GetAllComponents())
+        {
+            component.RepaireComponent();
+        }
+    }
+
+    public void ResetShipForCombat()
+    {
+        RepaireShip();
+        storedEnergy = 0;
+        var componentBehaviours = componentGrid.GetComponentsOfType<BehaviourComponentControllerAbstract>();
+        foreach(var com in componentBehaviours)
+        {
+            com.ResetBehaviour();
+        }
+    }
+
     void OnGUI()
     {
         GUIStyle style = new GUIStyle(GUI.skin.label);
         style.fontSize = 24;
         style.normal.textColor = Color.white;
         style.fontStyle = FontStyle.Bold;
-        GUI.Label(new Rect(10, 10, 300, 40), $" {storedEnergy} / {batteryCapacity}", style);
+        GUI.Label(new Rect(10+DebugTextOffset, 10, 300, 40), $" {storedEnergy} / {batteryCapacity}", style);
     }
 }
 

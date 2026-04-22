@@ -3,22 +3,32 @@ using UnityEngine;
 /// <summary>
 /// Takes energy through the component system, makes sure it fits the batteries. Returns true false if it had enaugh
 /// </summary>
-[RequireComponent(typeof(ShipComponentController))]
 public class GeneratorComponentController : BehaviourComponentControllerAbstract
 {
     [SerializeField] private int energyStored;
     [SerializeField] private int energyMax;
 
-    [SerializeField] private float energyPerSecond = 0.5f;
+    [SerializeField] private float energyPerSecond = 0.7f;
 
     private TextMesh debugText;
 
-    private float energyBuffer;
+    private float energyBuffer =0;
 
     public override void OnActivate()
     {
         RetreivePower();
         shipComponentController.DeactivateComponent();
+    }
+
+    public override void OnAgentActivate(TargetingData data)
+    {
+        RetreivePower();
+        shipComponentController.DeactivateComponent();
+    }
+
+    public override void ResetBehaviour()
+    {
+        energyStored = 0;
     }
 
     /// <summary>
@@ -52,13 +62,12 @@ public class GeneratorComponentController : BehaviourComponentControllerAbstract
 
         energyBuffer += energyPerSecond * Time.deltaTime;
 
-        if (energyBuffer >= 1f)
+        while (energyBuffer >= 1f)
         {
-            int amount = Mathf.FloorToInt(energyBuffer);
-            energyBuffer -= amount;
+            energyBuffer -= 1f;
 
-            energyStored += amount;
-            energyStored = Mathf.Clamp(energyStored, 0, energyMax);
+            energyStored++;
+            energyStored = Mathf.Min(energyStored, energyMax);
         }
     }
 

@@ -3,10 +3,13 @@ using UnityEngine;
 /// <summary>
 /// Abstract class for different component behaviours such as missiles, generators and more
 /// </summary>
+[RequireComponent(typeof(ShipComponentController))]
 public abstract class BehaviourComponentControllerAbstract : MonoBehaviour, IShipComponentBehaviour
 {
     protected ShipController shipController;
-    protected ShipComponentController shipComponentController;
+    public ShipComponentController shipComponentController;
+
+    protected ComponentCooldown cooldown;
 
     public void Awake()
     {
@@ -17,6 +20,9 @@ public abstract class BehaviourComponentControllerAbstract : MonoBehaviour, IShi
     /// Component activation
     /// </summary>
     public abstract void OnActivate();
+
+    public abstract void OnAgentActivate(TargetingData target); //TODO might be worth considering implementing default function that just deactivates
+
     /// <summary>
     /// component deactivation
     /// </summary>
@@ -25,4 +31,9 @@ public abstract class BehaviourComponentControllerAbstract : MonoBehaviour, IShi
     /// On targeting of another component, for components that use the mouse script and need another component to do its job
     /// </summary>
     public abstract void OnTargetSelected(TargetingData target);
+
+    public virtual void ResetBehaviour()
+    {
+
+    }
 }

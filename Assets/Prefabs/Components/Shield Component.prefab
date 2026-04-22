@@ -56,6 +56,14 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 4d893fbd8d074ae488847076555d44bd, type: 2}
+    - target: {fileID: 5385403880273499414, guid: 76b53dd701359c84195162e28f3a0cbb, type: 3}
+      propertyPath: health
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5385403880273499414, guid: 76b53dd701359c84195162e28f3a0cbb, type: 3}
+      propertyPath: requiredEnergy
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -63,6 +71,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 3143172193047539597, guid: 76b53dd701359c84195162e28f3a0cbb, type: 3}
       insertIndex: -1
       addedObject: {fileID: 628431308385596559}
+    - targetCorrespondingSourceObject: {fileID: 3143172193047539597, guid: 76b53dd701359c84195162e28f3a0cbb, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3522242297305419921}
   m_SourcePrefab: {fileID: 100100000, guid: 76b53dd701359c84195162e28f3a0cbb, type: 3}
 --- !u!1 &4601685864176397566 stripped
 GameObject:
@@ -81,4 +92,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d773cd5cb0e9d1741b94650c39e285dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ShieldComponentController
+  shipComponentController: {fileID: 0}
   shieldPrefab: {fileID: 8459617928677406710, guid: 6f3b9adefba52ca40b7656dda43086b1, type: 3}
+  maxAviableShields: 3
+--- !u!114 &3522242297305419921
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4601685864176397566}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab847726f202de84f8cde2fb6905ab2a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ComponentCooldown
+  cooldownTime: 2

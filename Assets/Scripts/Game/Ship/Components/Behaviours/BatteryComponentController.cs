@@ -1,9 +1,9 @@
+using System;
 using UnityEngine;
 
 /// <summary>
 /// Battery component, just stores values and has charge drain functions
 /// </summary>
-[RequireComponent(typeof(ShipComponentController))]
 public class BatteryComponentController : BehaviourComponentControllerAbstract
 {
 
@@ -11,6 +11,11 @@ public class BatteryComponentController : BehaviourComponentControllerAbstract
     public int energyMax = 10;
     private TextMesh debugText;
     public override void OnActivate()
+    {
+        shipComponentController.DeactivateComponent();
+    }
+
+    public override void OnAgentActivate(TargetingData data)
     {
         shipComponentController.DeactivateComponent();
     }
@@ -25,6 +30,11 @@ public class BatteryComponentController : BehaviourComponentControllerAbstract
 
     }
 
+    public override void ResetBehaviour()
+    {
+        energyStored = 0;
+    }
+
     public int Chargenergy(int energy)
     {
         energyStored += energy;
@@ -35,8 +45,9 @@ public class BatteryComponentController : BehaviourComponentControllerAbstract
 
     public int DrainEnergy(int energy)
     {
-        energyStored -= energy;
-        int remaining = -energyStored;
+        int newEnergy = energyStored - energy;
+        energyStored = Mathf.Max(0, newEnergy);
+        int remaining = -newEnergy;
         return Mathf.Max(0, remaining);
     }
 
@@ -44,6 +55,7 @@ public class BatteryComponentController : BehaviourComponentControllerAbstract
 
     void Start()
     {
+        shipComponentController.OnDeath.AddListener(OnDestroyedBattery);
         CreateDebugText();
     }
 
@@ -82,5 +94,12 @@ public class BatteryComponentController : BehaviourComponentControllerAbstract
         debugText.text = $"{energyStored}/{energyMax}";
 
         debugText.transform.rotation = Camera.main.transform.rotation;
+    }
+
+    private void OnDestroyedBattery(ShipComponentController com)
+    {
+        shipController.UseEnergy(energyStored);
+        energyStored = 0;
+        UpdateDebugText();
     }
 }
