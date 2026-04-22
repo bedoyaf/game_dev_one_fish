@@ -9,19 +9,25 @@ public class ShipData : ScriptableObject {
     /// </summary>
     public ComponentGrid componentGrid {
         get {
-            // This is necessary because unity will not save the changed components otherwise :(
-#if UNITY_EDITOR
-            UnityEditor.EditorUtility.SetDirty(this);
-#endif
+            this.SaveScene();
             return _componentGrid;
         }
         set {
             _componentGrid = value;
-#if UNITY_EDITOR
-            UnityEditor.EditorUtility.SetDirty(this);
-#endif
+            this.SaveScene();
         }
     }
+
+    /// <summary>
+    /// Should the drops be automatically updated to all components on the ship after any change?
+    /// </summary>
+    [SerializeField] private bool autoUpdateDrops = true;
+
+    /// <summary>
+    /// What can drop from the ship
+    /// Disable <see cref="autoUpdateDrops"/> if you want to set this manually
+    /// </summary>
+    public List<ShipComponentController> possibleDrops;
 
     [SerializeField]
     private ComponentGrid _componentGrid;
@@ -32,10 +38,10 @@ public class ShipData : ScriptableObject {
     /// <returns></returns>
     public ComponentGridTile this[int z, int x] {
         get {
-            return componentGrid[z, x];
+            return _componentGrid[z, x];
         }
         set {
-            componentGrid[z, x] = value;
+            _componentGrid[z, x] = value;
         }
     }
 
@@ -46,15 +52,28 @@ public class ShipData : ScriptableObject {
     /// <param name="componentParent"></param>
     /// <returns>The component grid.</returns>
     public ComponentGrid BuildShip(Transform componentParent) {
-        var shipGrid = new ComponentGrid(componentGrid.width, componentGrid.height, componentGrid.placeholderPrefab, false, componentParent);
-        componentGrid.CopyComponentGrid(shipGrid);
+        var shipGrid = new ComponentGrid(_componentGrid.width, _componentGrid.height, _componentGrid.placeholderPrefab, false, componentParent);
+        _componentGrid.CopyComponentGrid(shipGrid);
 
         // If someone forgets to make a solid component
-        if (!componentGrid.ContainsSolid()) {
+        if (!_componentGrid.ContainsSolid()) {
             shipGrid.SetEverythingSolid();
         }
 
+        UpdatePossibleDrops();
+        this.SaveScene();
+
         return shipGrid;
+    }
+
+    /// <summary>
+    /// Auto update what can drop from the ship after it has been accessed
+    /// </summary>
+    public void UpdatePossibleDrops() {
+        if (!autoUpdateDrops || _componentGrid == null) return;
+
+        possibleDrops = _componentGrid.GetAllUniqueComponentPrefabs();
+        this.SaveScene();
     }
 
 
@@ -96,3 +115,13 @@ public class ShipData : ScriptableObject {
     //    }
 
 }
+
+
+public static class EditorHelper {
+    public static void SaveScene(this Object a) {
+#if UNITY_EDITOR
+        UnityEditor.EditorUtility.SetDirty(a);
+#endif
+    }
+}
+

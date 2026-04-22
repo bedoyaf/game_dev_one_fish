@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Linq;
 using System.Security.Cryptography;
 using Unity.VisualScripting;
 using UnityEditor;
@@ -368,6 +369,21 @@ public class ComponentGrid {
         }
 
         return components;
+    }
+
+    /// <summary>
+    /// Gets all unique (meaning different prefabs) components that are stored in the grid.
+    /// </summary>
+    /// <returns></returns>
+    public List<ShipComponentController> GetAllUniqueComponentPrefabs() {
+        HashSet<ShipComponentController> components = new();
+        foreach (var tile in tiles) {
+            if (tile.isPlaceholder || tile.hasOffset) continue;
+
+            components.Add(tile.component.componentPrefab);
+        }
+
+        return components.ToList();
     }
 
     /// <summary>

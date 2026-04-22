@@ -319,6 +319,12 @@ public class ShipBuildingController : MonoBehaviour
         componentGrid.SetPlaceholderVisibility(placeholdersVisible);
     }
 
+    private void OnDestroy() {
+        if (shipData != null) {
+            shipData.UpdatePossibleDrops();
+        }
+    }
+
     public enum BuilderMode {
         Editor,
         Player,

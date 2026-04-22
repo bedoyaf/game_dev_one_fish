@@ -7,6 +7,10 @@ public class ShipDataEditor : Editor {
         base.OnInspectorGUI();
         ShipData data = target as ShipData;
 
+        if (GUILayout.Button("Auto assign drops")) {
+            data.UpdatePossibleDrops();
+        }
+
         if (GUILayout.Button("Reset")) {
             data.componentGrid = null;
         }
