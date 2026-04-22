@@ -6,6 +6,9 @@ public class EnemyShipAgent : MonoBehaviour
 {
     public bool thinking = false; 
     [SerializeField] private float actInterval = 1.0f;
+
+    // How long does it take to complete one action (eg. to click a generator)
+    [SerializeField] private float actActionDuraction = 0.01f;
     private float nextActTime;
 
 
@@ -56,6 +59,9 @@ public class EnemyShipAgent : MonoBehaviour
     {
         SetupAllImportantSystems();
     }
+
+
+
 
     void Update()
     {
@@ -114,6 +120,9 @@ public class EnemyShipAgent : MonoBehaviour
             ));
         }
     }
+
+
+
 
 
     public ShipComponentController GetRandomPlayerComponent()

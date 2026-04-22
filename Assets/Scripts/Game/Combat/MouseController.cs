@@ -13,14 +13,14 @@ public class MouseController : MonoBehaviour
     private IShipComponentBehaviour activeComponent;
 
     //Directional targeting
-    private Vector3 currentDirection = Vector3.up;
+    private Vector3 currentDirection = Vector3.right;
 
     private Vector3[] directions = new Vector3[]
     {
     Vector3.up,
     Vector3.right,
     Vector3.down,
-    Vector3.left
+    //Vector3.left
     };
 
     private string[] directionNames = new string[] //switched left and right:(
@@ -28,7 +28,7 @@ public class MouseController : MonoBehaviour
     "UP",
     "LEFT",
     "DOWN",
-    "RIGHT"
+    //"RIGHT"
     };
 
     private int directionIndex = 0;
@@ -132,6 +132,18 @@ public class MouseController : MonoBehaviour
 
 
     //Directional shit
+
+    private void Update()
+    {
+        // When scrolling -> cycle through attack direction
+        float scroll = Mouse.current.scroll.ReadValue().y;
+
+        if(scroll != 0)
+        {
+            CycleDirection((int) scroll);
+        }
+    }
+
     void OnGUI()
     {
         GUIStyle style = new GUIStyle(GUI.skin.button);
@@ -143,9 +155,9 @@ public class MouseController : MonoBehaviour
         }
     }
 
-    private void CycleDirection()
+    private void CycleDirection(int dir=1)
     {
-        directionIndex = (directionIndex + 1) % directions.Length;
+        directionIndex = (directions.Length + directionIndex + dir) % directions.Length;
         currentDirection = directions[directionIndex];
 
         Debug.Log("Direction set to: " + currentDirection);
