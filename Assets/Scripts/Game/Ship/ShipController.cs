@@ -31,6 +31,8 @@ public class ShipController : MonoBehaviour
 
 
     //ENERGY
+    // Can take even without batteries
+    [SerializeField] private int cabinEnergyCapacity = 1;
     public int storedEnergy = 0;
     private int batteryCapacity = 0;
     private List<BatteryComponentController> batteries = new List<BatteryComponentController>();
@@ -132,16 +134,20 @@ public class ShipController : MonoBehaviour
         //TODO BETTER LOADING OF BATTERIES
         
         batteries = componentGrid.GetComponentsOfType<BatteryComponentController>(false);
+        /* If living -> has cabin -> has at least some energy capacity
         if (batteries.Count == 0)
         {
             Debug.LogError("No batteries");
             return;
         }
-        batteryCapacity = batteries.Count * batteries[0].energyMax;
-        
-        
-        int totalEnergy = Mathf.Min(storedEnergy+energy,batteryCapacity);
+        */
+        batteryCapacity = batteries.Count == 0 ? 0 : batteries.Count * batteries[0].energyMax;
+
+
+        int totalEnergy = Mathf.Min(storedEnergy+energy, cabinEnergyCapacity + batteryCapacity);
         int remaining = totalEnergy-storedEnergy;
+
+        // NOTE: maybe want to choose which battery takes the energy
         foreach (var component in batteries)
         {
             if (remaining == 0) break;
@@ -159,12 +165,14 @@ public class ShipController : MonoBehaviour
         if (batteries.Count == 0)//TODO BETTER LOADING OF BATTERIES
         {
             batteries = componentGrid.GetComponentsOfType<BatteryComponentController>();
+            /*
             if(batteries.Count == 0) 
             {
                 Debug.LogError("No batteries");
                 return false;
             }
-            batteryCapacity = batteries.Count * batteries[0].energyMax;
+            */
+            batteryCapacity = batteries.Count == 0 ? 0 : batteries.Count * batteries[0].energyMax;
         }
         //not enough energy
         if(storedEnergy-energy<0)
@@ -209,7 +217,7 @@ public class ShipController : MonoBehaviour
         style.fontSize = 24;
         style.normal.textColor = Color.white;
         style.fontStyle = FontStyle.Bold;
-        GUI.Label(new Rect(10+DebugTextOffset, 10, 300, 40), $" {storedEnergy} / {batteryCapacity}", style);
+        GUI.Label(new Rect(10+DebugTextOffset, 10, 300, 40), $" {storedEnergy} / {cabinEnergyCapacity+batteryCapacity}", style);
     }
 }
 
