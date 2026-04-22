@@ -1,16 +1,25 @@
 using NUnit.Framework;
-using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine;
+using static Unity.Burst.Intrinsics.X86.Avx;
 
 public class EnemyShipAgent : MonoBehaviour
 {
     public bool thinking = false; 
     [SerializeField] private float actInterval = 1.0f;
+    private float nextActTime;
+
+    [SerializeField] private List<AgentBehavior> cycleBehaviors;
+    private int currentBehaviorIndex = 0;
+    private AgentBehavior CurrentBehavior => cycleBehaviors.Count > 0 ? 
+        cycleBehaviors[currentBehaviorIndex] : AgentBehavior.EnergyCollection;
+
+    // How often switch between behaviors
+    [SerializeField] private float behaviorSwitchInterval = 2.5f;
+    private float nextBehaviorSwitchTime;
 
     // How long does it take to complete one action (eg. to click a generator)
     [SerializeField] private float actActionDuraction = 0.01f;
-    private float nextActTime;
-
 
 
     private ShipController shipController;
@@ -57,26 +66,57 @@ public class EnemyShipAgent : MonoBehaviour
     //Missleading name, hope in future it fits better
     public void ActivateAgent()
     {
-        SetupAllImportantSystems();
+        SetupAllImportantSystems();        
     }
 
 
-
+    enum AgentBehavior
+    {
+        EnergyCollection,
+        Shielding,
+        Attacking
+    }
 
     void Update()
     {
+        if (Time.time >= nextBehaviorSwitchTime && thinking)
+        {
+            CycleBehavior();
+            nextBehaviorSwitchTime = Time.time + behaviorSwitchInterval;
+        }
+
         if (Time.time >= nextActTime && thinking)
         {
             Act();
-            nextActTime = Time.time + actInterval;
+            nextActTime = Time.time + actActionDuraction;
         }
+    }
+
+    void CycleBehavior()
+    {
+        currentBehaviorIndex++;
+        currentBehaviorIndex %= (int) Mathf.Max(1, cycleBehaviors.Count);
     }
 
     void Act()
     {
-        ActivateGenerators();
-        ActivateShields();
-        FireWeapons();
+        // NOTE: maybe a better way than a switch like through objects / scripts
+        //       but honestly this might be good enough
+        switch (CurrentBehavior)
+        {
+            case AgentBehavior.EnergyCollection:
+                ActivateGenerator();
+                break;
+            case AgentBehavior.Shielding:
+                ActivateShield();
+                break;
+            case AgentBehavior.Attacking:
+                FireWeapon();
+                break;
+            default:
+                break;
+        }
+
     }
 
     void ActivateGenerators()
@@ -88,6 +128,22 @@ public class EnemyShipAgent : MonoBehaviour
             if (!comp.activated)
             {
                 comp.AgentActivateComponent();
+            }
+        }
+    }
+
+    void ActivateGenerator()
+    {
+        // find the first one that can be gathered
+        // TODO: maybe some randomness / cleverness
+        foreach (var gen in generators)
+        {
+            var comp = gen.GetComponent<ShipComponentController>();
+
+            if (!comp.activated)
+            {
+                comp.AgentActivateComponent();
+                return;
             }
         }
     }
@@ -107,6 +163,23 @@ public class EnemyShipAgent : MonoBehaviour
         }
     }
 
+    void ActivateShield()
+    {
+        foreach (var shield in shields)
+        {
+            var comp = shield.GetComponent<ShipComponentController>();
+
+            // activate the first one that can be
+            if (!comp.activated)
+            {
+                var target = GetWeakestComponent(shipController);
+                if (target.shield != null) continue;
+                comp.AgentActivateComponent(new TargetingData(target.shipComponentMeshController));
+                return;
+            }
+        }
+    }
+
     void FireWeapons()
     {
         var target = GetWeakestComponent(playerShip);
@@ -121,6 +194,24 @@ public class EnemyShipAgent : MonoBehaviour
         }
     }
 
+    void FireWeapon()
+    {
+        var target = GetWeakestComponent(playerShip);
+        if (target == null) return;
+
+        foreach (var weapon in missiles)
+        {
+            if (!weapon.activated)
+            {
+                weapon.AgentActivateComponent(new TargetingData(
+                target.shipComponentMeshController,
+                Vector3.forward //TODO Shit, make real aiming
+                ));
+
+                return;
+            }
+        }
+    }
 
 
 
