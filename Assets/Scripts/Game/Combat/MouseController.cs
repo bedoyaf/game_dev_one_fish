@@ -133,6 +133,7 @@ public class MouseController : MonoBehaviour
 
 
     //Directional shit
+    private Coroutine mouseSwitch = null;
 
     private void Update()
     {
@@ -143,7 +144,9 @@ public class MouseController : MonoBehaviour
         {
             CycleDirection((int) scroll);
 
-            StartCoroutine(nameof(ShowMouseIcon));
+            if (mouseSwitch != null)
+                StopCoroutine(mouseSwitch);
+            mouseSwitch = StartCoroutine(nameof(ShowMouseIcon));
         }
     }
 
