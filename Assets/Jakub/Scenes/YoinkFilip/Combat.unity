@@ -4786,8 +4786,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyShipAgent
   thinking: 0
   actInterval: 1
-  actActionDuraction: 0.01
   cycleBehaviors: 0000000002000000
+  behaviorSwitchInterval: 2.5
+  actActionDuraction: 0.01
   playerShip: {fileID: 1455600345}
 --- !u!114 &1742407689 stripped
 MonoBehaviour:
@@ -4834,6 +4835,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f6d131f57cc31141b1bc8cbb91a1d4c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MouseController
+  upArrow: {fileID: 2800000, guid: 80fc3d1839430404fb25f4c553667710, type: 3}
+  downArrow: {fileID: 2800000, guid: 1d311b4778a9833448b94cd7e7788f54, type: 3}
+  rightArrow: {fileID: 2800000, guid: 7dc09d4d442328e438727a76fb1be23d, type: 3}
 --- !u!4 &1751020224
 Transform:
   m_ObjectHideFlags: 0

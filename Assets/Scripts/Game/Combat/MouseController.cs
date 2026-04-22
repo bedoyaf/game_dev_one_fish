@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -141,8 +142,36 @@ public class MouseController : MonoBehaviour
         if(scroll != 0)
         {
             CycleDirection((int) scroll);
+
+            StartCoroutine(nameof(ShowMouseIcon));
         }
     }
+
+
+    public Texture2D upArrow;
+    public Texture2D downArrow;
+    public Texture2D rightArrow;
+
+
+
+    IEnumerator ShowMouseIcon()
+    {
+        Texture2D[] dirTextures = {
+            upArrow,    // "UP",
+            rightArrow, // "LEFT",
+            downArrow,  // "DOWN",
+        };
+
+        Cursor.SetCursor(dirTextures[directionIndex],
+            new Vector2(dirTextures[directionIndex].width/2,
+                        dirTextures[directionIndex].height/2), 
+            CursorMode.Auto);
+
+        yield return new WaitForSeconds(1f);
+
+        Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
+    }
+
 
     void OnGUI()
     {
