@@ -5,6 +5,7 @@ using static Unity.Burst.Intrinsics.X86.Avx;
 
 public class EnemyShipAgent : MonoBehaviour
 {
+
     public bool thinking = false; 
     [SerializeField] private float actInterval = 1.0f;
     private float nextActTime;
@@ -204,9 +205,15 @@ public class EnemyShipAgent : MonoBehaviour
             // BROKEN really important here!!!
             if (!weapon.broken && !weapon.activated)
             {
+
+                // pick a random direction
+                var dir = MouseController.ENEMY_DIRECTIONS[Random.Range(0, 2)];
+
+                dir = MouseController.ENEMY_DIRECTIONS[0];
+
                 weapon.AgentActivateComponent(new TargetingData(
                 target.shipComponentMeshController,
-                Vector3.forward //TODO Shit, make real aiming
+                dir
                 ));
 
                 return;

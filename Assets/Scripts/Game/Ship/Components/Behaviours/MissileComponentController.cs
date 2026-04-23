@@ -26,8 +26,6 @@ public class MissileComponentController : BehaviourComponentControllerAbstract
 
     public override void OnAgentActivate(TargetingData data)
     {
-        Debug.Log($"REALLY trying to FIRE");
-
         OnTargetSelected(data);
     }
 
@@ -38,8 +36,6 @@ public class MissileComponentController : BehaviourComponentControllerAbstract
 
     public override void OnTargetSelected(TargetingData target)
     {
-        Debug.Log($"FIRE");
-
         var targetMesh = target.target;
         Vector3 dir = new Vector3(target.direction.Value.x, target.direction.Value.y, target.direction.Value.z);
 
@@ -52,7 +48,8 @@ public class MissileComponentController : BehaviourComponentControllerAbstract
             shipComponentController.DeactivateComponent();
             return;
         }
-        Vector3 exactTargetPosition = targetShipComponent.transform.position;
+        Vector3 exactTargetPosition = targetShipComponent.transform.position + targetShipComponent.transform.right * 0.5f;
+            // + targetShipComponent.gameObject.transform.parent.gameObject.transform.parent.gameObject.transform.localScale.x * new Vector3(0.5f, 0.0f, 0.5f);
         Shoot(targetShip, dir, exactTargetPosition);
 
         shipComponentController.DeactivateComponent();
@@ -64,41 +61,38 @@ public class MissileComponentController : BehaviourComponentControllerAbstract
         float dotUp = Vector3.Dot(dir, Vector3.up);
         float dotRight = Vector3.Dot(dir, Vector3.right);
 
-        Transform spawnPoint;
+        Vector3 spawnPoint;
         Vector3 spawnPos;
         Vector3 shootDir;
-
-        //offset due to targeting issues the colider not being perfectly on the spot
-        float offset = 0.5f;
 
         if (Mathf.Abs(dotUp) > Mathf.Abs(dotRight))
         {
             if (dotUp > 0)
             {
-                spawnPoint = targetShip.UpProjectileSpawn;
+                spawnPoint = targetShip.missileSpawnPoints.GetWorldTop;
                 shootDir = new Vector3(0,0,-1);
             }
             else
             {
-                spawnPoint = targetShip.DownProjectileSpawn;
+                spawnPoint = targetShip.missileSpawnPoints.GetWorldBottom;
                 shootDir = new Vector3(0, 0, 1);
             }
 
-            spawnPos = new Vector3(targetPos.x-offset, 0+offset, spawnPoint.position.z);
+            spawnPos = new Vector3(targetPos.x, 0.5f, spawnPoint.z);
         }
         else
         {
             if (dotRight < 0)
             {
-                spawnPoint = targetShip.RightProjectileSpawn;
+                spawnPoint = targetShip.missileSpawnPoints.GetWorldRight;
                 shootDir = new Vector3(-1, 0, 0);
             }
             else
             {
-                spawnPoint = targetShip.LeftProjectileSpawn;
+                spawnPoint = targetShip.missileSpawnPoints.GetWorldLeft;
                 shootDir = new Vector3(1, 0, 0);
             }
-            spawnPos = new Vector3(spawnPoint.position.x, 0+offset, targetPos.z+offset);
+            spawnPos = new Vector3(spawnPoint.x, 0.5f, targetPos.z+0.5f);
         }
 
         if (cooldown != null) cooldown.Trigger();

@@ -16,10 +16,18 @@ public class MouseController : MonoBehaviour
     //Directional targeting
     private Vector3 currentDirection = Vector3.right;
 
-    private Vector3[] directions = new Vector3[]
+    public static Vector3[] DIRECTIONS = new Vector3[]
     {
     Vector3.up,
     Vector3.right,
+    Vector3.down,
+    //Vector3.left
+    };
+
+    public static Vector3[] ENEMY_DIRECTIONS = new Vector3[]
+    {
+    Vector3.up,
+    Vector3.left,
     Vector3.down,
     //Vector3.left
     };
@@ -32,7 +40,7 @@ public class MouseController : MonoBehaviour
     //"RIGHT"
     };
 
-    private int directionIndex = 0;
+    private int directionIndex = 1;
 
     void Awake()
     {
@@ -189,7 +197,7 @@ public class MouseController : MonoBehaviour
 
     private void CycleDirection(int dir=1)
     {
-        directionIndex = (directions.Length + directionIndex + dir) % directions.Length;
-        currentDirection = directions[directionIndex];
+        directionIndex = (DIRECTIONS.Length + directionIndex + dir) % DIRECTIONS.Length;
+        currentDirection = DIRECTIONS[directionIndex];
     }
 }

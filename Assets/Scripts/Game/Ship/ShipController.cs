@@ -40,10 +40,7 @@ public class ShipController : MonoBehaviour
 
     //Combat
     //Projectile spawnpoints
-    public Transform LeftProjectileSpawn;
-    public Transform RightProjectileSpawn;
-    public Transform UpProjectileSpawn;
-    public Transform DownProjectileSpawn;
+    public MissileSpawning missileSpawnPoints;
 
     public float DebugTextOffset = 0;
 
@@ -61,7 +58,32 @@ public class ShipController : MonoBehaviour
         Debug.Log("Build ship called");
         if (shipData == null) return;
         DeconstructShip();
+        
+        // If not player => enemy
+        // Rotate by 180 °, then set scale on all !!meshes!! to x = -1
+        if (!playerShip)
+        {
+            // NOTE: rotating the components parent to avoid issues with targeting
+            componentsParent.rotation = Quaternion.Euler(180, 180, 0);
+
+            var oldPos = componentsParent.transform.position;
+            componentsParent.transform.position = new Vector3(oldPos.x, 0, oldPos.z);
+        }
+
         componentGrid = shipData.BuildShip(componentsParent);
+
+        // NOTE: meshes after the grid !!!
+        if(!playerShip)
+        {
+            foreach (var mesh in componentsParent.GetComponentsInChildren<MeshRenderer>())
+            {
+                var oldScale = mesh.gameObject.transform.localScale;
+                mesh.gameObject.transform.localScale = new Vector3(oldScale.x, oldScale.y, -1);
+            }
+
+            var oldPos = componentsParent.transform.position;
+            componentsParent.transform.position = new Vector3(oldPos.x, 1, oldPos.z);
+        }
 
         AssignShipController();
 
