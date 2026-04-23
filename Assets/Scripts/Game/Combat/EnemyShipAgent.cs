@@ -1,5 +1,6 @@
 using NUnit.Framework;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using static Unity.Burst.Intrinsics.X86.Avx;
 
@@ -37,6 +38,7 @@ public class EnemyShipAgent : MonoBehaviour
     private List<ShipComponentController> playerShields = new List<ShipComponentController>();
     private List<ShipComponentController> playerMissiles = new List<ShipComponentController>();
     private ShipComponentController playerCabin;
+    private ShipComponentController ownCabin;
 
     void Start()
     {
@@ -59,10 +61,18 @@ public class EnemyShipAgent : MonoBehaviour
         shields = Utils.ConvertBehaviourListToComponentList(shipController.componentGrid.GetComponentsOfType<ShieldComponentController>());
         missiles = Utils.ConvertBehaviourListToComponentList(shipController.componentGrid.GetComponentsOfType<MissileComponentController>());
 
+        // Assume cabin always exists (kinda has to)
+        ownCabin = Utils.ConvertBehaviourListToComponentList(shipController.componentGrid.GetComponentsOfType<MainCabinComponentController>())[0];
+
+
         playerBatteries = Utils.ConvertBehaviourListToComponentList(playerShip.componentGrid.GetComponentsOfType<BatteryComponentController>());
         playerGenerators = Utils.ConvertBehaviourListToComponentList(playerShip.componentGrid.GetComponentsOfType<GeneratorComponentController>());
         playerShields = Utils.ConvertBehaviourListToComponentList(playerShip.componentGrid.GetComponentsOfType<ShieldComponentController>());
         playerMissiles = Utils.ConvertBehaviourListToComponentList(playerShip.componentGrid.GetComponentsOfType<MissileComponentController>());
+
+        // Assume cabin always exists (kinda has to)
+        playerCabin = Utils.ConvertBehaviourListToComponentList(playerShip.componentGrid.GetComponentsOfType<MainCabinComponentController>())[0];
+
     }
     //Missleading name, hope in future it fits better
     public void ActivateAgent()
@@ -75,7 +85,10 @@ public class EnemyShipAgent : MonoBehaviour
     {
         EnergyCollection,
         Shielding,
-        Attacking
+        Attacking,
+
+        ShieldCabin,
+        AttackCabin
     }
 
     void Update()
@@ -113,6 +126,12 @@ public class EnemyShipAgent : MonoBehaviour
                 break;
             case AgentBehavior.Attacking:
                 FireWeapon();
+                break;
+            case AgentBehavior.ShieldCabin:
+                ActivateShieldCabin();
+                break;
+            case AgentBehavior.AttackCabin:
+                FireWeaponAtCabin();
                 break;
             default:
                 break;
@@ -164,6 +183,22 @@ public class EnemyShipAgent : MonoBehaviour
         }
     }
 
+    void ActivateShieldCabin()
+    {
+        // just put all shields on own cabin
+        foreach (var shield in shields)
+        {
+            var comp = shield.GetComponent<ShipComponentController>();
+
+            if (!comp.broken && !comp.activated)
+            {
+                var target = ownCabin;
+                if (target.shield != null) continue;
+                comp.AgentActivateComponent(new TargetingData(target.shipComponentMeshController));
+            }
+        }
+    }
+
     void ActivateShield()
     {
         foreach (var shield in shields)
@@ -209,7 +244,8 @@ public class EnemyShipAgent : MonoBehaviour
                 // pick a random direction
                 var dir = MouseController.ENEMY_DIRECTIONS[Random.Range(0, 2)];
 
-                dir = MouseController.ENEMY_DIRECTIONS[0];
+                // Hard put one direction for testing
+                // dir = MouseController.ENEMY_DIRECTIONS[0];
 
                 weapon.AgentActivateComponent(new TargetingData(
                 target.shipComponentMeshController,
@@ -222,7 +258,32 @@ public class EnemyShipAgent : MonoBehaviour
     }
 
 
+    void FireWeaponAtCabin()
+    {
+        var target = playerCabin;
+        if (target == null) return;
 
+        foreach (var weapon in missiles)
+        {
+            // BROKEN really important here!!!
+            if (!weapon.broken && !weapon.activated)
+            {
+
+                // pick a random direction
+                var dir = MouseController.ENEMY_DIRECTIONS[Random.Range(0, 2)];
+
+                // Hard put one direction for testing
+                // dir = MouseController.ENEMY_DIRECTIONS[0];
+
+                weapon.AgentActivateComponent(new TargetingData(
+                target.shipComponentMeshController,
+                dir
+                ));
+
+                return;
+            }
+        }
+    }
 
     public ShipComponentController GetRandomPlayerComponent()
     {
