@@ -140,7 +140,7 @@ public class EnemyShipAgent : MonoBehaviour
         {
             var comp = gen.GetComponent<ShipComponentController>();
 
-            if (!comp.activated)
+            if (!comp.broken && !comp.activated)
             {
                 comp.AgentActivateComponent();
                 return;
@@ -170,7 +170,7 @@ public class EnemyShipAgent : MonoBehaviour
             var comp = shield.GetComponent<ShipComponentController>();
 
             // activate the first one that can be
-            if (!comp.activated)
+            if (!comp.broken && !comp.activated)
             {
                 var target = GetWeakestComponent(shipController);
                 if (target.shield != null) continue;
@@ -201,7 +201,8 @@ public class EnemyShipAgent : MonoBehaviour
 
         foreach (var weapon in missiles)
         {
-            if (!weapon.activated)
+            // BROKEN really important here!!!
+            if (!weapon.broken && !weapon.activated)
             {
                 weapon.AgentActivateComponent(new TargetingData(
                 target.shipComponentMeshController,

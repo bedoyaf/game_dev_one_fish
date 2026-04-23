@@ -191,7 +191,5 @@ public class MouseController : MonoBehaviour
     {
         directionIndex = (directions.Length + directionIndex + dir) % directions.Length;
         currentDirection = directions[directionIndex];
-
-        Debug.Log("Direction set to: " + currentDirection);
     }
 }

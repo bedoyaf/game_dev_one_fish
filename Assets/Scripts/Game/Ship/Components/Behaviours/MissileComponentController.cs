@@ -1,3 +1,4 @@
+using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -7,6 +8,9 @@ public class MissileComponentController : BehaviourComponentControllerAbstract
 {
     [SerializeField] GameObject missilePrefab;
     [SerializeField] Transform missileSpawnPoint;
+
+    // How long, before the actual missile is spawned (the visual takes this long)
+    [SerializeField] private float missileTravelTime;
 
     private void Start()
     {
@@ -22,6 +26,8 @@ public class MissileComponentController : BehaviourComponentControllerAbstract
 
     public override void OnAgentActivate(TargetingData data)
     {
+        Debug.Log($"REALLY trying to FIRE");
+
         OnTargetSelected(data);
     }
 
@@ -32,6 +38,8 @@ public class MissileComponentController : BehaviourComponentControllerAbstract
 
     public override void OnTargetSelected(TargetingData target)
     {
+        Debug.Log($"FIRE");
+
         var targetMesh = target.target;
         Vector3 dir = new Vector3(target.direction.Value.x, target.direction.Value.y, target.direction.Value.z);
 
@@ -93,6 +101,34 @@ public class MissileComponentController : BehaviourComponentControllerAbstract
             spawnPos = new Vector3(spawnPoint.position.x, 0+offset, targetPos.z+offset);
         }
 
+        if (cooldown != null) cooldown.Trigger();
+
+        // Spawn the visual immediately, the rocket only after a delay
+        // based on travel speed
+
+        SFXGameplayManager.Instance.SpawnRocket(transform.position, spawnPos, missileTravelTime);
+        StartCoroutine(SpawnRocket(spawnPos, shootDir));
+
+        /*
+        GameObject missile = Instantiate(
+            missilePrefab,
+            spawnPos,
+            Quaternion.LookRotation(shootDir)
+        );
+
+        Projectile proj = missile.GetComponent<Projectile>();
+
+        if (proj != null)
+        {
+            proj.Init(shootDir);
+        }
+        */
+
+    }
+
+    IEnumerator SpawnRocket(Vector3 spawnPos, Vector3 shootDir)
+    {
+        yield return new WaitForSeconds(missileTravelTime);
 
         GameObject missile = Instantiate(
             missilePrefab,
@@ -106,9 +142,6 @@ public class MissileComponentController : BehaviourComponentControllerAbstract
         {
             proj.Init(shootDir);
         }
-
-
-        if(cooldown!=null) cooldown.Trigger();
     }
 }
 
