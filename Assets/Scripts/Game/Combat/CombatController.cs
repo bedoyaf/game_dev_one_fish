@@ -2,7 +2,7 @@ using NUnit.Framework;
 using UnityEngine;
 using System.Collections.Generic;
 
-public class CombatController : MonoBehaviour
+public class CombatController : SmartSingleton<CombatController>
 {
     [SerializeField] private ShipController playerShip;
     [SerializeField] private ShipController enemyShip;
@@ -84,6 +84,18 @@ public class CombatController : MonoBehaviour
         enemyShipAgent.thinking = false;
         combatEnded = true;
     }
+
+    public void ComponentDestroyed(ShipComponentController component, ShipController ship)
+    {
+        if(ship == playerShip)
+        {
+            enemyShip.AddCurrency(component.destroyRevenue);
+        } else
+        {
+            playerShip.AddCurrency(component.destroyRevenue);
+        }
+    }
+
 
     void OnGUI()
     {

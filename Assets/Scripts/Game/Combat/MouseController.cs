@@ -7,6 +7,7 @@ public class MouseController : MonoBehaviour
 {
     private Camera cam;
     private InputAction clickAction;
+    private InputAction cancelAction;
 
     public static MouseController Instance { get; private set; }
 
@@ -55,6 +56,7 @@ public class MouseController : MonoBehaviour
         cam = Camera.main;
 
         clickAction = new InputAction(type: InputActionType.Button, binding: "<Mouse>/leftButton");
+        cancelAction = new InputAction(type: InputActionType.Button, binding: "<Mouse>/rightButton");
         //clickAction.performed += OnClick;
     }
 
@@ -62,11 +64,17 @@ public class MouseController : MonoBehaviour
     void OnEnable() {
         clickAction.performed += OnClick;
         clickAction.Enable();
+
+        cancelAction.performed += OnRightClick;
+        cancelAction.Enable();
     }
     void OnDisable()
     {
         clickAction.performed -= OnClick;
         clickAction.Disable();
+
+        cancelAction.performed -= OnRightClick;
+        cancelAction.Disable();
     }
 
     private void OnClick(InputAction.CallbackContext ctx)
@@ -95,6 +103,15 @@ public class MouseController : MonoBehaviour
                 HandleComponentTargetClick(target);
                 break;
         }
+    }
+    
+    private void OnRightClick(InputAction.CallbackContext ctx)
+    {
+        // if targeting -> cancel
+        if(currentMode == ClickMode.ComponentTargeting)
+        {
+            // NOT worth now, rework energy consumption on succesfull usage only if want this
+        } 
     }
 
     private void HandleDefaultClick(ShipComponentMeshController comp)

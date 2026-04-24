@@ -18,6 +18,9 @@ public class ShipComponentController : MonoBehaviour
 
     public int requiredEnergy = 0;
 
+    // how much currency added if destroyed by the player
+    public int destroyRevenue = 1;
+
     private IShipComponentBehaviour componentBehaviour;
 
     [Header("Builder stuff")]
@@ -135,6 +138,9 @@ public class ShipComponentController : MonoBehaviour
     private void Die()//TODO MAKE BROKEN VERSION OF COMPONENT
     {
         OnDeath?.Invoke(this);
+
+        // Award money 
+        CombatController.Instance.ComponentDestroyed(this, shipController);
 
         // Destroys the component and works with the grid.
         //shipController.componentGrid.OnComponentDeath(placementRules.connectedTile);
