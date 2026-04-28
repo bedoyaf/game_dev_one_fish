@@ -13,6 +13,9 @@ public class ShipComponentController : MonoBehaviour
 {
     public int maxHealth = 10;
     public int health = 10;
+
+    private int healthPerRepair = 5;
+
     public UnityEvent<ShipComponentController> OnDeath;
     public bool activated = false;
 
@@ -152,6 +155,33 @@ public class ShipComponentController : MonoBehaviour
         broken = true;
         shipComponentMeshController.ChangeMeshToBroken();
     }
+
+
+    public void RepairClick()
+    {
+        // TODO: maybe better repair cost
+        if (health != maxHealth)
+        {
+            Debug.Log("Can repair");
+            if (shipController.UseCurrency(1))
+            {
+                health = Math.Min(health + healthPerRepair, maxHealth);
+
+                if (broken)
+                {
+                    broken = false;
+                    shipComponentMeshController.ChangeMeshToWorking();
+                }
+            } else
+            {
+                Debug.Log("Can't repair, can't afford");
+            }
+        } else
+        {
+            Debug.Log("Can't repair, full health");
+        }
+    }
+
 
     public void RepaireComponent()
     {

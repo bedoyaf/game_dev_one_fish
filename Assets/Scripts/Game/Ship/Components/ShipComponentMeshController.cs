@@ -10,9 +10,15 @@ public class ShipComponentMeshController : MonoBehaviour, IDamagableCollider
     private Color originalColor;
     [SerializeField] private Color brokenColor = Color.gray;
 
+    private int deadLayer = -1;
+    private int defaultLayer = -1;
+   
     public void Awake()
     {
-        if(shipComponentController == null)
+        defaultLayer = LayerMask.NameToLayer("Default");
+        deadLayer = LayerMask.NameToLayer("DeadComponent");
+
+        if (shipComponentController == null)
         {
             shipComponentController = GetComponentInParent<ShipComponentController>();
             shipComponentController.shipComponentMeshController = this;
@@ -37,9 +43,21 @@ public class ShipComponentMeshController : MonoBehaviour, IDamagableCollider
         }
     }
 
+    public void OnRepairClick()
+    {
+        if (!shipComponentController.shipController.playerShip) return;
+        Debug.Log("Component has been clicked, to repair:" + shipComponentController.health.ToString());
+
+        shipComponentController.RepairClick();
+    }
+
+    
+
     public void ChangeMeshToBroken()
     {
-        meshCollider.enabled = false;
+        // meshCollider.enabled = false;
+        gameObject.layer = deadLayer;
+        
         if (meshRenderer != null)
         {
             meshRenderer.material.color = brokenColor;
@@ -48,7 +66,8 @@ public class ShipComponentMeshController : MonoBehaviour, IDamagableCollider
 
     public void ChangeMeshToWorking()
     {
-        meshCollider.enabled = true;
+        // meshCollider.enabled = true;
+        gameObject.layer = defaultLayer;
 
         if (meshRenderer != null)
         {

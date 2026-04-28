@@ -85,6 +85,20 @@ public class CombatController : SmartSingleton<CombatController>
         combatEnded = true;
     }
 
+
+    private bool repairing = false;
+    public void StartRepairs()
+    {
+        repairing = true;
+        MouseController.Instance.EnterRepairsMode();
+    }
+
+    public void StopRepairs()
+    {
+        repairing = false;
+        MouseController.Instance.ExitRepairsMode();
+    }
+
     public void ComponentDestroyed(ShipComponentController component, ShipController ship)
     {
         if(ship == playerShip)
@@ -114,9 +128,23 @@ public class CombatController : SmartSingleton<CombatController>
 
         if (combatEnded)
         {
-            if (GUI.Button(new Rect(400, 400, 150, 40), "RESTART", style))
+            if (GUI.Button(new Rect(500, 400, 150, 40), "RESTART", style))
             {
                 StartCombat();
+            }
+
+            if (!repairing)
+            {
+                if (GUI.Button(new Rect(500, 350, 150, 40), "BEGIN REPAIR", style))
+                {
+                    StartRepairs();
+                }
+            } else
+            {
+                if (GUI.Button(new Rect(500, 350, 150, 40), "STOP REPAIR", style))
+                {
+                    StopRepairs();
+                }
             }
         }
     }

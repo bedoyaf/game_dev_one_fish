@@ -4478,7 +4478,11 @@ PrefabInstance:
       value: 0.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 496845595824944047, guid: 9101963b760786d4783a45530197e394, type: 3}
+    - {fileID: 1792416532267101752, guid: 9101963b760786d4783a45530197e394, type: 3}
+    - {fileID: 4741798162315913299, guid: 9101963b760786d4783a45530197e394, type: 3}
+    - {fileID: 6072733376409516627, guid: 9101963b760786d4783a45530197e394, type: 3}
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 8304951664254679413, guid: 9101963b760786d4783a45530197e394, type: 3}
       insertIndex: -1
@@ -4555,6 +4559,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbac4628ead204248b8b1c74e046997a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CombatController
+  _persistent: 0
   playerShip: {fileID: 1455600345}
   enemyShip: {fileID: 1650577428}
   enemyShipDesigns:
@@ -4855,7 +4860,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyShipAgent
   thinking: 0
   actInterval: 2
-  cycleBehaviors: 000000000000000004000000
+  cycleBehaviors: 00000000000000000400000002000000
   behaviorSwitchInterval: 3.5
   actActionDuraction: 0.2
   playerShip: {fileID: 1455600345}
@@ -5021,6 +5026,7 @@ MonoBehaviour:
   upArrow: {fileID: 2800000, guid: 1d311b4778a9833448b94cd7e7788f54, type: 3}
   downArrow: {fileID: 2800000, guid: 80fc3d1839430404fb25f4c553667710, type: 3}
   rightArrow: {fileID: 2800000, guid: 7dc09d4d442328e438727a76fb1be23d, type: 3}
+  repairIcon: {fileID: 2800000, guid: 9639521f5f75215478ed67a9d6916e4c, type: 3}
 --- !u!4 &1751020224
 Transform:
   m_ObjectHideFlags: 0
@@ -8898,7 +8904,11 @@ PrefabInstance:
       value: 0.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 496845595824944047, guid: 9101963b760786d4783a45530197e394, type: 3}
+    - {fileID: 1792416532267101752, guid: 9101963b760786d4783a45530197e394, type: 3}
+    - {fileID: 4741798162315913299, guid: 9101963b760786d4783a45530197e394, type: 3}
+    - {fileID: 6072733376409516627, guid: 9101963b760786d4783a45530197e394, type: 3}
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 8304951664254679413, guid: 9101963b760786d4783a45530197e394, type: 3}
       insertIndex: -1

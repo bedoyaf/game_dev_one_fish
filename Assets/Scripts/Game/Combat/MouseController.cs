@@ -102,7 +102,33 @@ public class MouseController : MonoBehaviour
             case ClickMode.ComponentTargeting:
                 HandleComponentTargetClick(target);
                 break;
+
+            case ClickMode.Repairing:
+                HandleComponentRepairClick(target);
+                break;
         }
+    }
+
+    public void EnterRepairsMode()
+    {
+        currentMode = ClickMode.Repairing;
+
+        if(activeComponent != null)
+        {
+            activeComponent.ResetBehaviour();
+            activeComponent = null;
+        }
+
+        // icon
+        if (mouseSwitch != null)
+            StopCoroutine(mouseSwitch);
+
+        Cursor.SetCursor(repairIcon, Vector2.zero, CursorMode.Auto);
+    }
+    public void ExitRepairsMode()
+    {
+        currentMode = ClickMode.Default;
+        Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
     }
     
     private void OnRightClick(InputAction.CallbackContext ctx)
@@ -129,6 +155,12 @@ public class MouseController : MonoBehaviour
         ExitTargetingMode();
     }
 
+    private void HandleComponentRepairClick(ShipComponentMeshController comp)
+    {
+        Debug.Log("Repair click: " + comp.name);
+        comp.OnRepairClick();
+    }
+
     public void EnterTargetingMode(IShipComponentBehaviour component)
     {
         activeComponent = component;
@@ -152,7 +184,8 @@ public class MouseController : MonoBehaviour
     public enum ClickMode
     {
         Default,
-        ComponentTargeting
+        ComponentTargeting,
+        Repairing
     }
 
 
@@ -179,7 +212,7 @@ public class MouseController : MonoBehaviour
     public Texture2D upArrow;
     public Texture2D downArrow;
     public Texture2D rightArrow;
-
+    public Texture2D repairIcon;
 
 
     IEnumerator ShowMouseIcon()
@@ -206,7 +239,7 @@ public class MouseController : MonoBehaviour
         GUIStyle style = new GUIStyle(GUI.skin.button);
         style.fontSize = 20;
 
-        if (GUI.Button(new Rect(10, 60, 120, 40), directionNames[directionIndex], style))
+        if (GUI.Button(new Rect(10, 80, 120, 40), directionNames[directionIndex], style))
         {
             CycleDirection();
         }

@@ -36,4 +36,5 @@ public abstract class BehaviourComponentControllerAbstract : MonoBehaviour, IShi
     {
 
     }
+
 }
