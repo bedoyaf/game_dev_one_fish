@@ -150,12 +150,18 @@ public class ShipComponentController : MonoBehaviour
         BreakComponent();
     }
 
+
     private void BreakComponent()
     {
         broken = true;
         shipComponentMeshController.ChangeMeshToBroken();
     }
 
+
+    public void RepairFromComponent()
+    {
+
+    }
 
     public void RepairClick()
     {
@@ -169,6 +175,7 @@ public class ShipComponentController : MonoBehaviour
 
                 if (broken)
                 {
+                    Debug.Log("Revive");
                     broken = false;
                     shipComponentMeshController.ChangeMeshToWorking();
                 }

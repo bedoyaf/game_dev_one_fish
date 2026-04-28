@@ -32,6 +32,7 @@ public class EnemyShipAgent : MonoBehaviour
     private List<ShipComponentController> generators = new List<ShipComponentController>();
     private List<ShipComponentController> shields = new List<ShipComponentController>();
     private List<ShipComponentController> missiles = new List<ShipComponentController>();
+    private List<ShipComponentController> repairers = new List<ShipComponentController>();
 
     private List<ShipComponentController> playerBatteries = new List<ShipComponentController> ();
     private List<ShipComponentController> playerGenerators = new List<ShipComponentController>();
@@ -60,6 +61,8 @@ public class EnemyShipAgent : MonoBehaviour
         generators = Utils.ConvertBehaviourListToComponentList(shipController.componentGrid.GetComponentsOfType<GeneratorComponentController>());
         shields = Utils.ConvertBehaviourListToComponentList(shipController.componentGrid.GetComponentsOfType<ShieldComponentController>());
         missiles = Utils.ConvertBehaviourListToComponentList(shipController.componentGrid.GetComponentsOfType<MissileComponentController>());
+        repairers = Utils.ConvertBehaviourListToComponentList(shipController.componentGrid.GetComponentsOfType<RepairerComponentController>());
+
 
         // Assume cabin always exists (kinda has to)
         ownCabin = Utils.ConvertBehaviourListToComponentList(shipController.componentGrid.GetComponentsOfType<MainCabinComponentController>())[0];
@@ -88,7 +91,9 @@ public class EnemyShipAgent : MonoBehaviour
         Attacking,
 
         ShieldCabin,
-        AttackCabin
+        AttackCabin,
+
+        Repairing
     }
 
     void Update()
@@ -132,6 +137,9 @@ public class EnemyShipAgent : MonoBehaviour
                 break;
             case AgentBehavior.AttackCabin:
                 FireWeaponAtCabin();
+                break;
+            case AgentBehavior.Repairing:
+                RepairComponent();
                 break;
             default:
                 break;
@@ -283,6 +291,37 @@ public class EnemyShipAgent : MonoBehaviour
                 return;
             }
         }
+    }
+
+    void RepairComponent()
+    {
+        // Find a broken component and fix it
+        if (repairers.Count <= 0)
+            CycleBehavior();
+
+        foreach(var comp in shipController.componentGrid.GetAllComponents())
+        {
+            if(comp.broken)
+            {
+                // find a repairer that works
+                foreach (var rep in repairers)
+                {
+                    if(!rep.broken && !rep.activated)
+                    {
+                        rep.AgentActivateComponent(new TargetingData(
+                            comp.shipComponentMeshController));
+
+                        return;
+                    }
+
+                }
+
+                return;
+            }
+        }
+
+        // if here -> no broken -> cycle
+        CycleBehavior();
     }
 
     public ShipComponentController GetRandomPlayerComponent()
