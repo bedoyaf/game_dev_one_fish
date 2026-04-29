@@ -93,6 +93,15 @@ public class MouseController : MonoBehaviour
         if (target == null)
             return;
 
+        // Get exact grid coordinates (if someone needed it)
+        //var position = hit.point - target.transform.position + target.transform.localPosition;
+        //int x = (int)position.x;
+        //int z = (int)position.z;
+
+        // Calculate offset to correct component tile
+        Vector3 componentOffset = hit.point - target.transform.parent.position;
+        componentOffset = new Vector3((int)componentOffset.x, 0, (int)componentOffset.z);
+
         switch (currentMode)
         {
             case ClickMode.Default:
@@ -100,7 +109,7 @@ public class MouseController : MonoBehaviour
                 break;
 
             case ClickMode.ComponentTargeting:
-                HandleComponentTargetClick(target);
+                HandleComponentTargetClick(target, componentOffset);
                 break;
 
             case ClickMode.Repairing:
@@ -146,11 +155,11 @@ public class MouseController : MonoBehaviour
         comp.OnMouseClick();
     }
 
-    private void HandleComponentTargetClick(ShipComponentMeshController target)
+    private void HandleComponentTargetClick(ShipComponentMeshController target, Vector3 componentOffset)
     {
         Debug.Log($"Targeting {target.name}");
 
-        activeComponent.OnTargetSelected(new TargetingData(target, currentDirection));
+        activeComponent.OnTargetSelected(new TargetingData(target, currentDirection, componentOffset));
 
         ExitTargetingMode();
     }

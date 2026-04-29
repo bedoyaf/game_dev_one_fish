@@ -81,7 +81,7 @@ public class ShipController : MonoBehaviour
             foreach (var mesh in componentsParent.GetComponentsInChildren<MeshRenderer>())
             {
                 var oldScale = mesh.gameObject.transform.localScale;
-                mesh.gameObject.transform.localScale = new Vector3(oldScale.x, oldScale.y, -1);
+                mesh.gameObject.transform.localScale = new Vector3(oldScale.x, oldScale.y, -oldScale.z);
             }
 
             var oldPos = componentsParent.transform.position;

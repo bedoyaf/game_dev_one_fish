@@ -190,7 +190,7 @@ public class ShipBuildingController : MonoBehaviour
         // On press down start drag
         if (context.started) {
             if (Physics.Raycast(Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue()), out RaycastHit hit, 100)) {
-                // TODO just temporary
+                // TODOH just temporary
                 // Toggle solid on a component
                 var comp = hit.collider.gameObject.GetComponentInParent<ShipComponentController>();
                 if (comp != null && !isPlayer) {

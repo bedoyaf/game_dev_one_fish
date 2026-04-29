@@ -254,10 +254,11 @@ public class EnemyShipAgent : MonoBehaviour
 
                 // Hard put one direction for testing
                 // dir = MouseController.ENEMY_DIRECTIONS[0];
-
+                var randomOffset = SelectRandomComponentTile(target);
                 weapon.AgentActivateComponent(new TargetingData(
                 target.shipComponentMeshController,
-                dir
+                dir,
+                randomOffset
                 ));
 
                 return;
@@ -348,6 +349,16 @@ public class EnemyShipAgent : MonoBehaviour
         }
 
         return weakest;
+    }
+
+    /// <summary>
+    /// Returns offset to use for targeting purposes
+    /// </summary>
+    public Vector3 SelectRandomComponentTile(ShipComponentController component) {
+        var width = component.placementRules.width;
+        var height = component.placementRules.height;
+
+        return new Vector3(Random.Range(0, width), 0, Random.Range(0, height));
     }
 
     void OnGUI()

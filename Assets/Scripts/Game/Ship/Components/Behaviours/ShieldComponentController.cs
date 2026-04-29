@@ -71,7 +71,6 @@ public class ShieldComponentController : BehaviourComponentControllerAbstract
 
         float offset = 0.5f;
 
-
         Vector3 position = new Vector3(targetTransform.position.x + offset, targetTransform.position.y + offset, targetTransform.position.z + offset);
 
         if (!shipComponentController.shipController.playerShip) position = new Vector3(targetTransform.position.x - offset, targetTransform.position.y + offset, targetTransform.position.z + offset);
