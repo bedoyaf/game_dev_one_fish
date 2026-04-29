@@ -21,13 +21,15 @@ public class GameplayFlowManager : MonoBehaviour
 
     [Tooltip("The enemy ship")]
     [SerializeField]
-    private GameObject enemyShip;
+    private ShipController enemyShip;
 
-
+    // Some access to player ship is needed
+    public ShipController PlayerShip => playerShip;
+    public ShipController EnemyShip => enemyShip;
 
     void Awake()
     {
-        GameManager_Jakub.Instance.SetGameplayFlowInstance(this);
+        GameManager.Instance.SetGameplayFlowInstance(this);
 
         stateMachine = new(this);
     }
@@ -83,14 +85,21 @@ public class GameplayFlowManager : MonoBehaviour
                 case GameStates.RewardSelection:
                     // TODO: spawn the loot, based on some loot table
                     // sfx -> show the ui etc.
+                    var possibleDrops = manager.enemyShip.shipData.possibleDrops; // These are the possible drops
                     ChangeState(GameStates.ShipModification);
 
                     break;
 
                 case GameStates.ShipModification:
-                    
                     // Enter editor mode
-                    manager.playerShip.GiveControlToEditor();
+                    // TODO use components from actual selection.
+                    var componentsToAdd = new List<ShipComponentController>();
+                    var possibleComps = manager.enemyShip.shipData.possibleDrops;
+                    for(int i = 0; i < 3; i++) {
+                        componentsToAdd.Add(possibleComps[Random.Range(0, possibleComps.Count)]);
+                    }
+
+                    manager.playerShip.GiveControlToEditor(componentsToAdd);
                     
                     break;
 

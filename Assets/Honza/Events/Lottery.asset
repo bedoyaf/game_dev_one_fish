@@ -1,0 +1,61 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce492c0da6d80b0438eeff88d89d2455, type: 3}
+  m_Name: Lottery
+  m_EditorClassIdentifier: Assembly-CSharp::EventData
+  eventID: loterry
+  eventText: 'You arrive at space lottery. The gambler gives you a choice:'
+  eventImage: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
+  choices:
+  - choiceID: low_risk
+    choiceText: 60 % win 5 money, 40 % nothing
+    effects:
+    - effectType: 4
+      effectData:
+        rid: 2819435454927470661
+    conditions: []
+  - choiceID: high_risk
+    choiceText: 30 % win 10 money, 70 % nothing
+    effects:
+    - effectType: 4
+      effectData:
+        rid: 2819435454927470665
+    conditions: []
+  references:
+    version: 2
+    RefIds:
+    - rid: 2819435454927470661
+      type: {class: RandomChanceEffect, ns: , asm: Assembly-CSharp}
+      data:
+        possibilities:
+        - probability: 60
+          effect:
+            effectType: 3
+            effectData:
+              rid: 2819435454927470664
+    - rid: 2819435454927470664
+      type: {class: ChangeCurrencyAmountEffect, ns: , asm: Assembly-CSharp}
+      data:
+        amount: 5
+    - rid: 2819435454927470665
+      type: {class: RandomChanceEffect, ns: , asm: Assembly-CSharp}
+      data:
+        possibilities:
+        - probability: 30
+          effect:
+            effectType: 3
+            effectData:
+              rid: 2819435454927470667
+    - rid: 2819435454927470667
+      type: {class: ChangeCurrencyAmountEffect, ns: , asm: Assembly-CSharp}
+      data:
+        amount: 10

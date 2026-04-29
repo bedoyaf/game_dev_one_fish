@@ -17,7 +17,7 @@ public class SceneTransitionScript : MonoBehaviour
         var obj = new GameObject("SceneTransition[Persistent]");
         var sceneTrans = obj.AddComponent<SceneTransitionScript>();
 
-        GameManager_Jakub.Instance.SetTransitionInstance(sceneTrans);
+        GameManager.Instance.SetTransitionInstance(sceneTrans);
 
     }
 

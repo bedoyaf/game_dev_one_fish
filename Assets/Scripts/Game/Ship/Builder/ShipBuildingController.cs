@@ -156,6 +156,13 @@ public class ShipBuildingController : MonoBehaviour
     }
 
     private void InitializeDraggableComponents(List<ShipComponentController> componentPrefabs) {
+        // Make sure we are working with prefabs
+        var temp = new List<ShipComponentController>();
+        foreach (var comp in componentPrefabs) {
+            temp.Add(comp.componentPrefab);
+        }
+        componentPrefabs = temp;
+
         // Create components for dragging 
         draggableComponents = new();
         float left = 0;

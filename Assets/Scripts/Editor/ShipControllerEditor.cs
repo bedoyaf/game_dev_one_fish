@@ -18,7 +18,7 @@ public class ShipControllerEditor : Editor {
         if (ship.shipEditor == null) return;
 
         if (GUILayout.Button("Swich to editor")) {
-            ship.GiveControlToEditor();
+            ship.GiveControlToEditorDebug();
         }
 
         if (GUILayout.Button("Switch from editor")) {

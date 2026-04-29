@@ -55,9 +55,9 @@ public class SaveSlotScript : MonoBehaviour
         }
 
         // Set the active Save Slot
-        GameManager_Jakub.Instance.SelectSaveSlot(slotData);
+        GameManager.Instance.SelectSaveSlot(slotData);
         // Start the game
-        GameManager_Jakub.Instance.StartGame();
+        GameManager.Instance.StartGame();
     }
 
     public void DeleteRequest()

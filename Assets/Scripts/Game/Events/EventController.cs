@@ -9,7 +9,6 @@ public class EventController : MonoBehaviour
     public List<EventData> events;
     public EventUI eventUIPrefab;
     public Canvas eventCanvas;
-    public ShipController playerShip;
 
     private EventUI instantiatedEventUI;
 
@@ -20,24 +19,32 @@ public class EventController : MonoBehaviour
     public void DisplayUI() {
         instantiatedEventUI = Instantiate(eventUIPrefab, eventCanvas.transform);
         var eventData = events[0];
+        instantiatedEventUI.EventImage.sprite = eventData.eventImage;
         instantiatedEventUI.EventText.text = eventData.eventText;
-        for(int i = 0; i < instantiatedEventUI.EventButtons.Count; i++) {
+
+        // Add buttons for choices
+        for(int i = 0; i < eventData.choices.Count; i++) {
             var button = instantiatedEventUI.EventButtons[i];
-            if (i < eventData.choices.Count) {
+            if (!eventData.choices[i].DoConditionsHold()) {
+                button.image.color = Color.red;
+            }
                 int a = i;
                 button.onClick.AddListener(() => OnButtonClick(a));
                 button.GetComponentInChildren<TextMeshProUGUI>().text = eventData.choices[i].choiceText;
-            }
-            else {
-                button.gameObject.SetActive(false);
-            }
         }
-        instantiatedEventUI.EventImage.sprite = eventData.eventImage;
+
+        for (int i = eventData.choices.Count; i < instantiatedEventUI.EventButtons.Count; i++) {
+            var button = instantiatedEventUI.EventButtons[i];
+            button.gameObject.SetActive(false);
+        }
+
+
     }
 
     public void OnButtonClick(int choice) {
         Debug.Log(choice);
         var eventData = events[0];
+        eventData.choices[choice].ApplyEffects();
     }
 
     public void PrintEvents() {

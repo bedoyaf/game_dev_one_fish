@@ -127,7 +127,7 @@ public class EventConditionDrawer : PropertyDrawer {
             switch (type) {
                 case ConditionType.None: return typeof(NoneCondition);
                 case ConditionType.HasComponent: return typeof(HasComponentCondition);
-                case ConditionType.HasParts: return typeof(HasPartsCondition);
+                case ConditionType.HasCurrency: return typeof(HasCurrencyCondition);
                 default: return null;
             }
         }

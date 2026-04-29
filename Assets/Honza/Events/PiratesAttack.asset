@@ -1,0 +1,69 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce492c0da6d80b0438eeff88d89d2455, type: 3}
+  m_Name: PiratesAttack
+  m_EditorClassIdentifier: Assembly-CSharp::EventData
+  eventID: pirates_attack
+  eventText: 'The pirates appear ahead of you, blocking your path. They are deadly,
+    but maybe they are willing to talk? '
+  eventImage: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
+  choices:
+  - choiceID: fight
+    choiceText: Fight with the pirates!
+    effects:
+    - effectType: 1
+      effectData:
+        rid: 2819435430728433735
+    conditions: []
+  - choiceID: pay
+    choiceText: Pay them 5$ to let you go
+    effects:
+    - effectType: 3
+      effectData:
+        rid: 2819435450883113054
+    conditions:
+    - conditionType: 1
+      eventCondition:
+        rid: 2819435450883113055
+  - choiceID: run
+    choiceText: Run away from the fight
+    effects:
+    - effectType: 2
+      effectData:
+        rid: 2819435430485688331
+    conditions:
+    - conditionType: 2
+      eventCondition:
+        rid: 2819435430728433732
+  references:
+    version: 2
+    RefIds:
+    - rid: 2819435430485688331
+      type: {class: RunEffect, ns: , asm: Assembly-CSharp}
+      data: 
+    - rid: 2819435430728433732
+      type: {class: HasComponentCondition, ns: , asm: Assembly-CSharp}
+      data:
+        componentData: {fileID: 11400000, guid: e63459046cb8cad4387efc3a0f776de0, type: 2}
+        componentCount: 3
+    - rid: 2819435430728433735
+      type: {class: FightEffect, ns: , asm: Assembly-CSharp}
+      data:
+        enemy: {fileID: 11400000, guid: 00f9c9d03984efe48abc5437e2176ffa, type: 2}
+    - rid: 2819435450883113054
+      type: {class: ChangeCurrencyAmountEffect, ns: , asm: Assembly-CSharp}
+      data:
+        amount: -5
+    - rid: 2819435450883113055
+      type: {class: HasCurrencyCondition, ns: , asm: Assembly-CSharp}
+      data:
+        currencyCount: 5

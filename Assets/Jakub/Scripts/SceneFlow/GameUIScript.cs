@@ -25,12 +25,12 @@ public class GameUIScript : MonoBehaviour
     {
         pauseMenuItemsParent.SetActive(true);
 
-        GameManager_Jakub.Instance.PauseGame();
+        GameManager.Instance.PauseGame();
     }
 
     public void OnResumeClicked()
     {
-        GameManager_Jakub.Instance.ResumeGame();
+        GameManager.Instance.ResumeGame();
 
         pauseMenuItemsParent.SetActive(false);
     }
@@ -40,11 +40,11 @@ public class GameUIScript : MonoBehaviour
         // NOTE: maybe not needed
         pauseMenuItemsParent.SetActive(false);
 
-        GameManager_Jakub.Instance.RestartGame();
+        GameManager.Instance.RestartGame();
     }
 
     public void OnExitGameClicked()
     {
-        GameManager_Jakub.Instance.ExitGame();
+        GameManager.Instance.ExitGame();
     }
 }

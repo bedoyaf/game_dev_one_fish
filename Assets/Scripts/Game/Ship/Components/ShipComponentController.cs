@@ -17,7 +17,6 @@ public class ShipComponentController : MonoBehaviour
     private int healthPerRepair = 5;
 
     public UnityEvent<ShipComponentController> OnDeath;
-    public string componentName; // Name that uniquely! identifies this component 
     public bool activated = false;
 
     public int requiredEnergy = 0;
@@ -27,12 +26,10 @@ public class ShipComponentController : MonoBehaviour
 
     private IShipComponentBehaviour componentBehaviour;
 
-    [Header("Builder stuff")]
-    public ComponentPlacement placementRules;
+
 
     public ShipController shipController { get; private set; }
 
-    public ShipComponentController componentPrefab; //TODO, might be useless delete these
     public GameObject ComponentMesh; // The child of the component, that has the mesh on it
     
     
@@ -43,7 +40,15 @@ public class ShipComponentController : MonoBehaviour
 
     public bool broken {  get; private set; } = false;
 
-  //  public UnityEvent OnBroken; Ondeath preferable 
+    // For now, ID of the component
+    public ShipComponentData componentData;
+
+    [Header("Builder stuff")]
+    public ShipComponentController componentPrefab; // Very useful for the builder!
+
+    public ComponentPlacement placementRules;
+
+    //  public UnityEvent OnBroken; Ondeath preferable 
 
     void Start()
     {

@@ -98,11 +98,6 @@ public class ShipController : MonoBehaviour
 
     private void DeconstructShip()
     {
-        //foreach(ShipComponentController component in shipComponents)
-        //{
-        //    if(component != null)DestroyImmediate(component.gameObject);
-        //}
-        //shipComponents.Clear();
         if (componentGrid == null) return;
         componentGrid.DestroyGrid();
 
@@ -120,15 +115,26 @@ public class ShipController : MonoBehaviour
         }
     }
 
-    public void GiveControlToEditor() {
+    /// <summary>
+    /// Tells builder to start building with given components.
+    /// </summary>
+    /// <param name="componentsForPlacement">Components to place.</param>
+    public void GiveControlToEditor(List<ShipComponentController> componentsForPlacement) {
+        shipEditor.InitializeBuilder(componentGrid, componentsForPlacement);
+    }
+
+    /// <summary>
+    /// Debug only. Starts placing with 3 components that are on the player.
+    /// </summary>
+    public void GiveControlToEditorDebug() {
+        var componentsForPlacement = new List<ShipComponentController>();
         var components = componentGrid.GetAllComponents();
 
-        List<ShipComponentController> prefabs = new();
         for (int i = 0; i < 3; i++) {
-            prefabs.Add(components[Random.Range(0, components.Count)].componentPrefab);
+            componentsForPlacement.Add(components[Random.Range(0, components.Count)]);
         }
 
-        shipEditor.InitializeBuilder(componentGrid, prefabs);
+        shipEditor.InitializeBuilder(componentGrid, componentsForPlacement);
     }
 
     public void RemoveControlFromEditor() {

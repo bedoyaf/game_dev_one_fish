@@ -68,7 +68,9 @@ public class EventEffectDrawer : PropertyDrawer {
                 EffectType.None => typeof(NoneEffect),
                 EffectType.Fight => typeof(FightEffect),
                 EffectType.Run => typeof(RunEffect),
-                EffectType.LoseParts => typeof(LosePartsEffect),
+                EffectType.ChangeCurrencyAmount => typeof(ChangeCurrencyAmountEffect),
+                EffectType.RandomChance => typeof(RandomChanceEffect),
+                EffectType.Multi => typeof(MultiEffect),
                 _ => null,
             };
         }

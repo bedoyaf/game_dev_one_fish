@@ -2,6 +2,9 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Stores the event with choices (that have conditions and effects)
+/// </summary>
 [CreateAssetMenu(fileName = "EventData", menuName = "Scriptable Objects/EventData")]
 public class EventData : ScriptableObject {
     public string eventID;
@@ -16,6 +19,20 @@ public class EventData : ScriptableObject {
         public string choiceText;
         public List<EventEffect> effects;
         public List<EventCondition> conditions;
+
+        public void ApplyEffects() {
+            foreach(var effect in effects) {
+                effect.ApplyEffect();
+            }
+        }
+
+        public bool DoConditionsHold() {
+            foreach(var condition in conditions) {
+                if (!condition.DoesConditionHold()) return false;
+            }
+
+            return true;
+        }
     }
 
     public void PrintData() {

@@ -385,9 +385,10 @@ public class ComponentGrid {
 
         return components.ToList();
     }
+
+    /// <summary>
     /// Gets all components that are stored in the grid, non broken ones.
     /// </summary>
-    /// <returns></returns>
     public List<ShipComponentController> GetAllNonBrokenComponents()
     {
         List<ShipComponentController> components = new();
@@ -400,6 +401,47 @@ public class ComponentGrid {
         }
 
         return components;
+    }
+
+    /// <summary>
+    /// Returns a list of all components from the grid that contain the specific behaviour
+    /// </summary>
+    public List<T> GetComponentsOfType<T>(bool includeBroken = true) where T : BehaviourComponentControllerAbstract {
+        List<T> result = new List<T>();
+
+        // Debug.Log(GetAllComponents().Count);
+
+        foreach (var comp in GetAllComponents()) {
+            var behaviour = comp.GetComponent<T>();
+
+            if (behaviour != null && (!behaviour.GetComponent<ShipComponentController>().broken || includeBroken)) {
+                result.Add(behaviour);
+            }
+        }
+
+        return result;
+    }
+
+    /// <summary>
+    /// Returns a dictionary, whose key is the component data (ID) and whose value is how many
+    /// times is unbroken! component present in the grid.
+    /// </summary>
+    public Dictionary<ShipComponentData, int> GetNonBrokenComponentsCountGroupedByData() {
+        Dictionary<ShipComponentData, int> componentCounts = new();
+        foreach (var tile in tiles) {
+            if (tile.isPlaceholder || tile.hasOffset) continue;
+
+            if (tile.component.broken) continue;
+            var data = tile.component.componentData;
+            if (componentCounts.ContainsKey(data)) {
+                componentCounts[data]++;
+            }
+            else {
+                componentCounts.Add(data, 1);
+            }
+        }
+
+        return componentCounts;
     }
 
     /// <summary>
@@ -686,28 +728,6 @@ public class ComponentGrid {
 #endif
         component.transform.localPosition = new Vector3(x, 0, z);
         return component;
-    }
-
-    /// <summary>
-    /// Returns a list of all components from the grid that contain the specific behaviour
-    /// </summary>
-    public List<T> GetComponentsOfType<T>(bool includeBroken = true) where T : BehaviourComponentControllerAbstract
-    {
-        List<T> result = new List<T>();
-
-       // Debug.Log(GetAllComponents().Count);
-
-        foreach (var comp in GetAllComponents())
-        {
-            var behaviour = comp.GetComponent<T>();
-
-            if (behaviour != null && (!behaviour.GetComponent<ShipComponentController>().broken || includeBroken))
-            {
-                result.Add(behaviour);
-            }
-        }
-
-        return result;
     }
 }
 
