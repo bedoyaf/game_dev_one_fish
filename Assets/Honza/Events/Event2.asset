@@ -15,7 +15,7 @@ MonoBehaviour:
   eventID: pirates_attack
   eventText: 'The pirates appear ahead of you, blocking your path. They are deadly,
     but maybe they are willing to talk? '
-  eventImage: {fileID: 0}
+  eventImage: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
   choices:
   - choiceID: fight
     choiceText: Fight with the pirates!
@@ -67,4 +67,3 @@ MonoBehaviour:
       type: {class: FightEffect, ns: , asm: Assembly-CSharp}
       data:
         enemy: {fileID: 11400000, guid: c93db12ca7bbf4e49bc2655f914b6421, type: 2}
-        count: 0

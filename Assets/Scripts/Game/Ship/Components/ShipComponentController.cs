@@ -14,6 +14,7 @@ public class ShipComponentController : MonoBehaviour
     public int maxHealth = 10;
     public int health = 10;
     public UnityEvent<ShipComponentController> OnDeath;
+    public string componentName; // Name that uniquely! identifies this component 
     public bool activated = false;
 
     public int requiredEnergy = 0;
@@ -185,5 +186,19 @@ public class ShipComponentController : MonoBehaviour
         public bool blockSurroundings => top != 0 || right != 0 || bottom != 0 || left != 0;
 
         public ComponentGridTile connectedTile; // TODO - sorry, does not belong here
+    }
+
+    /// <summary>
+    /// Used for identifying components from events.
+    /// </summary>
+    public enum ComponentType {
+        None,
+        Battery,
+        Engine,
+        Generator,
+        MainCabin,
+        Rocket,
+        Shield,
+
     }
 }
