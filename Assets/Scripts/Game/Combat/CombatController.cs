@@ -2,7 +2,7 @@ using NUnit.Framework;
 using UnityEngine;
 using System.Collections.Generic;
 
-public class CombatController : MonoBehaviour
+public class CombatController : SmartSingleton<CombatController>
 {
     [SerializeField] private ShipController playerShip;
     [SerializeField] private ShipController enemyShip;
@@ -85,6 +85,32 @@ public class CombatController : MonoBehaviour
         combatEnded = true;
     }
 
+
+    private bool repairing = false;
+    public void StartRepairs()
+    {
+        repairing = true;
+        MouseController.Instance.EnterRepairsMode();
+    }
+
+    public void StopRepairs()
+    {
+        repairing = false;
+        MouseController.Instance.ExitRepairsMode();
+    }
+
+    public void ComponentDestroyed(ShipComponentController component, ShipController ship)
+    {
+        if(ship == playerShip)
+        {
+            enemyShip.AddCurrency(component.destroyRevenue);
+        } else
+        {
+            playerShip.AddCurrency(component.destroyRevenue);
+        }
+    }
+
+
     void OnGUI()
     {
         GUIStyle style = new GUIStyle(GUI.skin.button);
@@ -102,9 +128,23 @@ public class CombatController : MonoBehaviour
 
         if (combatEnded)
         {
-            if (GUI.Button(new Rect(400, 400, 150, 40), "RESTART", style))
+            if (GUI.Button(new Rect(500, 400, 150, 40), "RESTART", style))
             {
                 StartCombat();
+            }
+
+            if (!repairing)
+            {
+                if (GUI.Button(new Rect(500, 350, 150, 40), "BEGIN REPAIR", style))
+                {
+                    StartRepairs();
+                }
+            } else
+            {
+                if (GUI.Button(new Rect(500, 350, 150, 40), "STOP REPAIR", style))
+                {
+                    StopRepairs();
+                }
             }
         }
     }

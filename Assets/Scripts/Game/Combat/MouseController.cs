@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -6,6 +7,7 @@ public class MouseController : MonoBehaviour
 {
     private Camera cam;
     private InputAction clickAction;
+    private InputAction cancelAction;
 
     public static MouseController Instance { get; private set; }
 
@@ -13,14 +15,22 @@ public class MouseController : MonoBehaviour
     private IShipComponentBehaviour activeComponent;
 
     //Directional targeting
-    private Vector3 currentDirection = Vector3.up;
+    private Vector3 currentDirection = Vector3.right;
 
-    private Vector3[] directions = new Vector3[]
+    public static Vector3[] DIRECTIONS = new Vector3[]
     {
     Vector3.up,
     Vector3.right,
     Vector3.down,
-    Vector3.left
+    //Vector3.left
+    };
+
+    public static Vector3[] ENEMY_DIRECTIONS = new Vector3[]
+    {
+    Vector3.up,
+    Vector3.left,
+    Vector3.down,
+    //Vector3.left
     };
 
     private string[] directionNames = new string[] //switched left and right:(
@@ -28,10 +38,10 @@ public class MouseController : MonoBehaviour
     "UP",
     "LEFT",
     "DOWN",
-    "RIGHT"
+    //"RIGHT"
     };
 
-    private int directionIndex = 0;
+    private int directionIndex = 1;
 
     void Awake()
     {
@@ -46,6 +56,7 @@ public class MouseController : MonoBehaviour
         cam = Camera.main;
 
         clickAction = new InputAction(type: InputActionType.Button, binding: "<Mouse>/leftButton");
+        cancelAction = new InputAction(type: InputActionType.Button, binding: "<Mouse>/rightButton");
         //clickAction.performed += OnClick;
     }
 
@@ -53,11 +64,17 @@ public class MouseController : MonoBehaviour
     void OnEnable() {
         clickAction.performed += OnClick;
         clickAction.Enable();
+
+        cancelAction.performed += OnRightClick;
+        cancelAction.Enable();
     }
     void OnDisable()
     {
         clickAction.performed -= OnClick;
         clickAction.Disable();
+
+        cancelAction.performed -= OnRightClick;
+        cancelAction.Disable();
     }
 
     private void OnClick(InputAction.CallbackContext ctx)
@@ -85,7 +102,42 @@ public class MouseController : MonoBehaviour
             case ClickMode.ComponentTargeting:
                 HandleComponentTargetClick(target);
                 break;
+
+            case ClickMode.Repairing:
+                HandleComponentRepairClick(target);
+                break;
         }
+    }
+
+    public void EnterRepairsMode()
+    {
+        currentMode = ClickMode.Repairing;
+
+        if(activeComponent != null)
+        {
+            activeComponent.ResetBehaviour();
+            activeComponent = null;
+        }
+
+        // icon
+        if (mouseSwitch != null)
+            StopCoroutine(mouseSwitch);
+
+        Cursor.SetCursor(repairIcon, Vector2.zero, CursorMode.Auto);
+    }
+    public void ExitRepairsMode()
+    {
+        currentMode = ClickMode.Default;
+        Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
+    }
+    
+    private void OnRightClick(InputAction.CallbackContext ctx)
+    {
+        // if targeting -> cancel
+        if(currentMode == ClickMode.ComponentTargeting)
+        {
+            // NOT worth now, rework energy consumption on succesfull usage only if want this
+        } 
     }
 
     private void HandleDefaultClick(ShipComponentMeshController comp)
@@ -101,6 +153,12 @@ public class MouseController : MonoBehaviour
         activeComponent.OnTargetSelected(new TargetingData(target, currentDirection));
 
         ExitTargetingMode();
+    }
+
+    private void HandleComponentRepairClick(ShipComponentMeshController comp)
+    {
+        Debug.Log("Repair click: " + comp.name);
+        comp.OnRepairClick();
     }
 
     public void EnterTargetingMode(IShipComponentBehaviour component)
@@ -126,28 +184,70 @@ public class MouseController : MonoBehaviour
     public enum ClickMode
     {
         Default,
-        ComponentTargeting
+        ComponentTargeting,
+        Repairing
     }
 
 
 
     //Directional shit
+    private Coroutine mouseSwitch = null;
+
+    private void Update()
+    {
+        // When scrolling -> cycle through attack direction
+        float scroll = Mouse.current.scroll.ReadValue().y;
+
+        if(scroll != 0)
+        {
+            CycleDirection((int) scroll);
+
+            if (mouseSwitch != null)
+                StopCoroutine(mouseSwitch);
+            mouseSwitch = StartCoroutine(nameof(ShowMouseIcon));
+        }
+    }
+
+
+    public Texture2D upArrow;
+    public Texture2D downArrow;
+    public Texture2D rightArrow;
+    public Texture2D repairIcon;
+
+
+    IEnumerator ShowMouseIcon()
+    {
+        Texture2D[] dirTextures = {
+            upArrow,    // "UP",
+            rightArrow, // "LEFT",
+            downArrow,  // "DOWN",
+        };
+
+        Cursor.SetCursor(dirTextures[directionIndex],
+            new Vector2(dirTextures[directionIndex].width/2,
+                        dirTextures[directionIndex].height/2), 
+            CursorMode.Auto);
+
+        yield return new WaitForSeconds(1f);
+
+        Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
+    }
+
+
     void OnGUI()
     {
         GUIStyle style = new GUIStyle(GUI.skin.button);
         style.fontSize = 20;
 
-        if (GUI.Button(new Rect(10, 60, 120, 40), directionNames[directionIndex], style))
+        if (GUI.Button(new Rect(10, 80, 120, 40), directionNames[directionIndex], style))
         {
             CycleDirection();
         }
     }
 
-    private void CycleDirection()
+    private void CycleDirection(int dir=1)
     {
-        directionIndex = (directionIndex + 1) % directions.Length;
-        currentDirection = directions[directionIndex];
-
-        Debug.Log("Direction set to: " + currentDirection);
+        directionIndex = (DIRECTIONS.Length + directionIndex + dir) % DIRECTIONS.Length;
+        currentDirection = DIRECTIONS[directionIndex];
     }
 }

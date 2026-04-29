@@ -31,17 +31,19 @@ public class ShipController : MonoBehaviour
 
 
     //ENERGY
+    // Can take even without batteries
+    [SerializeField] private int cabinEnergyCapacity = 1;
     public int storedEnergy = 0;
     private int batteryCapacity = 0;
     private List<BatteryComponentController> batteries = new List<BatteryComponentController>();
 
+    //CURRENCY PARTS
+    public int storedMoney = 0;
+
 
     //Combat
     //Projectile spawnpoints
-    public Transform LeftProjectileSpawn;
-    public Transform RightProjectileSpawn;
-    public Transform UpProjectileSpawn;
-    public Transform DownProjectileSpawn;
+    public MissileSpawning missileSpawnPoints;
 
     public float DebugTextOffset = 0;
 
@@ -59,7 +61,32 @@ public class ShipController : MonoBehaviour
         Debug.Log("Build ship called");
         if (shipData == null) return;
         DeconstructShip();
+        
+        // If not player => enemy
+        // Rotate by 180 °, then set scale on all !!meshes!! to x = -1
+        if (!playerShip)
+        {
+            // NOTE: rotating the components parent to avoid issues with targeting
+            componentsParent.rotation = Quaternion.Euler(180, 180, 0);
+
+            var oldPos = componentsParent.transform.position;
+            componentsParent.transform.position = new Vector3(oldPos.x, 0, oldPos.z);
+        }
+
         componentGrid = shipData.BuildShip(componentsParent);
+
+        // NOTE: meshes after the grid !!!
+        if(!playerShip)
+        {
+            foreach (var mesh in componentsParent.GetComponentsInChildren<MeshRenderer>())
+            {
+                var oldScale = mesh.gameObject.transform.localScale;
+                mesh.gameObject.transform.localScale = new Vector3(oldScale.x, oldScale.y, -1);
+            }
+
+            var oldPos = componentsParent.transform.position;
+            componentsParent.transform.position = new Vector3(oldPos.x, 1, oldPos.z);
+        }
 
         AssignShipController();
 
@@ -132,16 +159,20 @@ public class ShipController : MonoBehaviour
         //TODO BETTER LOADING OF BATTERIES
         
         batteries = componentGrid.GetComponentsOfType<BatteryComponentController>(false);
+        /* If living -> has cabin -> has at least some energy capacity
         if (batteries.Count == 0)
         {
             Debug.LogError("No batteries");
             return;
         }
-        batteryCapacity = batteries.Count * batteries[0].energyMax;
-        
-        
-        int totalEnergy = Mathf.Min(storedEnergy+energy,batteryCapacity);
+        */
+        batteryCapacity = batteries.Count == 0 ? 0 : batteries.Count * batteries[0].energyMax;
+
+
+        int totalEnergy = Mathf.Min(storedEnergy+energy, cabinEnergyCapacity + batteryCapacity);
         int remaining = totalEnergy-storedEnergy;
+
+        // NOTE: maybe want to choose which battery takes the energy
         foreach (var component in batteries)
         {
             if (remaining == 0) break;
@@ -159,12 +190,14 @@ public class ShipController : MonoBehaviour
         if (batteries.Count == 0)//TODO BETTER LOADING OF BATTERIES
         {
             batteries = componentGrid.GetComponentsOfType<BatteryComponentController>();
+            /*
             if(batteries.Count == 0) 
             {
                 Debug.LogError("No batteries");
                 return false;
             }
-            batteryCapacity = batteries.Count * batteries[0].energyMax;
+            */
+            batteryCapacity = batteries.Count == 0 ? 0 : batteries.Count * batteries[0].energyMax;
         }
         //not enough energy
         if(storedEnergy-energy<0)
@@ -183,6 +216,25 @@ public class ShipController : MonoBehaviour
 
         return true;
     }
+
+    public void AddCurrency(int amount)
+    {
+        // TODO: maybe limit via some components like energy
+
+        storedMoney += amount;
+    }
+
+    public bool UseCurrency(int amount)
+    {
+        // not enough
+        if (storedMoney - amount < 0)
+            return false;
+
+        // use it now
+        storedMoney -= amount;
+        return true;
+    }
+
 
     public void RepaireShip()
     {
@@ -207,9 +259,13 @@ public class ShipController : MonoBehaviour
     {
         GUIStyle style = new GUIStyle(GUI.skin.label);
         style.fontSize = 24;
-        style.normal.textColor = Color.white;
+        style.normal.textColor = Color.green;
         style.fontStyle = FontStyle.Bold;
-        GUI.Label(new Rect(10+DebugTextOffset, 10, 300, 40), $" {storedEnergy} / {batteryCapacity}", style);
+        GUI.Label(new Rect(10 + DebugTextOffset, 10, 300, 40), $" {storedEnergy} / {cabinEnergyCapacity+batteryCapacity}", style);
+
+        style.normal.textColor = Color.gray;
+        GUI.Label(new Rect(10 + DebugTextOffset, 34, 300, 40), $" {storedMoney} $", style);
+
     }
 }
 

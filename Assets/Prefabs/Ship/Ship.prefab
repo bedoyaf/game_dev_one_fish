@@ -108,6 +108,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44f9d800271a3104da11547b6bcf4061, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ShipController
+  playerShip: 1
   shipEditor: {fileID: 0}
   componentsParent: {fileID: 8304951664254679413}
   shipData: {fileID: 11400000, guid: 1dfffb38b93deb142a234872b99dda0f, type: 2}
@@ -119,11 +120,13 @@ MonoBehaviour:
     componentParent: {fileID: 0}
     shouldInstantiatePlaceholders: 0
     ID: 0
+  cabinEnergyCapacity: 1
   storedEnergy: 0
   LeftProjectileSpawn: {fileID: 7408578033752756734}
   RightProjectileSpawn: {fileID: 9023060938975131728}
   UpProjectileSpawn: {fileID: 9037957298328804323}
   DownProjectileSpawn: {fileID: 3580451792754901194}
+  DebugTextOffset: 0
 --- !u!1 &4741798162315913299
 GameObject:
   m_ObjectHideFlags: 0
@@ -226,6 +229,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5233229155761565420}
+  - component: {fileID: 7779844802840390210}
   m_Layer: 0
   m_Name: Missile Spawnpoints
   m_TagString: Untagged
@@ -252,3 +256,17 @@ Transform:
   - {fileID: 9023060938975131728}
   m_Father: {fileID: 4593683653580219891}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7779844802840390210
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6911546683561360520}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3631465ad38833641a6e46ba390d87c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MissileSpawning
+  leftBottom: {x: -9.31, y: -8.93}
+  widthHeight: {x: 18, y: 29.4}

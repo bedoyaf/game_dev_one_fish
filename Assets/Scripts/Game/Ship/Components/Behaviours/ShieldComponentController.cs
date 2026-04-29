@@ -46,7 +46,7 @@ public class ShieldComponentController : BehaviourComponentControllerAbstract
     {
         ShipComponentMeshController targetMesh = target.target;
         ShipComponentController targetShipComponent = targetMesh.transform.parent.GetComponent<ShipComponentController>();
-        var targetShip = targetShipComponent.transform.parent.GetComponent<ShipController>();
+        var targetShip = targetShipComponent.shipController;
         if (targetShipComponent.transform.parent != transform.parent)
         {
             Debug.Log("Wrong ship");
