@@ -1,3 +1,6 @@
+using System.Collections;
+using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
 
 public static class GameObjectExtensions {
@@ -25,3 +28,14 @@ public static class TransformExtensions {
     }
 }
 
+public static class EnumerableExtensions {
+    public static string ToDelimitedString<T>(this IEnumerable<T> enumerable, string delim = ", ") {
+        StringBuilder sb = new StringBuilder();
+        foreach (var a in enumerable) {
+            sb.Append(a);
+            sb.Append(delim);
+        }
+
+        return sb.ToString();
+    }
+}

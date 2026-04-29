@@ -101,7 +101,7 @@ public class ComponentGrid {
                 }
 
                 var gridTile = new ComponentGridTile(j, i);
-                gridTile.PlacePlaceholder(placeholder, instantiate);
+                gridTile.PlacePlaceholder(placeholder, instantiate, true);
                 tiles.Add(gridTile);
             }
         }
@@ -168,7 +168,19 @@ public class ComponentGrid {
     /// If placeholder parent is not null, it will instantiate placeholders
     /// </summary>
     /// <param name="recursive">If true, it will check if surrounding components are connected to solid and potentially remove them</param>
-    public void RemoveComponent(int x, int z, bool recursive = false) {
+    /// <param name="shouldDestroyObjects">Whether the component objects should be destroyed or just removed from the grid memory.</param>
+    public void RemoveComponent(ComponentGridTile tile, bool recursive = false, bool shouldDestroyObjects = true) {
+        RemoveComponent(tile.x, tile.z, recursive, shouldDestroyObjects);
+    }
+
+
+    /// <summary>
+    /// Removes the component at the coordinates and replaces it with placeholders
+    /// If placeholder parent is not null, it will instantiate placeholders
+    /// </summary>
+    /// <param name="recursive">If true, it will check if surrounding components are connected to solid and potentially remove them</param>
+    /// <param name="shouldDestroyObjects">Whether the component objects should be destroyed or just removed from the grid memory.</param>
+    public void RemoveComponent(int x, int z, bool recursive = false, bool shouldDestroyObjects = true) {
         if (connectedGrid != null) connectedGrid.RemoveComponent(x, z, recursive);
         (x, z) = GetOriginTileCoordinates(x, z);
         var gridTile = grid[z, x];
@@ -187,11 +199,11 @@ public class ComponentGrid {
         for (int i = 0; i < component.placementRules.height; i++) {
             for (int j = 0; j < component.placementRules.width; j++) {
                 if (!shouldInstantiate || !shouldInstantiatePlaceholders) {
-                    grid[z + i, x + j].PlacePlaceholder(placeholderPrefab, false);
+                    grid[z + i, x + j].PlacePlaceholder(placeholderPrefab, false, shouldDestroyObjects);
                 }
                 else {
                     var placeholder = InstantiateComponent(placeholderPrefab, x + j, z + i);
-                    grid[z + i, x + j].PlacePlaceholder(placeholder, true);
+                    grid[z + i, x + j].PlacePlaceholder(placeholder, true, shouldDestroyObjects);
                     grid[z + i, x + j].ToggleVisibility(placeholdersVisible);
                 }
             }
@@ -207,11 +219,61 @@ public class ComponentGrid {
                 (bool connected, var connectedTiles) = IsComponentConnectedToSolid(tile.x, tile.z);
                 if (!connected) {
                     foreach (var tmpTile in connectedTiles) {
-                        RemoveComponent(tmpTile.x, tmpTile.z);
+                        RemoveComponent(tmpTile.x, tmpTile.z, false, shouldDestroyObjects);
                     }
                 }
             }
         }
+    }
+
+
+    public List<ShipComponentController> GetAllSeparatedComponentsAfterRemoval(ComponentGridTile tile, bool includeSelf = false) {
+        return GetAllSeparatedComponentsAfterRemoval(tile.x, tile.z, includeSelf);
+    }
+
+    public List<ShipComponentController> GetAllSeparatedComponentsAfterRemoval(int x, int z, bool includeSelf = false) {
+        (x, z) = GetOriginTileCoordinates(x, z);
+
+        var gridTile = grid[z, x];
+        if (gridTile.isPlaceholder) return new List<ShipComponentController>();
+
+        // If recursive, find all components around the tile to later check if they are connected to solid
+        List<ComponentGridTile> surroundingTiles = null;
+        surroundingTiles = GetTilesAroundComponent(x, z);
+
+        // Temporarily disable the component
+        var component = gridTile.component;
+        for (int i = 0; i < component.placementRules.height; i++) {
+            for (int j = 0; j < component.placementRules.width; j++) {
+                grid[z + i, x + j].isPlaceholder = true;
+            }
+        }
+
+        HashSet<ShipComponentController> uniqueComponents = new();
+        // Test if the surrounding components are connected to solid after this one was "destroyed".
+        foreach (var tile in surroundingTiles) {
+            if (tile.isPlaceholder) continue;
+
+            (bool connected, var connectedTiles) = IsComponentConnectedToSolid(tile.x, tile.z);
+
+            if (!connected) {
+                foreach(var tmpTile in connectedTiles) {
+                    uniqueComponents.Add(tmpTile.component);
+                }
+            }
+        }
+
+        // Bring back the component the component
+        for (int i = 0; i < component.placementRules.height; i++) {
+            for (int j = 0; j < component.placementRules.width; j++) {
+                grid[z + i, x + j].isPlaceholder = false;
+            }
+        }
+
+        if (includeSelf)
+            uniqueComponents.Add(component);
+
+        return uniqueComponents.ToList();
     }
 
     /// <summary>
@@ -226,11 +288,11 @@ public class ComponentGrid {
                 var tile = grid[i, j];
                 if (tile.isPlaceholder) {
                     if (!shouldInstantiate || !shouldInstantiatePlaceholders) {
-                        tile.PlacePlaceholder(placeholderPrefab, false);
+                        tile.PlacePlaceholder(placeholderPrefab, false, false);
                     }
                     else {
                         var placeholder = InstantiateComponent(placeholderPrefab, j, i);
-                        tile.PlacePlaceholder(placeholder, true);
+                        tile.PlacePlaceholder(placeholder, true, false);
                         tile.ToggleVisibility(placeholdersVisible);
                     }
                 }
@@ -253,9 +315,9 @@ public class ComponentGrid {
     /// Removes the component and other components if they are not connected to solid.
     /// </summary>
     /// <param name="componentTile"></param>
-    public void OnComponentDeath(ComponentGridTile componentTile) {
-        RemoveComponent(componentTile.x, componentTile.z, true);
-    }
+    //public void OnComponentDeath(ComponentGridTile componentTile) {
+    //    RemoveComponent(componentTile.x, componentTile.z, true);
+    //}
 
     /// <summary>
     /// Searches the component grid space and tries to find if there is a connection 

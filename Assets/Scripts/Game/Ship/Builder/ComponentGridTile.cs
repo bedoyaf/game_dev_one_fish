@@ -1,7 +1,6 @@
 using System;
 using UnityEngine;
 using UnityEngine.Serialization;
-using static UnityEngine.Rendering.DebugUI;
 
 
 /// <summary>
@@ -74,9 +73,18 @@ public class ComponentGridTile {
             _instantiatedComponent = value;
         }
     }
+    public bool shouldDestroy;
 
-    [SerializeField] private bool isSolid;
-    public bool IsSolid => isSolid || (component != null && component.placementRules.solid);
+    // Old system
+    //[SerializeField] private bool isSolid;
+    //public bool IsSolid => isSolid || (component != null && component.placementRules.solid);
+
+    /// <summary>
+    /// Current solid system - being solid is a property of a component, not of a grid tile
+    /// Returns whether the component attached to this tile is solid
+    /// </summary>
+    public bool IsSolid => component != null && component.placementRules.solid;
+
 
     //[SerializeReference]
     //private ComponentGrid componentGrid;
@@ -101,8 +109,9 @@ public class ComponentGridTile {
     /// <summary>
     /// Do not use for placing normal components!!!
     /// </summary>
-    public void PlacePlaceholder(ShipComponentController placeholder, bool isInstantiated) {
-        DestroyCurrentComponent();
+    public void PlacePlaceholder(ShipComponentController placeholder, bool isInstantiated, bool shouldDestroy) {
+        if (shouldDestroy)
+            DestroyCurrentComponent();
         component = placeholder;
         if (!isPlaceholder) {
             isPlaceholder = true;
@@ -154,20 +163,29 @@ public class ComponentGridTile {
         }
     }
 
+    /// <summary>
+    /// Now useless, because the solid system changed
+    /// </summary>
     public void SetSolid(bool solid) {
         if (isPlaceholder) return;
 
-        isSolid = solid;
+        //isSolid = solid;
         ShowSolid();
     }
 
+    /// <summary>
+    /// Now useless
+    /// </summary>
     public void ToggleSolid() {
         if (isPlaceholder) return;
 
-        isSolid = !isSolid;
+        //isSolid = !isSolid;
         ShowSolid();
     }
 
+    /// <summary>
+    /// Kinda useless
+    /// </summary>
     public void ShowSolid() {
         if (instantiatedComponent) {
             //var mat = component.GetComponentInChildren<MeshRenderer>().material;
@@ -175,7 +193,7 @@ public class ComponentGridTile {
             //var inverseColor = new Color(1 - color.r, 1 - color.g, 1 - color.b);
             //mat.SetColor("_EmissionColor", isSolid ? inverseColor : Color.black);
             var pos = component.transform.position;
-            pos.y = isSolid ? 0.2f : 0f;
+            pos.y = IsSolid ? 0.2f : 0f;
             component.transform.position = pos;
         }
     }

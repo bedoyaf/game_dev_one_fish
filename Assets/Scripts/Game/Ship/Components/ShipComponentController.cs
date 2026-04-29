@@ -1,4 +1,6 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using Unity.VisualScripting;
 using Unity.VisualScripting.Antlr3.Runtime;
@@ -154,6 +156,28 @@ public class ShipComponentController : MonoBehaviour
         // Destroys the component and works with the grid.
         //shipController.componentGrid.OnComponentDeath(placementRules.connectedTile);
         BreakComponent();
+
+
+    }
+
+    public void BreakOff() {
+        // Set the bool at the end to true if this component should be included to separated components
+        var separatedComponents = shipController.componentGrid.GetAllSeparatedComponentsAfterRemoval(placementRules.connectedTile, false);
+        
+        // Recursively removes all connected components from the grid memory (will not destroy the objects)
+        shipController.componentGrid.RemoveComponent(placementRules.connectedTile, true, false);
+
+        // Do whatever you want with the components
+        StartCoroutine(MoveDown(separatedComponents));
+    }
+    // This is just to showcase the code, feel free to remove
+    private IEnumerator MoveDown(List<ShipComponentController> wouldDissappear) {
+        for (int i = 0; i < 1000; i++) {
+            yield return null;
+            foreach (var comp in wouldDissappear) {
+                comp.transform.position -= new Vector3(0, 0, 1.0f / 60);
+            }
+        }
     }
 
 

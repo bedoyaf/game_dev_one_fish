@@ -252,9 +252,11 @@ public class EnemyShipAgent : MonoBehaviour
                 // pick a random direction
                 var dir = MouseController.ENEMY_DIRECTIONS[Random.Range(0, 2)];
 
+                // Pick random tile of the component
+                var randomOffset = SelectRandomComponentTile(target);
+
                 // Hard put one direction for testing
                 // dir = MouseController.ENEMY_DIRECTIONS[0];
-                var randomOffset = SelectRandomComponentTile(target);
                 weapon.AgentActivateComponent(new TargetingData(
                 target.shipComponentMeshController,
                 dir,
