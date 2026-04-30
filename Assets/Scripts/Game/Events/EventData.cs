@@ -20,9 +20,9 @@ public class EventData : ScriptableObject {
         public List<EventEffect> effects;
         public List<EventCondition> conditions;
 
-        public void ApplyEffects() {
+        public void ApplyEffects(EventController eventController) {
             foreach(var effect in effects) {
-                effect.ApplyEffect();
+                effect.ApplyEffect(eventController);
             }
         }
 
@@ -35,16 +35,16 @@ public class EventData : ScriptableObject {
         }
     }
 
-    public void PrintData() {
-        foreach (EventChoice choice in choices) {
-            Debug.Log(choice.choiceID);
-            Debug.Log(choice.choiceText);
+    //public void PrintData() {
+    //    foreach (EventChoice choice in choices) {
+    //        Debug.Log(choice.choiceID);
+    //        Debug.Log(choice.choiceText);
 
-            foreach(var effect in choice.effects) {
-                effect.effectData.ApplyEffect();
-            }
+    //        foreach(var effect in choice.effects) {
+    //            effect.effectData.ApplyEffect();
+    //        }
 
-            Debug.Log(""); 
-        }
-    }
+    //        Debug.Log(""); 
+    //    }
+    //}
 }

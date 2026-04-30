@@ -23,6 +23,9 @@ public class GameplayFlowManager : MonoBehaviour
     [SerializeField]
     private ShipController enemyShip;
 
+    [SerializeField]
+    private EventController eventController;
+
     // Some access to player ship is needed
     public ShipController PlayerShip => playerShip;
     public ShipController EnemyShip => enemyShip;
@@ -80,6 +83,7 @@ public class GameplayFlowManager : MonoBehaviour
                 
                     // TODO
                 case GameStates.Event:
+                    manager.eventController.NextEvent();
                     break;
 
                 case GameStates.RewardSelection:
@@ -92,7 +96,7 @@ public class GameplayFlowManager : MonoBehaviour
 
                 case GameStates.ShipModification:
                     // Enter editor mode
-                    // TODO use components from actual selection.
+                    // TODO use components from actual selection. This is just 3 random from the enemy.
                     var componentsToAdd = new List<ShipComponentController>();
                     var possibleComps = manager.enemyShip.shipData.possibleDrops;
                     for(int i = 0; i < 3; i++) {
@@ -156,6 +160,10 @@ public class GameplayFlowManager : MonoBehaviour
     {
         playerShip.RemoveControlFromEditor();
 
+        stateMachine.ChangeState(GameStates.WaitingForCombat);
+    }
+
+    public void EventDone() {
         stateMachine.ChangeState(GameStates.WaitingForCombat);
     }
     

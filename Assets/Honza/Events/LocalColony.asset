@@ -1,0 +1,68 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce492c0da6d80b0438eeff88d89d2455, type: 3}
+  m_Name: LocalColony
+  m_EditorClassIdentifier: Assembly-CSharp::EventData
+  eventID: loterry
+  eventText: You meet a colony in space. They desperately need some help, or they
+    might not survive.
+  eventImage: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
+  choices:
+  - choiceID: help
+    choiceText: Give them 5$ to recuperate. They might help you later.
+    effects:
+    - effectType: 6
+      effectData:
+        rid: 2819435473551491141
+    - effectType: 3
+      effectData:
+        rid: 2819435473551491145
+    conditions:
+    - conditionType: 1
+      eventCondition:
+        rid: 2819435473551491144
+  - choiceID: steal
+    choiceText: Steal even the little money they have
+    effects:
+    - effectType: 3
+      effectData:
+        rid: 2819435473551491146
+    conditions: []
+  - choiceID: leave
+    choiceText: Just leave them be
+    effects:
+    - effectType: 2
+      effectData:
+        rid: 2819435473551491148
+    conditions: []
+  references:
+    version: 2
+    RefIds:
+    - rid: 2819435473551491141
+      type: {class: AddEventEffect, ns: , asm: Assembly-CSharp}
+      data:
+        eventToAdd: {fileID: 11400000, guid: 0edd88b7ba9241d4399c22c820e9458c, type: 2}
+    - rid: 2819435473551491144
+      type: {class: HasCurrencyCondition, ns: , asm: Assembly-CSharp}
+      data:
+        currencyCount: 5
+    - rid: 2819435473551491145
+      type: {class: ChangeCurrencyAmountEffect, ns: , asm: Assembly-CSharp}
+      data:
+        amount: -5
+    - rid: 2819435473551491146
+      type: {class: ChangeCurrencyAmountEffect, ns: , asm: Assembly-CSharp}
+      data:
+        amount: 5
+    - rid: 2819435473551491148
+      type: {class: RunEffect, ns: , asm: Assembly-CSharp}
+      data: 

@@ -71,6 +71,8 @@ public class EventEffectDrawer : PropertyDrawer {
                 EffectType.ChangeCurrencyAmount => typeof(ChangeCurrencyAmountEffect),
                 EffectType.RandomChance => typeof(RandomChanceEffect),
                 EffectType.Multi => typeof(MultiEffect),
+                EffectType.AddEvent => typeof(AddEventEffect),
+                EffectType.GetComponent => typeof(GetComponentEffect),
                 _ => null,
             };
         }

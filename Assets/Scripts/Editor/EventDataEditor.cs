@@ -28,20 +28,20 @@ public class EventDataEditor : Editor {
             } while (property.NextVisible(false));
         }
 
-        var button = new Button(() => {
-            var eventData = (EventData)target;
+        //var button = new Button(() => {
+        //    var eventData = (EventData)target;
 
-            // Call your function here
-            eventData.PrintData();
+        //    // Call your function here
+        //    eventData.PrintData();
 
-            // Mark dirty if it modifies data
-            //EditorUtility.SetDirty(eventData);
-        }) {
-            text = "Print Data"
-        };
+        //    // Mark dirty if it modifies data
+        //    //EditorUtility.SetDirty(eventData);
+        //}) {
+        //    text = "Print Data"
+        //};
         //button.style.backgroundColor = new Color(1, 0, 0, 0.3f);
 
-        root.Add(button);
+        //root.Add(button);
 
         return root;
     }

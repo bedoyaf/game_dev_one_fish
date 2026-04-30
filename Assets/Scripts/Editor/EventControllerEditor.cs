@@ -15,8 +15,8 @@ public class EventControllerEditor : Editor {
             controller.HideUI();
         }
 
-        if (GUILayout.Button("Print events")) {
-            controller.PrintEvents();
-        }
+        //if (GUILayout.Button("Print events")) {
+        //    controller.PrintEvents();
+        //}
     }
 }
