@@ -16,12 +16,13 @@ public class Projectile : MonoBehaviour
     {
         direction = dir.normalized;
 
-        Destroy(gameObject, lifetime);
+        //Destroy(gameObject, lifetime);
+        MyTime.ScheduleDestruction(gameObject, lifetime);
     }
 
     void Update()
     {
-        transform.position += direction * speed * Time.deltaTime;
+        transform.position += direction * speed * MyTime.deltaTime;
     }
 
     private void OnCollisionEnter(Collision collision)

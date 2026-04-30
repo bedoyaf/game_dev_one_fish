@@ -26,9 +26,9 @@ public class MissileTravelScript : MonoBehaviour
 
     void Update()
     {
-        transform.position += dir * speed * Time.deltaTime;
+        transform.position += dir * speed * MyTime.deltaTime;
 
-        time += Time.deltaTime;
+        time += MyTime.deltaTime;
         if (time > travelTime)
         {
             Destroy(gameObject);

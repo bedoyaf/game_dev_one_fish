@@ -39,14 +39,16 @@ public class CombatController : SmartSingleton<CombatController>
 
     public void StopGame()
     {
-        Time.timeScale = 0f;
+        //Time.timeScale = 0f;
+        MyTime.timeScale = 0f;
         isPaused = true;
         Debug.Log("Game Paused");
     }
 
     public void ResumeGame()
     {
-        Time.timeScale = 1f;
+        //Time.timeScale = 1f;
+        MyTime.timeScale = 1f;
         isPaused = false;
         Debug.Log("Game Resumed");
     }

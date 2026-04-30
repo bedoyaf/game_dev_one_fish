@@ -124,7 +124,8 @@ public class MissileComponentController : BehaviourComponentControllerAbstract
 
     IEnumerator SpawnRocket(Vector3 spawnPos, Vector3 shootDir)
     {
-        yield return new WaitForSeconds(missileTravelTime);
+        //yield return new WaitForSeconds(missileTravelTime);
+        yield return MyTime.WaitForSeconds(missileTravelTime);
 
         GameObject missile = Instantiate(
             missilePrefab,

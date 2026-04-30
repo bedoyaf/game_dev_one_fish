@@ -7,13 +7,13 @@ public class ComponentCooldown : MonoBehaviour
 
     private float nextReadyTime;
 
-    public bool IsReady => Time.time >= nextReadyTime;
+    public bool IsReady => MyTime.time >= nextReadyTime;
 
-    public float Remaining => Mathf.Max(0, nextReadyTime - Time.time);
+    public float Remaining => Mathf.Max(0, nextReadyTime - MyTime.time);
 
     public void Trigger()
     {
-        nextReadyTime = Time.time + cooldownTime;
+        nextReadyTime = MyTime.time + cooldownTime;
     }
 
     public void ResetCooldown()

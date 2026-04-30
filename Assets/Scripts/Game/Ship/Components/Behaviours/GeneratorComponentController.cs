@@ -60,7 +60,7 @@ public class GeneratorComponentController : BehaviourComponentControllerAbstract
         if (energyStored >= energyMax)
             return;
 
-        energyBuffer += energyPerSecond * Time.deltaTime;
+        energyBuffer += energyPerSecond * MyTime.deltaTime;
 
         while (energyBuffer >= 1f)
         {

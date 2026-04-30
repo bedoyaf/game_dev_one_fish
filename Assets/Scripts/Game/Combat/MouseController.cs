@@ -237,7 +237,8 @@ public class MouseController : MonoBehaviour
                         dirTextures[directionIndex].height/2), 
             CursorMode.Auto);
 
-        yield return new WaitForSeconds(0.5f);
+        //yield return new WaitForSeconds(0.5f);
+        yield return MyTime.WaitForSeconds(0.5f);
 
         Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
     }

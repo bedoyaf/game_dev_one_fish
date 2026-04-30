@@ -98,16 +98,16 @@ public class EnemyShipAgent : MonoBehaviour
 
     void Update()
     {
-        if (Time.time >= nextBehaviorSwitchTime && thinking)
+        if (MyTime.time >= nextBehaviorSwitchTime && thinking)
         {
             CycleBehavior();
-            nextBehaviorSwitchTime = Time.time + behaviorSwitchInterval;
+            nextBehaviorSwitchTime = MyTime.time + behaviorSwitchInterval;
         }
 
-        if (Time.time >= nextActTime && thinking)
+        if (MyTime.time >= nextActTime && thinking)
         {
             Act();
-            nextActTime = Time.time + actActionDuraction;
+            nextActTime = MyTime.time + actActionDuraction;
         }
     }
 

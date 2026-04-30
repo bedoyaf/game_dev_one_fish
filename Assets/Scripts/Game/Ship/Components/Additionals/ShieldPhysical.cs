@@ -13,7 +13,8 @@ public class ShieldPhysical : MonoBehaviour
 
     public void Start()
     {
-        Destroy(gameObject, lifeSpan);
+        //Destroy(gameObject, lifeSpan);
+        MyTime.ScheduleDestruction(gameObject, lifeSpan);
     }
 
     public void TakeDamage(float dmg)
