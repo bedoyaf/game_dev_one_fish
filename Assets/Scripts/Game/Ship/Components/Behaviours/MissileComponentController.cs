@@ -49,9 +49,9 @@ public class MissileComponentController : BehaviourComponentControllerAbstract
             return;
         }
 
-        Vector3 componentOffset = target.componentOffset == null ? Vector3.zero : target.componentOffset.Value;
-        Vector3 exactTargetPosition = targetShipComponent.transform.position + targetShipComponent.transform.right * 0.5f + componentOffset;
-            // + targetShipComponent.gameObject.transform.parent.gameObject.transform.parent.gameObject.transform.localScale.x * new Vector3(0.5f, 0.0f, 0.5f);
+        Vector3 exactTargetPosition = targetShipComponent.transform.position + targetShipComponent.transform.right * 0.5f + target.ComponentOffset;
+        // + targetShipComponent.gameObject.transform.parent.gameObject.transform.parent.gameObject.transform.localScale.x * new Vector3(0.5f, 0.0f, 0.5f);
+        exactTargetPosition = target.ExactTargetPosition;
         Shoot(targetShip, dir, exactTargetPosition);
 
         shipComponentController.DeactivateComponent();

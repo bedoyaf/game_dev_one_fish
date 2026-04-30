@@ -14,6 +14,11 @@ public class ShieldComponentController : BehaviourComponentControllerAbstract
     [SerializeField] private int maxAviableShields = 2;
     private List<Shield> shields = new List<Shield>();
 
+    [SerializeField] GameObject physicalShieldPrefab;
+    public bool usesPhysicalShields;
+    private List<ShieldPhysical> physicalShields = new();
+    private int physicalShieldsUp = 0;
+
     public void Start()
     {
         cooldown = GetComponent<ComponentCooldown>();
@@ -59,7 +64,10 @@ public class ShieldComponentController : BehaviourComponentControllerAbstract
             return;
         }
 
-        SpawnShield(targetShipComponent);
+        if (usesPhysicalShields)
+            SpawnPhysicalShield(target);
+        else
+            SpawnShield(targetShipComponent);
         shipComponentController.DeactivateComponent();
         if (cooldown != null) cooldown.Trigger();
     }
@@ -89,6 +97,31 @@ public class ShieldComponentController : BehaviourComponentControllerAbstract
         target.ActivateShield(shield);
     }
 
+    private void SpawnPhysicalShield(TargetingData target) {
+
+        //Transform targetTransform = target.transform;
+        float offset = 0.5f;
+        var targetTransform = target.target.transform.parent;
+
+        //Vector3 position = new Vector3(targetTransform.position.x + offset, targetTransform.position.y + offset, targetTransform.position.z + offset);
+        Vector3 position = targetTransform.position + Vector3.one * offset + target.ComponentOffset;
+        //Vector3 exactPosition = target.ExactTargetPosition;
+        //if (!shipComponentController.shipController.playerShip) position = new Vector3(targetTransform.position.x - offset, targetTransform.position.y + offset, targetTransform.position.z + offset);
+
+        GameObject shieldObj = Instantiate(
+        physicalShieldPrefab,
+        position,
+        targetTransform.rotation
+        );
+        //shieldObj.transform.SetParent(targetTransform);
+
+        ShieldPhysical physicalShield = shieldObj.GetComponent<ShieldPhysical>();
+        physicalShields.Add(physicalShield);
+        physicalShieldsUp++;
+        physicalShield.OnShieldDestroyed.AddListener(OnPhysicalShieldDestroyed);
+        //target.ActivateShield(shield);
+    }
+
     private void OnShieldDestroyed(Shield shield)
     {
         for(int i =0; i<shields.Count; i++)
@@ -101,6 +134,17 @@ public class ShieldComponentController : BehaviourComponentControllerAbstract
             }
         }
         shieldsUp--;
+    }
+
+    private void OnPhysicalShieldDestroyed(ShieldPhysical physicalShield) {
+        for (int i = 0; i < physicalShields.Count; i++) {
+            if (physicalShields[i] == physicalShield) {
+                Destroy(physicalShields[i]);
+                physicalShields.Remove(physicalShield);
+                break;
+            }
+        }
+        physicalShieldsUp--;
     }
 
     public override void ResetBehaviour()
