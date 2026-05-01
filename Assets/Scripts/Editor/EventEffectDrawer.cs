@@ -45,7 +45,7 @@ using UnityEditor.UIElements;
 using UnityEngine.UIElements;
 using static EventEffect;
 
-// Not gonna take credit - this was mostly wibe coded.
+// Not gonna take credit - this was mostly vibe coded.
 [CustomPropertyDrawer(typeof(EventEffect))]
 public class EventEffectDrawer : PropertyDrawer {
     public override VisualElement CreatePropertyGUI(SerializedProperty property) {

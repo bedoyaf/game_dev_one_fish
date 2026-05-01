@@ -26,6 +26,10 @@ public class GameplayFlowManager : MonoBehaviour
     [SerializeField]
     private EventController eventController;
 
+    [SerializeField]
+    private MapController mapController;
+
+
     // Some access to player ship is needed
     public ShipController PlayerShip => playerShip;
     public ShipController EnemyShip => enemyShip;
@@ -49,6 +53,7 @@ public class GameplayFlowManager : MonoBehaviour
         RewardSelection,
         ShipModification,
 
+        MapSelection,
     }
 
     public class GameStateMachine
@@ -105,6 +110,10 @@ public class GameplayFlowManager : MonoBehaviour
 
                     manager.playerShip.GiveControlToEditor(componentsToAdd);
                     
+                    break;
+
+                case GameStates.MapSelection:
+                    manager.mapController.DisplayChoices();
                     break;
 
                 default:
