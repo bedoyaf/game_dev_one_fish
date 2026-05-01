@@ -62,6 +62,8 @@ public class ShipController : MonoBehaviour
         if (shipData == null) return;
         DeconstructShip();
         
+        // NOTE: this way is stupid too, and breaks some things too
+
         // If not player => enemy
         // Rotate by 180 °, then set scale on all !!meshes!! to x = -1
         if (!playerShip)
@@ -157,6 +159,8 @@ public class ShipController : MonoBehaviour
     }
 
 
+    public int GetEnergy => storedEnergy;
+
     /// <summary>
     /// Adds energy through the generator system, makes sure it fits the batteries
     /// </summary>
@@ -223,6 +227,7 @@ public class ShipController : MonoBehaviour
         return true;
     }
 
+    public int GetCurrency => storedMoney;
     public void AddCurrency(int amount)
     {
         // TODO: maybe limit via some components like energy

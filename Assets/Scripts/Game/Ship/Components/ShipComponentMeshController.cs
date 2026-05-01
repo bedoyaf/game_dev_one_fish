@@ -9,6 +9,8 @@ public class ShipComponentMeshController : MonoBehaviour, IDamagableCollider
     private Renderer meshRenderer;
     private Color originalColor;
     [SerializeField] private Color brokenColor = Color.gray;
+    // some meshes have multiple materials -> pick which one
+    [SerializeField] private int materialIndex = 0;
 
     private int deadLayer = -1;
     private int defaultLayer = -1;
@@ -27,7 +29,7 @@ public class ShipComponentMeshController : MonoBehaviour, IDamagableCollider
         meshCollider = GetComponent<Collider>();
         meshRenderer = GetComponent<Renderer>();
 
-        originalColor  = meshRenderer.material.color;
+        originalColor  = meshRenderer.materials[materialIndex].color;
         meshRenderer.material.SetFloat("damageAmount", 0);
     }
     public void OnMouseClick()
@@ -63,7 +65,7 @@ public class ShipComponentMeshController : MonoBehaviour, IDamagableCollider
         
         if (meshRenderer != null)
         {
-            meshRenderer.material.color = brokenColor;
+            meshRenderer.materials[materialIndex].color = brokenColor;
         }
     }
 
@@ -74,7 +76,7 @@ public class ShipComponentMeshController : MonoBehaviour, IDamagableCollider
 
         if (meshRenderer != null)
         {
-            meshRenderer.material.color = originalColor;
+            meshRenderer.materials[materialIndex].color = originalColor;
         }
     }
 
@@ -84,7 +86,8 @@ public class ShipComponentMeshController : MonoBehaviour, IDamagableCollider
         if (meshRenderer != null)
         {
             Debug.Log($"Changing damage of material to {1f - fraction}");
-            meshRenderer.material.SetFloat("_damageAmount", 1f-fraction);
+
+            meshRenderer.materials[materialIndex].SetFloat("_damageAmount", 1f-fraction);
         }
     }
     public void OnDamagableCollision(int amount)

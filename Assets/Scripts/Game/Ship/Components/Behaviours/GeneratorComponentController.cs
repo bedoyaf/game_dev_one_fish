@@ -17,12 +17,6 @@ public class GeneratorComponentController : BehaviourComponentControllerAbstract
 
     private float energyBuffer = 0;
 
-    private ShipComponentController selfController;
-
-    void Start()
-    {
-        selfController = GetComponent<ShipComponentController>();
-    }
 
     public void DeleteEnergy()
     {
@@ -65,7 +59,7 @@ public class GeneratorComponentController : BehaviourComponentControllerAbstract
 
     private void Update()
     {
-        if(!selfController.IsBroken) GenerateEnergy();
+        if(!shipComponentController.IsBroken) GenerateEnergy();
         // UpdateDebugText();//DEBUG
     }
 
