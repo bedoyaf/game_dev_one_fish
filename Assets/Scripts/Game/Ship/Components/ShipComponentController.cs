@@ -15,6 +15,7 @@ public class ShipComponentController : MonoBehaviour
 {
     public int maxHealth = 10;
     public int health = 10;
+    public bool IsBroken => broken;
 
     private int healthPerRepair = 5;
 
@@ -84,6 +85,7 @@ public class ShipComponentController : MonoBehaviour
         Debug.Log("No shield -> damaging HP");
 
         health -= dmg;
+        shipComponentMeshController.OnHealthUpdate((float)health / maxHealth);
 
         if (health <= 0)
         {
@@ -185,6 +187,7 @@ public class ShipComponentController : MonoBehaviour
     {
         broken = true;
         shipComponentMeshController.ChangeMeshToBroken();
+        shipComponentMeshController.OnHealthUpdate(0f);
     }
 
 
@@ -202,6 +205,7 @@ public class ShipComponentController : MonoBehaviour
             if (shipController.UseCurrency(1))
             {
                 health = Math.Min(health + healthPerRepair, maxHealth);
+                shipComponentMeshController.OnHealthUpdate((float)health / maxHealth);
 
                 if (broken)
                 {
@@ -225,6 +229,7 @@ public class ShipComponentController : MonoBehaviour
         broken = false;
         health = maxHealth;
         shipComponentMeshController.ChangeMeshToWorking();
+        shipComponentMeshController.OnHealthUpdate((float)health / maxHealth);
     }
 
     public void ActivateShield(Shield shield)

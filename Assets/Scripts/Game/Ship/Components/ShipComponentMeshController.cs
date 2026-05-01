@@ -26,7 +26,9 @@ public class ShipComponentMeshController : MonoBehaviour, IDamagableCollider
         if (shipComponentController == null) Debug.LogError("ShipComponentMeshController lacks the parent script");
         meshCollider = GetComponent<Collider>();
         meshRenderer = GetComponent<Renderer>();
+
         originalColor  = meshRenderer.material.color;
+        meshRenderer.material.SetFloat("damageAmount", 0);
     }
     public void OnMouseClick()
     {
@@ -53,6 +55,7 @@ public class ShipComponentMeshController : MonoBehaviour, IDamagableCollider
 
     
 
+
     public void ChangeMeshToBroken()
     {
         // meshCollider.enabled = false;
@@ -75,6 +78,15 @@ public class ShipComponentMeshController : MonoBehaviour, IDamagableCollider
         }
     }
 
+    // Call to set damage based on fraction of total Heatlh
+    public void OnHealthUpdate(float fraction)
+    {
+        if (meshRenderer != null)
+        {
+            Debug.Log($"Changing damage of material to {1f - fraction}");
+            meshRenderer.material.SetFloat("_damageAmount", 1f-fraction);
+        }
+    }
     public void OnDamagableCollision(int amount)
     {
         shipComponentController.TakeDamage(amount);
