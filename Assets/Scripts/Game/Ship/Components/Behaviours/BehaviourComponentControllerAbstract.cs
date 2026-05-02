@@ -7,7 +7,7 @@ using UnityEngine;
 public abstract class BehaviourComponentControllerAbstract : MonoBehaviour, IShipComponentBehaviour
 {
     protected ShipController shipController;
-    public ShipComponentController shipComponentController;
+    public ShipComponentController shipComponentController { get; private set; }
 
     protected ComponentCooldown cooldown;
 
