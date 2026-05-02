@@ -163,6 +163,12 @@ public class ComponentGrid {
         return component;
     }
 
+    public void AssignShipController(ShipController shipController) {
+        foreach (var tile in tiles) {
+            tile.component.SetShipController(shipController);
+        }
+    }
+
     /// <summary>
     /// Removes the component at the coordinates and replaces it with placeholders
     /// If placeholder parent is not null, it will instantiate placeholders

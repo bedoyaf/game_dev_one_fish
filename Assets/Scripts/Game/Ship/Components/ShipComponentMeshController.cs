@@ -6,9 +6,11 @@ public class ShipComponentMeshController : MonoBehaviour, IDamagableCollider
 
     private Collider meshCollider;
 
-    private Renderer meshRenderer;
+    [SerializeField] private Renderer meshRenderer;
     private Color originalColor;
     [SerializeField] private Color brokenColor = Color.gray;
+    // some meshes have multiple materials -> pick which one
+    [SerializeField] private int materialIndex = 0;
 
     private int deadLayer = -1;
     private int defaultLayer = -1;
@@ -25,8 +27,10 @@ public class ShipComponentMeshController : MonoBehaviour, IDamagableCollider
         }
         if (shipComponentController == null) Debug.LogError("ShipComponentMeshController lacks the parent script");
         meshCollider = GetComponent<Collider>();
-        meshRenderer = GetComponent<Renderer>();
-        originalColor  = meshRenderer.material.color;
+        //meshRenderer = GetComponent<Renderer>();
+
+        originalColor  = meshRenderer.materials[materialIndex].color;
+        meshRenderer.material.SetFloat("damageAmount", 0);
     }
     public void OnMouseClick()
     {
@@ -53,6 +57,7 @@ public class ShipComponentMeshController : MonoBehaviour, IDamagableCollider
 
     
 
+
     public void ChangeMeshToBroken()
     {
         // meshCollider.enabled = false;
@@ -60,7 +65,7 @@ public class ShipComponentMeshController : MonoBehaviour, IDamagableCollider
         
         if (meshRenderer != null)
         {
-            meshRenderer.material.color = brokenColor;
+            meshRenderer.materials[materialIndex].color = brokenColor;
         }
     }
 
@@ -71,10 +76,20 @@ public class ShipComponentMeshController : MonoBehaviour, IDamagableCollider
 
         if (meshRenderer != null)
         {
-            meshRenderer.material.color = originalColor;
+            meshRenderer.materials[materialIndex].color = originalColor;
         }
     }
 
+    // Call to set damage based on fraction of total Heatlh
+    public void OnHealthUpdate(float fraction)
+    {
+        if (meshRenderer != null)
+        {
+            Debug.Log($"Changing damage of material to {1f - fraction}");
+
+            meshRenderer.materials[materialIndex].SetFloat("_damageAmount", 1f-fraction);
+        }
+    }
     public void OnDamagableCollision(int amount)
     {
         shipComponentController.TakeDamage(amount);

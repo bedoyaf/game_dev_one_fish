@@ -9,7 +9,13 @@ using Unity.VisualScripting;
 /// </summary>
 public class RepairerComponentController : BehaviourComponentControllerAbstract
 {
-    
+
+    public bool CanClick => 
+        cooldown.IsReady && 
+        !shipComponentController.broken && 
+        shipController.GetCurrency > 0 && 
+        shipController.GetEnergy >= shipComponentController.requiredEnergy;
+
     public void Start()
     {
         cooldown = GetComponent<ComponentCooldown>();

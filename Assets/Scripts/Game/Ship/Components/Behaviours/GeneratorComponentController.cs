@@ -6,13 +6,23 @@ using UnityEngine;
 public class GeneratorComponentController : BehaviourComponentControllerAbstract
 {
     [SerializeField] private int energyStored;
+    public int GetCurrentEnergy => energyStored;
+
     [SerializeField] private int energyMax;
+    public int GetEnergyCapacity => energyMax; 
 
     [SerializeField] private float energyPerSecond = 0.7f;
 
     private TextMesh debugText;
 
-    private float energyBuffer =0;
+    private float energyBuffer = 0;
+
+
+    public void DeleteEnergy()
+    {
+        energyBuffer = 0;
+        energyStored = 0;
+    }
 
     public override void OnActivate()
     {
@@ -28,6 +38,7 @@ public class GeneratorComponentController : BehaviourComponentControllerAbstract
 
     public override void ResetBehaviour()
     {
+        energyBuffer = 0;
         energyStored = 0;
     }
 
@@ -48,8 +59,8 @@ public class GeneratorComponentController : BehaviourComponentControllerAbstract
 
     private void Update()
     {
-        GenerateEnergy();
-        UpdateDebugText();//DEBUG
+        if(!shipComponentController.IsBroken) GenerateEnergy();
+        // UpdateDebugText();//DEBUG
     }
 
     /// <summary>
@@ -76,11 +87,13 @@ public class GeneratorComponentController : BehaviourComponentControllerAbstract
     public override void OnTargetSelected(TargetingData target){}
 
     //DEBUG ----------------------------------------------------------------------------------------------
+    /*
     void Start()
     {
+
         CreateDebugText();
     }
-
+    */
     private void CreateDebugText()
     {
         GameObject textObj = new GameObject("EnergyDebugText");

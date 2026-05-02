@@ -25,6 +25,7 @@ public class ComponentCooldown : MonoBehaviour
     {
         if (Camera.main == null) return;
 
+        /*
         Vector3 screenPos = Camera.main.WorldToScreenPoint(transform.position);
 
         if (screenPos.z < 0) return;
@@ -41,5 +42,6 @@ public class ComponentCooldown : MonoBehaviour
         GUI.color = IsReady ? Color.green : Color.red;
 
         GUI.Label(new Rect(x, y, 60, 20), text);
+        */
     }
 }

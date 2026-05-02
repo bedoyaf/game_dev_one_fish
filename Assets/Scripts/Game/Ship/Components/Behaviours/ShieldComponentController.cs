@@ -19,6 +19,11 @@ public class ShieldComponentController : BehaviourComponentControllerAbstract
     private List<ShieldPhysical> physicalShields = new();
     private int physicalShieldsUp = 0;
 
+    public bool CanClick => 
+        cooldown.IsReady && 
+        !shipComponentController.broken &&
+        shipController.GetEnergy >= shipComponentController.requiredEnergy;
+
     public void Start()
     {
         cooldown = GetComponent<ComponentCooldown>();

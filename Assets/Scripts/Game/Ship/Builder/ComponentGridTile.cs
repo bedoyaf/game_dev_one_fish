@@ -192,9 +192,9 @@ public class ComponentGridTile {
             //var color = mat.color;
             //var inverseColor = new Color(1 - color.r, 1 - color.g, 1 - color.b);
             //mat.SetColor("_EmissionColor", isSolid ? inverseColor : Color.black);
-            var pos = component.transform.position;
-            pos.y = IsSolid ? 0.2f : 0f;
-            component.transform.position = pos;
+            //var pos = component.transform.position;
+            //pos.y = IsSolid ? 0.2f : 0f;
+            //component.transform.position = pos;
         }
     }
 

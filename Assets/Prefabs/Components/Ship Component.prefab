@@ -31,6 +31,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2890683925031955270}
+  - {fileID: 3276777902625882750}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &5385403880273499414
@@ -51,8 +52,13 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   activated: 0
-  requiresPower: 1
   requiredEnergy: 0
+  destroyRevenue: 1
+  ComponentMesh: {fileID: 8104800591989940212}
+  ComponentHitbox: {fileID: 4761664359144966001}
+  shipComponentMeshController: {fileID: 0}
+  componentData: {fileID: 0}
+  componentPrefab: {fileID: 5385403880273499414}
   placementRules:
     width: 1
     height: 1
@@ -70,10 +76,76 @@ MonoBehaviour:
       blocked: 0
       isPlaceholder: 0
       _instantiatedComponent: 0
-      isSolid: 0
-  componentPrefab: {fileID: 5385403880273499414}
-  ComponentMesh: {fileID: 8104800591989940212}
-  shipComponentMeshController: {fileID: 0}
+      shouldDestroy: 0
+--- !u!1 &4761664359144966001
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3276777902625882750}
+  - component: {fileID: 1446160230290259827}
+  - component: {fileID: 2465629780555048395}
+  m_Layer: 0
+  m_Name: Collider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3276777902625882750
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4761664359144966001}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.5, y: 0.5, z: 0.5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3549073369916533152}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &1446160230290259827
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4761664359144966001}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &2465629780555048395
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4761664359144966001}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d391792c9845d6846bd430fdc1277d84, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ShipComponentMeshController
+  meshRenderer: {fileID: 4898772173142610036}
+  brokenColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  materialIndex: 0
 --- !u!1 &8104800591989940212
 GameObject:
   m_ObjectHideFlags: 0
@@ -85,8 +157,6 @@ GameObject:
   - component: {fileID: 2890683925031955270}
   - component: {fileID: 9035797840035424804}
   - component: {fileID: 4898772173142610036}
-  - component: {fileID: 9141709395227945271}
-  - component: {fileID: 928433711737337568}
   m_Layer: 0
   m_Name: Mesh
   m_TagString: Untagged
@@ -166,37 +236,3 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &9141709395227945271
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8104800591989940212}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &928433711737337568
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8104800591989940212}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d391792c9845d6846bd430fdc1277d84, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ShipComponentMeshController
-  brokenColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
