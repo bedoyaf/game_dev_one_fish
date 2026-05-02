@@ -20,6 +20,4 @@ public class SaveSlotData : ScriptableObject
     {
         IsSlotEmpty = false;
     }
-    print amogus
-
 }
