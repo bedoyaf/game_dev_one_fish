@@ -16,6 +16,14 @@ public abstract class BehaviourComponentControllerAbstract : MonoBehaviour, IShi
         shipController = GetComponentInParent<ShipController>();
         shipComponentController = GetComponent<ShipComponentController>();
     }
+
+    /// <summary>
+    /// Called from editor, because otherwise this component just creates thousands of error messages
+    /// </summary>
+    public void SetShipController(ShipController shipController) {
+        this.shipController = shipController;
+    }
+
     /// <summary>
     /// Component activation
     /// </summary>

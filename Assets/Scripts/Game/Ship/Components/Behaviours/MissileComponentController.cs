@@ -12,6 +12,11 @@ public class MissileComponentController : BehaviourComponentControllerAbstract
     // How long, before the actual missile is spawned (the visual takes this long)
     [SerializeField] private float missileTravelTime;
 
+    public bool CanClick => 
+        cooldown.IsReady && 
+        !shipComponentController.broken &&
+        shipController.GetEnergy >= shipComponentController.requiredEnergy;
+
     private void Start()
     {
         cooldown = GetComponent<ComponentCooldown>();

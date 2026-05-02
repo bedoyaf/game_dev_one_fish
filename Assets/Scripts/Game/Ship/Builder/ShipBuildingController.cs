@@ -30,7 +30,7 @@ public class ShipBuildingController : MonoBehaviour
     public List<ComponentBuildingDrag> draggableComponents;
     public ComponentBuildingDrag currentlyDragging;
 
-
+    [SerializeField] private ShipController shipController;
 
     public BuilderMode builderMode;
     private bool isPlayer => builderMode == BuilderMode.Player;
@@ -150,6 +150,7 @@ public class ShipBuildingController : MonoBehaviour
             }
         }
 
+        componentGrid.AssignShipController(shipController);
         componentGrid.ConnectGrid(shipData.componentGrid);
 
         InitializeDraggableComponents(componentPrefabs);
@@ -170,7 +171,11 @@ public class ShipBuildingController : MonoBehaviour
             var comp = componentPrefabs[i];
             var parent = new GameObject(comp.name + "Draggable");
             parent.transform.SetParent(draggablesParent);
-            var tmp = Instantiate(comp.ComponentMesh, parent.transform);
+
+            var mesh = Instantiate(comp.ComponentMesh, parent.transform);
+            mesh.transform.DestroyAllChildren();
+            Instantiate(comp.ComponentHitbox, parent.transform);
+
             parent.transform.localPosition = new Vector3(left, 0, 0);
             left += comp.placementRules.width;
             left += draggableDistance;
@@ -190,7 +195,7 @@ public class ShipBuildingController : MonoBehaviour
         // On press down start drag
         if (context.started) {
             if (Physics.Raycast(Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue()), out RaycastHit hit, 100)) {
-                // TODOH just temporary
+                // TODOH just temporary - not working anymore
                 // Toggle solid on a component
                 var comp = hit.collider.gameObject.GetComponentInParent<ShipComponentController>();
                 if (comp != null && !isPlayer) {
@@ -286,7 +291,6 @@ public class ShipBuildingController : MonoBehaviour
         if (Physics.Raycast(Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue()), out RaycastHit hit, 100)) {
             var component = hit.collider.gameObject.GetComponentInParent<ShipComponentController>();
             if (component == null) return false;
-
             // Get position of the click
             var position = hit.point - component.transform.position + component.transform.localPosition;
             int x = (int)position.x;
@@ -311,7 +315,7 @@ public class ShipBuildingController : MonoBehaviour
                 componentGrid.PlaceComponent(componentPrefab, x, z, false, false);
                 //shipData.componentGrid.PlaceComponent(componentPrefab, x, z);
             }
-
+            componentGrid.AssignShipController(shipController);
             return true;
         }
 

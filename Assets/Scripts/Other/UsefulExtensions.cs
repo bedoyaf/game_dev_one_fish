@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
@@ -37,5 +36,25 @@ public static class EnumerableExtensions {
         }
 
         return sb.ToString();
+    }
+}
+
+public static class ListExtensions {
+    public static T GetRandom<T>(this List<T> list) {
+        if (list == null || list.Count == 0)
+            return default;
+
+        return list[Random.Range(0, list.Count)];
+    }
+
+    public static void Shuffle<T>(this IList<T> ts) {
+        var count = ts.Count;
+        var last = count - 1;
+        for (var i = 0; i < last; ++i) {
+            var r = Random.Range(i, count);
+            var tmp = ts[i];
+            ts[i] = ts[r];
+            ts[r] = tmp;
+        }
     }
 }

@@ -5,6 +5,25 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "ShipData", menuName = "Scriptable Objects/ShipData")]
 public class ShipData : ScriptableObject {
     /// <summary>
+    /// Should the drops be automatically updated to all components on the ship after any change?
+    /// </summary>
+    [SerializeField] private bool autoUpdateDrops = true;
+
+    /// <summary>
+    /// Numerical difficulty of the enemy. I suggest range from 0 to 10.
+    /// </summary>
+    public int enemyDifficulty;
+
+    /// <summary>
+    /// What can drop from the ship
+    /// Disable <see cref="autoUpdateDrops"/> if you want to set this manually
+    /// </summary>
+    public List<ShipComponentController> possibleDrops;
+
+    [SerializeField]
+    private ComponentGrid _componentGrid;
+
+    /// <summary>
     /// The stored component grid. All things inside are references to prefabs, not instances.
     /// </summary>
     public ComponentGrid componentGrid {
@@ -17,20 +36,6 @@ public class ShipData : ScriptableObject {
             this.SaveScene();
         }
     }
-
-    /// <summary>
-    /// Should the drops be automatically updated to all components on the ship after any change?
-    /// </summary>
-    [SerializeField] private bool autoUpdateDrops = true;
-
-    /// <summary>
-    /// What can drop from the ship
-    /// Disable <see cref="autoUpdateDrops"/> if you want to set this manually
-    /// </summary>
-    public List<ShipComponentController> possibleDrops;
-
-    [SerializeField]
-    private ComponentGrid _componentGrid;
 
     /// <summary>
     /// Enables the component grid to be accessed like a matrix
@@ -73,6 +78,7 @@ public class ShipData : ScriptableObject {
         if (!autoUpdateDrops || _componentGrid == null) return;
 
         possibleDrops = _componentGrid.GetAllUniqueComponentPrefabs();
+        possibleDrops.RemoveAll(x => x.placementRules.solid); // Remove the cabin from possible drops
         this.SaveScene();
     }
 
