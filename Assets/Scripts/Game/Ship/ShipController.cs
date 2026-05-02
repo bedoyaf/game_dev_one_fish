@@ -84,6 +84,9 @@ public class ShipController : MonoBehaviour
             {
                 var oldScale = mesh.gameObject.transform.localScale;
                 mesh.gameObject.transform.localScale = new Vector3(oldScale.x, oldScale.y, -oldScale.z);
+
+                var meshPos = mesh.gameObject.transform.localPosition;
+                mesh.gameObject.transform.localPosition = new Vector3(meshPos.x, 1 - meshPos.y, meshPos.z);
             }
 
             var oldPos = componentsParent.transform.position;

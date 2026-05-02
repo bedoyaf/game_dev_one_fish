@@ -6,7 +6,7 @@ public class ShipComponentMeshController : MonoBehaviour, IDamagableCollider
 
     private Collider meshCollider;
 
-    private Renderer meshRenderer;
+    [SerializeField] private Renderer meshRenderer;
     private Color originalColor;
     [SerializeField] private Color brokenColor = Color.gray;
     // some meshes have multiple materials -> pick which one
@@ -27,7 +27,7 @@ public class ShipComponentMeshController : MonoBehaviour, IDamagableCollider
         }
         if (shipComponentController == null) Debug.LogError("ShipComponentMeshController lacks the parent script");
         meshCollider = GetComponent<Collider>();
-        meshRenderer = GetComponent<Renderer>();
+        //meshRenderer = GetComponent<Renderer>();
 
         originalColor  = meshRenderer.materials[materialIndex].color;
         meshRenderer.material.SetFloat("damageAmount", 0);

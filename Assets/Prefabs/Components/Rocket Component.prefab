@@ -341,6 +341,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5385403880273499414, guid: 76b53dd701359c84195162e28f3a0cbb, type: 3}
+      propertyPath: ComponentHitbox
+      value: 
+      objectReference: {fileID: 6221272209699701762}
+    - target: {fileID: 5385403880273499414, guid: 76b53dd701359c84195162e28f3a0cbb, type: 3}
       propertyPath: placementRules.Right
       value: 10
       objectReference: {fileID: 0}
@@ -424,3 +428,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ComponentCooldown
   cooldownTime: 2
+--- !u!1 &6221272209699701762 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4761664359144966001, guid: 76b53dd701359c84195162e28f3a0cbb, type: 3}
+  m_PrefabInstance: {fileID: 1459925618552488819}
+  m_PrefabAsset: {fileID: 0}

@@ -17,6 +17,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1039438194971829982, guid: d62e4788b61ee3247b66f9b3f7ffe20d, type: 3}
+      propertyPath: shipController
+      value: 
+      objectReference: {fileID: 2917786402282024532}
+    - target: {fileID: 1039438194971829982, guid: d62e4788b61ee3247b66f9b3f7ffe20d, type: 3}
       propertyPath: InitializeOnStart
       value: 0
       objectReference: {fileID: 0}
@@ -157,6 +161,17 @@ PrefabInstance:
       addedObject: {fileID: 3744569629637738545}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9101963b760786d4783a45530197e394, type: 3}
+--- !u!114 &2917786402282024532 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7143206592012587724, guid: 9101963b760786d4783a45530197e394, type: 3}
+  m_PrefabInstance: {fileID: 5431283746296806552}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44f9d800271a3104da11547b6bcf4061, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ShipController
 --- !u!4 &8403647890093070699 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4593683653580219891, guid: 9101963b760786d4783a45530197e394, type: 3}

@@ -34,7 +34,7 @@ public class ShipComponentController : MonoBehaviour
     public ShipController shipController { get; private set; }
 
     public GameObject ComponentMesh; // The child of the component, that has the mesh on it
-    
+    public GameObject ComponentHitbox; // The child of the component that has the hitbox on it
     
     public Shield shield { private set; get; }
 
@@ -70,6 +70,10 @@ public class ShipComponentController : MonoBehaviour
     public void SetShipController(ShipController shipController)
     {
         this.shipController = shipController;
+        var behaviors = GetComponentsInChildren<BehaviourComponentControllerAbstract>();
+        foreach (var b in behaviors) {
+            b.SetShipController(shipController);
+        }
     }
 
     public void TakeDamage(int dmg)
