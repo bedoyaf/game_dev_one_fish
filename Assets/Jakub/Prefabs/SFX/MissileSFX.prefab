@@ -101,6 +101,7 @@ GameObject:
   m_Component:
   - component: {fileID: 683554353176448668}
   - component: {fileID: 8141968813963164103}
+  - component: {fileID: 2668294192426112195}
   m_Layer: 0
   m_Name: MissileSFX
   m_TagString: Untagged
@@ -139,3 +140,21 @@ MonoBehaviour:
   startPosition: {x: 0, y: 0, z: 0}
   endPosition: {x: 0, y: 0, z: 0}
   travelTime: 0
+--- !u!114 &2668294192426112195
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7728908910154949495}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7437ff2ba073a24bbc13dc4700e32f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyShipAgent
+  thinking: 0
+  actInterval: 1
+  cycleBehaviors: 
+  behaviorSwitchInterval: 2.5
+  actActionDuraction: 0.01
+  playerShip: {fileID: 0}

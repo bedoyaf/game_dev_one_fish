@@ -154,7 +154,7 @@ public class ShipController : MonoBehaviour
         var maincabins = componentGrid.GetComponentsOfType<MainCabinComponentController>();
         if(maincabins.Count != 1)
         {
-            Debug.LogError("Wrong number of main cabings");
+            Debug.LogError("Wrong number of main cabings "+ maincabins.Count);
         }
         var maincabin = maincabins[0];
 
