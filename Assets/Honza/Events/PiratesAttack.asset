@@ -22,7 +22,7 @@ MonoBehaviour:
     effects:
     - effectType: 1
       effectData:
-        rid: 2819435430728433735
+        rid: 4401092255637569643
     conditions: []
   - choiceID: pay
     choiceText: Pay them 5$ to let you go
@@ -55,10 +55,6 @@ MonoBehaviour:
       data:
         componentData: {fileID: 11400000, guid: e63459046cb8cad4387efc3a0f776de0, type: 2}
         componentCount: 3
-    - rid: 2819435430728433735
-      type: {class: FightEffect, ns: , asm: Assembly-CSharp}
-      data:
-        enemy: {fileID: 11400000, guid: 00f9c9d03984efe48abc5437e2176ffa, type: 2}
     - rid: 2819435450883113054
       type: {class: ChangeCurrencyAmountEffect, ns: , asm: Assembly-CSharp}
       data:
@@ -67,3 +63,7 @@ MonoBehaviour:
       type: {class: HasCurrencyCondition, ns: , asm: Assembly-CSharp}
       data:
         currencyCount: 5
+    - rid: 4401092255637569643
+      type: {class: FightEffect, ns: , asm: Assembly-CSharp}
+      data:
+        enemy: {fileID: 11400000, guid: 00f9c9d03984efe48abc5437e2176ffa, type: 2}

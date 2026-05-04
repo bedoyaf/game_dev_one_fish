@@ -4,14 +4,21 @@ using UnityEngine;
 
 public class EventController : MonoBehaviour
 {
-    public List<EventData> events = new();
-    private List<EventData> addedEvents = new();
+    public List<EventData> events = new(); // The list of all events in the game
+    private List<EventData> addedEvents = new(); // Events can add other events
+
+    [SerializeField] private GameplayFlowManager gameplayFlowManager;
+    public GameplayFlowManager GameplayManager => gameplayFlowManager;
+
+    [Header("UI")]
     public EventUI eventUIPrefab;
     public Canvas eventCanvas;
-
     private EventUI instantiatedEventUI;
+
     private EventData currentEvent;
     private List<EventData> eventHistory = new();
+
+    public EventData selectThisEvent;
 
     /// <summary>
     /// Selects event and shows it on the screen
@@ -22,6 +29,10 @@ public class EventController : MonoBehaviour
         }
         else {
             SelectRandomEvent(events);
+        }
+
+        if (selectThisEvent != null) {
+            currentEvent = selectThisEvent;
         }
 
         DisplayUI(currentEvent);
@@ -48,6 +59,7 @@ public class EventController : MonoBehaviour
             currentEvent = eventData;
         }
 
+        // Prepare UI
         instantiatedEventUI = Instantiate(eventUIPrefab, eventCanvas.transform);
         instantiatedEventUI.EventImage.sprite = eventData.eventImage;
         instantiatedEventUI.EventText.text = eventData.eventText;
@@ -73,12 +85,12 @@ public class EventController : MonoBehaviour
     }
 
     public void OnButtonClick(int choice) {
-        currentEvent.choices[choice].ApplyEffects(this);
+        bool changedState = currentEvent.choices[choice].ApplyEffects(this);
         HideUI();
 
-        // If no effect changed current state, 
-        if (GameManager.Instance.currentGameplayManager.stateMachine.CurrentStateKey == GameplayFlowManager.GameStates.Event) {
-            GameManager.Instance.currentGameplayManager.EventDone();
+        // If no effect changed current state
+        if (!changedState) {
+            gameplayFlowManager.CloseEventController();
         }
     }
 

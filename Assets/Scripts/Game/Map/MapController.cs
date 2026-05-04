@@ -23,9 +23,12 @@ public class MapController : MonoBehaviour
     /// </summary>
     public int bossStage = 10;
 
+    [SerializeField] private GameplayFlowManager gameplayFlowManager;
+
+
     [SerializeField, ReadOnly] private List<MapChoices> choices = new();
-    [SerializeField] private int currentStage = 0;
-    [SerializeField] private float currentDifficulty = 0;
+    [SerializeField] private int currentStage = 0; // Should be readonly
+    [SerializeField] private float currentDifficulty = 0; // Should be readonly
 
     [Header("UI")]
     public Canvas canvas;
@@ -53,12 +56,10 @@ public class MapController : MonoBehaviour
         }
         else {
             choices.Add(MapChoices.Combat); // Combat is always there
-            if (Random.Range(0, 2) == 0) {
+            if (Random.Range(0, 2) == 0)
                 choices.Add(MapChoices.Elite);
-            }
-            else {
-                choices.Add(MapChoices.Event);
-            }
+            //else
+            choices.Add(MapChoices.Event);
         }
 
         // Show the choices
@@ -75,31 +76,35 @@ public class MapController : MonoBehaviour
 
     /// <summary>
     /// Act according to what user chose.
+    /// TODO select actual enemy.
     /// </summary>
     /// <param name="choice"></param>
     public void OnButtonClick(int choice) {
+        var choiceData = new MapChoiceData();
         switch (choices[choice]) {
             case MapChoices.Combat:
                 // Select random enemy based on difficulty (with a chance to select a bit harder or easier one)
-                int difficulty = (int)currentDifficulty;
-                var enemy = GetEnemyFromDifficulty(difficulty);
-                //GameManager.Instance.currentGameplayManager.Fight(enemy)
+                //int difficulty = (int)currentDifficulty;
+                //var enemy = GetEnemyFromDifficulty(difficulty);
+                choiceData.fight = true;
+                choiceData.difficulty = (int)currentDifficulty;
                 break;
 
 
             case MapChoices.Elite:
-                var eliteEnemy = GetEnemyFromDifficulty((int)currentDifficulty + 3);
-                //GameManager.Instance.currentGameplayManager.Fight(enemy)
-
+                //var eliteEnemy = GetEnemyFromDifficulty((int)currentDifficulty + 3);
+                choiceData.fight = true;
+                choiceData.difficulty = (int)currentDifficulty + 3;
 
                 break;
             case MapChoices.Event:
-                //GameManager.Instance.currentGameplayManager.SwitchToEvent();
+                choiceData.fight = false;
 
                 break;
             case MapChoices.Boss:
-                var boss = bosses.GetRandom();
-                //GameManager.Instance.currentGameplayManager.BossFight(enemy)
+                //var boss = bosses.GetRandom();
+                choiceData.fight = true;
+                choiceData.boss = true;
 
                 break;
             default:
@@ -108,6 +113,13 @@ public class MapController : MonoBehaviour
         }
 
         instantiatedUI.gameObject.SetActive(false);
+        gameplayFlowManager.CloseMapController(choiceData);
+    }
+
+    public struct MapChoiceData {
+        public bool fight; // If false, it means event
+        public bool boss; // If true, the fight is boss fight
+        public int difficulty; // The difficulty the fight should have
     }
 
     /// <summary>
@@ -120,42 +132,6 @@ public class MapController : MonoBehaviour
             instantiatedUI.MapButtons[i].onClick.AddListener(() => OnButtonClick(a));
         }
     }
-
-    /// <summary>
-    /// Gets enemy from give difficulty. Has a small chance to select a bit easier or harder enemy.
-    /// If no enemies from +-1 range of difficulty exists, choose first easier one.
-    /// </summary>
-    private ShipData GetEnemyFromDifficulty(int difficulty) {
-        if (enemies.Count == 0) return null;
-
-        var easierEnemies = enemies.FindAll(x => x.enemyDifficulty == difficulty - 1);
-        var harderEnemies = enemies.FindAll(x => x.enemyDifficulty == difficulty + 1);
-        var normalEnemies = enemies.FindAll(x => x.enemyDifficulty == difficulty - 1);
-        var enemyLists = new List<List<ShipData>>() {
-                    easierEnemies, harderEnemies, normalEnemies, normalEnemies, normalEnemies
-                };
-        enemyLists.Shuffle();
-
-        // Select random enemy
-        foreach (var list in enemyLists) {
-            if (list.Count > 0) {
-                return list.GetRandom();
-            }
-        }
-
-        // Selects first easier enemy.
-        Debug.LogError("No enemy found for set difficulty.");
-        int n = -1;
-        for(int i = 0; i < enemies.Count; i++) {
-            if (enemies[i].enemyDifficulty < difficulty) {
-                break;
-            }
-            n++;
-        }
-        n = Mathf.Clamp(n, 0, enemies.Count - 1);
-        return enemies[n];
-    }
-
     private string GetDescription(MapChoices choice) {
         return choice switch {
             MapChoices.Combat => "Common enemy",

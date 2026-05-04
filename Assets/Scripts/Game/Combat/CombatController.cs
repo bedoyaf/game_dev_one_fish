@@ -19,6 +19,8 @@ public class CombatController : SmartSingleton<CombatController>
 
     public bool playerWon { get; private set; } = false;
 
+    private bool shipGiven;
+
     public void Start()
     {
         enemyShipAgent = enemyShip.GetComponent<EnemyShipAgent>();
@@ -31,7 +33,11 @@ public class CombatController : SmartSingleton<CombatController>
 
     public void GenerateEnemyShip()
     {
-        enemyShip.shipData = enemyShipDesigns[Random.RandomRange(0, enemyShipDesigns.Count)];
+        if (!shipGiven)
+            enemyShip.shipData = enemyShipDesigns.GetRandom();
+        else 
+            shipGiven = false;
+
         enemyShip.BuildShip();
         enemyShip.EnableShip();
         enemyShip.ResetShipForCombat();
@@ -139,6 +145,54 @@ public class CombatController : SmartSingleton<CombatController>
         {
             playerShip.AddCurrency(component.destroyRevenue);
         }
+    }
+
+    // ----------------------------------------------------
+    public void AssignEnemy(ShipData enemy) {
+        enemyShip.shipData = enemy;
+        shipGiven = true;
+    }
+
+    public void AssignEnemyByDifficulty(int difficulty) {
+
+        enemyShip.shipData = GetEnemyFromDifficulty(difficulty);
+        shipGiven = true;
+    }
+
+
+    /// <summary>
+    /// Gets enemy from given difficulty. Has a small chance to select a bit easier or harder enemy.
+    /// If no enemies from +-1 range of difficulty exists, chooses first easier one.
+    /// </summary>
+    private ShipData GetEnemyFromDifficulty(int difficulty) {
+        if (enemyShipDesigns.Count == 0) return null;
+
+        var easierEnemies = enemyShipDesigns.FindAll(x => x.enemyDifficulty == difficulty - 1);
+        var harderEnemies = enemyShipDesigns.FindAll(x => x.enemyDifficulty == difficulty + 1);
+        var normalEnemies = enemyShipDesigns.FindAll(x => x.enemyDifficulty == difficulty);
+
+        // Use normal enemies list more times, so it has higher chance to be picked
+        var enemyLists = new List<List<ShipData>>() {
+                    easierEnemies, harderEnemies, normalEnemies, normalEnemies, normalEnemies
+                };
+        enemyLists.Shuffle();
+
+        // Select random enemy
+        foreach (var list in enemyLists) {
+            if (list.Count > 0) {
+                return list.GetRandom();
+            }
+        }
+
+        // Selects first easier enemy.
+        Debug.Log("No enemy found for set difficulty, picking first easier.");
+        int lowerDifficulty = -1;
+        for (int i = 0; i < enemyShipDesigns.Count; i++) {
+            if (enemyShipDesigns[i].enemyDifficulty < difficulty) {
+                lowerDifficulty = Mathf.Max(lowerDifficulty, enemyShipDesigns[i].enemyDifficulty);
+            }
+        }
+        return enemyShipDesigns.FindAll(x => x.enemyDifficulty == lowerDifficulty).GetRandom();
     }
 
     /*

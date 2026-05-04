@@ -73,6 +73,7 @@ public class EventEffectDrawer : PropertyDrawer {
                 EffectType.Multi => typeof(MultiEffect),
                 EffectType.AddEvent => typeof(AddEventEffect),
                 EffectType.GetComponent => typeof(GetComponentEffect),
+                EffectType.GetRandomComponent => typeof(GetRandomComponentEffect),
                 _ => null,
             };
         }
@@ -107,6 +108,7 @@ public class EventEffectDrawer : PropertyDrawer {
 
         // Initial draw
         UpdateEffect();
+        //container.style.backgroundColor = (effectProp.managedReferenceValue as EventEffectInside).Color;
 
         // React to enum change
         typeField.RegisterValueChangeCallback(evt => {

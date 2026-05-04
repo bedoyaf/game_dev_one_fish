@@ -25,11 +25,11 @@ MonoBehaviour:
         rid: 2819435473551491149
     conditions: []
   - choiceID: component
-    choiceText: Receive free rocket
+    choiceText: Receive free component (rocket, generator or shield)
     effects:
-    - effectType: 7
+    - effectType: 8
       effectData:
-        rid: 2819435473551491152
+        rid: 4401092255637569711
     conditions: []
   - choiceID: leave
     choiceText: I don't need anything
@@ -45,10 +45,13 @@ MonoBehaviour:
       type: {class: ChangeCurrencyAmountEffect, ns: , asm: Assembly-CSharp}
       data:
         amount: 15
-    - rid: 2819435473551491152
-      type: {class: GetComponentEffect, ns: , asm: Assembly-CSharp}
-      data:
-        component: {fileID: 6845047944256034405, guid: 2830b339b4f764746b89c4505b1d6cbf, type: 3}
     - rid: 2819435473551491153
       type: {class: RunEffect, ns: , asm: Assembly-CSharp}
       data: 
+    - rid: 4401092255637569711
+      type: {class: GetRandomComponentEffect, ns: , asm: Assembly-CSharp}
+      data:
+        components:
+        - {fileID: 6845047944256034405, guid: 6f05b655c31756b40a087f6dcfe7ee9c, type: 3}
+        - {fileID: 6845047944256034405, guid: b08409fe63a51854697c0a666f536de1, type: 3}
+        - {fileID: 6845047944256034405, guid: 2830b339b4f764746b89c4505b1d6cbf, type: 3}

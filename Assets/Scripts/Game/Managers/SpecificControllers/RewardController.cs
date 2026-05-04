@@ -73,6 +73,11 @@ public class RewardController : MonoBehaviour
         GenerateChoices();
     }
 
+    public void AssignComponent(ShipComponentController comp) {
+        storedComponents.Clear();
+        storedComponents.Add(comp.componentPrefab);
+    }
+
     // ----------------------------------------------------
 
     void OnGUI()

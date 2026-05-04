@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using static MapController;
 
 
 
@@ -58,6 +59,7 @@ public class GameplayFlowManager : MonoBehaviour
         };
 
         stateMachine = new GameStateMachine(states);
+        stateMachine.ChangeState(GameStates.MapSelection);
     }
 
     // TODO: state machine for the game phases
@@ -115,7 +117,40 @@ public class GameplayFlowManager : MonoBehaviour
 
     public void CloseShipEditor()
     {
+        playerShip.RemoveControlFromEditor();
         //should hide the shipbuilding
+    }
+
+    public void OpenMapController() {
+        mapController.DisplayChoices();
+    }
+
+    public void CloseMapController(MapChoiceData choiceData) {
+
+        // Event
+        if (!choiceData.fight) {
+            stateMachine.ChangeState(GameStates.Event);
+            return;
+        }
+
+        // Normal/elite combat - TODO difficulty
+        if (!choiceData.boss) {
+            Fight(choiceData.difficulty);
+            return;
+        }
+
+        // TODO boss battle
+    }
+
+    public void OpenEventController() {
+        eventController.NextEvent();
+    }
+
+    /// <summary>
+    /// Called when the event does not change game state.
+    /// </summary>
+    public void CloseEventController() {
+        stateMachine.ChangeState(GameStates.MapSelection);
     }
 
     public void UnloadEnemy()
@@ -214,6 +249,25 @@ public class GameplayFlowManager : MonoBehaviour
 
             _ => GameStates.WaitingForCombat
         };
+    }
+
+    // ----------------------------------------------------
+    public void Fight(int difficulty) {
+        Debug.Log($"Fight called {difficulty}");
+        combatController.AssignEnemyByDifficulty(difficulty);
+        stateMachine.ChangeState(GameStates.WaitingForCombat);
+    }
+
+    public void Fight(ShipData enemy) {
+        Debug.Log($"Fight called {enemy}");
+        combatController.AssignEnemy(enemy);
+        stateMachine.ChangeState(GameStates.WaitingForCombat);
+    }
+
+    public void NewComponent(ShipComponentController component) {
+        Debug.Log($"Adding component {component}");
+        rewardController.AssignComponent(component);
+        stateMachine.ChangeState(GameStates.ShipModification);
     }
 
     void OnGUI()

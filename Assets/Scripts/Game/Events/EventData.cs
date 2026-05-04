@@ -20,10 +20,18 @@ public class EventData : ScriptableObject {
         public List<EventEffect> effects;
         public List<EventCondition> conditions;
 
-        public void ApplyEffects(EventController eventController) {
+        /// <summary>
+        /// Applies effects and returns whether there was game changing state
+        /// </summary>
+        /// <param name="eventController"></param>
+        /// <returns></returns>
+        public bool ApplyEffects(EventController eventController) {
+            bool changedState = false;
             foreach(var effect in effects) {
                 effect.ApplyEffect(eventController);
+                changedState = changedState || effect.ChangesState;
             }
+            return changedState;
         }
 
         public bool DoConditionsHold() {

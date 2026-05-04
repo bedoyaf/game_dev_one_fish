@@ -11,11 +11,10 @@ public class MapSelectionState : IGameState
 
     public void Enter()
     {
-
+        manager.OpenMapController();
     }
 
     public void Exit()
     {
-
     }
 }

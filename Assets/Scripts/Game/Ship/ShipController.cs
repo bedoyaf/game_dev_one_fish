@@ -80,13 +80,27 @@ public class ShipController : MonoBehaviour
         // NOTE: meshes after the grid !!!
         if(!playerShip)
         {
-            foreach (var mesh in componentsParent.GetComponentsInChildren<MeshRenderer>())
+            /*foreach (var mesh in componentsParent.GetComponentsInChildren<MeshRenderer>())
             {
                 var oldScale = mesh.gameObject.transform.localScale;
                 mesh.gameObject.transform.localScale = new Vector3(oldScale.x, oldScale.y, -oldScale.z);
 
                 var meshPos = mesh.gameObject.transform.localPosition;
                 mesh.gameObject.transform.localPosition = new Vector3(meshPos.x, 1 - meshPos.y, meshPos.z);
+            }*/
+
+            // If we use all children, it affects the indicators as well
+            foreach (Transform comp in componentsParent.transform) {
+                foreach (Transform child in comp.transform) {
+                    var mesh = child.GetComponent<MeshRenderer>();
+                    if (mesh == null) continue;
+
+                    var oldScale = mesh.gameObject.transform.localScale;
+                    mesh.gameObject.transform.localScale = new Vector3(oldScale.x, oldScale.y, -oldScale.z);
+
+                    var meshPos = mesh.gameObject.transform.localPosition;
+                    mesh.gameObject.transform.localPosition = new Vector3(meshPos.x, 1 - meshPos.y, meshPos.z);
+                }
             }
 
             var oldPos = componentsParent.transform.position;

@@ -11,11 +11,10 @@ public class EventState : IGameState
 
     public void Enter()
     {
-
+        manager.OpenEventController();
     }
 
     public void Exit()
     {
-
     }
 }

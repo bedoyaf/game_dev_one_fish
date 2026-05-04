@@ -85,7 +85,7 @@ public class ShipComponentMeshController : MonoBehaviour, IDamagableCollider
     {
         if (meshRenderer != null)
         {
-            Debug.Log($"Changing damage of material to {1f - fraction}");
+            //Debug.Log($"Changing damage of material to {1f - fraction}"); // Sorry thiw was just spamming too much
 
             meshRenderer.materials[materialIndex].SetFloat("_damageAmount", 1f-fraction);
         }
