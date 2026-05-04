@@ -30,7 +30,7 @@ public class MapController : MonoBehaviour
     [SerializeField] private int currentStage = 0; // Should be readonly
     [SerializeField] private float currentDifficulty = 0; // Should be readonly
 
-    [Header("UI")]
+    [Header("UI")]    
     public Canvas canvas;
     public MapUI mapUIPrefab;
     private MapUI instantiatedUI;

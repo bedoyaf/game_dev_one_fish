@@ -1,8 +1,6 @@
 using NUnit.Framework;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-using static Unity.Burst.Intrinsics.X86.Avx;
 
 public class EnemyShipAgent : MonoBehaviour
 {
