@@ -7,6 +7,11 @@ using UnityEngine;
 /// Manages everything that is happening inside the gameplay scene.
 /// Instanced - for easier everything...
 ///     Using Global GameManager data
+///     On... functions are called to announce change in flow
+///     other functions manage the game itself
+///     example
+///     OnCombatEnd announces the combat ended
+///     EndCombat, does the things relevent to ending comabt for the flow, such as changing state
 /// </summary>
 public class GameplayFlowManager : MonoBehaviour
 {
@@ -29,6 +34,8 @@ public class GameplayFlowManager : MonoBehaviour
     [SerializeField]
     private MapController mapController;
 
+    [SerializeField] private CombatController combatController;
+    [SerializeField] private RewardController rewardController;
 
     // Some access to player ship is needed
     public ShipController PlayerShip => playerShip;
@@ -38,7 +45,19 @@ public class GameplayFlowManager : MonoBehaviour
     {
         GameManager.Instance.SetGameplayFlowInstance(this);
 
-        stateMachine = new(this);
+        var states = new Dictionary<GameStates, IGameState>
+        {
+            { GameStates.WaitingForCombat, new WaitingForCombatState(this) },
+            { GameStates.PreCombat, new PreCombatState(this) },
+            { GameStates.Combat, new CombatState(this) },
+            { GameStates.Event, new EventState(this) },
+            { GameStates.RewardSelection, new RewardSelectionState(this) },
+            { GameStates.ShipModification, new ShipModificationState(this) },
+            { GameStates.MapSelection, new MapSelectionState(this) },
+            { GameStates.GameOver, new GameOverState(this) },
+        };
+
+        stateMachine = new GameStateMachine(states);
     }
 
     // TODO: state machine for the game phases
@@ -46,7 +65,6 @@ public class GameplayFlowManager : MonoBehaviour
     {
         WaitingForCombat, // Entry State
         PreCombat,        // Enemy is entering, but fight has not commenced yet
-        
         Combat,
         Event,
 
@@ -54,72 +72,33 @@ public class GameplayFlowManager : MonoBehaviour
         ShipModification,
 
         MapSelection,
+        GameOver
     }
 
     public class GameStateMachine
     {
-        private readonly GameplayFlowManager manager;
-        public GameStateMachine(GameplayFlowManager manager)
-        {
-            this.manager = manager;
-        }
+        private Dictionary<GameStates, IGameState> states;
+        private IGameState currentState;
 
-        public GameStates CurrentState { get; private set; }
+        public GameStates CurrentStateKey { get; private set; }
+
+        public GameStateMachine(Dictionary<GameStates, IGameState> states)
+        {
+            this.states = states;
+            currentState = states[GameStates.WaitingForCombat];
+            currentState.Enter();
+        }
 
         public void ChangeState(GameStates newState)
         {
-            // NOTE: maybe make this less stupid XD
+            if (CurrentStateKey == newState) return;
 
-            CurrentState = newState;
+            currentState?.Exit();
 
-            switch (newState)
-            {
-                case GameStates.WaitingForCombat:
-                    manager.UnloadEnemy();
-                    break;
-                
-                case GameStates.PreCombat:
-                    manager.LoadingEnemy();
-                    break;
-                
-                case GameStates.Combat:
-                    Debug.Log("So... you have chosen, death.");
-                    break;
-                
-                    // TODO
-                case GameStates.Event:
-                    manager.eventController.NextEvent();
-                    break;
+            currentState = states[newState];
+            CurrentStateKey = newState;
 
-                case GameStates.RewardSelection:
-                    // TODO: spawn the loot, based on some loot table
-                    // sfx -> show the ui etc.
-                    var possibleDrops = manager.enemyShip.shipData.possibleDrops; // These are the possible drops
-                    ChangeState(GameStates.ShipModification);
-
-                    break;
-
-                case GameStates.ShipModification:
-                    // Enter editor mode
-                    // TODO use components from actual selection. This is just 3 random from the enemy.
-                    var componentsToAdd = new List<ShipComponentController>();
-                    var possibleComps = manager.enemyShip.shipData.possibleDrops;
-                    for(int i = 0; i < 3; i++) {
-                        componentsToAdd.Add(possibleComps[Random.Range(0, possibleComps.Count)]);
-                    }
-
-                    manager.playerShip.GiveControlToEditor(componentsToAdd);
-                    
-                    break;
-
-                case GameStates.MapSelection:
-                    manager.mapController.DisplayChoices();
-                    break;
-
-                default:
-                    break;
-            }
-
+            currentState.Enter();
         }
     }
 
@@ -128,8 +107,20 @@ public class GameplayFlowManager : MonoBehaviour
 
     // ----------------------------------------------------------------------------
 
-    private void UnloadEnemy()
+    public void OpenShipBuilder()
     {
+        playerShip.GiveControlToEditor(rewardController.storedComponents);
+        //should switch to building ship
+    }
+
+    public void CloseShipEditor()
+    {
+        //should hide the shipbuilding
+    }
+
+    public void UnloadEnemy()
+    {
+        combatController.UnLoadEnemyShip();
         sfx.ExitEnemyShip();
     }
 
@@ -137,30 +128,17 @@ public class GameplayFlowManager : MonoBehaviour
     // TODO: pass argument of the loaded ship etc..
     public void LoadEnemy()
     {
-        // TODO: Add the enemy ship (more precisely change the shipData)
-        // enemyShip. as Ship Controller ? some enemy base script
-
-        stateMachine.ChangeState(GameStates.PreCombat);
-    }
-
-    private void LoadingEnemy()
-    {
+        combatController.LoadEnemyShip();
         sfx.EnterEnemyShip();
     }
-
-
-
-    public void EndCombat(bool playerWon)
+    public void LoadPlayer()
     {
-        // kill the enemy / remove them
-        if(playerWon)
-        {
-            // Spawn loot
-            stateMachine.ChangeState(GameStates.RewardSelection);
-        } else
-        {
-            // Display Game Over (TODO)
-        }
+        combatController.LoadPlayerShip();
+    }
+
+
+    public void EndCombat()
+    {
 
     }
 
@@ -175,7 +153,93 @@ public class GameplayFlowManager : MonoBehaviour
     public void EventDone() {
         stateMachine.ChangeState(GameStates.WaitingForCombat);
     }
-    
+
+    public void EnterCombat()
+    {
+        combatController.StartCombat();
+    }
+
+
+    public void ShowRewards()
+    {
+        rewardController.StartChoosing(enemyShip);
+    }
+
+    // EVENTS that trigger the change of state
+
+
+    public void OnCombatEnd()
+    {
+        // kill the enemy / remove them
+        if (combatController.playerWon)
+        {
+            // Spawn loot
+            stateMachine.ChangeState(GameStates.RewardSelection);
+        }
+        else
+        {
+            stateMachine.ChangeState(GameStates.GameOver);
+            // Display Game Over (TODO)
+        }
+    }
+
+    public void OnShowRewardEnd()
+    {
+        stateMachine.ChangeState(GameStates.ShipModification);
+    }
+
+    //Helpers, later will be scraped
+
+    public void AdvanceState()
+    {
+        if(stateMachine.CurrentStateKey == GameStates.Combat)
+        {
+            enemyShip.GetMainCabin().TakeDamage(1000);
+            return;
+        }
+        var next = GetNextState(stateMachine.CurrentStateKey);
+        stateMachine.ChangeState(next);
+    }
+
+    private GameStates GetNextState(GameStates current)
+    {
+        return current switch
+        {
+            GameStates.WaitingForCombat => GameStates.PreCombat,
+            GameStates.PreCombat => GameStates.Combat,
+            GameStates.Combat => GameStates.RewardSelection,
+            GameStates.RewardSelection => GameStates.ShipModification,
+            GameStates.ShipModification => GameStates.MapSelection,
+            GameStates.MapSelection => GameStates.WaitingForCombat,
+
+            _ => GameStates.WaitingForCombat
+        };
+    }
+
+    void OnGUI()
+    {
+        float width = 180;
+        float height = 40;
+
+        float x = Screen.width - width - 10;
+        float y = Screen.height - height - 10;
+
+        GUI.Box(new Rect(x, y - 50, width, 30), "State: " + stateMachine.CurrentStateKey);
+
+        if (GUI.Button(new Rect(x, y, width, height), "Advance State"))
+        {
+            AdvanceState();
+        }
+
+        if (stateMachine.CurrentStateKey == GameStates.GameOver)
+        {
+            if (GUI.Button(new Rect(500, 400, 150, 40), "RESTART"))
+            {
+                stateMachine.ChangeState(GameStates.WaitingForCombat);
+            }
+        }
+    }
 
     // TODO: (if will ever do) map selection
 }
+

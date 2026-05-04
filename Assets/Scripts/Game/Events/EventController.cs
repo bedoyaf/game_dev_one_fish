@@ -77,7 +77,7 @@ public class EventController : MonoBehaviour
         HideUI();
 
         // If no effect changed current state, 
-        if (GameManager.Instance.currentGameplayManager.stateMachine.CurrentState == GameplayFlowManager.GameStates.Event) {
+        if (GameManager.Instance.currentGameplayManager.stateMachine.CurrentStateKey == GameplayFlowManager.GameStates.Event) {
             GameManager.Instance.currentGameplayManager.EventDone();
         }
     }

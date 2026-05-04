@@ -269,6 +269,45 @@ public class ShipController : MonoBehaviour
         }
     }
 
+    public void DisableShip()
+    {
+        /*
+        foreach (var comp in componentGrid.GetAllComponents())
+        {
+            comp.enabled = false;
+        }
+
+        var behaviours = componentGrid.GetComponentsOfType<BehaviourComponentControllerAbstract>();
+        foreach (var b in behaviours)
+        {
+            b.enabled = false;
+        }
+        */
+        // 4. Schovej vizuál
+        componentsParent.gameObject.SetActive(false);
+    }
+
+    public void EnableShip()
+    {
+        componentsParent.gameObject.SetActive(true);
+        /*
+        componentsParent.gameObject.SetActive(true);
+
+        // 2. Zapni komponenty
+        foreach (var comp in componentGrid.GetAllComponents())
+        {
+            comp.enabled = true;
+        }
+
+        // 3. Zapni behaviour skripty
+        var behaviours = componentGrid.GetComponentsOfType<BehaviourComponentControllerAbstract>();
+        foreach (var b in behaviours)
+        {
+            b.enabled = true;
+        }
+        */
+    }
+
     void OnGUI()
     {
         GUIStyle style = new GUIStyle(GUI.skin.label);

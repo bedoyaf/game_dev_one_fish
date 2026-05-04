@@ -12,10 +12,22 @@ public class MissileComponentController : BehaviourComponentControllerAbstract
     // How long, before the actual missile is spawned (the visual takes this long)
     [SerializeField] private float missileTravelTime;
 
-    public bool CanClick => 
-        cooldown.IsReady && 
-        !shipComponentController.broken &&
-        shipController.GetEnergy >= shipComponentController.requiredEnergy;
+    public bool CanClick
+    {
+        get
+        {
+            if (cooldown == null) Debug.LogError("cooldown is NULL");
+            if (shipComponentController == null) Debug.LogError("shipComponentController is NULL");
+            if (shipController == null) Debug.LogError("shipController is NULL");
+
+            return cooldown != null &&
+                   shipComponentController != null &&
+                   shipController != null &&
+                   cooldown.IsReady &&
+                   !shipComponentController.broken &&
+                   shipController.GetEnergy >= shipComponentController.requiredEnergy;
+        }
+    }
 
     private void Start()
     {
@@ -24,7 +36,7 @@ public class MissileComponentController : BehaviourComponentControllerAbstract
 
     public override void OnActivate()
     {
-        Debug.Log("Missile ready");
+    //    Debug.Log("Missile ready");
 
         MouseController.Instance.EnterTargetingMode(this);
     }
@@ -36,7 +48,7 @@ public class MissileComponentController : BehaviourComponentControllerAbstract
 
     public override void OnDeactivate()
     {
-        Debug.Log("Missile offline");
+ //       Debug.Log("Missile offline");
     }
 
     public override void OnTargetSelected(TargetingData target)

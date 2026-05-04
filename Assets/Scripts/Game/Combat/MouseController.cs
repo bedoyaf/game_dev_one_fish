@@ -151,13 +151,13 @@ public class MouseController : MonoBehaviour
 
     private void HandleDefaultClick(ShipComponentMeshController comp)
     {
-        Debug.Log("Default click: " + comp.name);
+ //       Debug.Log("Default click: " + comp.name);
         comp.OnMouseClick();
     }
 
     private void HandleComponentTargetClick(ShipComponentMeshController target, Vector3 componentOffset)
     {
-        Debug.Log($"Targeting {target.name}");
+  //      Debug.Log($"Targeting {target.name}");
 
         activeComponent.OnTargetSelected(new TargetingData(target, currentDirection, componentOffset));
 

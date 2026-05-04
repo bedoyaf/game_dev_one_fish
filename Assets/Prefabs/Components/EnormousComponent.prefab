@@ -93,8 +93,20 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2100000, guid: 05bc0277ecf41f74ca81f58a0b0edb63, type: 2}
     - target: {fileID: 5385403880273499414, guid: 76b53dd701359c84195162e28f3a0cbb, type: 3}
+      propertyPath: name
+      value: Enourmous
+      objectReference: {fileID: 0}
+    - target: {fileID: 5385403880273499414, guid: 76b53dd701359c84195162e28f3a0cbb, type: 3}
       propertyPath: health
       value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5385403880273499414, guid: 76b53dd701359c84195162e28f3a0cbb, type: 3}
+      propertyPath: prefab
+      value: 
+      objectReference: {fileID: 4601685864176397566}
+    - target: {fileID: 5385403880273499414, guid: 76b53dd701359c84195162e28f3a0cbb, type: 3}
+      propertyPath: componentName
+      value: Enormous
       objectReference: {fileID: 0}
     - target: {fileID: 5385403880273499414, guid: 76b53dd701359c84195162e28f3a0cbb, type: 3}
       propertyPath: placementRules.Top
@@ -133,3 +145,8 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 76b53dd701359c84195162e28f3a0cbb, type: 3}
+--- !u!1 &4601685864176397566 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3143172193047539597, guid: 76b53dd701359c84195162e28f3a0cbb, type: 3}
+  m_PrefabInstance: {fileID: 1459925618552488819}
+  m_PrefabAsset: {fileID: 0}

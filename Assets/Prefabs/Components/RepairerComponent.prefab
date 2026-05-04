@@ -233,8 +233,24 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2100000, guid: 39cf56b09658cfa468e89f8b5a037178, type: 2}
     - target: {fileID: 5385403880273499414, guid: 76b53dd701359c84195162e28f3a0cbb, type: 3}
+      propertyPath: name
+      value: Repaire
+      objectReference: {fileID: 0}
+    - target: {fileID: 5385403880273499414, guid: 76b53dd701359c84195162e28f3a0cbb, type: 3}
       propertyPath: health
       value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5385403880273499414, guid: 76b53dd701359c84195162e28f3a0cbb, type: 3}
+      propertyPath: prefab
+      value: 
+      objectReference: {fileID: 4601685864176397566}
+    - target: {fileID: 5385403880273499414, guid: 76b53dd701359c84195162e28f3a0cbb, type: 3}
+      propertyPath: componentName
+      value: Repaire
+      objectReference: {fileID: 0}
+    - target: {fileID: 5385403880273499414, guid: 76b53dd701359c84195162e28f3a0cbb, type: 3}
+      propertyPath: componentType
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 5385403880273499414, guid: 76b53dd701359c84195162e28f3a0cbb, type: 3}
       propertyPath: requiredEnergy
@@ -292,7 +308,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbfc05bf37ab4894a945d92c03701e1c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RepairerComponentController
-  shipComponentController: {fileID: 6845047944256034405}
 --- !u!114 &3522242297305419921
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -306,14 +321,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ComponentCooldown
   cooldownTime: 2
---- !u!114 &6845047944256034405 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5385403880273499414, guid: 76b53dd701359c84195162e28f3a0cbb, type: 3}
-  m_PrefabInstance: {fileID: 1459925618552488819}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4601685864176397566}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a78efac9f7c46a04db9731659d060f9b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ShipComponentController

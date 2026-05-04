@@ -13,6 +13,8 @@ using UnityEngine.Serialization;
 /// </summary>
 public class ShipComponentController : MonoBehaviour
 {
+    [SerializeField] public string componentName = "No name";
+    [SerializeField] public ComponentType componentType = ComponentType.None;
     public int maxHealth = 10;
     public int health = 10;
     public bool IsBroken => broken;
@@ -56,6 +58,7 @@ public class ShipComponentController : MonoBehaviour
     void Start()
     {
         componentBehaviour = GetComponent<IShipComponentBehaviour>();
+      //  componentBehaviour.set
         if (componentBehaviour == null) Debug.LogWarning("Missing behaviour");//Make it error
         cooldown = GetComponent<ComponentCooldown>();
     }
@@ -86,7 +89,7 @@ public class ShipComponentController : MonoBehaviour
             return;
         }
 
-        Debug.Log("No shield -> damaging HP");
+    //    Debug.Log("No shield -> damaging HP");
 
         health -= dmg;
         shipComponentMeshController.OnHealthUpdate((float)health / maxHealth);
@@ -232,8 +235,12 @@ public class ShipComponentController : MonoBehaviour
     {
         broken = false;
         health = maxHealth;
-        shipComponentMeshController.ChangeMeshToWorking();
-        shipComponentMeshController.OnHealthUpdate((float)health / maxHealth);
+        //can be initialized in the wrong order
+        if (shipComponentMeshController != null)
+        {
+            shipComponentMeshController.ChangeMeshToWorking();
+            shipComponentMeshController.OnHealthUpdate((float)health / maxHealth);
+        }
     }
 
     public void ActivateShield(Shield shield)
@@ -269,6 +276,11 @@ public class ShipComponentController : MonoBehaviour
         public ComponentGridTile connectedTile; // TODO - sorry, does not belong here
     }
 
+    public override string ToString()
+    {
+        return componentName;
+    }
+
     /// <summary>
     /// Used for identifying components from events.
     /// </summary>
@@ -280,6 +292,7 @@ public class ShipComponentController : MonoBehaviour
         MainCabin,
         Rocket,
         Shield,
+        Repaire
 
     }
 }

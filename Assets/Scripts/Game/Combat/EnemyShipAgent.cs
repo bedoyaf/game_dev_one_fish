@@ -41,6 +41,7 @@ public class EnemyShipAgent : MonoBehaviour
     private ShipComponentController playerCabin;
     private ShipComponentController ownCabin;
 
+
     void Start()
     {
         shipController= GetComponent<ShipController>();
@@ -80,7 +81,7 @@ public class EnemyShipAgent : MonoBehaviour
     //Missleading name, hope in future it fits better
     public void ActivateAgent()
     {
-        SetupAllImportantSystems();        
+        SetupAllImportantSystems();
     }
 
 
@@ -361,22 +362,5 @@ public class EnemyShipAgent : MonoBehaviour
         var height = component.placementRules.height;
 
         return new Vector3(Random.Range(0, width), 0, Random.Range(0, height));
-    }
-
-    void OnGUI()
-    {
-        GUIStyle style = new GUIStyle(GUI.skin.button);
-        style.fontSize = 20;
-
-        float width = 150;
-        float height = 50;
-
-        float x = 10;
-        float y = Screen.height - height - 10;
-
-        if (GUI.Button(new Rect(x, y, width, height), "ENEMY ACT", style))
-        {
-            Act();
-        }
     }
 }

@@ -36,7 +36,7 @@ public class ShipComponentMeshController : MonoBehaviour, IDamagableCollider
     {
         //CURRENTLY NOT SUPORTED TO CLICK ENEMY SHIP
         if (!shipComponentController.shipController.playerShip) return;
-        Debug.Log("Component has been clicked, currently active:"+ shipComponentController.activated.ToString());
+       // Debug.Log("Component has been clicked, currently active:"+ shipComponentController.activated.ToString());
         if(!shipComponentController.activated)
         {
             shipComponentController.ActivateComponent();

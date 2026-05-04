@@ -44,6 +44,7 @@ public class ShipBuildingController : MonoBehaviour
     private InputAction clickAction;
     private InputAction rightClickAction;
 
+
     private void Awake() {
         // Setup mouse
         clickAction = new InputAction(type: InputActionType.Button, binding: "<Mouse>/leftButton");

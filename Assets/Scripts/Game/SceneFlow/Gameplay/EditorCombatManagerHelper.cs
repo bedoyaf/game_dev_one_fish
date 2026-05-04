@@ -1,6 +1,10 @@
 using UnityEngine;
 using static GameplayFlowManager;
 
+
+
+
+//HEAVILY BROKEN BY FILIP, SORRY:(
 public class EditorCombatManagerHelper : MonoBehaviour
 {
 
@@ -11,16 +15,16 @@ public class EditorCombatManagerHelper : MonoBehaviour
     /// <summary>
     /// Begin combat by spawning the enemy
     /// </summary>
-    public bool canAdvance => gameplayManager.stateMachine.CurrentState == GameStates.WaitingForCombat;
+    public bool canAdvance => gameplayManager.stateMachine.CurrentStateKey == GameStates.WaitingForCombat;
 
     public void NextEnemy()
     {
         // Some UI element (Next Battle)
-        gameplayManager.LoadEnemy();
+      //  gameplayManager.LoadEnemy();
     }
 
 
-    public bool canEngageEnemy => gameplayManager.stateMachine.CurrentState == GameStates.PreCombat;
+    public bool canEngageEnemy => gameplayManager.stateMachine.CurrentStateKey == GameStates.PreCombat;
     public void EngageEnemy()
     {
         // Some kind of action / UI confirmation that begins the combat
@@ -28,23 +32,23 @@ public class EditorCombatManagerHelper : MonoBehaviour
     }
 
 
-    public bool canKillEnemy => gameplayManager.stateMachine.CurrentState == GameStates.Combat ||
-                                gameplayManager.stateMachine.CurrentState == GameStates.PreCombat;
+    public bool canKillEnemy => gameplayManager.stateMachine.CurrentStateKey == GameStates.Combat ||
+                                gameplayManager.stateMachine.CurrentStateKey == GameStates.PreCombat;
     public void KillEnemy()
     {
         // The act of the enemy's health reaching 0
-        gameplayManager.EndCombat(true);
+        //gameplayManager.EndCombat(true);
     }
 
-    public bool canKillPlayer => gameplayManager.stateMachine.CurrentState == GameStates.Combat;
+    public bool canKillPlayer => gameplayManager.stateMachine.CurrentStateKey == GameStates.Combat;
     public void KillPlayer()
     {
         // The act of the player's health reaching 0
-        gameplayManager.EndCombat(false);
+      //  gameplayManager.EndCombat(false);
     }
 
 
-    public bool endModification => gameplayManager.stateMachine.CurrentState == GameStates.ShipModification;
+    public bool endModification => gameplayManager.stateMachine.CurrentStateKey == GameStates.ShipModification;
     public void EndModifying()
     {
         // Either by placing all components or maybe some UI element

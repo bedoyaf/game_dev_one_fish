@@ -109,13 +109,29 @@ PrefabInstance:
       value: 
       objectReference: {fileID: -563372319191188345, guid: 9906ad02829d57e4fb04985f331d5190, type: 3}
     - target: {fileID: 5385403880273499414, guid: 76b53dd701359c84195162e28f3a0cbb, type: 3}
+      propertyPath: name
+      value: Main Cabin
+      objectReference: {fileID: 0}
+    - target: {fileID: 5385403880273499414, guid: 76b53dd701359c84195162e28f3a0cbb, type: 3}
       propertyPath: health
       value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 5385403880273499414, guid: 76b53dd701359c84195162e28f3a0cbb, type: 3}
+      propertyPath: prefab
+      value: 
+      objectReference: {fileID: 4601685864176397566}
+    - target: {fileID: 5385403880273499414, guid: 76b53dd701359c84195162e28f3a0cbb, type: 3}
       propertyPath: componentData
       value: 
       objectReference: {fileID: 11400000, guid: 2cfd19d19b8166b42bfdd8d627ec1ea6, type: 2}
+    - target: {fileID: 5385403880273499414, guid: 76b53dd701359c84195162e28f3a0cbb, type: 3}
+      propertyPath: componentName
+      value: Main Cabin
+      objectReference: {fileID: 0}
+    - target: {fileID: 5385403880273499414, guid: 76b53dd701359c84195162e28f3a0cbb, type: 3}
+      propertyPath: componentType
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 5385403880273499414, guid: 76b53dd701359c84195162e28f3a0cbb, type: 3}
       propertyPath: placementRules.Top
       value: 0
@@ -177,4 +193,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: daf1804bb333dd3438635152b32b15e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MainCabinComponentController
-  shipComponentController: {fileID: 0}

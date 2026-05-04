@@ -105,13 +105,29 @@ PrefabInstance:
       value: 
       objectReference: {fileID: -563372319191188345, guid: 4ea16d6ebf82222478e327ecf082dfd3, type: 3}
     - target: {fileID: 5385403880273499414, guid: 76b53dd701359c84195162e28f3a0cbb, type: 3}
+      propertyPath: name
+      value: Battery
+      objectReference: {fileID: 0}
+    - target: {fileID: 5385403880273499414, guid: 76b53dd701359c84195162e28f3a0cbb, type: 3}
       propertyPath: health
       value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 5385403880273499414, guid: 76b53dd701359c84195162e28f3a0cbb, type: 3}
+      propertyPath: prefab
+      value: 
+      objectReference: {fileID: 4601685864176397566}
+    - target: {fileID: 5385403880273499414, guid: 76b53dd701359c84195162e28f3a0cbb, type: 3}
       propertyPath: componentData
       value: 
       objectReference: {fileID: 11400000, guid: f88a2b091bbc9dc4ea700e0654a36b57, type: 2}
+    - target: {fileID: 5385403880273499414, guid: 76b53dd701359c84195162e28f3a0cbb, type: 3}
+      propertyPath: componentName
+      value: Battery
+      objectReference: {fileID: 0}
+    - target: {fileID: 5385403880273499414, guid: 76b53dd701359c84195162e28f3a0cbb, type: 3}
+      propertyPath: componentType
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5385403880273499414, guid: 76b53dd701359c84195162e28f3a0cbb, type: 3}
       propertyPath: placementRules.Top
       value: 0
@@ -169,6 +185,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4274e506785cc404f837c34038dd803a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BatteryComponentController
-  shipComponentController: {fileID: 0}
   energyStored: 0
   energyMax: 10

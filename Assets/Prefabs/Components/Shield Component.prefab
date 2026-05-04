@@ -194,13 +194,29 @@ PrefabInstance:
       value: 
       objectReference: {fileID: -563372319191188345, guid: 8d6031683bc779a488cd68ee0a63cbab, type: 3}
     - target: {fileID: 5385403880273499414, guid: 76b53dd701359c84195162e28f3a0cbb, type: 3}
+      propertyPath: name
+      value: Shield
+      objectReference: {fileID: 0}
+    - target: {fileID: 5385403880273499414, guid: 76b53dd701359c84195162e28f3a0cbb, type: 3}
       propertyPath: health
       value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 5385403880273499414, guid: 76b53dd701359c84195162e28f3a0cbb, type: 3}
+      propertyPath: prefab
+      value: 
+      objectReference: {fileID: 4601685864176397566}
+    - target: {fileID: 5385403880273499414, guid: 76b53dd701359c84195162e28f3a0cbb, type: 3}
       propertyPath: componentData
       value: 
       objectReference: {fileID: 11400000, guid: 8b6b9d45dda54f4438f8e7564c67e1e8, type: 2}
+    - target: {fileID: 5385403880273499414, guid: 76b53dd701359c84195162e28f3a0cbb, type: 3}
+      propertyPath: componentName
+      value: Shield
+      objectReference: {fileID: 0}
+    - target: {fileID: 5385403880273499414, guid: 76b53dd701359c84195162e28f3a0cbb, type: 3}
+      propertyPath: componentType
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 5385403880273499414, guid: 76b53dd701359c84195162e28f3a0cbb, type: 3}
       propertyPath: requiredEnergy
       value: 1
@@ -257,7 +273,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d773cd5cb0e9d1741b94650c39e285dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ShieldComponentController
-  shipComponentController: {fileID: 0}
   shieldPrefab: {fileID: 8459617928677406710, guid: 6f3b9adefba52ca40b7656dda43086b1, type: 3}
   maxAviableShields: 3
   physicalShieldPrefab: {fileID: 8459617928677406710, guid: 7a8ebd4ff326cf3429069859f72ae9c4, type: 3}
