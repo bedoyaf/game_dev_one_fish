@@ -15,7 +15,7 @@ public class ShipComponentMeshController : MonoBehaviour, IDamagableCollider
     private int deadLayer = -1;
     private int defaultLayer = -1;
    
-    public void Awake()
+    public void Start()
     {
         defaultLayer = LayerMask.NameToLayer("Default");
         deadLayer = LayerMask.NameToLayer("DeadComponent");

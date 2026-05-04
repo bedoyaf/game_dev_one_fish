@@ -45,14 +45,14 @@ public class HasCurrencyCondition : EventConditionInside {
 /// </summary>
 [Serializable]
 public class HasComponentCondition : EventConditionInside {
-    public ShipComponentData componentData;
+    public ShipComponentController component;
     public int componentCount;
 
     public override bool CheckCondition() {
         var ship = GameManager.Instance.currentGameplayManager.PlayerShip;
-        var componentCounts = ship.componentGrid.GetNonBrokenComponentsCountGroupedByData();
-        if (componentCounts.ContainsKey(componentData)) {
-            return componentCounts[componentData] >= componentCount;
+        var componentCounts = ship.componentGrid.GetNonBrokenComponentsCountGroupedByGuid();
+        if (componentCounts.ContainsKey(component.guid)) {
+            return componentCounts[component.guid] >= componentCount;
         }
         return false;
     }

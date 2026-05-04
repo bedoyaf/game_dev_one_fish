@@ -46,7 +46,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a78efac9f7c46a04db9731659d060f9b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ShipComponentController
-  prefab: {fileID: 3143172193047539597}
   componentName: PlaceHolder
   componentType: 0
   maxHealth: 10
@@ -60,8 +59,8 @@ MonoBehaviour:
   ComponentMesh: {fileID: 4356154640019006303}
   ComponentHitbox: {fileID: 8795247399380236874}
   shipComponentMeshController: {fileID: 0}
-  componentData: {fileID: 0}
-  componentPrefab: {fileID: 5385403880273499414}
+  componentPrefabs: {fileID: 11400000, guid: f88a2b091bbc9dc4ea700e0654a36b57, type: 2}
+  guid: ed855e7d-b37f-4e39-936f-950a5a97928c
   placementRules:
     width: 1
     height: 1

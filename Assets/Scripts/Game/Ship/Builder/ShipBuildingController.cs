@@ -161,7 +161,7 @@ public class ShipBuildingController : MonoBehaviour
         // Make sure we are working with prefabs
         var temp = new List<ShipComponentController>();
         foreach (var comp in componentPrefabs) {
-            temp.Add(comp.componentPrefab);
+            temp.Add(comp.ComponentPrefab);
         }
         componentPrefabs = temp;
 
@@ -175,7 +175,9 @@ public class ShipBuildingController : MonoBehaviour
 
             var mesh = Instantiate(comp.ComponentMesh, parent.transform);
             mesh.transform.DestroyAllChildren();
-            Instantiate(comp.ComponentHitbox, parent.transform);
+            var collider = Instantiate(comp.ComponentHitbox, parent.transform);
+            Destroy(collider.GetComponent<ShipComponentMeshController>());
+
 
             parent.transform.localPosition = new Vector3(left, 0, 0);
             left += comp.placementRules.width;

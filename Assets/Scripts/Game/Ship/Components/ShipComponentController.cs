@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using Unity.VisualScripting;
 using Unity.VisualScripting.Antlr3.Runtime;
+using UnityEditor;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Serialization;
@@ -31,8 +33,6 @@ public class ShipComponentController : MonoBehaviour
 
     private IShipComponentBehaviour componentBehaviour;
 
-
-
     public ShipController shipController { get; private set; }
 
     public GameObject ComponentMesh; // The child of the component, that has the mesh on it
@@ -45,11 +45,13 @@ public class ShipComponentController : MonoBehaviour
 
     public bool broken {  get; private set; } = false;
 
-    // For now, ID of the component
-    public ShipComponentData componentData;
+    public ComponentPrefabsData componentPrefabs;
+    public string guid;
 
     [Header("Builder stuff")]
-    public ShipComponentController componentPrefab; // Very useful for the builder!
+
+    //public ShipComponentController componentPrefab; // Very useful for the builder!
+    public ShipComponentController ComponentPrefab => componentPrefabs.GetPrefab(guid);
 
     public ComponentPlacement placementRules;
 

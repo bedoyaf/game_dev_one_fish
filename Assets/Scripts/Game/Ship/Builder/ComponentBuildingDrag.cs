@@ -30,7 +30,6 @@ public class ComponentBuildingDrag : MonoBehaviour
         var pos = builderTransform.position;
         builderOffsetFromGrid = pos - new Vector3((int)pos.x, (int)pos.y, (int)pos.z);
         GetComponentInChildren<Collider>().enabled = false;
-        GetComponentInChildren<ShipComponentMeshController>().enabled = false;
     }
 
     /// <summary>

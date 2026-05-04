@@ -75,7 +75,7 @@ public class ShipController : MonoBehaviour
             componentsParent.transform.position = new Vector3(oldPos.x, 0, oldPos.z);
         }
 
-        componentGrid = shipData.BuildShip(componentsParent);
+        componentGrid = shipData.BuildShip(componentsParent); 
 
         // NOTE: meshes after the grid !!!
         if(!playerShip)

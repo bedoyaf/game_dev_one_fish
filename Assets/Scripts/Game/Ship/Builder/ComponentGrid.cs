@@ -294,7 +294,7 @@ public class ComponentGrid {
                 var tile = grid[i, j];
                 if (tile.isPlaceholder) {
                     if (!shouldInstantiate || !shouldInstantiatePlaceholders) {
-                        tile.PlacePlaceholder(placeholderPrefab, false, false);
+                        tile.PlacePlaceholder(placeholderPrefab, false, true);
                     }
                     else {
                         var placeholder = InstantiateComponent(placeholderPrefab, j, i);
@@ -444,11 +444,12 @@ public class ComponentGrid {
     /// </summary>
     /// <returns></returns>
     public List<ShipComponentController> GetAllUniqueComponentPrefabs() {
-        HashSet<ShipComponentController> components = new();
+        HashSet<ShipComponentController> components = new(); 
         foreach (var tile in tiles) {
             if (tile.isPlaceholder || tile.hasOffset) continue;
 
-            components.Add(tile.component.componentPrefab);
+            var prefab = tile.component.ComponentPrefab;
+            components.Add(prefab);
         }
 
         return components.ToList();
@@ -494,18 +495,18 @@ public class ComponentGrid {
     /// Returns a dictionary, whose key is the component data (ID) and whose value is how many
     /// times is unbroken! component present in the grid.
     /// </summary>
-    public Dictionary<ShipComponentData, int> GetNonBrokenComponentsCountGroupedByData() {
-        Dictionary<ShipComponentData, int> componentCounts = new();
+    public Dictionary<string, int> GetNonBrokenComponentsCountGroupedByGuid() {
+        Dictionary<string, int> componentCounts = new();
         foreach (var tile in tiles) {
             if (tile.isPlaceholder || tile.hasOffset) continue;
 
             if (tile.component.broken) continue;
-            var data = tile.component.componentData;
-            if (componentCounts.ContainsKey(data)) {
-                componentCounts[data]++;
+            var guid = tile.component.guid;
+            if (componentCounts.ContainsKey(guid)) {
+                componentCounts[guid]++;
             }
             else {
-                componentCounts.Add(data, 1);
+                componentCounts.Add(guid, 1);
             }
         }
 

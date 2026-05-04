@@ -59,7 +59,7 @@ public class RewardController : MonoBehaviour
 
     void PickComponent(ShipComponentController comp)
     {
-        storedComponents.Add(comp.componentPrefab);
+        storedComponents.Add(comp.ComponentPrefab);
         pool.Remove(comp);
 
         if (storedComponents.Count >= picksNeeded || pool.Count<=0)
@@ -75,7 +75,7 @@ public class RewardController : MonoBehaviour
 
     public void AssignComponent(ShipComponentController comp) {
         storedComponents.Clear();
-        storedComponents.Add(comp.componentPrefab);
+        storedComponents.Add(comp.ComponentPrefab);
     }
 
     // ----------------------------------------------------
