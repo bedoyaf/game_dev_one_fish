@@ -65,10 +65,11 @@ public class GameplayFlowManager : MonoBehaviour
     // TODO: state machine for the game phases
     public enum GameStates
     {
-        WaitingForCombat, // Entry State
-        PreCombat,        // Enemy is entering, but fight has not commenced yet
-        Combat,
-        Event,
+        Event,            // Event screen is up
+        WaitingForCombat, // Entry State (the ui is showing map selection, can toggle to see ship in aquarium)
+        
+        PreCombat,        // Enemy is entering, but fight has not commenced yet, after a some time -> begin
+        Combat,           // Enemy is in the scene, fight is fully going
 
         RewardSelection,
         ShipModification,
@@ -255,13 +256,13 @@ public class GameplayFlowManager : MonoBehaviour
     public void Fight(int difficulty) {
         Debug.Log($"Fight called {difficulty}");
         combatController.AssignEnemyByDifficulty(difficulty);
-        stateMachine.ChangeState(GameStates.WaitingForCombat);
+        stateMachine.ChangeState(GameStates.PreCombat);
     }
 
     public void Fight(ShipData enemy) {
         Debug.Log($"Fight called {enemy}");
         combatController.AssignEnemy(enemy);
-        stateMachine.ChangeState(GameStates.WaitingForCombat);
+        stateMachine.ChangeState(GameStates.PreCombat);
     }
 
     public void NewComponent(ShipComponentController component) {

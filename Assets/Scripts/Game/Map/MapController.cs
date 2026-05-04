@@ -127,7 +127,9 @@ public class MapController : MonoBehaviour
     /// </summary>
     private void InitializeUI() {
         instantiatedUI = Instantiate(mapUIPrefab, canvas.transform);
-        for(int i = 0; i < instantiatedUI.MapButtons.Count; i++) {
+        // Move, so that the pause menu is always in front
+        instantiatedUI.transform.SetAsFirstSibling();
+        for (int i = 0; i < instantiatedUI.MapButtons.Count; i++) {
             int a = i;
             instantiatedUI.MapButtons[i].onClick.AddListener(() => OnButtonClick(a));
         }

@@ -5,6 +5,7 @@ using UnityEngine;
 public class EnemyShipAgent : MonoBehaviour
 {
 
+    // TODO: set this to true, by default
     public bool thinking = false; 
     [SerializeField] private float actInterval = 1.0f;
     private float nextActTime;

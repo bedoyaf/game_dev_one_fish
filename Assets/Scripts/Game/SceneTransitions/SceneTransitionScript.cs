@@ -67,7 +67,8 @@ public class SceneTransitionScript : MonoBehaviour
 
         while (t < fadeDuration)
         {
-            t += MyTime.deltaTime;
+            // NOTE: Time here, not MyTime 
+            t += Time.deltaTime;
             float a = Mathf.Lerp(from, to, t / fadeDuration);
 
             Color c = fade.color;

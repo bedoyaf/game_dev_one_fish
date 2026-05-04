@@ -29,7 +29,7 @@ public class SFXGameplayManager : SmartSingleton<SFXGameplayManager>
         // then animate down
 
         enemyShip.transform.position = 
-            new Vector3(enemyShip.transform.position.x, enemyShip.transform.position.y, 0.6f);
+            new Vector3(enemyShip.transform.position.x, enemyShip.transform.position.y, playersShip.transform.position.z);
     }
 
     public void ExitEnemyShip()

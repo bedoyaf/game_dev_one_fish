@@ -79,6 +79,14 @@ public class MouseController : MonoBehaviour
 
     private void OnClick(InputAction.CallbackContext ctx)
     {
+        // Ignore when the game is paused
+        if (GameManager.IsPaused)
+            return;
+
+        // Ignore if not in combat
+        if (!GameManager.Instance.IsInCombat)
+            return;
+
         Vector2 mousePos = Mouse.current.position.ReadValue();
 
         if (float.IsNaN(mousePos.x) || float.IsNaN(mousePos.y))

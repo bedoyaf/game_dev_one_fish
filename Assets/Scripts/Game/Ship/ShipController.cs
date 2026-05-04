@@ -45,6 +45,8 @@ public class ShipController : MonoBehaviour
     //Projectile spawnpoints
     public MissileSpawning missileSpawnPoints;
 
+    // Whether generators should generate / etc.
+    public bool componentsActive = false;
     public float DebugTextOffset = 0;
 
 
@@ -261,6 +263,24 @@ public class ShipController : MonoBehaviour
         // use it now
         storedMoney -= amount;
         return true;
+    }
+
+
+    // Remove stored energy, reset generators, batteries etc.
+    // cooldowns 
+    public void ResetComponentEffects()
+    {
+        // TODO: the rest...
+        storedEnergy = 0;
+
+        // NOTE: maybe okay to just call ResetBehaviour on all components ?
+        var generators = componentGrid.GetComponentsOfType<GeneratorComponentController>();
+        foreach (var gen in generators)
+        {
+            gen.ResetBehaviour();
+        }
+
+
     }
 
 

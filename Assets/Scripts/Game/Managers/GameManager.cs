@@ -47,8 +47,8 @@ public class GameManager : SmartSingleton<GameManager> {
 
 
 
-
-
+    public static bool IsPaused => MyTime.pausedOverride < 1;
+    public bool IsInCombat => currentGameplayManager.stateMachine.CurrentStateKey == GameplayFlowManager.GameStates.Combat;
 
     /// <summary>
     /// Called when a Save Slot IS selected*
@@ -74,6 +74,7 @@ public class GameManager : SmartSingleton<GameManager> {
     /// </summary>
     public void RestartGame() {
 
+        MyTime.pausedOverride = 1;
         // Maybe like this ?
         TransitionScene("GameplayScene");
     }
@@ -85,6 +86,7 @@ public class GameManager : SmartSingleton<GameManager> {
         // TODO: actually pause 
         // disable in-game interactions etc.
 
+        MyTime.pausedOverride = 0;
         // maybe gameplay manager needs to know too
     }
 
@@ -94,6 +96,7 @@ public class GameManager : SmartSingleton<GameManager> {
     public void ResumeGame() {
         // TODO: actually unpause
         // re-enable interactions etc.
+        MyTime.pausedOverride = 1;
 
         // gameplay manager again ?
 
@@ -105,7 +108,7 @@ public class GameManager : SmartSingleton<GameManager> {
     public void ExitGame() {
         // TODO: save what needs to be saved
         // etc..
-
+        MyTime.pausedOverride = 1;
         TransitionScene("MainMenuScene");
     }
 

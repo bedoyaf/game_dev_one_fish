@@ -11,11 +11,17 @@ public class CombatState : IGameState
 
     public void Enter()
     {
-            manager.EnterCombat();
+        manager.EnterCombat();
+        manager.EnemyShip.componentsActive = true;
+        manager.EnemyShip.ResetComponentEffects();
+        manager.PlayerShip.componentsActive = true;
+        manager.PlayerShip.ResetComponentEffects();
     }
 
     public void Exit()
     {
-            manager.EndCombat();
+        manager.EndCombat();
+        manager.EnemyShip.componentsActive = false;
+        manager.PlayerShip.componentsActive = false;
     }
 }

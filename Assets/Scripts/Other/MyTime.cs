@@ -12,6 +12,12 @@ using UnityEngine;
 public class MyTime : SmartSingleton<MyTime>
 {
     public static float deltaTime;
+    
+    // Split for special effects (still active even when paused)
+    public static float slowDownOverride = 1;
+    // Split because _timeScale weirdness
+    public static float pausedOverride = 1;
+
     public static float timeScale;
     public static float time;
     private static SortedList<float, GameObject> destructionQueue = new();
@@ -46,9 +52,10 @@ public class MyTime : SmartSingleton<MyTime>
     void Update()
     {
         // Not accurate in the long run, but I don't think it matters to us.
-        deltaTime = Time.deltaTime * timeScale;
+        deltaTime = Time.deltaTime * Mathf.Min(pausedOverride, Mathf.Min(slowDownOverride, timeScale));
         time += deltaTime;
 
+        // WHAT ? 
         // Modifiable from the inspector
         timeScale = _timeScale;
 

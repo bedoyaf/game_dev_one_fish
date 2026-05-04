@@ -15,6 +15,9 @@ public class GameUIScript : MonoBehaviour
     [SerializeField]
     private GameObject pauseMenuItemsParent;
 
+    [SerializeField]
+    private CombatController combatManager;
+
     void Start()
     {
         pauseMenuItemsParent.SetActive(false);    
@@ -26,13 +29,15 @@ public class GameUIScript : MonoBehaviour
         pauseMenuItemsParent.SetActive(true);
 
         GameManager.Instance.PauseGame();
+        combatManager.StopGame();
     }
 
     public void OnResumeClicked()
     {
-        GameManager.Instance.ResumeGame();
-
         pauseMenuItemsParent.SetActive(false);
+
+        GameManager.Instance.ResumeGame();
+        combatManager.ResumeGame();
     }
 
     public void OnRestartClicked()

@@ -59,7 +59,7 @@ public class GeneratorComponentController : BehaviourComponentControllerAbstract
 
     private void Update()
     {
-        if(!shipComponentController.IsBroken) GenerateEnergy();
+        if(!shipComponentController.IsBroken && shipController.componentsActive) GenerateEnergy();
         // UpdateDebugText();//DEBUG
     }
 
