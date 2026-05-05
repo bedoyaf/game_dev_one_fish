@@ -10,6 +10,9 @@ public class Projectile : MonoBehaviour
     public float lifetime = 5f;
     public int damage = 5;
 
+    public ParticleSystem deathParticles;
+    public float particlesLifetime = 3;
+
     private Vector3 direction;
 
     public void Init(Vector3 dir)
@@ -18,6 +21,9 @@ public class Projectile : MonoBehaviour
 
         //Destroy(gameObject, lifetime);
         MyTime.ScheduleDestruction(gameObject, lifetime);
+        var d = new Vector2(direction.x, direction.z).normalized;
+        float angle = -(Mathf.Atan2(d.y, d.x) * Mathf.Rad2Deg);
+        transform.localEulerAngles = new Vector3(0, angle, 0);
     }
 
     void Update()
@@ -35,6 +41,9 @@ public class Projectile : MonoBehaviour
         {
             target.OnDamagableCollision(damage);
         }
+
+        var particles = Instantiate(deathParticles, transform.position, Quaternion.identity);
+        MyTime.ScheduleDestruction(particles.gameObject, particlesLifetime);
 
         Destroy(gameObject);
     }

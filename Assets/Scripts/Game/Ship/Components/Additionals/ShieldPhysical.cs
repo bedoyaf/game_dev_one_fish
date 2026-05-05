@@ -1,3 +1,5 @@
+using DG.Tweening;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -8,13 +10,23 @@ public class ShieldPhysical : MonoBehaviour
 {
     [SerializeField] private float health = 10;
     [SerializeField] private float lifeSpan = 5;
+    [SerializeField] private float shieldFadeTime = 0.2f;
 
     public UnityEvent<ShieldPhysical> OnShieldDestroyed;
 
+    private Material shieldMaterial;
+    private bool dieCalled = false;
+
+    private void Awake() {
+        shieldMaterial = GetComponent<MeshRenderer>().material;
+        shieldMaterial.SetFloat("_Progress", 0.0f);
+        shieldMaterial.DOFloat(1, "_Progress", shieldFadeTime);
+    }
+
     public void Start()
     {
-        //Destroy(gameObject, lifeSpan);
-        MyTime.ScheduleDestruction(gameObject, lifeSpan);
+        //MyTime.ScheduleDestruction(gameObject, lifeSpan);
+        StartCoroutine(ScheduleDeath(lifeSpan));
     }
 
     public void TakeDamage(float dmg)
@@ -29,6 +41,30 @@ public class ShieldPhysical : MonoBehaviour
 
     private void Die()
     {
+        // Disable all colliders
+        var colliders = GetComponentsInChildren<Collider>();
+        foreach(Collider collider in colliders) {
+            collider.enabled = false;
+        }
+
+        // Fade the shield
+        StartCoroutine(DieCoroutine());
+        //Destroy(gameObject);
+    }
+
+    private IEnumerator ScheduleDeath(float lifeSpan) {
+        yield return MyTime.WaitForSeconds(lifeSpan);
+        if (this != null && gameObject != null) {
+            yield return DieCoroutine();
+        }
+    }
+
+    private IEnumerator DieCoroutine() {
+        if (dieCalled) yield break;
+        dieCalled = true;
+
+        shieldMaterial.DOFloat(0, "_Progress", shieldFadeTime);
+        yield return new WaitForSeconds(shieldFadeTime);
         Destroy(gameObject);
     }
 

@@ -68,7 +68,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: d387d090b938de944b60333927985a29, type: 2}
+  - {fileID: 2100000, guid: 304080a9e49d6c841b79510c60688c01, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -127,6 +127,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ShieldPhysical
   health: 10
   lifeSpan: 5
+  shieldFadeTime: 0.3
   OnShieldDestroyed:
     m_PersistentCalls:
       m_Calls: []

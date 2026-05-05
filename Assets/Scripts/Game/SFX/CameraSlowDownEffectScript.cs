@@ -6,7 +6,7 @@ public class CameraSlowDownEffectScript : MonoBehaviour
 {
 
     // Watch MyTime slowdown scale
-    // Zoom the camera a bit, when zooming
+    // Zoom the camera a bit, when zooming - nice explanation :D
     // maybe could do a grayscale effect too ?
 
 
