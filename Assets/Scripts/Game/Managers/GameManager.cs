@@ -80,6 +80,7 @@ public class GameManager : SmartSingleton<GameManager> {
     public void RestartGame() {
 
         MyTime.pausedOverride = 1;
+        MyTime.slowDownOverride = 1;
         // Maybe like this ?
         TransitionScene("GameplayScene");
     }
@@ -114,6 +115,7 @@ public class GameManager : SmartSingleton<GameManager> {
         // TODO: save what needs to be saved
         // etc..
         MyTime.pausedOverride = 1;
+        MyTime.slowDownOverride = 1;
         TransitionScene("MainMenuScene");
     }
 
