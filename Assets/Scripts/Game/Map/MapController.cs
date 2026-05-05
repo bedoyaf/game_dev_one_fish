@@ -49,6 +49,7 @@ public class MapController : MonoBehaviour
         }
 
         instantiatedUI.gameObject.SetActive(true);
+        instantiatedUI.SetVisible();
 
         // Select stages
         if (currentStage == bossStage) {
