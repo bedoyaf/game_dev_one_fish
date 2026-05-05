@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -61,6 +62,11 @@ public class EventController : MonoBehaviour
 
         // Prepare UI
         instantiatedEventUI = Instantiate(eventUIPrefab, eventCanvas.transform);
+
+        // start invisible
+        instantiatedEventUI.selfGroup.DOFade(0f, 0f);
+        instantiatedEventUI.selfGroup.DOFade(1f, 0.1f);
+
         // Move, so that the pause menu is always in front
         instantiatedEventUI.transform.SetAsFirstSibling();
         instantiatedEventUI.EventImage.sprite = eventData.eventImage;
@@ -97,7 +103,13 @@ public class EventController : MonoBehaviour
     }
 
     public void HideUI() {
-        instantiatedEventUI.gameObject.SmartDestroy();
+
+        // Fade out -> then destroy
+        instantiatedEventUI.selfGroup.DOFade(0f, 0.1f).onComplete += (
+            () =>
+            {
+                instantiatedEventUI.gameObject.SmartDestroy();
+            });
     }
 
     public void AddEvent(EventData eventData) {

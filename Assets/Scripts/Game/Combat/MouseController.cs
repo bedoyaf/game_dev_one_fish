@@ -188,7 +188,7 @@ public class MouseController : MonoBehaviour
     {
         activeComponent = component;
         currentMode = ClickMode.ComponentTargeting;
-        MyTime.slowDownOverride = 0.5f;
+        MyTime.slowDownOverride = 0.3f;
 
         Debug.Log("Entered targeting mode");
 

@@ -10,7 +10,8 @@ public class EventUI : MonoBehaviour
     public List<Button> EventButtons;
     public Image EventImage;
 
-    private Image selfImage;
+    public CanvasGroup selfGroup => GetComponent<CanvasGroup>();
+    public Image selfImage;
     private float y;
     private float offset_distance = 600;
 

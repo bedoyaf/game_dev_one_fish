@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections.Generic;
 using TMPro;
 using UnityEditor;
@@ -47,8 +48,10 @@ public class MapController : MonoBehaviour
         if (instantiatedUI == null) {
             InitializeUI();
         }
-
+        
         instantiatedUI.gameObject.SetActive(true);
+        // Fade in
+        if(instantiatedUI.selfGroup != null) instantiatedUI.selfGroup.DOFade(1f, 0.1f);
         instantiatedUI.SetVisible();
 
         // Select stages
@@ -113,7 +116,13 @@ public class MapController : MonoBehaviour
                 break;
         }
 
-        instantiatedUI.gameObject.SetActive(false);
+        // Fade out
+        if (instantiatedUI.selfGroup != null)
+            instantiatedUI.selfGroup.DOFade(0f, 0.1f).onComplete += (() =>
+            instantiatedUI.gameObject.SetActive(false));
+        else
+            instantiatedUI.gameObject.SetActive(false);
+
         gameplayFlowManager.CloseMapController(choiceData);
     }
 

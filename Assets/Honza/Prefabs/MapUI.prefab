@@ -615,6 +615,7 @@ GameObject:
   - component: {fileID: 4323757554102747787}
   - component: {fileID: 309376514566924841}
   - component: {fileID: 7293005203507248910}
+  - component: {fileID: 3373188418002562609}
   m_Layer: 5
   m_Name: MapUI
   m_TagString: Untagged
@@ -703,7 +704,20 @@ MonoBehaviour:
   - {fileID: 712963987106074932}
   MapImage: {fileID: 7514377480700597372}
   TEMP_RepairButton: {fileID: 9086647589874047348}
+  selfImage: {fileID: 0}
   visible: 1
+--- !u!225 &3373188418002562609
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6031349327387036944}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &8244525841595603627
 GameObject:
   m_ObjectHideFlags: 0
