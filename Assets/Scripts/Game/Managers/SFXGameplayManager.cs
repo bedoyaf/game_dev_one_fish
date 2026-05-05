@@ -1,3 +1,8 @@
+using DG.Tweening;
+using System;
+using System.Collections;
+using System.Runtime.InteropServices;
+using TMPro;
 using UnityEngine;
 
 
@@ -6,7 +11,8 @@ using UnityEngine;
 /// 
 /// Only effects here (no transitions, scene changes etc.)
 /// </summary>
-public class SFXGameplayManager : SmartSingleton<SFXGameplayManager>
+/// NOTE: no longer a singleton, because loses references on scene reload
+public class SFXGameplayManager : MonoBehaviour
 {
     [Tooltip("The player's ship")]
     [SerializeField]
@@ -22,26 +28,20 @@ public class SFXGameplayManager : SmartSingleton<SFXGameplayManager>
 
     }
 
+    private float MoveTime = 1f;
     public void EnterEnemyShip()
     {
-        // move out of frame first
-
-        // then animate down
-
-        enemyShip.transform.position = 
-            new Vector3(enemyShip.transform.position.x, enemyShip.transform.position.y, playersShip.transform.position.z);
+        enemyShip.transform.DOMoveZ(playersShip.transform.position.z, MoveTime);
     }
 
     public void ExitEnemyShip()
     {
-
-        enemyShip.transform.position =
-            new Vector3(enemyShip.transform.position.x, enemyShip.transform.position.y, 24f);
+        enemyShip.transform.DOMoveZ(24f, MoveTime);
     }
 
 
     // ------------------------------------------------------------
-    
+
     public Transform SFXParent;
 
     public GameObject missileSFXprefab;
@@ -61,14 +61,92 @@ public class SFXGameplayManager : SmartSingleton<SFXGameplayManager>
             SFXParent
         );
 
-        
-        if(missile.TryGetComponent(out MissileTravelScript missileSFX))
+
+        if (missile.TryGetComponent(out MissileTravelScript missileSFX))
         {
             missileSFX.startPosition = spawnPoint;
             missileSFX.endPosition = location;
             missileSFX.travelTime = time;
         }
-    
+
     }
 
+
+    // ---------------------------------------------------------------------
+
+    [SerializeField]
+    private TMPro.TMP_Text statusBar;
+
+    // NOTE: maybe move constants from the methods to like here...
+    public void CombatStartTransition(string enemyName, Action onFinished)
+    {
+        StartCoroutine(CombatStartTransitionCoroutine(enemyName, onFinished));
+    }
+
+    private IEnumerator CombatStartTransitionCoroutine(string enemyName, Action onFinished)
+    {
+        // Show the combat text in ui
+        statusBar.text = $"--- Fight ---\n{enemyName}";
+        var pos = statusBar.transform.position.y;
+        statusBar.gameObject.SetActive(true);
+        statusBar.DOFade(0f, 0f);
+        statusBar.DOFade(1f, 0.2f);
+
+        yield return new WaitForSeconds(0.2f);
+
+        // Leave the text for the player to read
+
+        yield return new WaitForSeconds(3f);
+
+        // Move the text up
+
+        statusBar.transform.DOMoveY(pos + 500, 0.5f);
+
+        yield return new WaitForSeconds(0.5f);
+
+        statusBar.gameObject.SetActive(false);
+        statusBar.DOFade(0f, 0f);
+        statusBar.transform.DOMoveY(pos, 0f);
+
+        onFinished();
+    }
+
+
+    public void CombatEndTransition(bool playerVictory, Action onFinished)
+    {
+        StartCoroutine(CombatEndTransitionCoroutine(playerVictory, onFinished));
+    }
+
+    private IEnumerator CombatEndTransitionCoroutine(bool playerVictory, Action onFinished)
+    {
+        // Show victory / loss
+        statusBar.text = playerVictory ? "Victory" : "Defeat";
+        var pos = statusBar.transform.position.y;
+        statusBar.gameObject.SetActive(true);
+        statusBar.DOFade(0f, 0f);
+        statusBar.DOFade(1f, 0.2f);
+
+        yield return new WaitForSeconds(0.2f);
+
+        // Leave the text for the player to read
+        yield return new WaitForSeconds(1f);
+
+        // Move the ship
+        ExitEnemyShip();
+
+        yield return new WaitForSeconds(2f);
+
+        // Move the text up
+
+        statusBar.transform.DOMoveY(pos + 500, 0.5f);
+
+        yield return new WaitForSeconds(0.5f);
+
+        statusBar.gameObject.SetActive(false);
+        statusBar.DOFade(0f, 0f);
+        statusBar.transform.DOMoveY(pos, 0f);
+
+        onFinished();
+
+    }
 }

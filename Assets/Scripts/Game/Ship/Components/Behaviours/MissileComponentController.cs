@@ -119,7 +119,7 @@ public class MissileComponentController : BehaviourComponentControllerAbstract
         // Spawn the visual immediately, the rocket only after a delay
         // based on travel speed
 
-        SFXGameplayManager.Instance.SpawnRocket(transform.position, spawnPos, missileTravelTime);
+        GameManager.Instance.SFXManager.SpawnRocket(transform.position, spawnPos, missileTravelTime);
         StartCoroutine(SpawnRocket(spawnPos, shootDir));
 
         /*

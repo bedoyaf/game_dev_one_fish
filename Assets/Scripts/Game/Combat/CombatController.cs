@@ -153,10 +153,12 @@ public class CombatController : SmartSingleton<CombatController>
         shipGiven = true;
     }
 
-    public void AssignEnemyByDifficulty(int difficulty) {
+    public ShipData AssignEnemyByDifficulty(int difficulty) {
 
-        enemyShip.shipData = GetEnemyFromDifficulty(difficulty);
+        var data = GetEnemyFromDifficulty(difficulty);
+        enemyShip.shipData = data;
         shipGiven = true;
+        return data;
     }
 
 

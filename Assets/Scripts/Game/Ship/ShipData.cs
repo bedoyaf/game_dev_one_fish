@@ -23,6 +23,9 @@ public class ShipData : ScriptableObject {
     [SerializeField]
     private ComponentGrid _componentGrid;
 
+    
+    public string shipName = "defaultName";
+
     /// <summary>
     /// The stored component grid. All things inside are references to prefabs, not instances.
     /// </summary>

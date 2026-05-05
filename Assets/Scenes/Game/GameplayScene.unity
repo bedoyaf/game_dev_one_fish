@@ -4468,7 +4468,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8403647890093070699, guid: 187c20461725122439c3c40d8368a792, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 2.76
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 8403647890093070699, guid: 187c20461725122439c3c40d8368a792, type: 3}
       propertyPath: m_LocalRotation.w
@@ -4774,7 +4774,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4593683653580219891, guid: 9101963b760786d4783a45530197e394, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 2.8
+      value: 1.51
       objectReference: {fileID: 0}
     - target: {fileID: 4593683653580219891, guid: 9101963b760786d4783a45530197e394, type: 3}
       propertyPath: m_LocalRotation.w
@@ -8537,7 +8537,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5110051251707544428, guid: f28a73be86bdc3743a8b2abb6859b834, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7707693019713289623, guid: f28a73be86bdc3743a8b2abb6859b834, type: 3}
       propertyPath: combatManager
@@ -8546,6 +8546,14 @@ PrefabInstance:
     - target: {fileID: 8082771856782194216, guid: f28a73be86bdc3743a8b2abb6859b834, type: 3}
       propertyPath: m_LocalPosition.z
       value: -1447
+      objectReference: {fileID: 0}
+    - target: {fileID: 8237810408535870286, guid: f28a73be86bdc3743a8b2abb6859b834, type: 3}
+      propertyPath: m_fontColor.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8237810408535870286, guid: f28a73be86bdc3743a8b2abb6859b834, type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4294967295
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -8854,6 +8862,7 @@ MonoBehaviour:
   mapController: {fileID: 826056873}
   combatController: {fileID: 224720031}
   rewardController: {fileID: 1717443702}
+  mouseController: {fileID: 1419061291}
 --- !u!114 &1059603496 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6845047944256034405, guid: 2830b339b4f764746b89c4505b1d6cbf, type: 3}
@@ -9255,11 +9264,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3d1eaaa5b60e1f48ab164b66e2e7612, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SFXGameplayManager
-  _persistent: 1
   playersShip: {fileID: 516042539}
   enemyShip: {fileID: 1613926696}
   SFXParent: {fileID: 1441420336}
   missileSFXprefab: {fileID: 7728908910154949495, guid: a7074a163abac2f408d9c0b8cfc6f72c, type: 3}
+  statusBar: {fileID: 1880764423}
 --- !u!4 &1441420336
 Transform:
   m_ObjectHideFlags: 0
@@ -9541,6 +9550,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2830b339b4f764746b89c4505b1d6cbf, type: 3}
+--- !u!114 &1880764423 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8237810408535870286, guid: f28a73be86bdc3743a8b2abb6859b834, type: 3}
+  m_PrefabInstance: {fileID: 815782307}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
 --- !u!4 &1900577957 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4043905098759259629, guid: 187c20461725122439c3c40d8368a792, type: 3}

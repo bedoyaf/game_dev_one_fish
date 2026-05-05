@@ -23,5 +23,9 @@ public class CombatState : IGameState
         manager.EndCombat();
         manager.EnemyShip.componentsActive = false;
         manager.PlayerShip.componentsActive = false;
+        manager.PlayerShip.ResetComponentEffects();
+
+        // If was doing some action (like aiming a rocket or a shield) -> reset on combat end
+        manager.mouseController.Reset();
     }
 }

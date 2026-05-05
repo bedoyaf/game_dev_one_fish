@@ -77,6 +77,11 @@ public class MouseController : MonoBehaviour
         cancelAction.Disable();
     }
 
+    public void Reset()
+    {
+        ExitTargetingMode();
+    }
+
     private void OnClick(InputAction.CallbackContext ctx)
     {
         // Ignore when the game is paused

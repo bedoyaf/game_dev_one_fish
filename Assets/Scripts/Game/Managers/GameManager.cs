@@ -48,7 +48,12 @@ public class GameManager : SmartSingleton<GameManager> {
 
 
     public static bool IsPaused => MyTime.pausedOverride < 1;
-    public bool IsInCombat => currentGameplayManager.stateMachine.CurrentStateKey == GameplayFlowManager.GameStates.Combat;
+    public bool IsInCombat =>
+        // In Combat state and not dead
+           currentGameplayManager.stateMachine.CurrentStateKey == GameplayFlowManager.GameStates.Combat
+        && currentGameplayManager.PlayerShip.GetMainCabin().health > 0;
+
+    public SFXGameplayManager SFXManager => currentGameplayManager.sfx;
 
     /// <summary>
     /// Called when a Save Slot IS selected*

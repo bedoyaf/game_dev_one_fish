@@ -18,7 +18,7 @@ public class GameplayFlowManager : MonoBehaviour
 {
     [Tooltip("SFX Manager for the gameplay scene")]
     [SerializeField]
-    private SFXGameplayManager sfx;
+    public SFXGameplayManager sfx;
 
 
     [Tooltip("The player's ship")]
@@ -37,6 +37,8 @@ public class GameplayFlowManager : MonoBehaviour
 
     [SerializeField] private CombatController combatController;
     [SerializeField] private RewardController rewardController;
+
+    public MouseController mouseController;
 
     // Some access to player ship is needed
     public ShipController PlayerShip => playerShip;
@@ -71,11 +73,11 @@ public class GameplayFlowManager : MonoBehaviour
         PreCombat,        // Enemy is entering, but fight has not commenced yet, after a some time -> begin
         Combat,           // Enemy is in the scene, fight is fully going
 
-        RewardSelection,
-        ShipModification,
+        RewardSelection,  // Rewards presented -> can only choose between them
+        ShipModification, // Modifying the ship with the chose components -> can abord
 
-        MapSelection,
-        GameOver
+        MapSelection,     // Map is up, can select where to go next
+        GameOver          // Game is over -> can restart
     }
 
     public class GameStateMachine
@@ -210,13 +212,14 @@ public class GameplayFlowManager : MonoBehaviour
         if (combatController.playerWon)
         {
             // Spawn loot
-            stateMachine.ChangeState(GameStates.RewardSelection);
+            sfx.CombatEndTransition(true, () => { stateMachine.ChangeState(GameStates.RewardSelection); });
         }
         else
         {
-            stateMachine.ChangeState(GameStates.GameOver);
             // Display Game Over (TODO)
+            sfx.CombatEndTransition(false, () => { stateMachine.ChangeState(GameStates.GameOver); });
         }
+
     }
 
     public void OnShowRewardEnd()
@@ -255,14 +258,16 @@ public class GameplayFlowManager : MonoBehaviour
     // ----------------------------------------------------
     public void Fight(int difficulty) {
         Debug.Log($"Fight called {difficulty}");
-        combatController.AssignEnemyByDifficulty(difficulty);
+        var data = combatController.AssignEnemyByDifficulty(difficulty);
         stateMachine.ChangeState(GameStates.PreCombat);
+        sfx.CombatStartTransition(data.shipName, () => { stateMachine.ChangeState(GameStates.Combat); });
     }
 
     public void Fight(ShipData enemy) {
         Debug.Log($"Fight called {enemy}");
         combatController.AssignEnemy(enemy);
         stateMachine.ChangeState(GameStates.PreCombat);
+        sfx.CombatStartTransition(enemy.shipName, () => { stateMachine.ChangeState(GameStates.Combat); });
     }
 
     public void NewComponent(ShipComponentController component) {
