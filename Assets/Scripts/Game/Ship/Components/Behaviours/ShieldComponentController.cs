@@ -104,14 +104,15 @@ public class ShieldComponentController : BehaviourComponentControllerAbstract
 
     private void SpawnPhysicalShield(TargetingData target) {
 
-        //Transform targetTransform = target.transform;
         float offset = 0.5f;
         var targetTransform = target.target.transform.parent;
 
         //Vector3 position = new Vector3(targetTransform.position.x + offset, targetTransform.position.y + offset, targetTransform.position.z + offset);
         Vector3 position = targetTransform.position + Vector3.one * offset + target.ComponentOffset;
-        //Vector3 exactPosition = target.ExactTargetPosition;
-        //if (!shipComponentController.shipController.playerShip) position = new Vector3(targetTransform.position.x - offset, targetTransform.position.y + offset, targetTransform.position.z + offset);
+
+        if (!shipComponentController.shipController.playerShip)
+            position = targetTransform.position + new Vector3(-1, 1, 1) * offset + target.ComponentOffset;
+            //position = new Vector3(targetTransform.position.x - offset, targetTransform.position.y + offset, targetTransform.position.z + offset);
 
         GameObject shieldObj = Instantiate(
         physicalShieldPrefab,

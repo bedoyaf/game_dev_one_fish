@@ -39,15 +39,20 @@
 //}
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
 using UnityEditor.UIElements;
+using UnityEngine;
 using UnityEngine.UIElements;
 using static EventEffect;
 
 // Not gonna take credit - this was mostly vibe coded.
+// And yes, it is the same code for conditions
 [CustomPropertyDrawer(typeof(EventEffect))]
 public class EventEffectDrawer : PropertyDrawer {
+    static Dictionary<string, object> instanceTracker = new();
+
     public override VisualElement CreatePropertyGUI(SerializedProperty property) {
         var root = new VisualElement();
 
@@ -74,6 +79,8 @@ public class EventEffectDrawer : PropertyDrawer {
                 EffectType.AddEvent => typeof(AddEventEffect),
                 EffectType.GetComponent => typeof(GetComponentEffect),
                 EffectType.GetRandomComponent => typeof(GetRandomComponentEffect),
+                EffectType.BreakComponents => typeof(BreakComponentsEffect),
+                EffectType.Repair => typeof(RepairEffect),
                 _ => null,
             };
         }
@@ -86,11 +93,31 @@ public class EventEffectDrawer : PropertyDrawer {
                 effectProp.managedReferenceValue = null;
             }
             else {
-                if (effectProp.managedReferenceValue == null ||
-                    effectProp.managedReferenceValue.GetType() != targetType) {
-                    effectProp.managedReferenceValue = Activator.CreateInstance(targetType);
-                    property.serializedObject.ApplyModifiedProperties();
+                var key = property.propertyPath;
+                var current = effectProp.managedReferenceValue;
+
+                if (current == null || current.GetType() != targetType) {
+                    current = Activator.CreateInstance(targetType);
                 }
+                else {
+                    // Detect shared reference
+                    if (instanceTracker.TryGetValue(key, out var existing)) {
+                        if (ReferenceEquals(existing, current)) {
+                            // same instance reused -> clone it
+                            current = CloneManagedReference(current);
+                        }
+                    }
+                }
+
+                effectProp.managedReferenceValue = current;
+                instanceTracker[key] = current;
+
+                property.serializedObject.ApplyModifiedProperties();
+                //if (effectProp.managedReferenceValue == null ||
+                //    effectProp.managedReferenceValue.GetType() != targetType) {
+                //    effectProp.managedReferenceValue = Activator.CreateInstance(targetType);
+                //    property.serializedObject.ApplyModifiedProperties();
+                //}
             }
 
             // Redraw UI
@@ -137,5 +164,12 @@ public class EventEffectDrawer : PropertyDrawer {
             field.Bind(prop.serializedObject);
             container.Add(field);
         }
+    }
+
+    object CloneManagedReference(object source) {
+        if (source == null) return null;
+
+        var json = JsonUtility.ToJson(source);
+        return JsonUtility.FromJson(json, source.GetType());
     }
 }

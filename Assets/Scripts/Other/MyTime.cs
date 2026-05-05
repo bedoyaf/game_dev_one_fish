@@ -55,8 +55,8 @@ public class MyTime : SmartSingleton<MyTime>
         deltaTime = Time.deltaTime * Mathf.Min(pausedOverride, Mathf.Min(slowDownOverride, timeScale));
         time += deltaTime;
 
-        // WHAT ? 
-        // Modifiable from the inspector
+        // WHAT ? - meaning if you want to play with time scale from the inspector, to test it. You cannot modify static variables from inspector.
+        // Modifiable from the inspector 
         timeScale = _timeScale;
 
         // Debug only

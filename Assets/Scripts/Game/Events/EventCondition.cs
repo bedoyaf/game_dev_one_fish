@@ -9,7 +9,7 @@ public class EventCondition {
     public enum ConditionType {
         None,
         HasCurrency,
-        HasComponent,
+        HasComponents,
     }
 
     public bool DoesConditionHold() {
@@ -42,18 +42,34 @@ public class HasCurrencyCondition : EventConditionInside {
 
 /// <summary>
 /// Checks if the player has x unbroken! components
+/// Either choose component type or a specific component
+/// If a component is chosen, the type is ignored
 /// </summary>
 [Serializable]
-public class HasComponentCondition : EventConditionInside {
+public class HasComponentsCondition : EventConditionInside {
+    [Tooltip("Choose a type of components the player needs")]
+    public ShipComponentController.ComponentType componentType;
+
+    [Tooltip("Choose specific component (type will be ignored)")]
     public ShipComponentController component;
+
     public int componentCount;
 
     public override bool CheckCondition() {
         var ship = GameManager.Instance.currentGameplayManager.PlayerShip;
-        var componentCounts = ship.componentGrid.GetNonBrokenComponentsCountGroupedByGuid();
-        if (componentCounts.ContainsKey(component.guid)) {
-            return componentCounts[component.guid] >= componentCount;
+        if (component != null) {
+            var componentCounts = ship.componentGrid.GetNonBrokenComponentsCountGroupedByGuid();
+            if (componentCounts.ContainsKey(component.guid)) {
+                return componentCounts[component.guid] >= componentCount;
+            }
         }
-        return false;
+        else {
+            var componentTypes = ship.componentGrid.GetNonBrokenComponentsCountGroupedByType();
+            if (componentTypes.ContainsKey(componentType)) {
+                return componentTypes[componentType] >= componentCount;
+            }
+        }
+
+            return false;
     }
 }

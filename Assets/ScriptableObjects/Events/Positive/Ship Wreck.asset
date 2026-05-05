@@ -10,48 +10,41 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ce492c0da6d80b0438eeff88d89d2455, type: 3}
-  m_Name: LocalColony2
+  m_Name: Ship Wreck
   m_EditorClassIdentifier: Assembly-CSharp::EventData
-  eventID: loterry
-  eventText: You meet the colony again. They are now thriving, thanks to your generosity,
-    and offer you help.
+  eventID: ship_wreck
+  eventType: 0
   eventImage: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
+  minimumStage: 0
+  eventText: You encounter a ship wreck, no-one alive inside.
   choices:
   - choiceID: money
-    choiceText: Receive 15 $
+    choiceText: Take money from the wreck
     effects:
     - effectType: 3
       effectData:
-        rid: 2819435473551491149
+        rid: 4401092281253757549
     conditions: []
   - choiceID: component
-    choiceText: Receive free component (rocket, generator or shield)
+    choiceText: Take one random component
     effects:
     - effectType: 8
       effectData:
-        rid: 4401092255637569711
-    conditions: []
-  - choiceID: leave
-    choiceText: I don't need anything
-    effects:
-    - effectType: 2
-      effectData:
-        rid: 2819435473551491153
+        rid: 4401092281253757551
     conditions: []
   references:
     version: 2
     RefIds:
-    - rid: 2819435473551491149
+    - rid: 4401092281253757549
       type: {class: ChangeCurrencyAmountEffect, ns: , asm: Assembly-CSharp}
       data:
-        amount: 15
-    - rid: 2819435473551491153
-      type: {class: RunEffect, ns: , asm: Assembly-CSharp}
-      data: 
-    - rid: 4401092255637569711
+        amount: 5
+        randomness: 2
+    - rid: 4401092281253757551
       type: {class: GetRandomComponentEffect, ns: , asm: Assembly-CSharp}
       data:
         components:
+        - {fileID: 6845047944256034405, guid: 2830b339b4f764746b89c4505b1d6cbf, type: 3}
         - {fileID: 6845047944256034405, guid: 6f05b655c31756b40a087f6dcfe7ee9c, type: 3}
         - {fileID: 6845047944256034405, guid: b08409fe63a51854697c0a666f536de1, type: 3}
-        - {fileID: 6845047944256034405, guid: 2830b339b4f764746b89c4505b1d6cbf, type: 3}
+        - {fileID: 6845047944256034405, guid: 8b861ca9d28fd524fa290b025e2c0f81, type: 3}

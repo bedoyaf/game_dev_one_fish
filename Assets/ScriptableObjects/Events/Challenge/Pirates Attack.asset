@@ -10,60 +10,64 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ce492c0da6d80b0438eeff88d89d2455, type: 3}
-  m_Name: PiratesAttack
+  m_Name: Pirates Attack
   m_EditorClassIdentifier: Assembly-CSharp::EventData
   eventID: pirates_attack
+  eventType: 2
+  eventImage: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
+  minimumStage: 0
   eventText: 'The pirates appear ahead of you, blocking your path. They are deadly,
     but maybe they are willing to talk? '
-  eventImage: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
   choices:
   - choiceID: fight
     choiceText: Fight with the pirates!
     effects:
     - effectType: 1
       effectData:
-        rid: 4401092255637569643
+        rid: 4401092280337302468
     conditions: []
   - choiceID: pay
     choiceText: Pay them 5$ to let you go
     effects:
     - effectType: 3
       effectData:
-        rid: 2819435450883113054
+        rid: 4401092280337302470
     conditions:
     - conditionType: 1
       eventCondition:
-        rid: 2819435450883113055
+        rid: 4401092280337302472
   - choiceID: run
-    choiceText: Run away from the fight
+    choiceText: Run away from the fight using your fast engines
     effects:
     - effectType: 2
       effectData:
-        rid: 2819435430485688331
+        rid: 4401092280337302474
     conditions:
     - conditionType: 2
       eventCondition:
-        rid: 2819435430728433732
+        rid: 4401092280337302476
   references:
     version: 2
     RefIds:
-    - rid: 2819435430485688331
-      type: {class: RunEffect, ns: , asm: Assembly-CSharp}
-      data: 
-    - rid: 2819435430728433732
-      type: {class: HasComponentCondition, ns: , asm: Assembly-CSharp}
+    - rid: 4401092280337302468
+      type: {class: FightEffect, ns: , asm: Assembly-CSharp}
       data:
-        component: {fileID: 6845047944256034405, guid: 9ea8d571fd3e8a74586990b7fea34728, type: 3}
-        componentCount: 3
-    - rid: 2819435450883113054
+        enemy: {fileID: 0}
+        elite: 0
+    - rid: 4401092280337302470
       type: {class: ChangeCurrencyAmountEffect, ns: , asm: Assembly-CSharp}
       data:
         amount: -5
-    - rid: 2819435450883113055
+    - rid: 4401092280337302472
       type: {class: HasCurrencyCondition, ns: , asm: Assembly-CSharp}
       data:
         currencyCount: 5
-    - rid: 4401092255637569643
-      type: {class: FightEffect, ns: , asm: Assembly-CSharp}
+    - rid: 4401092280337302474
+      type: {class: RunEffect, ns: , asm: Assembly-CSharp}
+      data: 
+    - rid: 4401092280337302476
+      type: {class: HasComponentsCondition, ns: , asm: Assembly-CSharp}
       data:
-        enemy: {fileID: 11400000, guid: 00f9c9d03984efe48abc5437e2176ffa, type: 2}
+        componentType: 2
+        component: {fileID: 0}
+        componentCount: 3

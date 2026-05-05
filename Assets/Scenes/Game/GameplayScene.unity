@@ -867,38 +867,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 3580451792754901194, guid: 9101963b760786d4783a45530197e394, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 7408578033752756734, guid: 9101963b760786d4783a45530197e394, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -9.31
-      objectReference: {fileID: 0}
-    - target: {fileID: 7408578033752756734, guid: 9101963b760786d4783a45530197e394, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 7408578033752756734, guid: 9101963b760786d4783a45530197e394, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 9023060938975131728, guid: 9101963b760786d4783a45530197e394, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 9023060938975131728, guid: 9101963b760786d4783a45530197e394, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 9037957298328804323, guid: 9101963b760786d4783a45530197e394, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 2.22
-      objectReference: {fileID: 0}
-    - target: {fileID: 9037957298328804323, guid: 9101963b760786d4783a45530197e394, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.5
-      objectReference: {fileID: 0}
     - target: {fileID: 288197366060487284, guid: 187c20461725122439c3c40d8368a792, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -4738,6 +4706,38 @@ PrefabInstance:
     - target: {fileID: 9190990793083743621, guid: 187c20461725122439c3c40d8368a792, type: 3}
       propertyPath: m_Name
       value: Player Ship
+      objectReference: {fileID: 0}
+    - target: {fileID: 3580451792754901194, guid: 9101963b760786d4783a45530197e394, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7408578033752756734, guid: 9101963b760786d4783a45530197e394, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -9.31
+      objectReference: {fileID: 0}
+    - target: {fileID: 7408578033752756734, guid: 9101963b760786d4783a45530197e394, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7408578033752756734, guid: 9101963b760786d4783a45530197e394, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 9023060938975131728, guid: 9101963b760786d4783a45530197e394, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 9023060938975131728, guid: 9101963b760786d4783a45530197e394, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 9037957298328804323, guid: 9101963b760786d4783a45530197e394, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 2.22
+      objectReference: {fileID: 0}
+    - target: {fileID: 9037957298328804323, guid: 9101963b760786d4783a45530197e394, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
@@ -8918,6 +8918,7 @@ MonoBehaviour:
   bosses:
   - {fileID: 11400000, guid: 423f2cb5779c2d44cb386fb00b014db8, type: 2}
   bossStage: 10
+  eliteEnemyDifficulty: 3
   gameplayFlowManager: {fileID: 992669697}
   choices: 0000000002000000
   currentStage: 1
@@ -9053,6 +9054,12 @@ MonoBehaviour:
   events:
   - {fileID: 11400000, guid: 33155aa6e2c9f4648b588c03589719e1, type: 2}
   - {fileID: 11400000, guid: 1d63be1b78a746f4b85d29b6e0bfebbd, type: 2}
+  - {fileID: 11400000, guid: a8d36e4979bd3fe4a9fc01b120d3c173, type: 2}
+  - {fileID: 11400000, guid: 478561e8611713d44afe6343f7768fec, type: 2}
+  - {fileID: 11400000, guid: e24e1033b4edfdc4390b2e017c1aaea3, type: 2}
+  - {fileID: 11400000, guid: 0a5589079cf56f545aa9339a7d8e4bad, type: 2}
+  - {fileID: 11400000, guid: e9b414ca1fc380b41a0667bb018a0d85, type: 2}
+  - {fileID: 11400000, guid: 2cf72ac69b9cda8419723754b764b86a, type: 2}
   - {fileID: 11400000, guid: 649b766e397b5e1408f07a6e01bfdb5d, type: 2}
   gameplayFlowManager: {fileID: 992669697}
   eventUIPrefab: {fileID: 7089704683348379509, guid: 5f49752f3d5ced7488965c19d07d3606, type: 3}

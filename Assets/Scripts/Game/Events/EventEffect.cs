@@ -25,7 +25,10 @@ public class EventEffect {
         AddEvent,
         GetComponent,
         GetRandomComponent,
+        BreakComponents,
+        Repair,
     }
+    // TODO - add component selection, so it is not always random component.
 }
 [Serializable]
 public abstract class EventEffectInside {
@@ -45,13 +48,22 @@ public class NoneEffect : EventEffectInside {
 /// Fight with this ship data
 /// </summary>
 public class FightEffect : EventEffectInside {
+    [Tooltip("Select specific enemy to fight")]
     public ShipData enemy;
+
+    [Tooltip("Should the fight be with normal or elite. Ignored is enemy ship is set.")]
+    public bool elite;
     public override bool ChangesState => true;
     public override Color Color => Color.red;
 
     public override void ApplyEffect(EventController eventController) {
         Debug.Log($"Fight {enemy}");
-        eventController.GameplayManager.Fight(enemy);
+        if (enemy == null) {
+            eventController.GameplayManager.Fight(elite);
+        }
+        else {
+            eventController.GameplayManager.Fight(enemy);
+        }
     }
 }
 
@@ -71,12 +83,16 @@ public class RunEffect : EventEffectInside {
 /// </summary>
 public class ChangeCurrencyAmountEffect : EventEffectInside {
     public int amount;
+
+    [Tooltip("How much more or less can the amount be")]
+    public int randomness;
     public override bool ChangesState => false;
     public override Color Color => Color.gold;
 
     public override void ApplyEffect(EventController eventController) {
-        Debug.Log($"Adding/removing {amount} currency");
-        eventController.GameplayManager.PlayerShip.AddCurrency(amount);
+        int money = UnityEngine.Random.Range(amount - randomness, amount + randomness + 1);
+        Debug.Log($"Adding/removing {money} currency");
+        eventController.GameplayManager.PlayerShip.AddCurrency(money);
     }
 }
 
@@ -175,18 +191,62 @@ public class GetRandomComponentEffect : EventEffectInside {
     }
 }
 
+
 /// <summary>
-/// Gives the player x component repairs
+/// Breaks certain amount of components
+/// Makes sure one rocket remains
 /// </summary>
-public class RepairEffect : EventEffectInside {
-    public int repairAmount;
+public class BreakComponentsEffect : EventEffectInside {
+    public int amount;
+    [Tooltip("None means random")]
+    public ShipComponentController.ComponentType componentType;
 
-    public override bool ChangesState => true;
+    public override bool ChangesState => false;
 
+    // Destroy selected amount of components
     public override void ApplyEffect(EventController eventController) {
+        var grid = eventController.GameplayManager.PlayerShip.componentGrid;
+        List<ShipComponentController> components = new();
+        if (componentType == ShipComponentController.ComponentType.None) {
+            components = grid.GetAllNonBrokenComponents();
+            
+        }
+        else {
+            var componentTypes = grid.GetNonBrokenComponentsGroupedByType();
+            if (componentTypes.ContainsKey(componentType)) {
+                components = componentTypes[componentType];
+            }
+        }
+
+        // Remove one rocket so that the player has something to fight with
+        int index = components.FindIndex(x => x.componentType == ShipComponentController.ComponentType.Rocket);
+        if (index != -1) components.RemoveAt(index);
+
+        for (int i = 0; i < amount && components.Count > 0; i++) {
+
+            // Just in case the player has only main cabin, so that it does not go into infinite cycle
+            for(int j = 0; j < 10; j++) {
+                var comp = components.GetRandom();
+                if (comp.componentType == ShipComponentController.ComponentType.MainCabin) continue;
+
+                components.Remove(comp);
+                comp.TakeDamage(10000000);
+                break;
+            }
+
+        }
         //eventController.GameplayManager.NewComponent(components.GetRandom());
     }
 }
 
+/// <summary>
+/// Starts ship repairing
+/// </summary>
+public class RepairEffect : EventEffectInside {
+    public override bool ChangesState => true;
 
+    public override void ApplyEffect(EventController eventController) {
+        eventController.GameplayManager.EnterRepairsMode();
+    }
+}
 

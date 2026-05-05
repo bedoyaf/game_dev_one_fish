@@ -1,5 +1,6 @@
 using DG.Tweening;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 
@@ -24,12 +25,12 @@ public class EventController : MonoBehaviour
     /// <summary>
     /// Selects event and shows it on the screen
     /// </summary>
-    public void NextEvent() {
+    public void NextEvent(int currentStage) {
         if (addedEvents.Count > 0 && Random.Range(0, 3) == 0) {
-            SelectRandomEvent(addedEvents);
+            SelectRandomEvent(addedEvents, currentStage);
         }
         else {
-            SelectRandomEvent(events);
+            SelectRandomEvent(events, currentStage);
         }
 
         if (selectThisEvent != null) {
@@ -43,16 +44,18 @@ public class EventController : MonoBehaviour
     /// Selects random event from the given list and stores it into history.
     /// </summary>
     /// <param name="events"></param>
-    private void SelectRandomEvent(List<EventData> events) {
-        int index = Random.Range(0, events.Count);
-        currentEvent = events[index];
-        events.RemoveAt(index);
+    private void SelectRandomEvent(List<EventData> events, int currentStage) {
+        var possibleEvents = events.Where(e => e.minimumStage <= currentStage).ToList();
+        //int index = Random.Range(0, events.Count);
+        //currentEvent = events[index];
+        //events.RemoveAt(index);
+        currentEvent = possibleEvents.GetRandom();
+        events.Remove(currentEvent);
         eventHistory.Add(currentEvent);
     }
 
     /// <summary>
     /// Display event UI from the event data
-    /// TODOH - Ugly
     /// </summary>
     public void DisplayUI(EventData eventData = null) {
         if (eventData == null) {

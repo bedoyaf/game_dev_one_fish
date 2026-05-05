@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce492c0da6d80b0438eeff88d89d2455, type: 3}
+  m_Name: Challenger
+  m_EditorClassIdentifier: Assembly-CSharp::EventData
+  eventID: mafia_attack
+  eventType: 2
+  eventImage: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
+  minimumStage: 3
+  eventText: You meet a fighting maniac. He wants to fight you (warning - he is strong)
+  choices:
+  - choiceID: fight
+    choiceText: Show him what you got!
+    effects:
+    - effectType: 1
+      effectData:
+        rid: 4401092280337302486
+    conditions: []
+  - choiceID: leave
+    choiceText: Leave, you don't feel like fighting
+    effects:
+    - effectType: 2
+      effectData:
+        rid: 4401092280337302488
+    conditions: []
+  references:
+    version: 2
+    RefIds:
+    - rid: 4401092280337302486
+      type: {class: FightEffect, ns: , asm: Assembly-CSharp}
+      data:
+        enemy: {fileID: 0}
+        elite: 1
+    - rid: 4401092280337302488
+      type: {class: RunEffect, ns: , asm: Assembly-CSharp}
+      data: 

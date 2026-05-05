@@ -1,0 +1,95 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce492c0da6d80b0438eeff88d89d2455, type: 3}
+  m_Name: Shop
+  m_EditorClassIdentifier: Assembly-CSharp::EventData
+  eventID: shop
+  eventType: 0
+  eventImage: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
+  minimumStage: 2
+  eventText: You arrive at a shop. The shopkeeper offers to sell you one component.
+  choices:
+  - choiceID: rocket
+    choiceText: Buy one rocket for 5$
+    effects:
+    - effectType: 3
+      effectData:
+        rid: 4401092281253757579
+    - effectType: 7
+      effectData:
+        rid: 4401092281253757581
+    conditions:
+    - conditionType: 1
+      eventCondition:
+        rid: 4401092281253757583
+  - choiceID: battery
+    choiceText: 'Buy one battery for 5$ '
+    effects:
+    - effectType: 7
+      effectData:
+        rid: 4401092281253757585
+    conditions:
+    - conditionType: 1
+      eventCondition:
+        rid: 4401092281253757587
+  - choiceID: repair
+    choiceText: Buy a repair component for 15$
+    effects:
+    - effectType: 7
+      effectData:
+        rid: 4401092281253757589
+    conditions:
+    - conditionType: 1
+      eventCondition:
+        rid: 4401092281253757591
+  - choiceID: leave
+    choiceText: You are not interested
+    effects:
+    - effectType: 2
+      effectData:
+        rid: 4401092281253757593
+    conditions: []
+  references:
+    version: 2
+    RefIds:
+    - rid: 4401092281253757579
+      type: {class: ChangeCurrencyAmountEffect, ns: , asm: Assembly-CSharp}
+      data:
+        amount: -5
+        randomness: 0
+    - rid: 4401092281253757581
+      type: {class: GetComponentEffect, ns: , asm: Assembly-CSharp}
+      data:
+        component: {fileID: 6845047944256034405, guid: 2830b339b4f764746b89c4505b1d6cbf, type: 3}
+    - rid: 4401092281253757583
+      type: {class: HasCurrencyCondition, ns: , asm: Assembly-CSharp}
+      data:
+        currencyCount: 5
+    - rid: 4401092281253757585
+      type: {class: GetComponentEffect, ns: , asm: Assembly-CSharp}
+      data:
+        component: {fileID: 6845047944256034405, guid: 8b861ca9d28fd524fa290b025e2c0f81, type: 3}
+    - rid: 4401092281253757587
+      type: {class: HasCurrencyCondition, ns: , asm: Assembly-CSharp}
+      data:
+        currencyCount: 5
+    - rid: 4401092281253757589
+      type: {class: GetComponentEffect, ns: , asm: Assembly-CSharp}
+      data:
+        component: {fileID: 6845047944256034405, guid: 0a116e11bf70077489ff96ae96f870b9, type: 3}
+    - rid: 4401092281253757591
+      type: {class: HasCurrencyCondition, ns: , asm: Assembly-CSharp}
+      data:
+        currencyCount: 15
+    - rid: 4401092281253757593
+      type: {class: RunEffect, ns: , asm: Assembly-CSharp}
+      data: 

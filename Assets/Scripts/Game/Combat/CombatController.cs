@@ -164,7 +164,6 @@ public class CombatController : SmartSingleton<CombatController>
         return data;
     }
 
-
     /// <summary>
     /// Gets enemy from given difficulty. Has a small chance to select a bit easier or harder enemy.
     /// If no enemies from +-1 range of difficulty exists, chooses first easier one.

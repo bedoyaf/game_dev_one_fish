@@ -492,8 +492,8 @@ public class ComponentGrid {
     }
 
     /// <summary>
-    /// Returns a dictionary, whose key is the component data (ID) and whose value is how many
-    /// times is unbroken! component present in the grid.
+    /// Returns a dictionary, whose key is the guid and whose value is how many
+    /// times is unbroken component present in the grid.
     /// </summary>
     public Dictionary<string, int> GetNonBrokenComponentsCountGroupedByGuid() {
         Dictionary<string, int> componentCounts = new();
@@ -507,6 +507,50 @@ public class ComponentGrid {
             }
             else {
                 componentCounts.Add(guid, 1);
+            }
+        }
+
+        return componentCounts;
+    }
+
+    /// <summary>
+    /// Returns a dictionary, whose key is the component type and whose value is how many
+    /// times is unbroken component present in the grid.
+    /// </summary>
+    public Dictionary<ComponentType, int> GetNonBrokenComponentsCountGroupedByType() {
+        Dictionary<ComponentType, int> componentCounts = new();
+        foreach (var tile in tiles) {
+            if (tile.isPlaceholder || tile.hasOffset) continue;
+
+            if (tile.component.broken) continue;
+            var type = tile.component.componentType;
+            if (componentCounts.ContainsKey(type)) {
+                componentCounts[type]++;
+            }
+            else {
+                componentCounts.Add(type, 1);
+            }
+        }
+
+        return componentCounts;
+    }
+
+    /// <summary>
+    /// Returns a dictionary, whose key is the component type and whose value is how many
+    /// times is unbroken! component present in the grid.
+    /// </summary>
+    public Dictionary<ComponentType, List<ShipComponentController>> GetNonBrokenComponentsGroupedByType() {
+        Dictionary<ComponentType, List<ShipComponentController>> componentCounts = new();
+        foreach (var tile in tiles) {
+            if (tile.isPlaceholder || tile.hasOffset) continue;
+
+            if (tile.component.broken) continue;
+            var type = tile.component.componentType;
+            if (componentCounts.ContainsKey(type)) {
+                componentCounts[type].Add(tile.component);
+            }
+            else {
+                componentCounts.Add(type, new List<ShipComponentController>());
             }
         }
 

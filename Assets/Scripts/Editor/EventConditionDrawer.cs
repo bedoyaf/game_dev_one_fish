@@ -99,15 +99,19 @@
 //}
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
 using UnityEditor.UIElements;
+using UnityEngine;
 using UnityEngine.UIElements;
 using static EventCondition;
 
-// Not gonna take credit - this was mostly wibe coded.
+// Not gonna take credit - this was mostly vibe coded.
 [CustomPropertyDrawer(typeof(EventCondition))]
 public class EventConditionDrawer : PropertyDrawer {
+    static Dictionary<string, object> instanceTracker = new();
+
     public override VisualElement CreatePropertyGUI(SerializedProperty property) {
         var root = new VisualElement();
 
@@ -126,7 +130,7 @@ public class EventConditionDrawer : PropertyDrawer {
         Type GetTypeFromEnum(ConditionType type) {
             switch (type) {
                 case ConditionType.None: return typeof(NoneCondition);
-                case ConditionType.HasComponent: return typeof(HasComponentCondition);
+                case ConditionType.HasComponents: return typeof(HasComponentsCondition);
                 case ConditionType.HasCurrency: return typeof(HasCurrencyCondition);
                 default: return null;
             }
@@ -140,11 +144,32 @@ public class EventConditionDrawer : PropertyDrawer {
                 conditionProp.managedReferenceValue = null;
             }
             else {
-                if (conditionProp.managedReferenceValue == null ||
-                    conditionProp.managedReferenceValue.GetType() != targetType) {
-                    conditionProp.managedReferenceValue = Activator.CreateInstance(targetType);
-                    property.serializedObject.ApplyModifiedProperties();
+                var key = property.propertyPath;
+                var current = conditionProp.managedReferenceValue;
+
+                if (current == null || current.GetType() != targetType) {
+                    current = Activator.CreateInstance(targetType);
                 }
+                else {
+                    // Detect shared reference
+                    if (instanceTracker.TryGetValue(key, out var existing)) {
+                        if (ReferenceEquals(existing, current)) {
+                            // same instance reused -> clone it
+                            current = CloneManagedReference(current);
+                        }
+                    }
+                }
+
+                conditionProp.managedReferenceValue = current;
+                instanceTracker[key] = current;
+
+                property.serializedObject.ApplyModifiedProperties();
+
+                //if (conditionProp.managedReferenceValue == null ||
+                //    conditionProp.managedReferenceValue.GetType() != targetType) {
+                //    conditionProp.managedReferenceValue = Activator.CreateInstance(targetType);
+                //    property.serializedObject.ApplyModifiedProperties();
+                //}
             }
 
             // Redraw UI
@@ -189,5 +214,12 @@ public class EventConditionDrawer : PropertyDrawer {
             field.Bind(prop.serializedObject);
             container.Add(field);
         }
+    }
+
+    object CloneManagedReference(object source) {
+        if (source == null) return null;
+
+        var json = JsonUtility.ToJson(source);
+        return JsonUtility.FromJson(json, source.GetType());
     }
 }

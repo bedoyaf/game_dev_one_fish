@@ -12,17 +12,22 @@ public class MapController : MonoBehaviour
     /// <summary>
     /// List of all the enemies the player can meet
     /// </summary>
-    public List<ShipData> enemies;
+    //public List<ShipData> enemies;
 
     /// <summary>
     /// List of all possible bosses
     /// </summary>
-    public List<ShipData> bosses;
+    //public List<ShipData> bosses;
 
     /// <summary>
     /// When the boss battle happens
     /// </summary>
     public int bossStage = 10;
+
+    /// <summary>
+    /// How much stronger are elite enemies than normal
+    /// </summary>
+    public int eliteEnemyDifficulty = 3;
 
     [SerializeField] private GameplayFlowManager gameplayFlowManager;
 
@@ -30,6 +35,11 @@ public class MapController : MonoBehaviour
     [SerializeField, ReadOnly] private List<MapChoices> choices = new();
     [SerializeField] private int currentStage = 0; // Should be readonly
     [SerializeField] private float currentDifficulty = 0; // Should be readonly
+
+    public int CurrentStage => currentStage;
+    public float CurrentDifficulty => currentDifficulty;
+    public float EliteDifficulty => currentDifficulty + eliteEnemyDifficulty;
+
 
     [Header("UI")]    
     public Canvas canvas;
@@ -80,7 +90,6 @@ public class MapController : MonoBehaviour
 
     /// <summary>
     /// Act according to what user chose.
-    /// TODO select actual enemy.
     /// </summary>
     /// <param name="choice"></param>
     public void OnButtonClick(int choice) {
@@ -88,17 +97,14 @@ public class MapController : MonoBehaviour
         switch (choices[choice]) {
             case MapChoices.Combat:
                 // Select random enemy based on difficulty (with a chance to select a bit harder or easier one)
-                //int difficulty = (int)currentDifficulty;
-                //var enemy = GetEnemyFromDifficulty(difficulty);
                 choiceData.fight = true;
                 choiceData.difficulty = (int)currentDifficulty;
                 break;
 
 
             case MapChoices.Elite:
-                //var eliteEnemy = GetEnemyFromDifficulty((int)currentDifficulty + 3);
                 choiceData.fight = true;
-                choiceData.difficulty = (int)currentDifficulty + 3;
+                choiceData.difficulty = (int)EliteDifficulty;
 
                 break;
             case MapChoices.Event:
@@ -106,7 +112,6 @@ public class MapController : MonoBehaviour
 
                 break;
             case MapChoices.Boss:
-                //var boss = bosses.GetRandom();
                 choiceData.fight = true;
                 choiceData.boss = true;
 

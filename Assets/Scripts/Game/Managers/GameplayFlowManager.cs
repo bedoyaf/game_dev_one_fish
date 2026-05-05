@@ -150,7 +150,7 @@ public class GameplayFlowManager : MonoBehaviour
     }
 
     public void OpenEventController() {
-        eventController.NextEvent();
+        eventController.NextEvent(mapController.CurrentStage);
     }
 
     /// <summary>
@@ -297,11 +297,18 @@ public class GameplayFlowManager : MonoBehaviour
         sfx.CombatStartTransition(enemy.shipName, () => { stateMachine.ChangeState(GameStates.Combat); });
     }
 
+    // TODO this is ugly - the same thing is already in map controller.
+    public void Fight(bool elite) {
+        float difficulty = elite ? mapController.EliteDifficulty : mapController.CurrentDifficulty;
+        Fight((int)difficulty);
+    }
+
     public void NewComponent(ShipComponentController component) {
         Debug.Log($"Adding component {component}");
         rewardController.AssignComponent(component);
         stateMachine.ChangeState(GameStates.ShipModification);
     }
+
 
     void OnGUI()
     {

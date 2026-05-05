@@ -8,9 +8,15 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "EventData", menuName = "Scriptable Objects/EventData")]
 public class EventData : ScriptableObject {
     public string eventID;
+    public EventType eventType;
+    public Sprite eventImage;
+
+    [Tooltip("Minimum map stage at which this event can occur")]
+    public int minimumStage;
+
     [TextArea]
     public string eventText;
-    public Sprite eventImage;
+
     public List<EventChoice> choices;
 
     [Serializable]
@@ -41,6 +47,12 @@ public class EventData : ScriptableObject {
 
             return true;
         }
+    }
+
+    public enum EventType {
+        Positive,
+        Negative,
+        Challenge,
     }
 
     //public void PrintData() {
