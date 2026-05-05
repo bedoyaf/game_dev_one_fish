@@ -12,16 +12,25 @@ public class CombatState : IGameState
     public void Enter()
     {
         manager.EnterCombat();
+        
         manager.EnemyShip.componentsActive = true;
         manager.EnemyShip.ResetComponentEffects();
+        
+        // TODO: enemy thinking true
+
         manager.PlayerShip.componentsActive = true;
         manager.PlayerShip.ResetComponentEffects();
+
     }
 
     public void Exit()
     {
         manager.EndCombat();
+        
         manager.EnemyShip.componentsActive = false;
+
+        // TODO: enemy thinking false
+
         manager.PlayerShip.componentsActive = false;
         manager.PlayerShip.ResetComponentEffects();
 

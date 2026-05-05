@@ -435,6 +435,17 @@ Canvas:
   m_CorrespondingSourceObject: {fileID: 5388214863458944250, guid: f28a73be86bdc3743a8b2abb6859b834, type: 3}
   m_PrefabInstance: {fileID: 815782307}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &293898867 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7707693019713289623, guid: f28a73be86bdc3743a8b2abb6859b834, type: 3}
+  m_PrefabInstance: {fileID: 815782307}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df7e8ed966c87bc4e88c09cbe2eaa7d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GameUIScript
 --- !u!1 &440240992
 GameObject:
   m_ObjectHideFlags: 0
@@ -8447,9 +8458,21 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1974249874210919041, guid: f28a73be86bdc3743a8b2abb6859b834, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2433943130832662347, guid: f28a73be86bdc3743a8b2abb6859b834, type: 3}
       propertyPath: m_Name
       value: GameUIOverlayCanvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 3073728172025222806, guid: f28a73be86bdc3743a8b2abb6859b834, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 125
+      objectReference: {fileID: 0}
+    - target: {fileID: 3073728172025222806, guid: f28a73be86bdc3743a8b2abb6859b834, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -416
       objectReference: {fileID: 0}
     - target: {fileID: 3688762562981909700, guid: f28a73be86bdc3743a8b2abb6859b834, type: 3}
       propertyPath: m_Pivot.x
@@ -8543,9 +8566,13 @@ PrefabInstance:
       propertyPath: combatManager
       value: 
       objectReference: {fileID: 224720031}
+    - target: {fileID: 7707693019713289623, guid: f28a73be86bdc3743a8b2abb6859b834, type: 3}
+      propertyPath: gameplayFlowManager
+      value: 
+      objectReference: {fileID: 992669697}
     - target: {fileID: 8082771856782194216, guid: f28a73be86bdc3743a8b2abb6859b834, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -1447
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 8237810408535870286, guid: f28a73be86bdc3743a8b2abb6859b834, type: 3}
       propertyPath: m_fontColor.a
@@ -8597,9 +8624,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 423f2cb5779c2d44cb386fb00b014db8, type: 2}
   bossStage: 10
   gameplayFlowManager: {fileID: 992669697}
-  choices: 
-  currentStage: 0
-  currentDifficulty: 0
+  choices: 0000000002000000
+  currentStage: 1
+  currentDifficulty: 1
   canvas: {fileID: 293898865}
   mapUIPrefab: {fileID: 7293005203507248910, guid: 8707ad7c52048f24cb654a80b817928b, type: 3}
 --- !u!4 &826056874
@@ -8863,6 +8890,7 @@ MonoBehaviour:
   combatController: {fileID: 224720031}
   rewardController: {fileID: 1717443702}
   mouseController: {fileID: 1419061291}
+  gameUi: {fileID: 293898867}
 --- !u!114 &1059603496 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6845047944256034405, guid: 2830b339b4f764746b89c4505b1d6cbf, type: 3}

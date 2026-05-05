@@ -12,11 +12,13 @@ public class ShipModificationState : IGameState
     public void Enter()
     {
         manager.OpenShipBuilder();
+        manager.gameUi.ShowSkipButton();
     }
 
     public void Exit()
     {
         manager.CloseShipEditor();
+        manager.gameUi.HideSkipButton();
         //manager.PlayerShip.RemoveControlFromEditor();  might be important idk
     }
 }

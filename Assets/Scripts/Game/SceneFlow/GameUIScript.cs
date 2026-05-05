@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 
 /// <summary>
@@ -18,8 +19,15 @@ public class GameUIScript : MonoBehaviour
     [SerializeField]
     private CombatController combatManager;
 
+    [SerializeField]
+    private GameplayFlowManager gameplayFlowManager;
+
+    [SerializeField]
+    private Button skipButton;
+
     void Start()
     {
+        skipButton.gameObject.SetActive(false);
         pauseMenuItemsParent.SetActive(false);    
     }
 
@@ -51,5 +59,23 @@ public class GameUIScript : MonoBehaviour
     public void OnExitGameClicked()
     {
         GameManager.Instance.ExitGame();
+    }
+
+
+    // -------------------------------------------------
+
+    public void ShowSkipButton()
+    {
+        skipButton.gameObject.SetActive(true);
+    }
+
+    public void HideSkipButton()
+    {
+        skipButton.gameObject.SetActive(false);
+    }
+
+    public void OnBuildCancel()
+    {
+        gameplayFlowManager.StopModifying();
     }
 }

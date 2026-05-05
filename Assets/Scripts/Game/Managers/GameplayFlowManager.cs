@@ -40,6 +40,8 @@ public class GameplayFlowManager : MonoBehaviour
 
     public MouseController mouseController;
 
+    public GameUIScript gameUi;
+
     // Some access to player ship is needed
     public ShipController PlayerShip => playerShip;
     public ShipController EnemyShip => enemyShip;
@@ -203,6 +205,14 @@ public class GameplayFlowManager : MonoBehaviour
         rewardController.StartChoosing(enemyShip);
     }
 
+
+    // Called to stop modifying the ship 
+    // Will toss unused components 
+    public void StopModifying()
+    {
+        stateMachine.ChangeState(GameStates.MapSelection);
+    }
+
     // EVENTS that trigger the change of state
 
 
@@ -226,6 +236,8 @@ public class GameplayFlowManager : MonoBehaviour
     {
         stateMachine.ChangeState(GameStates.ShipModification);
     }
+
+ 
 
     //Helpers, later will be scraped
 
