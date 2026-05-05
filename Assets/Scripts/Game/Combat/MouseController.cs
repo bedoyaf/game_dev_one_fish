@@ -61,7 +61,8 @@ public class MouseController : MonoBehaviour
     }
 
 
-    void OnEnable() {
+    void OnEnable()
+    {
         clickAction.performed += OnClick;
         clickAction.Enable();
 
@@ -88,8 +89,8 @@ public class MouseController : MonoBehaviour
         if (GameManager.IsPaused)
             return;
 
-        // Ignore if not in combat
-        if (!GameManager.Instance.IsInCombat)
+        // Ignore if not in combat / repairing
+        if (!GameManager.Instance.IsInCombat && !GameManager.Instance.IsRepairing)
             return;
 
         Vector2 mousePos = Mouse.current.position.ReadValue();
@@ -135,7 +136,7 @@ public class MouseController : MonoBehaviour
     {
         currentMode = ClickMode.Repairing;
 
-        if(activeComponent != null)
+        if (activeComponent != null)
         {
             activeComponent.ResetBehaviour();
             activeComponent = null;
@@ -152,25 +153,25 @@ public class MouseController : MonoBehaviour
         currentMode = ClickMode.Default;
         Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
     }
-    
+
     private void OnRightClick(InputAction.CallbackContext ctx)
     {
         // if targeting -> cancel
-        if(currentMode == ClickMode.ComponentTargeting)
+        if (currentMode == ClickMode.ComponentTargeting)
         {
             // NOT worth now, rework energy consumption on succesfull usage only if want this
-        } 
+        }
     }
 
     private void HandleDefaultClick(ShipComponentMeshController comp)
     {
- //       Debug.Log("Default click: " + comp.name);
+        //       Debug.Log("Default click: " + comp.name);
         comp.OnMouseClick();
     }
 
     private void HandleComponentTargetClick(ShipComponentMeshController target, Vector3 componentOffset)
     {
-  //      Debug.Log($"Targeting {target.name}");
+        //      Debug.Log($"Targeting {target.name}");
 
         activeComponent.OnTargetSelected(new TargetingData(target, currentDirection, componentOffset));
 
@@ -191,7 +192,7 @@ public class MouseController : MonoBehaviour
 
         Debug.Log("Entered targeting mode");
 
-       // Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
+        // Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
     }
 
     public void ExitTargetingMode()
@@ -202,7 +203,7 @@ public class MouseController : MonoBehaviour
 
         Debug.Log("Exited targeting mode");
 
-       // Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
+        // Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
     }
 
     public enum ClickMode
@@ -222,9 +223,9 @@ public class MouseController : MonoBehaviour
         // When scrolling -> cycle through attack direction
         float scroll = Mouse.current.scroll.ReadValue().y;
 
-        if(scroll != 0)
+        if (scroll != 0)
         {
-            CycleDirection((int) scroll);
+            CycleDirection((int)scroll);
 
             if (mouseSwitch != null)
                 StopCoroutine(mouseSwitch);
@@ -239,6 +240,12 @@ public class MouseController : MonoBehaviour
     public Texture2D repairIcon;
 
 
+    void OnDestroy()
+    {
+        // Reset the cursor, just in case
+        Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
+    }
+
     IEnumerator ShowMouseIcon()
     {
         Texture2D[] dirTextures = {
@@ -248,14 +255,17 @@ public class MouseController : MonoBehaviour
         };
 
         Cursor.SetCursor(dirTextures[directionIndex],
-            new Vector2(dirTextures[directionIndex].width/2,
-                        dirTextures[directionIndex].height/2), 
+            new Vector2(dirTextures[directionIndex].width / 2,
+                        dirTextures[directionIndex].height / 2),
             CursorMode.Auto);
 
         //yield return new WaitForSeconds(0.5f);
         yield return MyTime.WaitForSeconds(0.5f);
 
-        Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
+        if(currentMode == ClickMode.Repairing)
+            Cursor.SetCursor(repairIcon, Vector2.zero, CursorMode.Auto);
+        else
+            Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
     }
 
 
@@ -270,7 +280,7 @@ public class MouseController : MonoBehaviour
         }
     }
 
-    private void CycleDirection(int dir=1)
+    private void CycleDirection(int dir = 1)
     {
         directionIndex = (DIRECTIONS.Length + directionIndex + dir) % DIRECTIONS.Length;
         currentDirection = DIRECTIONS[directionIndex];

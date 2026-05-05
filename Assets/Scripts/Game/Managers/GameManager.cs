@@ -53,6 +53,8 @@ public class GameManager : SmartSingleton<GameManager> {
            currentGameplayManager.stateMachine.CurrentStateKey == GameplayFlowManager.GameStates.Combat
         && currentGameplayManager.PlayerShip.GetMainCabin().health > 0;
 
+    public bool IsRepairing =>
+           currentGameplayManager.stateMachine.CurrentStateKey == GameplayFlowManager.GameStates.Repairs;
     public SFXGameplayManager SFXManager => currentGameplayManager.sfx;
 
     /// <summary>

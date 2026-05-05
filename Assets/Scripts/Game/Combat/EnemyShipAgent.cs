@@ -7,7 +7,6 @@ public class EnemyShipAgent : MonoBehaviour
 
     // TODO: set this to true, by default
     public bool thinking = false; 
-    [SerializeField] private float actInterval = 1.0f;
     private float nextActTime;
 
     [SerializeField] private List<AgentBehavior> cycleBehaviors;
@@ -20,7 +19,7 @@ public class EnemyShipAgent : MonoBehaviour
     private float nextBehaviorSwitchTime;
 
     // How long does it take to complete one action (eg. to click a generator)
-    [SerializeField] private float actActionDuraction = 0.01f;
+    [SerializeField] private float actActionDuration = 0.01f;
 
 
     private ShipController shipController;
@@ -107,7 +106,7 @@ public class EnemyShipAgent : MonoBehaviour
         if (MyTime.time >= nextActTime && thinking)
         {
             Act();
-            nextActTime = MyTime.time + actActionDuraction;
+            nextActTime = MyTime.time + actActionDuration;
         }
     }
 

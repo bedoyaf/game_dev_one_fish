@@ -10,6 +10,7 @@ public class MapUI : MonoBehaviour
     public List<Button> MapButtons;
     public Image MapImage;
 
+    public Button TEMP_RepairButton;
 
     private Image selfImage;
     private float y;

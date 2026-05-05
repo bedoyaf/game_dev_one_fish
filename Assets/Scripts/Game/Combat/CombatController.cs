@@ -123,6 +123,7 @@ public class CombatController : SmartSingleton<CombatController>
     }
 
 
+    // Don't use here probably (use in flow -> repair state) ....
     private bool repairing = false;
     public void StartRepairs()
     {
@@ -135,6 +136,8 @@ public class CombatController : SmartSingleton<CombatController>
         repairing = false;
         MouseController.Instance.ExitRepairsMode();
     }
+    // Don't ... -------------------
+
 
     public void ComponentDestroyed(ShipComponentController component, ShipController ship)
     {

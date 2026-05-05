@@ -25,9 +25,13 @@ public class GameUIScript : MonoBehaviour
     [SerializeField]
     private Button skipButton;
 
+    [SerializeField]
+    private Button endRepairsButton;
+
     void Start()
     {
         skipButton.gameObject.SetActive(false);
+        endRepairsButton.gameObject.SetActive(false);
         pauseMenuItemsParent.SetActive(false);    
     }
 
@@ -77,5 +81,22 @@ public class GameUIScript : MonoBehaviour
     public void OnBuildCancel()
     {
         gameplayFlowManager.StopModifying();
+    }
+
+    // --------------------------------------------------
+
+    public void ShowRepairsButton()
+    {
+        endRepairsButton.gameObject.SetActive(true);
+    }
+
+    public void HideRepairsButton()
+    {
+        endRepairsButton.gameObject.SetActive(false);
+    }
+
+    public void OnRepairsCancel()
+    {
+        gameplayFlowManager.ExitRepairsMode();
     }
 }

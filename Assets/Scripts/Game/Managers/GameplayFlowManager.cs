@@ -12,12 +12,11 @@ using static MapController;
 ///     other functions manage the game itself
 ///     example
 ///     OnCombatEnd announces the combat ended
-///     EndCombat, does the things relevent to ending comabt for the flow, such as changing state
+///     EndCombat, does the things relevant to ending combat for the flow, such as changing state
 /// </summary>
 public class GameplayFlowManager : MonoBehaviour
 {
     [Tooltip("SFX Manager for the gameplay scene")]
-    [SerializeField]
     public SFXGameplayManager sfx;
 
 
@@ -60,6 +59,7 @@ public class GameplayFlowManager : MonoBehaviour
             { GameStates.ShipModification, new ShipModificationState(this) },
             { GameStates.MapSelection, new MapSelectionState(this) },
             { GameStates.GameOver, new GameOverState(this) },
+            { GameStates.Repairs, new RepairState(this) },
         };
 
         stateMachine = new GameStateMachine(states);
@@ -79,7 +79,9 @@ public class GameplayFlowManager : MonoBehaviour
         ShipModification, // Modifying the ship with the chose components -> can abord
 
         MapSelection,     // Map is up, can select where to go next
-        GameOver          // Game is over -> can restart
+        GameOver,         // Game is over -> can restart
+    
+        Repairs           // Repairing
     }
 
     public class GameStateMachine
@@ -157,6 +159,18 @@ public class GameplayFlowManager : MonoBehaviour
     public void CloseEventController() {
         stateMachine.ChangeState(GameStates.MapSelection);
     }
+
+    
+    public void EnterRepairsMode()
+    {
+        stateMachine.ChangeState(GameStates.Repairs);
+    }
+
+    public void ExitRepairsMode()
+    {
+        stateMachine.ChangeState(GameStates.MapSelection);
+    }
+
 
     public void UnloadEnemy()
     {
@@ -262,6 +276,7 @@ public class GameplayFlowManager : MonoBehaviour
             GameStates.RewardSelection => GameStates.ShipModification,
             GameStates.ShipModification => GameStates.MapSelection,
             GameStates.MapSelection => GameStates.WaitingForCombat,
+            GameStates.Repairs => GameStates.MapSelection,
 
             _ => GameStates.WaitingForCombat
         };

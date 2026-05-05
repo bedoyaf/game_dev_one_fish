@@ -117,6 +117,12 @@ public class MapController : MonoBehaviour
         gameplayFlowManager.CloseMapController(choiceData);
     }
 
+    public void OnRepairButtonClicked()
+    {
+        instantiatedUI.gameObject.SetActive(false);
+        gameplayFlowManager.EnterRepairsMode();
+    }
+
     public struct MapChoiceData {
         public bool fight; // If false, it means event
         public bool boss; // If true, the fight is boss fight
@@ -134,6 +140,8 @@ public class MapController : MonoBehaviour
             int a = i;
             instantiatedUI.MapButtons[i].onClick.AddListener(() => OnButtonClick(a));
         }
+
+        instantiatedUI.TEMP_RepairButton.onClick.AddListener(OnRepairButtonClicked);
     }
     private string GetDescription(MapChoices choice) {
         return choice switch {
