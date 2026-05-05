@@ -10,6 +10,7 @@ public class Projectile : MonoBehaviour
     public float lifetime = 5f;
     public int damage = 5;
 
+    public AudioClip deathSound;
     public ParticleSystem deathParticles;
     public float particlesLifetime = 3;
 
@@ -31,6 +32,8 @@ public class Projectile : MonoBehaviour
         transform.position += direction * speed * MyTime.deltaTime;
     }
 
+    private bool dead = false;
+
     private void OnCollisionEnter(Collision collision)
     {
       //  Debug.Log("Hit: " + collision.gameObject.name);
@@ -44,6 +47,7 @@ public class Projectile : MonoBehaviour
 
         var particles = Instantiate(deathParticles, transform.position, Quaternion.identity);
         MyTime.ScheduleDestruction(particles.gameObject, particlesLifetime);
+        AudioManager.Instance.PlaySFX(deathSound, transform.position);
 
         Destroy(gameObject);
     }

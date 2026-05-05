@@ -17,6 +17,7 @@ public class GeneratorComponentController : BehaviourComponentControllerAbstract
 
     private float energyBuffer = 0;
 
+    [SerializeField] private AudioClip gatherPowerClip;
 
     public void DeleteEnergy()
     {
@@ -55,6 +56,8 @@ public class GeneratorComponentController : BehaviourComponentControllerAbstract
         shipComponentController.shipController.AddEnergy(energyStored);
 
         energyStored = 0;
+
+        AudioManager.Instance.PlaySFX(gatherPowerClip, transform.position);
     }
 
     private void Update()

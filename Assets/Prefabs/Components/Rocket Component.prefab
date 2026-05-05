@@ -129,6 +129,37 @@ MonoBehaviour:
   missiles: {fileID: 787439523021449703}
   quadIndicator: {fileID: 5312306444901929237}
   spriteIndicator: {fileID: 9178814736299308222}
+--- !u!1 &858361770900129664
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2223743519299247278}
+  m_Layer: 0
+  m_Name: RocketSpawnPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2223743519299247278
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 858361770900129664}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.853, y: -0, z: 0.771}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4350326794468354101}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2828535427885319102
 GameObject:
   m_ObjectHideFlags: 0
@@ -401,6 +432,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2890683925031955270, guid: 76b53dd701359c84195162e28f3a0cbb, type: 3}
       insertIndex: -1
       addedObject: {fileID: 4280553426008288851}
+    - targetCorrespondingSourceObject: {fileID: 2890683925031955270, guid: 76b53dd701359c84195162e28f3a0cbb, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2223743519299247278}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 3143172193047539597, guid: 76b53dd701359c84195162e28f3a0cbb, type: 3}
       insertIndex: -1
@@ -432,8 +466,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MissileComponentController
   missilePrefab: {fileID: 8952158175997611939, guid: d35843475d7273f478802065c18b4a25, type: 3}
-  missileSpawnPoint: {fileID: 0}
+  missileSpawnPoint: {fileID: 2223743519299247278}
   missileTravelTime: 1.5
+  missileShootClip: {fileID: 8300000, guid: a4f2577e293e67e4e8112517561e07f7, type: 3}
 --- !u!114 &-6365399140400035441
 MonoBehaviour:
   m_ObjectHideFlags: 0

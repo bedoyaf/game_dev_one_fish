@@ -48,6 +48,9 @@ public class ShipComponentController : MonoBehaviour
     public ComponentPrefabsData componentPrefabs;
     public string guid;
 
+    [Header("Sounds")]
+    public AudioClip ActivationClip;
+
     [Header("Builder stuff")]
 
     //public ShipComponentController componentPrefab; // Very useful for the builder!
@@ -121,6 +124,8 @@ public class ShipComponentController : MonoBehaviour
                 return;
             }
 
+            if (ActivationClip != null)
+                AudioManager.Instance.PlaySFX(ActivationClip);
             activated = true;
             componentBehaviour.OnActivate();
         }

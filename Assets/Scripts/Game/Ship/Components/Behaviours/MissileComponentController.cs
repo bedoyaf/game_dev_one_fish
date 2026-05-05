@@ -12,6 +12,8 @@ public class MissileComponentController : BehaviourComponentControllerAbstract
     // How long, before the actual missile is spawned (the visual takes this long)
     [SerializeField] private float missileTravelTime;
 
+    [SerializeField] private AudioClip missileShootClip;
+
     public bool CanClick
     {
         get
@@ -118,8 +120,8 @@ public class MissileComponentController : BehaviourComponentControllerAbstract
 
         // Spawn the visual immediately, the rocket only after a delay
         // based on travel speed
-
-        GameManager.Instance.SFXManager.SpawnRocket(transform.position, spawnPos, missileTravelTime);
+        AudioManager.Instance.PlaySFX(missileShootClip, missileSpawnPoint.position);
+        GameManager.Instance.SFXManager.SpawnRocket(missileSpawnPoint.position, spawnPos, missileTravelTime);
         StartCoroutine(SpawnRocket(spawnPos, shootDir));
 
         /*

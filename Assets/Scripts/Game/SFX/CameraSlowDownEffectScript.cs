@@ -33,6 +33,7 @@ public class CameraSlowDownEffectScript : MonoBehaviour
             currentTimeScale = MyTime.slowDownOverride;
 
             selfCamera.DOOrthoSize(startSize + zoomAmount * (1.0f - currentTimeScale), 0.1f);
+            AudioManager.Instance.ChangeSpeed(currentTimeScale); // TODO not call from here
         }
     }
 }

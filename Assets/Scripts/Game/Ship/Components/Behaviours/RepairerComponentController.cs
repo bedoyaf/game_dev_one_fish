@@ -9,7 +9,7 @@ using Unity.VisualScripting;
 /// </summary>
 public class RepairerComponentController : BehaviourComponentControllerAbstract
 {
-
+    public AudioClip repairClip;
     public bool CanClick => 
         cooldown.IsReady && 
         !shipComponentController.broken && 
@@ -61,6 +61,7 @@ public class RepairerComponentController : BehaviourComponentControllerAbstract
         targetShipComponent.RepairClick();       
         shipComponentController.DeactivateComponent();
         if (cooldown != null) cooldown.Trigger();
+        AudioManager.Instance.PlaySFX(repairClip);
     }
 
     

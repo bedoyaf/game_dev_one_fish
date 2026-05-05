@@ -43,6 +43,8 @@ public class MouseController : MonoBehaviour
 
     private int directionIndex = 1;
 
+    public AudioClip componentClick;
+
     void Awake()
     {
         if (Instance != null && Instance != this)
@@ -115,6 +117,8 @@ public class MouseController : MonoBehaviour
         // Calculate offset to correct component tile
         Vector3 componentOffset = hit.point - target.transform.parent.position;
         componentOffset = new Vector3((int)componentOffset.x, 0, (int)componentOffset.z);
+
+        //AudioManager.Instance.PlaySFX(componentClick, hit.point);
 
         switch (currentMode)
         {

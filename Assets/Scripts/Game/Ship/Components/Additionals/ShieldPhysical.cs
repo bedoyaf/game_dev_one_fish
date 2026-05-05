@@ -11,6 +11,7 @@ public class ShieldPhysical : MonoBehaviour
     [SerializeField] private float health = 10;
     [SerializeField] private float lifeSpan = 5;
     [SerializeField] private float shieldFadeTime = 0.2f;
+    [SerializeField] private AudioClip shieldEndClip;
 
     public UnityEvent<ShieldPhysical> OnShieldDestroyed;
 
@@ -63,6 +64,7 @@ public class ShieldPhysical : MonoBehaviour
         if (dieCalled) yield break;
         dieCalled = true;
 
+        AudioManager.Instance.PlaySFX(shieldEndClip, transform.position);
         shieldMaterial.DOFloat(0, "_Progress", shieldFadeTime);
         yield return new WaitForSeconds(shieldFadeTime);
         Destroy(gameObject);

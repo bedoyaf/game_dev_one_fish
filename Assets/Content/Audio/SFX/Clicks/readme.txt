@@ -1,0 +1,1 @@
+All potential but not selected component click sounds. You can try them if you want.

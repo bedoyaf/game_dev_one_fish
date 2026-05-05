@@ -19,6 +19,8 @@ public class ShieldComponentController : BehaviourComponentControllerAbstract
     private List<ShieldPhysical> physicalShields = new();
     private int physicalShieldsUp = 0;
 
+    public AudioClip shieldActivationClip;
+
     public bool CanClick => 
         cooldown.IsReady && 
         !shipComponentController.broken &&
@@ -73,6 +75,8 @@ public class ShieldComponentController : BehaviourComponentControllerAbstract
             SpawnPhysicalShield(target);
         else
             SpawnShield(targetShipComponent);
+
+        AudioManager.Instance.PlaySFX(shieldActivationClip);
         shipComponentController.DeactivateComponent();
         if (cooldown != null) cooldown.Trigger();
     }

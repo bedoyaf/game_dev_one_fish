@@ -41,6 +41,9 @@ public class ShipBuildingController : MonoBehaviour
     [SerializeField] private Vector3 arrowOffset;
     private List<GameObject> instantiatedArrows = new();
 
+    [Header("Sounds")]
+    public AudioClip placementClip;
+
     private InputAction clickAction;
     private InputAction rightClickAction;
 
@@ -316,9 +319,12 @@ public class ShipBuildingController : MonoBehaviour
             //shipData.componentGrid.RemoveComponent(x, z);
             if (!isPlaceholder) {
                 componentGrid.PlaceComponent(componentPrefab, x, z, false, false);
+
+                if (placementClip != null)
+                    AudioManager.Instance.PlaySFX(placementClip, transform.position);
                 //shipData.componentGrid.PlaceComponent(componentPrefab, x, z);
             }
-            componentGrid.AssignShipController(shipController);
+            componentGrid.AssignShipController(shipController); // TODO currently added component...
             return true;
         }
 

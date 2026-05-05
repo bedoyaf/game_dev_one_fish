@@ -41,7 +41,7 @@ AudioSource:
   m_GameObject: {fileID: 1932206342675195658}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: -6477336795459154208, guid: f1762a9e2a86ecc418df38db871580d8, type: 2}
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
   m_PlayOnAwake: 1
@@ -170,7 +170,7 @@ AudioSource:
   m_GameObject: {fileID: 3818631188073846825}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 4759711174671034472, guid: f1762a9e2a86ecc418df38db871580d8, type: 2}
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
   m_PlayOnAwake: 1
@@ -304,6 +304,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9982419feb5014c49b5341fff8157bf5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AudioManager
-  _persistent: 0
+  _persistent: 1
   musicSource: {fileID: 278136999652217446}
   sfxSource: {fileID: 3326709685165523689}
+  slowdownSpeed: 0.2
