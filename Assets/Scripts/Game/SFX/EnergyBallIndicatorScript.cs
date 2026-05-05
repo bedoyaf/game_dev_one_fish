@@ -11,7 +11,7 @@ public class EnergyBallIndicator : MonoBehaviour
 
     void Update()
     {
-        quadIndicator.transform.localScale = ((float) generator.GetCurrentEnergy / generator.GetEnergyCapacity) 
+        quadIndicator.transform.localScale = 1.1f * ((float) generator.GetCurrentEnergy / generator.GetEnergyCapacity) 
             * Vector3.one;
     }
 }
