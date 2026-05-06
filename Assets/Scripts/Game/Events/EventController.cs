@@ -78,11 +78,13 @@ public class EventController : MonoBehaviour
         // Add buttons for choices
         for(int i = 0; i < eventData.choices.Count; i++) {
             var button = instantiatedEventUI.EventButtons[i];
+            int a = i; // Avoiding variable transfer for lambdas
+
             if (!eventData.choices[i].DoConditionsHold()) {
                 button.image.color = Color.red;
+                button.onClick.AddListener(() => ShowReason(a));
             }
             else {
-                int a = i; // Avoiding variable transfer for lambdas
                 button.onClick.AddListener(() => OnButtonClick(a));
             }
             button.GetComponentInChildren<TextMeshProUGUI>().text = eventData.choices[i].choiceText;
@@ -103,6 +105,18 @@ public class EventController : MonoBehaviour
         if (!changedState) {
             gameplayFlowManager.CloseEventController();
         }
+    }
+
+    /// <summary>
+    /// Shows reason why the choice is not applicable
+    /// TODO do on hover
+    /// </summary>
+    public void ShowReason(int choice) {
+        var buttonText = instantiatedEventUI.EventButtons[choice].GetComponentInChildren<TextMeshProUGUI>();
+        var choiceText = currentEvent.choices[choice].choiceText;
+        var failureText = currentEvent.choices[choice].ReasonForFailure();
+
+        buttonText.text = buttonText.text == choiceText ? failureText : choiceText;
     }
 
     public void HideUI() {

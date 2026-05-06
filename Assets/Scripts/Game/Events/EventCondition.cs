@@ -15,16 +15,26 @@ public class EventCondition {
     public bool DoesConditionHold() {
         return eventCondition.CheckCondition();
     }
+
+    public string ReasonForFailure() {
+        return eventCondition.GiveReason();
+    }
 }
 
 public abstract class EventConditionInside {
     public abstract bool CheckCondition();
+    public abstract string GiveReason();
+
 }
 
 [Serializable]
 public class NoneCondition : EventConditionInside {
     public override bool CheckCondition() {
         return true;
+    }
+
+    public override string GiveReason() {
+        return "";
     }
 }
 
@@ -37,6 +47,10 @@ public class HasCurrencyCondition : EventConditionInside {
 
     public override bool CheckCondition() {
         return GameManager.Instance.currentGameplayManager.PlayerShip.storedMoney >= currencyCount;
+    }
+
+    public override string GiveReason() {
+        return $"You must have at least {currencyCount}$";
     }
 }
 
@@ -53,6 +67,7 @@ public class HasComponentsCondition : EventConditionInside {
     [Tooltip("Choose specific component (type will be ignored)")]
     public ShipComponentController component;
 
+    [Tooltip("How many components the player must have (>=)")]
     public int componentCount;
 
     public override bool CheckCondition() {
@@ -71,5 +86,14 @@ public class HasComponentsCondition : EventConditionInside {
         }
 
             return false;
+    }
+
+    public override string GiveReason() {
+        if (component != null) {
+            return $"You must have at least {componentCount} {component.componentName}";
+        }
+        else {
+            return $"You must have at least {componentCount} {componentType} components";
+        }
     }
 }

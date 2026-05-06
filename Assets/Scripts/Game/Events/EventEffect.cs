@@ -219,23 +219,20 @@ public class BreakComponentsEffect : EventEffectInside {
         }
 
         // Remove one rocket so that the player has something to fight with
-        int index = components.FindIndex(x => x.componentType == ShipComponentController.ComponentType.Rocket);
-        if (index != -1) components.RemoveAt(index);
+        // Only do it for random components and if the player has enough of them
+        if (componentType == ShipComponentController.ComponentType.None && components.Count > amount) {
+            int index = components.FindIndex(x => x.componentType == ShipComponentController.ComponentType.Rocket);
+            if (index != -1) components.RemoveAt(index);
+        }
+
+        // Remove all main cabins
+        components.RemoveAll(x => x.componentType == ShipComponentController.ComponentType.MainCabin);
 
         for (int i = 0; i < amount && components.Count > 0; i++) {
-
-            // Just in case the player has only main cabin, so that it does not go into infinite cycle
-            for(int j = 0; j < 10; j++) {
-                var comp = components.GetRandom();
-                if (comp.componentType == ShipComponentController.ComponentType.MainCabin) continue;
-
-                components.Remove(comp);
-                comp.TakeDamage(10000000);
-                break;
-            }
-
+            var comp = components.GetRandom();
+            components.Remove(comp);
+            comp.TakeDamage(10000000);
         }
-        //eventController.GameplayManager.NewComponent(components.GetRandom());
     }
 }
 

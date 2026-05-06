@@ -2,6 +2,7 @@ using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static GameplayFlowManager;
 using static Unity.VisualScripting.Member;
 
 /// <summary>
@@ -13,19 +14,57 @@ public class AudioManager : SmartSingleton<AudioManager>
 {
     [SerializeField] private AudioSource musicSource;
     [SerializeField] private AudioSource sfxSource;
+
+    [Tooltip("How long does the fading music take")]
+    [SerializeField] private float musicFadeTime = 1.0f;
+
+    [Tooltip("Pause after original music fades and before new musics starts playing")]
+    [SerializeField] private float betweenMusicTime = 0.5f;
+
+    [Tooltip("How fast does the sound slow down during special effects")]
     [SerializeField] private float slowdownSpeed;
 
     private List<AudioSource> activeAudioSources = new(); // Use for effects
 
+    //[SerializeField] private AudioSource musicSource2; // Second source for switching music
+    //private AudioSource currentMusicSource; // Which of the music sources is currently playing.
+
+
     /// <summary>
-    /// Plays the music
+    /// Plays the music with smooth transition
     /// Smooth transitions will be added (TODO)
     /// </summary>
     /// <param name="music">The music to play</param>
     public void PlayMusic(AudioClip music) {
+        //musicSource.clip = music;
+        //musicSource.Play();
+
+        // TODO test properly if the fading sounds nice
+        StartCoroutine(SwitchMusic(music));
+    }
+
+    private IEnumerator SwitchMusic(AudioClip music) {
+        musicSource.DOFade(0, musicFadeTime);
+        yield return new WaitForSeconds(musicFadeTime + betweenMusicTime); // Since DOFade is in normal unity time, normal wait for seconds is used here.
         musicSource.clip = music;
+        musicSource.DOFade(1, musicFadeTime);
         musicSource.Play();
     }
+
+    //private IEnumerator SwitchMusic(AudioClip newMusic) {
+    //    if (currentMusicSource != null) {
+    //        var oldSource = currentMusicSource;
+    //        currentMusicSource = currentMusicSource == musicSource? musicSource2 : musicSource;
+    //        oldSource.DOFade(0, musicSwitchTime);
+    //    }
+    //    else {
+    //        currentMusicSource = musicSource;
+    //    }
+    //    currentMusicSource.volume = 0;
+    //    currentMusicSource.clip = newMusic;
+    //    currentMusicSource.Play();
+    //    currentMusicSource.DOFade(1.0f, musicSwitchTime);
+    //}
 
     /// <summary>
     /// Plays SFX
@@ -38,9 +77,9 @@ public class AudioManager : SmartSingleton<AudioManager>
 
     /// <summary>
     /// Plays clip at a specific point in space
-    /// We cannot do PlayClipAtPoint, because we want to use mixer
-    /// So we create a new object ourselves
+    /// We cannot do PlayClipAtPoint, because we want to use mixer, so we create a new object ourselves
     /// Returns the created audio source.
+    /// TODO add object pooling if performance issues
     /// </summary>
     public AudioSource PlaySFX(AudioClip clip, Vector3 position, float duration = -1, Transform parent = null) {
         if (clip == null) return null;

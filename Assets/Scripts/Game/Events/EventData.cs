@@ -47,6 +47,14 @@ public class EventData : ScriptableObject {
 
             return true;
         }
+
+        public string ReasonForFailure() {
+            foreach (var condition in conditions) {
+                if (!condition.DoesConditionHold()) return condition.ReasonForFailure();
+            }
+
+            return "";
+        }
     }
 
     public enum EventType {

@@ -52,6 +52,7 @@ public class ShipComponentController : MonoBehaviour
     [FormerlySerializedAs("ActivationClip")]
     public AudioClip activationClip;
     public AudioClip repairClip;
+    public AudioClip breakClip;
 
     [Header("Builder stuff")]
 
@@ -203,6 +204,7 @@ public class ShipComponentController : MonoBehaviour
         broken = true;
         shipComponentMeshController.ChangeMeshToBroken();
         shipComponentMeshController.OnHealthUpdate(0f);
+        AudioManager.Instance.PlaySFX(breakClip, transform.position);
     }
 
 
