@@ -32,6 +32,7 @@ public class AudioManager : SmartSingleton<AudioManager>
     /// </summary>
     /// <param name="sfx">The sfx to play</param>
     public void PlaySFX(AudioClip sfx) {
+        if (sfx == null) return;
         sfxSource.PlayOneShot(sfx);
     }
 
@@ -39,8 +40,11 @@ public class AudioManager : SmartSingleton<AudioManager>
     /// Plays clip at a specific point in space
     /// We cannot do PlayClipAtPoint, because we want to use mixer
     /// So we create a new object ourselves
+    /// Returns the created audio source.
     /// </summary>
-    public void PlaySFX(AudioClip clip, Vector3 position, float duration = -1, Transform parent = null) {
+    public AudioSource PlaySFX(AudioClip clip, Vector3 position, float duration = -1, Transform parent = null) {
+        if (clip == null) return null;
+
         var obj = new GameObject(clip.name);
         if (parent != null) {
             obj.transform.parent = parent;
@@ -61,6 +65,7 @@ public class AudioManager : SmartSingleton<AudioManager>
         }
 
         MyTime.ScheduleDestruction(obj, duration);
+        return source;
     }
 
     /// <summary>
@@ -75,6 +80,16 @@ public class AudioManager : SmartSingleton<AudioManager>
         if (activeAudioSources.Count > 20) CleanUp();
 
         return audioSource;
+    }
+
+    /// <summary>
+    /// Plays sound using the sound data
+    /// </summary>
+    public void PlayUISound(UISoundData sound) {
+        var temp = sfxSource.volume;
+        sfxSource.volume = sound.volume;
+        PlaySFX(sound.sound);
+        sfxSource.volume = temp;
     }
 
     /// <summary>

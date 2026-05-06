@@ -15,7 +15,7 @@ MonoBehaviour:
   eventID: mafia_attack
   eventType: 2
   eventImage: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
-  minimumStage: 3
+  minimumStage: 4
   eventText: You meet a fighting maniac. He wants to fight you (warning - he is strong)
   choices:
   - choiceID: fight
@@ -23,23 +23,23 @@ MonoBehaviour:
     effects:
     - effectType: 1
       effectData:
-        rid: 4401092280337302486
+        rid: 4401092301534003269
     conditions: []
   - choiceID: leave
     choiceText: Leave, you don't feel like fighting
     effects:
     - effectType: 2
       effectData:
-        rid: 4401092280337302488
+        rid: 4401092301534003271
     conditions: []
   references:
     version: 2
     RefIds:
-    - rid: 4401092280337302486
+    - rid: 4401092301534003269
       type: {class: FightEffect, ns: , asm: Assembly-CSharp}
       data:
         enemy: {fileID: 0}
         elite: 1
-    - rid: 4401092280337302488
+    - rid: 4401092301534003271
       type: {class: RunEffect, ns: , asm: Assembly-CSharp}
       data: 

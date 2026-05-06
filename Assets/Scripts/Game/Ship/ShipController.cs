@@ -39,7 +39,8 @@ public class ShipController : MonoBehaviour
 
     //CURRENCY PARTS
     public int storedMoney = 0;
-
+    public AudioClip moneyClip;
+    public AudioClip moneyBigClip;
 
     //Combat
     //Projectile spawnpoints
@@ -252,6 +253,12 @@ public class ShipController : MonoBehaviour
         // TODO: maybe limit via some components like energy
 
         storedMoney += amount;
+        if (amount >= 5) {
+            AudioManager.Instance.PlaySFX(moneyBigClip, transform.position);
+        }
+        else {
+            AudioManager.Instance.PlaySFX(moneyClip, transform.position);
+        }
     }
 
     public bool UseCurrency(int amount)
@@ -262,6 +269,7 @@ public class ShipController : MonoBehaviour
 
         // use it now
         storedMoney -= amount;
+        AudioManager.Instance.PlaySFX(moneyClip, transform.position);
         return true;
     }
 

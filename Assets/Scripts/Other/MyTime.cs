@@ -46,7 +46,7 @@ public class MyTime : SmartSingleton<MyTime>
     /// <param name="obj">The object to destroy</param>
     /// <param name="duration">After how long (in seconds)</param>
     public static void ScheduleDestruction(GameObject obj, float duration) {
-        destructionQueue.Add(time + duration, obj);
+        destructionQueue.Add(time + duration + Random.Range(-0.001f, 0.001f), obj); // Randomness so that no two keys are the same
     }
 
     void Update()

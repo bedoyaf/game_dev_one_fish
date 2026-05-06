@@ -49,7 +49,9 @@ public class ShipComponentController : MonoBehaviour
     public string guid;
 
     [Header("Sounds")]
-    public AudioClip ActivationClip;
+    [FormerlySerializedAs("ActivationClip")]
+    public AudioClip activationClip;
+    public AudioClip repairClip;
 
     [Header("Builder stuff")]
 
@@ -124,8 +126,7 @@ public class ShipComponentController : MonoBehaviour
                 return;
             }
 
-            if (ActivationClip != null)
-                AudioManager.Instance.PlaySFX(ActivationClip);
+            AudioManager.Instance.PlaySFX(activationClip, transform.position);
             activated = true;
             componentBehaviour.OnActivate();
         }
@@ -220,6 +221,7 @@ public class ShipComponentController : MonoBehaviour
             {
                 health = Math.Min(health + healthPerRepair, maxHealth);
                 shipComponentMeshController.OnHealthUpdate((float)health / maxHealth);
+                AudioManager.Instance.PlaySFX(repairClip, transform.position);
 
                 if (broken)
                 {

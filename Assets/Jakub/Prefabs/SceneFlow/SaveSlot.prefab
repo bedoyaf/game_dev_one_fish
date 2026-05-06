@@ -151,6 +151,7 @@ GameObject:
   - component: {fileID: 7732852790914597453}
   - component: {fileID: 8677897527216558497}
   - component: {fileID: 4441045002695288629}
+  - component: {fileID: 2213039379719250875}
   m_Layer: 5
   m_Name: ConfirmDeleteButton
   m_TagString: Untagged
@@ -271,6 +272,20 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &2213039379719250875
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5501711734267092007}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4608ad104e3d0bd43a7096474e82de9a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIButtonSound
+  clickSound: {fileID: 11400000, guid: cfc63bf1729c31b4e968b2b05fd73309, type: 2}
+  hoverSound: {fileID: 0}
 --- !u!1 &5506325697890774791
 GameObject:
   m_ObjectHideFlags: 0
@@ -283,6 +298,7 @@ GameObject:
   - component: {fileID: 6384923102521498616}
   - component: {fileID: 8285111480536101810}
   - component: {fileID: 5128905254691139169}
+  - component: {fileID: 3717552483908823106}
   m_Layer: 5
   m_Name: SelectSlot
   m_TagString: Untagged
@@ -404,6 +420,20 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &3717552483908823106
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5506325697890774791}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4608ad104e3d0bd43a7096474e82de9a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIButtonSound
+  clickSound: {fileID: 11400000, guid: db410bda861817b4eb0159b647172403, type: 2}
+  hoverSound: {fileID: 0}
 --- !u!1 &6531765375899278252
 GameObject:
   m_ObjectHideFlags: 0
@@ -511,6 +541,7 @@ GameObject:
   - component: {fileID: 3322431995967956135}
   - component: {fileID: 2839559532821587405}
   - component: {fileID: 5457620900867646023}
+  - component: {fileID: 807427549647585827}
   m_Layer: 5
   m_Name: DeleteSlotButton
   m_TagString: Untagged
@@ -631,3 +662,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &807427549647585827
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8855766845806754635}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4608ad104e3d0bd43a7096474e82de9a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIButtonSound
+  clickSound: {fileID: 11400000, guid: cfc63bf1729c31b4e968b2b05fd73309, type: 2}
+  hoverSound: {fileID: 0}

@@ -149,6 +149,7 @@ GameObject:
   - component: {fileID: 5905556230266278164}
   - component: {fileID: 7400896173011941968}
   - component: {fileID: 7237086857403479247}
+  - component: {fileID: 1715621537316099647}
   m_Layer: 5
   m_Name: StopRepairing
   m_TagString: Untagged
@@ -270,6 +271,20 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &1715621537316099647
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 553948143093006649}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4608ad104e3d0bd43a7096474e82de9a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIButtonSound
+  clickSound: {fileID: 11400000, guid: cfc63bf1729c31b4e968b2b05fd73309, type: 2}
+  hoverSound: {fileID: 0}
 --- !u!1 &1974249874210919041
 GameObject:
   m_ObjectHideFlags: 0
@@ -282,6 +297,7 @@ GameObject:
   - component: {fileID: 140731434317563739}
   - component: {fileID: 388165210611528751}
   - component: {fileID: 5337896745238860488}
+  - component: {fileID: 1295156417032798822}
   m_Layer: 5
   m_Name: StopModifying
   m_TagString: Untagged
@@ -403,6 +419,20 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &1295156417032798822
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1974249874210919041}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4608ad104e3d0bd43a7096474e82de9a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIButtonSound
+  clickSound: {fileID: 11400000, guid: cfc63bf1729c31b4e968b2b05fd73309, type: 2}
+  hoverSound: {fileID: 0}
 --- !u!1 &2433943130832662347
 GameObject:
   m_ObjectHideFlags: 0
@@ -676,6 +706,7 @@ GameObject:
   - component: {fileID: 3945992661526252310}
   - component: {fileID: 1348738255477653211}
   - component: {fileID: 360570012796674441}
+  - component: {fileID: 586751821019485772}
   m_Layer: 5
   m_Name: RestartButton
   m_TagString: Untagged
@@ -797,6 +828,20 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &586751821019485772
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4892895065753449625}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4608ad104e3d0bd43a7096474e82de9a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIButtonSound
+  clickSound: {fileID: 11400000, guid: db410bda861817b4eb0159b647172403, type: 2}
+  hoverSound: {fileID: 0}
 --- !u!1 &5110051251707544428
 GameObject:
   m_ObjectHideFlags: 0
@@ -985,6 +1030,7 @@ GameObject:
   - component: {fileID: 7589661734991268804}
   - component: {fileID: 4942539819864936910}
   - component: {fileID: 9027834275301630647}
+  - component: {fileID: 1662206697781818713}
   m_Layer: 5
   m_Name: ResumeButton
   m_TagString: Untagged
@@ -1106,6 +1152,20 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &1662206697781818713
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5687247171064723805}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4608ad104e3d0bd43a7096474e82de9a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIButtonSound
+  clickSound: {fileID: 11400000, guid: cfc63bf1729c31b4e968b2b05fd73309, type: 2}
+  hoverSound: {fileID: 0}
 --- !u!1 &6228774574556898060
 GameObject:
   m_ObjectHideFlags: 0
@@ -1118,6 +1178,7 @@ GameObject:
   - component: {fileID: 1905712711884441948}
   - component: {fileID: 7790555229979647516}
   - component: {fileID: 1448180669017233427}
+  - component: {fileID: 4272466849606233358}
   m_Layer: 5
   m_Name: ExitButton
   m_TagString: Untagged
@@ -1239,6 +1300,20 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &4272466849606233358
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6228774574556898060}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4608ad104e3d0bd43a7096474e82de9a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIButtonSound
+  clickSound: {fileID: 11400000, guid: cfc63bf1729c31b4e968b2b05fd73309, type: 2}
+  hoverSound: {fileID: 0}
 --- !u!1 &7030606893980405253
 GameObject:
   m_ObjectHideFlags: 0
@@ -1739,6 +1814,7 @@ GameObject:
   - component: {fileID: 4332326248023772686}
   - component: {fileID: 3630390013814401384}
   - component: {fileID: 7010379755834413991}
+  - component: {fileID: 9006015175637618692}
   m_Layer: 5
   m_Name: PauseButton
   m_TagString: Untagged
@@ -1860,6 +1936,20 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &9006015175637618692
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8299729993597882230}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4608ad104e3d0bd43a7096474e82de9a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIButtonSound
+  clickSound: {fileID: 11400000, guid: cfc63bf1729c31b4e968b2b05fd73309, type: 2}
+  hoverSound: {fileID: 0}
 --- !u!1 &8955832863396305257
 GameObject:
   m_ObjectHideFlags: 0

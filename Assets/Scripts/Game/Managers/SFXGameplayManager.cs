@@ -22,6 +22,8 @@ public class SFXGameplayManager : MonoBehaviour
     [SerializeField]
     private GameObject enemyShip;
 
+    [SerializeField] private AudioClip victoryClip;
+    [SerializeField] private AudioClip defeatClip;
     public void EnterPlayerShip()
     {
         // TODO: tween movement from the top maybe
@@ -121,6 +123,7 @@ public class SFXGameplayManager : MonoBehaviour
     {
         // Show victory / loss
         statusBar.text = playerVictory ? "Victory" : "Defeat";
+        AudioManager.Instance.PlaySFX(playerVictory ? victoryClip : defeatClip);
         var pos = statusBar.transform.position.y;
         statusBar.gameObject.SetActive(true);
         statusBar.DOFade(0f, 0f);
