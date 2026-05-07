@@ -361,4 +361,22 @@ public class EnemyShipAgent : MonoBehaviour
 
         return new Vector3(Random.Range(0, width), 0, Random.Range(0, height));
     }
+
+    void OnGUI()
+    {
+        if(GameManager.Instance.currentGameplayManager.stateMachine.CurrentStateKey == GameplayFlowManager.GameStates.Combat)
+        {
+            float width = 140;
+            float height = 40;
+
+            Rect rect = new Rect(10, Screen.height - height - 10, width, height);
+
+            string label = thinking ? "EnemyAI: ON" : "EnemyAI: OFF";
+
+            if (GUI.Button(rect, label))
+            {
+                thinking = !thinking;
+            }
+        }
+    }
 }
