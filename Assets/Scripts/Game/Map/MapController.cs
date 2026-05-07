@@ -1,8 +1,14 @@
 using DG.Tweening;
+
 using System.Collections.Generic;
+
 using TMPro;
-using UnityEditor;
+
+//using UnityEditor;
 using UnityEngine;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 /// <summary>
 /// Displays possible choices to the player.
@@ -175,11 +181,10 @@ public class MapController : MonoBehaviour
     }
 }
 
-
 // https://discussions.unity.com/t/how-to-make-a-readonly-property-in-inspector/75448/5
 public class ReadOnlyAttribute : PropertyAttribute {
 }
-
+#if UNITY_EDITOR
 [CustomPropertyDrawer(typeof(ReadOnlyAttribute))]
 public class ReadOnlyDrawer : PropertyDrawer {
     public override float GetPropertyHeight(SerializedProperty property,
@@ -195,3 +200,4 @@ public class ReadOnlyDrawer : PropertyDrawer {
         GUI.enabled = true;
     }
 }
+#endif
