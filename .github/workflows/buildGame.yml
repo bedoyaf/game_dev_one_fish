@@ -212,6 +212,6 @@ jobs:
         env:
           BUTLER_CREDENTIALS: ${{ secrets.ITCH_IO_CREDENTIALS }}
           CHANNEL: ${{ matrix.targetPlatform.itchChannel }}
-          ITCH_GAME: "dvanact-mesicu"  # 🔴 Name of the game on Itch
+          ITCH_GAME: "fish-n-ships"  # 🔴 Name of the game on Itch
           ITCH_USER: bedoyaf # 🔴 Itch username
           PACKAGE: build/${{ github.event.repository.name }}-${{ matrix.targetPlatform.platform }}
