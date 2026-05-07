@@ -13,7 +13,8 @@ public class EventUI : MonoBehaviour
     public CanvasGroup selfGroup => GetComponent<CanvasGroup>();
     public Image selfImage;
     private float y;
-    private float offset_distance = 600;
+    [SerializeField]
+    private float offset_distance = 550;
 
     private void Start()
     {

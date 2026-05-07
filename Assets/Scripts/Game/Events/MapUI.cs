@@ -15,6 +15,7 @@ public class MapUI : MonoBehaviour
     public CanvasGroup selfGroup => GetComponent<CanvasGroup>();
     public Image selfImage;
     private float y;
+    [SerializeField]
     private float offset_distance = 600;
 
     private void Start()
