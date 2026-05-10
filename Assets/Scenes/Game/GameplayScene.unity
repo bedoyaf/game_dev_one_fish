@@ -11501,10 +11501,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MapUI
   nodeOffset: {x: -500, y: -200}
+  randomNodeOffset: 10
   nodePrefab: {fileID: 344792479086541794, guid: d5364c3169ec52e4b8e9c4aed16d3c55, type: 3}
   nodeParent: {fileID: 1127380459}
   canvasGroup: {fileID: 1723096967}
   linePrefab: {fileID: 2617016866678534494, guid: af3578ea2c3205e4d82469087920cefa, type: 3}
+  currentNodeColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  combatNodeColor: {r: 0.9, g: 0.2, b: 0.2, a: 1}
+  eliteNodeColor: {r: 0.7, g: 0.2, b: 0.9, a: 1}
+  eventNodeColor: {r: 0.2, g: 0.5, b: 0.9, a: 1}
+  bossNodeColor: {r: 1, g: 0.8, b: 0.2, a: 1}
+  defaultNodeColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  visitedNodeColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  playerSprite: {fileID: 709160525, guid: e2573f0c0767b224abd2d897fe7249d4, type: 3}
+  combatSprite: {fileID: -1769497988, guid: ccdec57bfd6c9594e8b67d74bb889e8e, type: 3}
+  eventSprite: {fileID: 1865591079, guid: 24ecef9368d69ad4b8990a3e39dfd805, type: 3}
+  eliteSprite: {fileID: 539449100, guid: 14c7429eed96a084b88032b02add5840, type: 3}
+  restSprite: {fileID: -1019446494, guid: ccdec57bfd6c9594e8b67d74bb889e8e, type: 3}
+  bossSprite: {fileID: -134165214, guid: 14c7429eed96a084b88032b02add5840, type: 3}
 --- !u!114 &1768539864 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2353206029449680602, guid: 187c20461725122439c3c40d8368a792, type: 3}

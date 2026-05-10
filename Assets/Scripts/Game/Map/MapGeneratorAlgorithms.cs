@@ -1,6 +1,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Utility class just for map generation
+/// </summary>
 public static class MapGeneratorAlgorithms
 {
     public static MapGraph GenerateMap(int stages, int pathCount)
@@ -64,6 +67,7 @@ public static class MapGeneratorAlgorithms
             layers[stage] = currentLayer;
         }
 
+
         MapNode boss = new()
         {
             id = graph.nodes.Count,
@@ -76,6 +80,8 @@ public static class MapGeneratorAlgorithms
 
         foreach (var node in previousLayer)
             node.connections.Add(boss);
+
+        FixDeadEnds(layers);
 
         return graph;
     }
@@ -92,5 +98,29 @@ public static class MapGeneratorAlgorithms
         if (roll < 0.95f) return NodeType.Elite;
 
         return NodeType.Rest;
+    }
+
+    private static void FixDeadEnds(List<List<MapNode>> layers)
+    {
+        for (int stage = 0; stage < layers.Count - 1; stage++)
+        {
+            var currentLayer = layers[stage];
+            var nextLayer = layers[stage + 1];
+
+            if (nextLayer.Count == 0)
+                continue;
+
+            for (int i = 0; i < currentLayer.Count; i++)
+            {
+                var node = currentLayer[i];
+
+                // pokud nikam nevede → fixni
+                if (node.connections == null || node.connections.Count == 0)
+                {
+                    int index = Mathf.Clamp(i, 0, nextLayer.Count - 1);
+                    node.connections.Add(nextLayer[index]);
+                }
+            }
+        }
     }
 }

@@ -1,6 +1,7 @@
 using DG.Tweening;
 using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -23,6 +24,21 @@ public class MapUI : MonoBehaviour
 
     [SerializeField] private MapUILine linePrefab;
     private List<MapUILine> lines = new();
+
+    [SerializeField] private Color currentNodeColor = Color.yellow;
+    [SerializeField] private Color combatNodeColor= new Color(0.9f, 0.2f, 0.2f);
+    [SerializeField] private Color eliteNodeColor = new Color(0.7f, 0.2f, 0.9f);
+    [SerializeField] private Color eventNodeColor = new Color(0.2f, 0.5f, 0.9f);
+    [SerializeField] private Color bossNodeColor = new Color(1f, 0.8f, 0.2f);
+    [SerializeField] private Color defaultNodeColor = new Color(0.5f, 0.5f, 0.5f);
+    [SerializeField] private Color visitedNodeColor = Color.gray;
+
+    [SerializeField] private Sprite playerSprite;
+    [SerializeField] private Sprite combatSprite;
+    [SerializeField] private Sprite eventSprite;
+    [SerializeField] private Sprite eliteSprite;
+    [SerializeField] private Sprite restSprite;
+    [SerializeField] private Sprite bossSprite;
 
     public void Show()
     {
@@ -79,29 +95,31 @@ public class MapUI : MonoBehaviour
             var node = kv.Key;
             var ui = kv.Value;
 
-            // 1. základní barva podle typu
             Color baseColor = GetTypeColor(node.type);
 
-            // 2. STAV
             if (node == current)
             {
-                ui.SetTypeColor(Color.yellow);
+                ui.SetIcon(playerSprite);
+                ui.SetTypeColor(currentNodeColor);
                 continue;
             }
 
             if (node.visited)
             {
-                ui.SetState(1f, baseColor * 0.6f);
+                ui.SetState(1f, visitedNodeColor);
+                ui.SetIcon(null);
                 continue;
             }
 
             if (IsReachable(current, node))
             {
-                ui.SetState(1f, baseColor); // plná barva
+                ui.SetIcon(GetTypeIcon(node.type));
+                ui.SetState(1f, baseColor); 
             }
             else
             {
-                ui.SetState(0.25f, Color.gray); // šedá + transparent
+                ui.SetIcon(null);
+                ui.SetState(0.25f, defaultNodeColor); 
             }
         }
     }
@@ -110,12 +128,23 @@ public class MapUI : MonoBehaviour
     {
         return type switch
         {
-            NodeType.Combat => new Color(0.9f, 0.2f, 0.2f),
-            NodeType.Elite => new Color(0.7f, 0.2f, 0.9f),
-            NodeType.Event => new Color(0.2f, 0.5f, 0.9f),
-            NodeType.Shop => new Color(0.2f, 0.9f, 0.4f),
-            NodeType.Boss => new Color(1f, 0.8f, 0.2f),
+            NodeType.Combat => combatNodeColor,
+            NodeType.Elite => eliteNodeColor,
+            NodeType.Event => eventNodeColor,
+            NodeType.Boss => bossNodeColor,
             _ => Color.white
+        };
+    }
+
+    public Sprite GetTypeIcon(NodeType type)
+    {
+        return type switch
+        {
+            NodeType.Combat => combatSprite,
+            NodeType.Elite => eliteSprite,
+            NodeType.Event => eventSprite,
+            NodeType.Boss => bossSprite,
+            _ => combatSprite
         };
     }
 

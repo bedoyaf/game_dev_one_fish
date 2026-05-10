@@ -2,6 +2,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using static TreeEditor.TreeEditorHelper;
 
+/// <summary>
+/// Data structure, represents a single node on the map, contains its position, type and connections to other nodes
+/// </summary>
 public class MapNode
 {
     public int id;
@@ -17,7 +20,7 @@ public enum NodeType
     Combat,
     Elite,
     Event,
-    Shop,
+   // Shop,
     Rest,
     Boss
 }

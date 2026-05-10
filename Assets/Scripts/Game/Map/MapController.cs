@@ -87,19 +87,6 @@ public class MapController : MonoBehaviour
         mapUI.Hide();
     }
 
-    private Color GetTypeColor(NodeType type)
-{
-    return type switch
-    {
-        NodeType.Combat => new Color(0.9f, 0.2f, 0.2f),
-        NodeType.Elite  => new Color(0.7f, 0.2f, 0.9f),
-        NodeType.Event  => new Color(0.2f, 0.5f, 0.9f),
-        NodeType.Shop   => new Color(0.2f, 0.9f, 0.4f),
-        NodeType.Boss   => new Color(1f, 0.8f, 0.2f),
-        _ => Color.white
-    };
-}
-
     private void ResolveNode(MapNode node)
     {
         MapChoiceData data = new MapChoiceData();

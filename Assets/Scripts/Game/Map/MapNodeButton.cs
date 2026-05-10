@@ -5,13 +5,18 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
 
-public class MapNodeButton : MonoBehaviour
+/// <summary>
+/// Node of the map, in terms of the UI, contains a button and background image, also handles mouse hover effects and click events
+/// </summary>
+public class MapNodeButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     public UnityEngine.UI.Button button;
     public UnityEngine.UI.Image background;
 
     private MapNode node;
     private Action<MapNode> onClick;
+
+    public UnityEngine.UI.Image icon;
 
     public void Init(MapNode node, Action<MapNode> onClick)
     {
@@ -33,6 +38,18 @@ public class MapNodeButton : MonoBehaviour
         col = tint;
         col.a = alpha;
         background.color = col;
+    }
+
+    public void SetIcon(Sprite sprite)
+    {
+        if (sprite == null)
+        {
+            icon.color = new Color(1, 1, 1, 0);
+            return;
+        }
+
+        icon.sprite = sprite;
+        icon.color = Color.white;
     }
 
     public void OnPointerEnter(PointerEventData eventData)

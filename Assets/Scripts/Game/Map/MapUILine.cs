@@ -1,5 +1,8 @@
 using UnityEngine;
 
+/// <summary>
+/// Class that helps with drawing lines between nodes on the map UI
+/// </summary>
 public class MapUILine : MonoBehaviour
 {
     public RectTransform rect;
