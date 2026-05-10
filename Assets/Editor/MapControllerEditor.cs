@@ -8,7 +8,7 @@ public class MapControllerEditor : Editor {
         MapController controller = target as MapController;
 
         if (GUILayout.Button("Create UI")) {
-            controller.DisplayChoices();
+            controller.DisplayMap();
         }
 
         //if (GUILayout.Button("Hide UI")) {

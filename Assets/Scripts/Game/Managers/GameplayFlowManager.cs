@@ -64,6 +64,8 @@ public class GameplayFlowManager : MonoBehaviour
 
         stateMachine = new GameStateMachine(states);
         stateMachine.ChangeState(GameStates.MapSelection);
+
+        mapController.StartMap();
     }
 
     // TODO: state machine for the game phases
@@ -129,7 +131,7 @@ public class GameplayFlowManager : MonoBehaviour
     }
 
     public void OpenMapController() {
-        mapController.DisplayChoices();
+        mapController.DisplayMap();
     }
 
     public void CloseMapController(MapChoiceData choiceData) {
@@ -150,7 +152,7 @@ public class GameplayFlowManager : MonoBehaviour
     }
 
     public void OpenEventController() {
-        eventController.NextEvent(mapController.CurrentStage);
+        eventController.NextEvent(mapController.CurrentNode);
     }
 
     /// <summary>

@@ -6,6 +6,10 @@ using TMPro;
 
 //using UnityEditor;
 using UnityEngine;
+using UnityEngine.Audio;
+using System.Linq;
+
+
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -38,108 +42,104 @@ public class MapController : MonoBehaviour
     [SerializeField] private GameplayFlowManager gameplayFlowManager;
 
 
-    [SerializeField, ReadOnly] private List<MapChoices> choices = new();
-    [SerializeField] private int currentStage = 0; // Should be readonly
+    private MapGraph graph;
+    private MapNode currentNode;
     [SerializeField] private float currentDifficulty = 0; // Should be readonly
 
-    public int CurrentStage => currentStage;
+    public MapNode CurrentNode => currentNode;
     public float CurrentDifficulty => currentDifficulty;
     public float EliteDifficulty => currentDifficulty + eliteEnemyDifficulty;
 
 
     [Header("UI")]    
     public Canvas canvas;
-    public MapUI mapUIPrefab;
-    private MapUI instantiatedUI;
+    public MapUI mapUI;
 
-    /// <summary>
-    /// Displays few choices on the screen.
-    /// </summary>
-    /// <param name="currentDifficulty">How hard the enemies should be</param>
-    public void DisplayChoices() {
-        currentStage++;
-        currentDifficulty++; // NOTE - here you can change difficulty scaling
-        choices.Clear();
+    public void StartMap()
+    {
+        graph = MapGeneratorAlgorithms.GenerateMap(6, 3);
 
-        if (instantiatedUI == null) {
-            InitializeUI();
-        }
-        
-        instantiatedUI.gameObject.SetActive(true);
-        // Fade in
-        if(instantiatedUI.selfGroup != null) instantiatedUI.selfGroup.DOFade(1f, 0.1f);
-        instantiatedUI.SetVisible();
+        currentNode = graph.startNode;
+        currentNode.visited = true;
 
-        // Select stages
-        if (currentStage == bossStage) {
-            choices.Add(MapChoices.Boss);
-        }
-        else {
-            choices.Add(MapChoices.Combat); // Combat is always there
-            if (Random.Range(0, 2) == 0)
-                choices.Add(MapChoices.Elite);
-            //else
-            choices.Add(MapChoices.Event);
-        }
+        mapUI.ShowGraph(graph);
 
-        // Show the choices
-        for(int i = 0; i < choices.Count; i++) {
-            instantiatedUI.MapButtons[i].GetComponentInChildren<TextMeshProUGUI>().text = GetDescription(choices[i]);
-            instantiatedUI.MapButtons[i].gameObject.SetActive(true);
-        }
-
-        // Hide rest of buttons
-        for (int i = choices.Count; i < instantiatedUI.MapButtons.Count; i++) {
-            instantiatedUI.MapButtons[i].gameObject.SetActive(false);
-        }
+        mapUI.OnNodeClicked += OnNodeSelected;
+        mapUI.UpdatePlayerPosition(currentNode);
     }
 
-    /// <summary>
-    /// Act according to what user chose.
-    /// </summary>
-    /// <param name="choice"></param>
-    public void OnButtonClick(int choice) {
-        var choiceData = new MapChoiceData();
-        switch (choices[choice]) {
-            case MapChoices.Combat:
-                // Select random enemy based on difficulty (with a chance to select a bit harder or easier one)
-                choiceData.fight = true;
-                choiceData.difficulty = (int)currentDifficulty;
+    public void DisplayMap()
+    {
+        mapUI.Show();
+        mapUI.UpdatePlayerPosition(currentNode);
+    }
+
+    private void OnNodeSelected(MapNode node)
+    {
+        if (!currentNode.connections.Contains(node))
+            return;
+
+        currentNode = node;
+        currentNode.visited = true;
+
+        mapUI.UpdatePlayerPosition(currentNode);
+        ResolveNode(node);
+        mapUI.Hide();
+    }
+
+    private Color GetTypeColor(NodeType type)
+{
+    return type switch
+    {
+        NodeType.Combat => new Color(0.9f, 0.2f, 0.2f),
+        NodeType.Elite  => new Color(0.7f, 0.2f, 0.9f),
+        NodeType.Event  => new Color(0.2f, 0.5f, 0.9f),
+        NodeType.Shop   => new Color(0.2f, 0.9f, 0.4f),
+        NodeType.Boss   => new Color(1f, 0.8f, 0.2f),
+        _ => Color.white
+    };
+}
+
+    private void ResolveNode(MapNode node)
+    {
+        MapChoiceData data = new MapChoiceData();
+
+        switch (node.type)
+        {
+            case NodeType.Combat:
+                data.fight = true;
+                data.difficulty = CalculateDifficulty(node);
                 break;
 
-
-            case MapChoices.Elite:
-                choiceData.fight = true;
-                choiceData.difficulty = (int)EliteDifficulty;
-
+            case NodeType.Elite:
+                data.fight = true;
+                data.difficulty = CalculateDifficulty(node) + 3;
                 break;
-            case MapChoices.Event:
-                choiceData.fight = false;
 
+            case NodeType.Event:
+                data.fight = false;
                 break;
-            case MapChoices.Boss:
-                choiceData.fight = true;
-                choiceData.boss = true;
 
-                break;
-            default:
-                Debug.LogError("Unknown map choice selected!");
+            case NodeType.Rest:
+                gameplayFlowManager.EnterRepairsMode();
+                return;
+
+            case NodeType.Boss:
+                data.fight = true;
+                data.boss = true;
                 break;
         }
 
-        // Fade out
-        if (instantiatedUI.selfGroup != null)
-            instantiatedUI.selfGroup.DOFade(0f, 0.1f).onComplete += (() =>
-            instantiatedUI.gameObject.SetActive(false));
-        else
-            instantiatedUI.gameObject.SetActive(false);
+        gameplayFlowManager.CloseMapController(data);
+    }
 
-        gameplayFlowManager.CloseMapController(choiceData);
+    private int CalculateDifficulty(MapNode node)
+    {
+        return currentNode.depth;
     }
 
     public void OnRepairButtonClicked()
     {
-        instantiatedUI.gameObject.SetActive(false);
         gameplayFlowManager.EnterRepairsMode();
     }
 
@@ -149,20 +149,6 @@ public class MapController : MonoBehaviour
         public int difficulty; // The difficulty the fight should have
     }
 
-    /// <summary>
-    /// Instantiates the UI and binds the buttons.
-    /// </summary>
-    private void InitializeUI() {
-        instantiatedUI = Instantiate(mapUIPrefab, canvas.transform);
-        // Move, so that the pause menu is always in front
-        instantiatedUI.transform.SetAsFirstSibling();
-        for (int i = 0; i < instantiatedUI.MapButtons.Count; i++) {
-            int a = i;
-            instantiatedUI.MapButtons[i].onClick.AddListener(() => OnButtonClick(a));
-        }
-
-        instantiatedUI.TEMP_RepairButton.onClick.AddListener(OnRepairButtonClicked);
-    }
     private string GetDescription(MapChoices choice) {
         return choice switch {
             MapChoices.Combat => "Common enemy",
@@ -180,24 +166,3 @@ public class MapController : MonoBehaviour
         Boss,
     }
 }
-
-// https://discussions.unity.com/t/how-to-make-a-readonly-property-in-inspector/75448/5
-public class ReadOnlyAttribute : PropertyAttribute {
-}
-#if UNITY_EDITOR
-[CustomPropertyDrawer(typeof(ReadOnlyAttribute))]
-public class ReadOnlyDrawer : PropertyDrawer {
-    public override float GetPropertyHeight(SerializedProperty property,
-                                            GUIContent label) {
-        return EditorGUI.GetPropertyHeight(property, label, true);
-    }
-
-    public override void OnGUI(Rect position,
-                               SerializedProperty property,
-                               GUIContent label) {
-        GUI.enabled = false;
-        EditorGUI.PropertyField(position, property, label, true);
-        GUI.enabled = true;
-    }
-}
-#endif

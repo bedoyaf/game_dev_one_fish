@@ -25,12 +25,12 @@ public class EventController : MonoBehaviour
     /// <summary>
     /// Selects event and shows it on the screen
     /// </summary>
-    public void NextEvent(int currentStage) {
+    public void NextEvent(MapNode currentNode) {
         if (addedEvents.Count > 0 && Random.Range(0, 3) == 0) {
-            SelectRandomEvent(addedEvents, currentStage);
+            SelectRandomEvent(addedEvents, currentNode.depth);
         }
         else {
-            SelectRandomEvent(events, currentStage);
+            SelectRandomEvent(events, currentNode.depth);
         }
 
         if (selectThisEvent != null) {

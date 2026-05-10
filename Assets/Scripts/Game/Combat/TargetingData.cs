@@ -14,7 +14,7 @@ public class TargetingData
     //public Vector3 ShieldPosition(float offset) {
 
     //}
-
+    
     public TargetingData(ShipComponentMeshController target, Vector3? direction=null, Vector3? componentOffset = null)
     {
         this.target = target;
