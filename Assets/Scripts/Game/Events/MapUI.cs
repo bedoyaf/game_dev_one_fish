@@ -5,6 +5,9 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// Manager of the UI maps, nodes where to place them, what icons and more
+/// </summary>
 public class MapUI : MonoBehaviour
 {
     public event Action<MapNode> OnNodeClicked;
@@ -29,6 +32,7 @@ public class MapUI : MonoBehaviour
     [SerializeField] private Color combatNodeColor= new Color(0.9f, 0.2f, 0.2f);
     [SerializeField] private Color eliteNodeColor = new Color(0.7f, 0.2f, 0.9f);
     [SerializeField] private Color eventNodeColor = new Color(0.2f, 0.5f, 0.9f);
+    [SerializeField] private Color restNodeColor = Color.green;
     [SerializeField] private Color bossNodeColor = new Color(1f, 0.8f, 0.2f);
     [SerializeField] private Color defaultNodeColor = new Color(0.5f, 0.5f, 0.5f);
     [SerializeField] private Color visitedNodeColor = Color.gray;
@@ -40,6 +44,9 @@ public class MapUI : MonoBehaviour
     [SerializeField] private Sprite restSprite;
     [SerializeField] private Sprite bossSprite;
 
+    /// <summary>
+    /// function to hide and show the map ui
+    /// </summary>
     public void Show()
     {
         gameObject.SetActive(true);
@@ -48,7 +55,6 @@ public class MapUI : MonoBehaviour
         canvasGroup.interactable = true;
         canvasGroup.blocksRaycasts = true;
     }
-
     public void Hide()
     {
         canvasGroup.DOFade(0f, 0.2f)
@@ -58,6 +64,9 @@ public class MapUI : MonoBehaviour
         canvasGroup.blocksRaycasts = false;
     }
 
+    /// <summary>
+    /// Function to setup the map itself, mainly connections and the nodes
+    /// </summary>
     public void ShowGraph(MapGraph graph)
     {
         Clear();
@@ -82,11 +91,15 @@ public class MapUI : MonoBehaviour
         DrawConnections();
 
     }
+
     private void HandleNodeClicked(MapNode node)
     {
         OnNodeClicked?.Invoke(node);
     }
 
+    /// <summary>
+    /// function updates the visual of the map during movement
+    /// </summary>
     public void UpdatePlayerPosition(MapNode current)
     {
         Debug.Log("Updating nodes");
@@ -132,6 +145,7 @@ public class MapUI : MonoBehaviour
             NodeType.Elite => eliteNodeColor,
             NodeType.Event => eventNodeColor,
             NodeType.Boss => bossNodeColor,
+            NodeType.Rest => restNodeColor, 
             _ => Color.white
         };
     }
@@ -144,6 +158,7 @@ public class MapUI : MonoBehaviour
             NodeType.Elite => eliteSprite,
             NodeType.Event => eventSprite,
             NodeType.Boss => bossSprite,
+            NodeType.Rest => restSprite, 
             _ => combatSprite
         };
     }
@@ -160,6 +175,9 @@ public class MapUI : MonoBehaviour
         spawnedNodes.Clear();
     }
 
+    /// <summary>
+    /// functions for drawing lines between the nodes
+    /// </summary>
     private void DrawConnections()
     {
         ClearLines();

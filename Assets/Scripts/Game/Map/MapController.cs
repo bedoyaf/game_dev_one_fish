@@ -45,6 +45,7 @@ public class MapController : MonoBehaviour
     private MapGraph graph;
     private MapNode currentNode;
     [SerializeField] private float currentDifficulty = 0; // Should be readonly
+    [SerializeField] private MapNodeProbabilities nodeProbabilities;
 
     public MapNode CurrentNode => currentNode;
     public float CurrentDifficulty => currentDifficulty;
@@ -57,7 +58,7 @@ public class MapController : MonoBehaviour
 
     public void StartMap()
     {
-        graph = MapGeneratorAlgorithms.GenerateMap(6, 3);
+        graph = MapGeneratorAlgorithms.GenerateMap(6, 3, nodeProbabilities);
 
         currentNode = graph.startNode;
         currentNode.visited = true;

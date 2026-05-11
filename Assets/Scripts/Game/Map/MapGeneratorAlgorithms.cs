@@ -6,7 +6,8 @@ using UnityEngine;
 /// </summary>
 public static class MapGeneratorAlgorithms
 {
-    public static MapGraph GenerateMap(int stages, int pathCount)
+    /// the main map generation function
+    public static MapGraph GenerateMap(int stages, int pathCount, MapNodeProbabilities probabilities)
     {
         MapGraph graph = new();
 
@@ -43,7 +44,7 @@ public static class MapGeneratorAlgorithms
                     id = graph.nodes.Count,
                     position = new Vector2(stage, i),
                     depth = stage,
-                    type = GetRandomType(stage, stages)
+                    type = GetRandomType(stage/*, stages*/, probabilities)
                 };
 
                 graph.nodes.Add(node);
@@ -86,16 +87,16 @@ public static class MapGeneratorAlgorithms
         return graph;
     }
 
-    private static NodeType GetRandomType(int stage, int maxStage)
+    private static NodeType GetRandomType(int stage,/* int maxStage, */MapNodeProbabilities probabilities)
     {
-        if (stage == maxStage)
-            return NodeType.Boss;
-
+       /* if (stage == maxStage)
+            return NodeType.Elite;
+       */
         float roll = Random.value;
-
-        if (roll < 0.6f) return NodeType.Combat;
-        if (roll < 0.8f) return NodeType.Event;
-        if (roll < 0.95f) return NodeType.Elite;
+        //Might be worth placing the logic in probabilities
+        if (roll < probabilities.combatProbability) return NodeType.Combat;
+        if (roll < probabilities.combatProbability + probabilities.eventProbability) return NodeType.Event;
+        if (roll < probabilities.combatProbability + probabilities.eventProbability + probabilities.eliteProbability) return NodeType.Elite;
 
         return NodeType.Rest;
     }
@@ -114,7 +115,6 @@ public static class MapGeneratorAlgorithms
             {
                 var node = currentLayer[i];
 
-                // pokud nikam nevede → fixni
                 if (node.connections == null || node.connections.Count == 0)
                 {
                     int index = Mathf.Clamp(i, 0, nextLayer.Count - 1);
