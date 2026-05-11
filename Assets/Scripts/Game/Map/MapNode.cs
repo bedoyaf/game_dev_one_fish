@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using UnityEngine;
-using static TreeEditor.TreeEditorHelper;
 
 /// <summary>
 /// Data structure, represents a single node on the map, contains its position, type and connections to other nodes
