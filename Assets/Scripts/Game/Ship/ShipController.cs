@@ -353,14 +353,17 @@ public class ShipController : MonoBehaviour
 
     void OnGUI()
     {
-        GUIStyle style = new GUIStyle(GUI.skin.label);
-        style.fontSize = 24;
-        style.normal.textColor = Color.green;
-        style.fontStyle = FontStyle.Bold;
-        GUI.Label(new Rect(10 + DebugTextOffset, 10, 300, 40), $" {storedEnergy} / {cabinEnergyCapacity+batteryCapacity}", style);
+        if(playerShip)
+        {
+            GUIStyle style = new GUIStyle(GUI.skin.label);
+            style.fontSize = 24;
+            style.normal.textColor = Color.green;
+            style.fontStyle = FontStyle.Bold;
+            GUI.Label(new Rect(10 + DebugTextOffset, 10, 300, 40), $" {storedEnergy} / {cabinEnergyCapacity + batteryCapacity}", style);
 
-        style.normal.textColor = Color.gray;
-        GUI.Label(new Rect(10 + DebugTextOffset, 34, 300, 40), $" {storedMoney} $", style);
+            style.normal.textColor = Color.gray;
+            GUI.Label(new Rect(10 + DebugTextOffset, 34, 300, 40), $" {storedMoney} $", style);
+        }
 
     }
 }
