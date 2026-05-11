@@ -339,7 +339,7 @@ public class GameplayFlowManager : MonoBehaviour
         {
             if (GUI.Button(new Rect(500, 400, 150, 40), "RESTART"))
             {
-                stateMachine.ChangeState(GameStates.WaitingForCombat);
+                GameManager.Instance.RestartGame();
             }
         }
     }
