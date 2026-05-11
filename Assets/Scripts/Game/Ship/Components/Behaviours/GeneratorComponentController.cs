@@ -65,6 +65,12 @@ public class GeneratorComponentController : BehaviourComponentControllerAbstract
         energyStored = 0;
 
         AudioManager.Instance.PlaySFX(gatherPowerClip, transform.position);
+
+        if(shipComponentController.shipController.playerShip)
+        {
+            // Spawn SFX
+            GameManager.Instance.SFXManager.EnergyGatheredEffect(gameObject.transform.position);
+        }
     }
 
     private void Update()

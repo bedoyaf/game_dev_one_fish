@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class MissileTravelScript : MonoBehaviour
+public class ObjectFlyingScript : MonoBehaviour
 {
     // TODO: fancy flying animation or whatever
 

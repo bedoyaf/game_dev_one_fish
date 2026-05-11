@@ -210,6 +210,7 @@ public class ShipController : MonoBehaviour
         }
         storedEnergy = totalEnergy;
         Debug.Log("energy" + totalEnergy);
+
     }
 
     /// <summary>

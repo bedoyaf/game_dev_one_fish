@@ -4,6 +4,7 @@ using System.Collections;
 using System.Runtime.InteropServices;
 using TMPro;
 using UnityEngine;
+using static UnityEditor.FilePathAttribute;
 
 
 /// <summary>
@@ -42,6 +43,7 @@ public class SFXGameplayManager : MonoBehaviour
     }
 
 
+
     // ------------------------------------------------------------
 
     public Transform SFXParent;
@@ -64,7 +66,7 @@ public class SFXGameplayManager : MonoBehaviour
         );
 
 
-        if (missile.TryGetComponent(out MissileTravelScript missileSFX))
+        if (missile.TryGetComponent(out ObjectFlyingScript missileSFX))
         {
             missileSFX.startPosition = spawnPoint;
             missileSFX.endPosition = location;
@@ -152,4 +154,32 @@ public class SFXGameplayManager : MonoBehaviour
         onFinished();
 
     }
+
+    // --------------------------------------------------------------------
+
+    public GameObject energyBallSFXprefab;
+    public Transform energyIndicatorPosition;
+
+    public void EnergyGatheredEffect(Vector3 spawnPoint)
+    {
+        // Spawn an energy ball, that moves toward the 
+        // energy indicator
+
+        GameObject energyOrb = Instantiate(
+            energyBallSFXprefab,
+            spawnPoint,
+            Quaternion.identity,
+            SFXParent
+        );
+
+        
+        if (energyOrb.TryGetComponent(out ObjectFlyingScript missileSFX))
+        {
+            missileSFX.startPosition = spawnPoint;
+            missileSFX.endPosition = energyIndicatorPosition.position;
+            missileSFX.travelTime = 0.5f;
+        }
+
+    }
+
 }
