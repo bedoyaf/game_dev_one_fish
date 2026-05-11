@@ -326,6 +326,14 @@ public class GameplayFlowManager : MonoBehaviour
         // {
         //    AdvanceState();
         // }
+        if (stateMachine.CurrentStateKey == GameStates.Combat)
+        {
+            if (GUI.Button(new Rect(x, y, width, height), "DEBUG INSTAKILL ENEMY"))
+            {
+                enemyShip.GetMainCabin().TakeDamage(1000);
+                return;
+            }
+        }
 
         if (stateMachine.CurrentStateKey == GameStates.GameOver)
         {
