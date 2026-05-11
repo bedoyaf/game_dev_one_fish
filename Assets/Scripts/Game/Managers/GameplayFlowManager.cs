@@ -322,10 +322,10 @@ public class GameplayFlowManager : MonoBehaviour
 
         GUI.Box(new Rect(x, y - 50, width, 30), "State: " + stateMachine.CurrentStateKey);
 
-        if (GUI.Button(new Rect(x, y, width, height), "Advance State"))
-        {
-            AdvanceState();
-        }
+        //if (GUI.Button(new Rect(x, y, width, height), "Advance State"))
+        // {
+        //    AdvanceState();
+        // }
 
         if (stateMachine.CurrentStateKey == GameStates.GameOver)
         {
