@@ -96,8 +96,9 @@ public class CombatController : SmartSingleton<CombatController>
         combatEnded = false;
 
         enemyShipAgent.ActivateAgent();
+        enemyShipAgent.thinking = true;
 
-        Debug.Log("Combat ¨Start");
+        Debug.Log("Combat Start");
         
         combatEnded = false;
     }
