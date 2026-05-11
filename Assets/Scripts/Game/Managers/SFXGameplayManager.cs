@@ -4,7 +4,6 @@ using System.Collections;
 using System.Runtime.InteropServices;
 using TMPro;
 using UnityEngine;
-using static UnityEditor.FilePathAttribute;
 
 
 /// <summary>
