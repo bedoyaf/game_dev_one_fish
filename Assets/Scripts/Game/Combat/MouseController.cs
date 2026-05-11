@@ -364,12 +364,12 @@ public class MouseController : MonoBehaviour
                         };
 
                         var chosen = dirTextures[directionIndex];
-                        Cursor.SetCursor(chosen, chosen.Size() * 0.5f, CursorMode.Auto);
+                        Cursor.SetCursor(chosen, new Vector2(chosen.width * 0.5f, chosen.height * 0.5f), CursorMode.Auto);
 
                     }
                     else if (activeComponent is ShieldComponentController)
                     {
-                        Cursor.SetCursor(shieldIcon, shieldIcon.Size() * 0.5f, CursorMode.Auto);
+                        Cursor.SetCursor(shieldIcon, new Vector2(shieldIcon.width * 0.5f, shieldIcon.height * 0.5f), CursorMode.Auto);
                     }
                 }
 
@@ -430,7 +430,7 @@ public class MouseController : MonoBehaviour
         // FAIL event
         else
         {
-            Cursor.SetCursor(failIcon, failIcon.Size() * 0.5f, CursorMode.Auto);
+            Cursor.SetCursor(failIcon, new Vector2(failIcon.width * 0.5f, failIcon.height * 0.5f), CursorMode.Auto);
 
             yield return MyTime.WaitForSeconds(duration);
 
