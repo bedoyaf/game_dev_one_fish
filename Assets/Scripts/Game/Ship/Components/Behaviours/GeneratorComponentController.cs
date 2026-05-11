@@ -19,16 +19,23 @@ public class GeneratorComponentController : BehaviourComponentControllerAbstract
 
     [SerializeField] private AudioClip gatherPowerClip;
 
+    public override bool CanClickOnNow => 
+        !shipComponentController.broken 
+        && GetCurrentEnergy > 0;
+
     public void DeleteEnergy()
     {
         energyBuffer = 0;
         energyStored = 0;
     }
 
-    public override void OnActivate()
+    public override bool OnActivate()
     {
         RetreivePower();
         shipComponentController.DeactivateComponent();
+
+        // Always can click (when no power, no reason to, but hey...)
+        return true;
     }
 
     public override void OnAgentActivate(TargetingData data)
@@ -85,9 +92,9 @@ public class GeneratorComponentController : BehaviourComponentControllerAbstract
         }
     }
 
-    public override void OnDeactivate(){}
+    public override bool OnDeactivate() => true;
 
-    public override void OnTargetSelected(TargetingData target){}
+    public override bool OnTargetSelected(TargetingData target) => true;
 
     //DEBUG ----------------------------------------------------------------------------------------------
     /*

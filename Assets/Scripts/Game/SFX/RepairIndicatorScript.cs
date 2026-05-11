@@ -11,6 +11,6 @@ public class RepairIndicatorScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        quadIndicator.transform.localScale = repairer.CanClick ? Vector3.one : Vector3.zero;
+        quadIndicator.transform.localScale = repairer.CanClickOnNow ? Vector3.one : Vector3.zero;
     }
 }

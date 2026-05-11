@@ -97,7 +97,7 @@ public class ShipController : MonoBehaviour
                 foreach (Transform child in comp.transform) {
                     var mesh = child.GetComponent<MeshRenderer>();
                     if (mesh == null) continue;
-
+    
                     var oldScale = mesh.gameObject.transform.localScale;
                     mesh.gameObject.transform.localScale = new Vector3(oldScale.x, oldScale.y, -oldScale.z);
 

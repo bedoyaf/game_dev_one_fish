@@ -9,9 +9,14 @@ public class EnergyBallIndicator : MonoBehaviour
     [SerializeField]
     private MeshRenderer quadIndicator;
 
+    private static readonly float baseScale = 0.3f;
+
     void Update()
     {
-        quadIndicator.transform.localScale = 1.1f * ((float) generator.GetCurrentEnergy / generator.GetEnergyCapacity) 
-            * Vector3.one;
+        if (generator.GetCurrentEnergy == 0)
+            quadIndicator.transform.localScale = Vector3.zero;
+        else
+            quadIndicator.transform.localScale = (baseScale + (1f - baseScale) * ((float)generator.GetCurrentEnergy / generator.GetEnergyCapacity))
+                * Vector3.one;
     }
 }

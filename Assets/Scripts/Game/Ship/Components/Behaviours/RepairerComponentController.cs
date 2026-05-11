@@ -9,7 +9,7 @@ using Unity.VisualScripting;
 /// </summary>
 public class RepairerComponentController : BehaviourComponentControllerAbstract
 {
-    public bool CanClick => 
+    public override bool CanClickOnNow => 
         cooldown.IsReady && 
         !shipComponentController.broken && 
         shipController.GetCurrency > 0 && 
@@ -19,10 +19,11 @@ public class RepairerComponentController : BehaviourComponentControllerAbstract
     {
         cooldown = GetComponent<ComponentCooldown>();
     }
-    public override void OnActivate()
+    public override bool OnActivate()
     {        
         Debug.Log("Selecting Repair Target");
         MouseController.Instance.EnterTargetingMode(this);
+        return true;
     }
 
     public override void OnAgentActivate(TargetingData data)
@@ -30,12 +31,12 @@ public class RepairerComponentController : BehaviourComponentControllerAbstract
         OnTargetSelected(data);
     }
 
-    public override void OnDeactivate()
+    public override bool OnDeactivate()
     {
-        
+        return true;
     }
 
-    public override void OnTargetSelected(TargetingData target)
+    public override bool OnTargetSelected(TargetingData target)
     {
         ShipComponentMeshController targetMesh = target.target;
         ShipComponentController targetShipComponent = targetMesh.transform.parent.GetComponent<ShipComponentController>();
@@ -44,7 +45,7 @@ public class RepairerComponentController : BehaviourComponentControllerAbstract
         {
             Debug.Log("Wrong ship");
             shipComponentController.DeactivateComponent();
-            return;
+            return false;
         }
         // Check that we can afford the repair and that the target is broken
         // In combat -> only broken components
@@ -52,7 +53,7 @@ public class RepairerComponentController : BehaviourComponentControllerAbstract
         {
             Debug.Log("That component is not broken");
             shipComponentController.DeactivateComponent();
-            return;
+            return false;
         }
 
         // do the repair
@@ -60,6 +61,8 @@ public class RepairerComponentController : BehaviourComponentControllerAbstract
         targetShipComponent.RepairClick();       
         shipComponentController.DeactivateComponent();
         if (cooldown != null) cooldown.Trigger();
+
+        return true;
     }
 
     

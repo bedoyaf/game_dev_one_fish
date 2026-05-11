@@ -14,6 +14,6 @@ public class ShieldActivationIndicatorScript : MonoBehaviour
     void Update()
     {
         // Show the indicator (scale) if can be clicked -> not on cooldown
-        quadIndicator.transform.localScale = shield.CanClick ? Vector3.one : Vector3.zero;
+        quadIndicator.transform.localScale = shield.CanClickOnNow ? Vector3.one : Vector3.zero;
     }
 }

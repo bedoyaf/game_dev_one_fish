@@ -111,15 +111,15 @@ public class ShipComponentController : MonoBehaviour
         }
     }
 
-    public void ActivateComponent()
+    public bool ActivateComponent()
     {
-        if(broken) return;
-        if (componentBehaviour == null) return;
+        if(broken) return false;
+        if (componentBehaviour == null) return false;
 
         if (cooldown != null && !cooldown.IsReady)
         {
             Debug.Log("Component is on cooldown");
-            return;
+            return false;
         }
 
         if (!activated)
@@ -127,13 +127,15 @@ public class ShipComponentController : MonoBehaviour
             if(!shipController.UseEnergy(requiredEnergy))
             {
                 Debug.Log("Not enaugh energy");
-                return;
+                return false;
             }
 
             AudioManager.Instance.PlaySFX(activationClip, transform.position);
             activated = true;
-            componentBehaviour.OnActivate();
+            return componentBehaviour.OnActivate();
         }
+
+        return false;
     }
 
     public void AgentActivateComponent(TargetingData target = null)
@@ -158,13 +160,17 @@ public class ShipComponentController : MonoBehaviour
         }
     }
 
-    public void DeactivateComponent()
+    public bool DeactivateComponent()
     {
         if(activated)
         {
-            componentBehaviour.OnDeactivate();
+            var res = componentBehaviour.OnDeactivate();
             activated = false;
+
+            return res;
         }
+
+        return false;
     }
 
     private void Die()//TODO MAKE BROKEN VERSION OF COMPONENT
@@ -216,31 +222,37 @@ public class ShipComponentController : MonoBehaviour
 
     }
 
+    // NOTE: maybe could adjust ?
+    private int repairCost = 1;
+
+    public bool CanRepairThisComponent =>
+        health < maxHealth &&
+        shipController.GetCurrency > repairCost;
+
     public void RepairClick()
     {
-        // TODO: maybe better repair cost
-        if (health != maxHealth)
+        if(CanRepairThisComponent)
         {
             Debug.Log("Can repair");
-            if (shipController.UseCurrency(1))
-            {
-                health = Math.Min(health + healthPerRepair, maxHealth);
-                shipComponentMeshController.OnHealthUpdate((float)health / maxHealth);
-                AudioManager.Instance.PlaySFX(repairClip, transform.position);
 
-                if (broken)
-                {
-                    Debug.Log("Revive");
-                    broken = false;
-                    shipComponentMeshController.ChangeMeshToWorking();
-                }
-            } else
+            // use the currency
+            shipController.UseCurrency(1);
+
+            // do the repair
+            health = Math.Min(health + healthPerRepair, maxHealth);
+            shipComponentMeshController.OnHealthUpdate((float)health / maxHealth);
+            AudioManager.Instance.PlaySFX(repairClip, transform.position);
+
+            if (broken)
             {
-                Debug.Log("Can't repair, can't afford");
+                Debug.Log("Revive");
+                broken = false;
+                shipComponentMeshController.ChangeMeshToWorking();
             }
+
         } else
-        {
-            Debug.Log("Can't repair, full health");
+        {  
+            Debug.Log("Can't repair, reasons...");
         }
     }
 

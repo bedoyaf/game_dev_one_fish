@@ -1,5 +1,4 @@
 using System.Collections;
-using Unity.VisualScripting;
 using UnityEngine;
 
 
@@ -14,7 +13,7 @@ public class MissileComponentController : BehaviourComponentControllerAbstract
 
     [SerializeField] private AudioClip missileShootClip;
 
-    public bool CanClick
+    public override bool CanClickOnNow
     {
         get
         {
@@ -36,11 +35,12 @@ public class MissileComponentController : BehaviourComponentControllerAbstract
         cooldown = GetComponent<ComponentCooldown>();
     }
 
-    public override void OnActivate()
+    public override bool OnActivate()
     {
     //    Debug.Log("Missile ready");
-
         MouseController.Instance.EnterTargetingMode(this);
+        
+        return true;
     }
 
     public override void OnAgentActivate(TargetingData data)
@@ -48,12 +48,13 @@ public class MissileComponentController : BehaviourComponentControllerAbstract
         OnTargetSelected(data);
     }
 
-    public override void OnDeactivate()
+    public override bool OnDeactivate()
     {
- //       Debug.Log("Missile offline");
+        //       Debug.Log("Missile offline");
+        return true;
     }
 
-    public override void OnTargetSelected(TargetingData target)
+    public override bool OnTargetSelected(TargetingData target)
     {
         var targetMesh = target.target;
         Vector3 dir = new Vector3(target.direction.Value.x, target.direction.Value.y, target.direction.Value.z);
@@ -65,7 +66,7 @@ public class MissileComponentController : BehaviourComponentControllerAbstract
         {
             Debug.Log("Wrong ship");
             shipComponentController.DeactivateComponent();
-            return;
+            return false;
         }
 
         Vector3 exactTargetPosition = targetShipComponent.transform.position + targetShipComponent.transform.right * 0.5f + target.ComponentOffset;
@@ -74,6 +75,8 @@ public class MissileComponentController : BehaviourComponentControllerAbstract
         Shoot(targetShip, dir, exactTargetPosition);
 
         shipComponentController.DeactivateComponent();
+
+        return true;
     }
 
     public void Shoot(ShipController targetShip, Vector3 dir, Vector3 targetPos)

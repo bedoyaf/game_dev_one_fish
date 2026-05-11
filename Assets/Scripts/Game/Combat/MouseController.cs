@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -85,6 +86,24 @@ public class MouseController : MonoBehaviour
         ExitTargetingMode();
     }
 
+
+    private ShipComponentMeshController GetMouseOver(ref RaycastHit hitInfo)
+    {
+        Vector2 mousePos = Mouse.current.position.ReadValue();
+
+        if (float.IsNaN(mousePos.x) || float.IsNaN(mousePos.y))
+            return null;
+
+        Ray ray = cam.ScreenPointToRay(mousePos);
+
+        if (!Physics.Raycast(ray, out RaycastHit hit))
+            return null;
+
+        hitInfo = hit;
+        // NOTE: might be null !!
+        return hit.collider.GetComponentInParent<ShipComponentMeshController>();
+    }
+
     private void OnClick(InputAction.CallbackContext ctx)
     {
         // Ignore when the game is paused
@@ -95,17 +114,9 @@ public class MouseController : MonoBehaviour
         if (!GameManager.Instance.IsInCombat && !GameManager.Instance.IsRepairing)
             return;
 
-        Vector2 mousePos = Mouse.current.position.ReadValue();
 
-        if (float.IsNaN(mousePos.x) || float.IsNaN(mousePos.y))
-            return;
-
-        Ray ray = cam.ScreenPointToRay(mousePos);
-
-        if (!Physics.Raycast(ray, out RaycastHit hit))
-            return;
-
-        var target = hit.collider.GetComponentInParent<ShipComponentMeshController>();
+        RaycastHit hit = new();
+        var target = GetMouseOver(ref hit);
         if (target == null)
             return;
 
@@ -146,16 +157,10 @@ public class MouseController : MonoBehaviour
             activeComponent = null;
         }
 
-        // icon
-        if (mouseSwitch != null)
-            StopCoroutine(mouseSwitch);
-
-        Cursor.SetCursor(repairIcon, Vector2.zero, CursorMode.Auto);
     }
     public void ExitRepairsMode()
     {
         currentMode = ClickMode.Default;
-        Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
     }
 
     private void OnRightClick(InputAction.CallbackContext ctx)
@@ -170,16 +175,19 @@ public class MouseController : MonoBehaviour
     private void HandleDefaultClick(ShipComponentMeshController comp)
     {
         //       Debug.Log("Default click: " + comp.name);
-        comp.OnMouseClick();
+        var clickResult = comp.OnMouseClick();
+
+        if(!clickResult)
+            ShowShortTermMouseIcon(ShortTermMouseEvent.FAIL, 0.1f);
     }
 
     private void HandleComponentTargetClick(ShipComponentMeshController target, Vector3 componentOffset)
     {
         //      Debug.Log($"Targeting {target.name}");
 
-        activeComponent.OnTargetSelected(new TargetingData(target, currentDirection, componentOffset));
+        var clickResult = activeComponent.OnTargetSelected(new TargetingData(target, currentDirection, componentOffset));
 
-        ExitTargetingMode();
+        ExitTargetingMode(clickResult);
     }
 
     private void HandleComponentRepairClick(ShipComponentMeshController comp)
@@ -199,13 +207,17 @@ public class MouseController : MonoBehaviour
         // Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
     }
 
-    public void ExitTargetingMode()
+    public void ExitTargetingMode(bool clickResult=true)
     {
         activeComponent = null;
         currentMode = ClickMode.Default;
         MyTime.slowDownOverride = 1f;
 
         Debug.Log("Exited targeting mode");
+
+        // TODO: maybe fail sound ?
+        if (!clickResult)
+            ShowShortTermMouseIcon(ShortTermMouseEvent.FAIL, 0.3f);
 
         // Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
     }
@@ -220,7 +232,6 @@ public class MouseController : MonoBehaviour
 
 
     //Directional shit
-    private Coroutine mouseSwitch = null;
 
     private void Update()
     {
@@ -231,47 +242,42 @@ public class MouseController : MonoBehaviour
         {
             CycleDirection((int)scroll);
 
-            if (mouseSwitch != null)
-                StopCoroutine(mouseSwitch);
-            mouseSwitch = StartCoroutine(nameof(ShowMouseIcon));
+            ShowShortTermMouseIcon(ShortTermMouseEvent.ROTATE, 0.1f);
         }
+
+        UpdateIcons(scroll);
+
     }
 
 
-    public Texture2D upArrow;
-    public Texture2D downArrow;
-    public Texture2D rightArrow;
-    public Texture2D repairIcon;
+
 
 
     void OnDestroy()
     {
         // Reset the cursor, just in case
+        if (shortTermMouseIconChange != null)
+            StopCoroutine(shortTermMouseIconChange);
+
         Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
     }
 
-    IEnumerator ShowMouseIcon()
-    {
-        Texture2D[] dirTextures = {
-            upArrow,    // "UP",
-            rightArrow, // "LEFT",
-            downArrow,  // "DOWN",
-        };
 
-        Cursor.SetCursor(dirTextures[directionIndex],
-            new Vector2(dirTextures[directionIndex].width / 2,
-                        dirTextures[directionIndex].height / 2),
-            CursorMode.Auto);
 
-        //yield return new WaitForSeconds(0.5f);
-        yield return MyTime.WaitForSeconds(0.5f);
 
-        if(currentMode == ClickMode.Repairing)
-            Cursor.SetCursor(repairIcon, Vector2.zero, CursorMode.Auto);
-        else
-            Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
-    }
+    public Texture2D upArrow;
+    public Texture2D downArrow;
+    public Texture2D rightArrow;
+    public Texture2D failIcon;
 
+    public Texture2D repairIcon;
+    public Texture2D repairHighlightIcon;
+    public Texture2D defaultMouseIcon;
+    public Texture2D highlightMouseIcon;
+    public Texture2D shieldIcon;
+    public Texture2D rocketUpIcon;
+    public Texture2D rocketDownIcon;
+    public Texture2D rocketRightIcon;
 
     void OnGUI()
     {
@@ -289,4 +295,149 @@ public class MouseController : MonoBehaviour
         directionIndex = (DIRECTIONS.Length + directionIndex + dir) % DIRECTIONS.Length;
         currentDirection = DIRECTIONS[directionIndex];
     }
+
+
+
+    // Mouse Icons
+
+    // Long-term states:
+    // Default   : when in normal mode and not-highlighting
+    // Highlight : when in normal mode and over a 'clickable' component
+
+    // Repair_Default : when in repair mode and not over a repair-able component
+    // Repair_Highlight : when in repair mode and over a repair-able component 
+
+    // Shield    : when in targeting mode with a shield
+    // Rocket (direction) : when in targeting mode with a rocket (with the apropriate direction)
+
+    // Short-term states:
+    // Fail      : when an action fails
+    // Direction : when cycling directions with mouse wheel
+
+
+
+    // Observer pattern on the mouse icons
+    void UpdateIcons(float scroll)
+    {
+        // If handling a short-term state (via Coroutine)
+        if (shortTermMouseIconChange != null)
+            return;
+
+        RaycastHit hit = new();
+        var target = GetMouseOver(ref hit);
+
+        // only if no-short term override
+        switch (currentMode)
+        {
+            case ClickMode.Default:
+
+                // Highlight
+                // Try to get the BehaviourComponent on the parent object
+                // NOTE: not very sleek I guess :(
+                if (target != null &&
+                    target.BelongsToPlayer && 
+                    target.gameObject.transform.parent.gameObject.TryGetComponent<BehaviourComponentControllerAbstract>(out var comp) &&
+                    comp.CanClickOnNow)
+                {
+                    Cursor.SetCursor(highlightMouseIcon, Vector2.zero, CursorMode.Auto);
+                }
+                else
+                {
+                    // Default
+                    // NOTE: kinda buggy now, so using system default
+                    // Cursor.SetCursor(defaultMouseIcon, Vector2.zero, CursorMode.Auto);
+                    Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
+                }
+                break;
+
+            case ClickMode.ComponentTargeting:
+
+                if (activeComponent != null)
+                {
+                    if (activeComponent is MissileComponentController)
+                    {
+
+                        Texture2D[] dirTextures = {
+                            rocketUpIcon,    // "UP",
+                            rocketRightIcon, // "LEFT",
+                            rocketDownIcon,  // "DOWN",
+                        };
+
+                        var chosen = dirTextures[directionIndex];
+                        Cursor.SetCursor(chosen, chosen.Size() * 0.5f, CursorMode.Auto);
+
+                    }
+                    else if (activeComponent is ShieldComponentController)
+                    {
+                        Cursor.SetCursor(shieldIcon, shieldIcon.Size() * 0.5f, CursorMode.Auto);
+                    }
+                }
+
+                break;
+
+            case ClickMode.Repairing:
+
+                if (target != null &&
+                    target.BelongsToPlayer &&
+                    target.gameObject.transform.parent.gameObject.TryGetComponent<BehaviourComponentControllerAbstract>(out var repairTarget) &&
+                    repairTarget.CanRepairNow)
+                {
+                    // Highlight
+                    Cursor.SetCursor(repairHighlightIcon, Vector2.zero, CursorMode.Auto);
+                }
+                else
+                {
+                    // Default                    
+                    Cursor.SetCursor(repairIcon, Vector2.zero, CursorMode.Auto);
+                }
+                break;
+        }
+    }
+
+    private enum ShortTermMouseEvent
+    {
+        ROTATE, FAIL
+    }
+
+    private Coroutine shortTermMouseIconChange = null;
+    private void ShowShortTermMouseIcon(ShortTermMouseEvent eventType, float duration)
+    {
+        if (shortTermMouseIconChange != null)
+            StopCoroutine(shortTermMouseIconChange);
+        shortTermMouseIconChange = StartCoroutine(ShowMouseIcon(eventType, duration));
+    }
+
+    IEnumerator ShowMouseIcon(ShortTermMouseEvent eventType, float duration)
+    {
+        // ROTATE event
+        if (eventType == ShortTermMouseEvent.ROTATE)
+        {
+
+            Texture2D[] dirTextures = {
+                upArrow,    // "UP",
+                rightArrow, // "LEFT",
+                downArrow,  // "DOWN",
+            };
+
+            Cursor.SetCursor(dirTextures[directionIndex],
+                new Vector2(dirTextures[directionIndex].width / 2,
+                            dirTextures[directionIndex].height / 2),
+                CursorMode.Auto);
+
+            yield return MyTime.WaitForSeconds(duration);
+
+        }
+        // FAIL event
+        else
+        {
+            Cursor.SetCursor(failIcon, failIcon.Size() * 0.5f, CursorMode.Auto);
+
+            yield return MyTime.WaitForSeconds(duration);
+
+        }
+
+        // Stop
+        shortTermMouseIconChange = null;
+    }
+
 }

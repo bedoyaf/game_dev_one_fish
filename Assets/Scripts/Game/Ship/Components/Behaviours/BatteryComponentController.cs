@@ -10,9 +10,10 @@ public class BatteryComponentController : BehaviourComponentControllerAbstract
     public int energyStored = 0;
     public int energyMax = 10;
     private TextMesh debugText;
-    public override void OnActivate()
+    public override bool OnActivate()
     {
         shipComponentController.DeactivateComponent();
+        return false;
     }
 
     public override void OnAgentActivate(TargetingData data)
@@ -20,14 +21,14 @@ public class BatteryComponentController : BehaviourComponentControllerAbstract
         shipComponentController.DeactivateComponent();
     }
 
-    public override void OnDeactivate()
+    public override bool OnDeactivate()
     {
-
+        return false;
     }
 
-    public override void OnTargetSelected(TargetingData target)
+    public override bool OnTargetSelected(TargetingData target)
     {
-
+        return false;
     }
 
     public override void ResetBehaviour()

@@ -10,6 +10,9 @@ public abstract class BehaviourComponentControllerAbstract : MonoBehaviour, IShi
     public ShipComponentController shipComponentController { get; private set; }
 
     protected ComponentCooldown cooldown;
+    public virtual bool CanClickOnNow { get; private set; } = false;
+
+    public bool CanRepairNow => shipComponentController.CanRepairThisComponent;
 
     public void Awake()
     {
@@ -27,19 +30,25 @@ public abstract class BehaviourComponentControllerAbstract : MonoBehaviour, IShi
 
     /// <summary>
     /// Component activation
+    /// 
+    /// Return true, if successful, false if not
     /// </summary>
-    public abstract void OnActivate();
+    public abstract bool OnActivate();
 
     public abstract void OnAgentActivate(TargetingData target); //TODO might be worth considering implementing default function that just deactivates
 
     /// <summary>
     /// component deactivation
+    /// 
+    /// Return true if successful, false if not
     /// </summary>
-    public abstract void OnDeactivate();
+    public abstract bool OnDeactivate();
     /// <summary>
     /// On targeting of another component, for components that use the mouse script and need another component to do its job
+    /// 
+    /// Return true, if successful, false if not
     /// </summary>
-    public abstract void OnTargetSelected(TargetingData target);
+    public abstract bool OnTargetSelected(TargetingData target);
 
     public virtual void ResetBehaviour()
     {

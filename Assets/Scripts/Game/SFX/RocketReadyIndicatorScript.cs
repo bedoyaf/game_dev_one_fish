@@ -19,7 +19,7 @@ public class RocketReadyIndicatorScript : MonoBehaviour
         if (missiles == null)
             return;
 
-        quadIndicator.transform.localScale = missiles.CanClick ? Vector3.one : Vector3.zero;
-        spriteIndicator.transform.localScale = missiles.CanClick ? Vector3.one : Vector3.zero;
+        quadIndicator.transform.localScale = missiles.CanClickOnNow ? Vector3.one : Vector3.zero;
+        spriteIndicator.transform.localScale = missiles.CanClickOnNow ? Vector3.one : Vector3.zero;
     }
 }

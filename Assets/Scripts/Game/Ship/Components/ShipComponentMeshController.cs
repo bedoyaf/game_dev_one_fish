@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class ShipComponentMeshController : MonoBehaviour, IDamagableCollider
@@ -14,7 +15,11 @@ public class ShipComponentMeshController : MonoBehaviour, IDamagableCollider
 
     private int deadLayer = -1;
     private int defaultLayer = -1;
-   
+
+    // Whether this component belongs to the player ship
+    public bool BelongsToPlayer => shipComponentController.shipController.playerShip;
+
+
     public void Start()
     {
         defaultLayer = LayerMask.NameToLayer("Default");
@@ -32,19 +37,21 @@ public class ShipComponentMeshController : MonoBehaviour, IDamagableCollider
         originalColor  = meshRenderer.materials[materialIndex].color;
         meshRenderer.material.SetFloat("damageAmount", 0);
     }
-    public void OnMouseClick()
+    public bool OnMouseClick()
     {
         //CURRENTLY NOT SUPORTED TO CLICK ENEMY SHIP
-        if (!shipComponentController.shipController.playerShip) return;
+        if (!shipComponentController.shipController.playerShip) return false;
        // Debug.Log("Component has been clicked, currently active:"+ shipComponentController.activated.ToString());
         if(!shipComponentController.activated)
         {
-            shipComponentController.ActivateComponent();
+            return shipComponentController.ActivateComponent();
         }
         else if(shipComponentController.activated)
         {
-            shipComponentController.DeactivateComponent();
+            return shipComponentController.DeactivateComponent();
         }
+
+        return false;
     }
 
     public void OnRepairClick()
@@ -86,8 +93,11 @@ public class ShipComponentMeshController : MonoBehaviour, IDamagableCollider
         if (meshRenderer != null)
         {
             //Debug.Log($"Changing damage of material to {1f - fraction}"); // Sorry thiw was just spamming too much
-
-            meshRenderer.materials[materialIndex].SetFloat("_damageAmount", 1f-fraction);
+            // NOTE: sometimes a really large value gets to the thingy and the effect is strange
+            // not sure why yet...
+            // HOTFIX
+            var value = Mathf.Max(0.0f, Mathf.Min(1.0f, 1f - fraction));
+            meshRenderer.materials[materialIndex].SetFloat("_damageAmount", value);
         }
     }
     public void OnDamagableCollision(int amount)

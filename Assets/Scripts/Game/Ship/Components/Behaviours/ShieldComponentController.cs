@@ -21,27 +21,28 @@ public class ShieldComponentController : BehaviourComponentControllerAbstract
 
     public AudioClip shieldActivationClip;
 
-    public bool CanClick => 
-        cooldown.IsReady && 
+    public override bool CanClickOnNow => 
+        cooldown.IsReady &&
         !shipComponentController.broken &&
-        shipController.GetEnergy >= shipComponentController.requiredEnergy;
+        shipController.GetEnergy >= shipComponentController.requiredEnergy;        
 
     public void Start()
     {
         cooldown = GetComponent<ComponentCooldown>();
     }
-    public override void OnActivate()
+    public override bool OnActivate()
     {
         if(shieldsUp>=maxAviableShields)
         {
             Debug.Log("shield already placed");
             shipComponentController.DeactivateComponent();
-            return;
+            return false;
         }
         Debug.Log("Shield Up");
      //   SpawnShield();
         MouseController.Instance.EnterTargetingMode(this);
-     //   shipComponentController.DeactivateComponent();
+        //   shipComponentController.DeactivateComponent();
+        return true;
     }
 
     public override void OnAgentActivate(TargetingData data)
@@ -49,12 +50,13 @@ public class ShieldComponentController : BehaviourComponentControllerAbstract
         OnTargetSelected(data);
     }
 
-    public override void OnDeactivate()
+    public override bool OnDeactivate()
     {
-        
+        // No action 
+        return false;
     }
 
-    public override void OnTargetSelected(TargetingData target)
+    public override bool OnTargetSelected(TargetingData target)
     {
         ShipComponentMeshController targetMesh = target.target;
         ShipComponentController targetShipComponent = targetMesh.transform.parent.GetComponent<ShipComponentController>();
@@ -63,12 +65,12 @@ public class ShieldComponentController : BehaviourComponentControllerAbstract
         {
             Debug.Log("Wrong ship");
             shipComponentController.DeactivateComponent();
-            return;
+            return false;
         }
         if (targetShipComponent.shield != null)
         {
             shipComponentController.DeactivateComponent();
-            return;
+            return false;
         }
 
         if (usesPhysicalShields)
@@ -79,6 +81,8 @@ public class ShieldComponentController : BehaviourComponentControllerAbstract
         AudioManager.Instance.PlaySFX(shieldActivationClip);
         shipComponentController.DeactivateComponent();
         if (cooldown != null) cooldown.Trigger();
+
+        return true;
     }
 
     private void SpawnShield(ShipComponentController target)

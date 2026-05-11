@@ -5,9 +5,9 @@ using UnityEngine;
 /// </summary>
 public class MainCabinComponentController : BehaviourComponentControllerAbstract
 {
-    public override void OnActivate()
+    public override bool OnActivate()
     {
-        shipComponentController.DeactivateComponent();
+        return shipComponentController.DeactivateComponent();
     }
 
     public override void OnAgentActivate(TargetingData data)
@@ -15,13 +15,14 @@ public class MainCabinComponentController : BehaviourComponentControllerAbstract
         shipComponentController.DeactivateComponent();
     }
 
-    public override void OnDeactivate()
+    public override bool OnDeactivate()
     {
-
+        // No action on click -> false
+        return false;
     }
 
-    public override void OnTargetSelected(TargetingData target)
+    public override bool OnTargetSelected(TargetingData target)
     {
-
+        return false;
     }
 }
