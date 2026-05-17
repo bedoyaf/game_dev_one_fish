@@ -25,6 +25,10 @@ public class EnemyShipAgent : MonoBehaviour
     private ShipController shipController;
     //player
     [SerializeField] private ShipController playerShip;
+    public void SetPlayerShip(ShipController player)
+    {
+        playerShip = player;
+    }
 
     private List<ShipComponentController> batteries = new List<ShipComponentController>();
     private List<ShipComponentController> generators = new List<ShipComponentController>();

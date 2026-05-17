@@ -16,7 +16,7 @@ public abstract class BehaviourComponentControllerAbstract : MonoBehaviour, IShi
 
     public void Awake()
     {
-      //  shipController = GetComponentInParent<ShipController>(); componentcontroller sets it for him:)
+        //shipController = GetComponentInParent<ShipController>(); // componentcontroller sets it for him:)
         cooldown = GetComponent<ComponentCooldown>();
         shipComponentController = GetComponent<ShipComponentController>();
     }

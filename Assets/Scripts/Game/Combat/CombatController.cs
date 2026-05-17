@@ -5,9 +5,14 @@ using System.Collections.Generic;
 public class CombatController : SmartSingleton<CombatController>
 {
     [SerializeField] private ShipController playerShip;
-    [SerializeField] private ShipController enemyShip;
+    // [SerializeField] private ShipController enemyShip;
+    private ShipController currentEnemyInstance = null;
 
-    [SerializeField] private List<ShipData> enemyShipDesigns;
+    [SerializeField] private Transform enemySpawnPosition;
+
+    // [SerializeField] private List<ShipData> enemyShipDesigns;
+
+    [SerializeField] private List<ShipController> enemyShipPrefabs;
 
     [SerializeField] private GameplayFlowManager gameplayFlowManager;
 
@@ -15,7 +20,8 @@ public class CombatController : SmartSingleton<CombatController>
     public bool isPaused { private set; get; } = false;
     public bool combatEnded { private set; get; } = false;
 
-    private EnemyShipAgent enemyShipAgent;
+    // private EnemyShipAgent enemyShipAgent;
+    private EnemyShipAgent currentEnemyAI;
 
     public bool playerWon { get; private set; } = false;
 
@@ -23,24 +29,34 @@ public class CombatController : SmartSingleton<CombatController>
 
     public void Start()
     {
-        enemyShipAgent = enemyShip.GetComponent<EnemyShipAgent>();
-        if(enemyShipAgent == null )
-        {
-            Debug.LogError("Enemy has no agent, lobotom");
-        }
-       // StartCombat();
+        currentEnemyInstance = gameplayFlowManager.EnemyShip;
     }
 
-    public void GenerateEnemyShip()
+
+    // The picked ship instance / else use random
+    private ShipController pickedShip = null;
+
+    public void GenerateEnemyShip(ShipController playerShip)
     {
         if (!shipGiven)
-            enemyShip.shipData = enemyShipDesigns.GetRandom();
-        else 
-            shipGiven = false;
+        {
+            pickedShip = enemyShipPrefabs.GetRandom();
+        }
 
-        enemyShip.BuildShip();
-        enemyShip.EnableShip();
-        enemyShip.ResetShipForCombat();
+        if (currentEnemyInstance != null)
+            Destroy(currentEnemyInstance.gameObject);
+
+        currentEnemyInstance = Instantiate(pickedShip);
+        currentEnemyInstance.transform.position = enemySpawnPosition.position;
+
+        currentEnemyAI = currentEnemyInstance.gameObject.GetComponent<EnemyShipAgent>();
+        
+        shipGiven = false;        
+
+        currentEnemyInstance.EnableShip();
+        currentEnemyInstance.ResetShipForCombat();
+        currentEnemyAI.SetPlayerShip(playerShip);
+
     }
 
     //CURRENTLY THE SHIP REPAIRS ITSELF AND RESETS, CHANGE
@@ -65,21 +81,26 @@ public class CombatController : SmartSingleton<CombatController>
         Debug.Log("Game Resumed");
     }
 
-    public void LoadEnemyShip()
+    /// <summary>
+    /// Returns the newly created enemy's Ship Controller.
+    /// </summary>
+    /// <returns></returns>
+    public ShipController LoadEnemyShip(ShipController playerShip)
     {
-        enemyShip.EnableShip();
-        GenerateEnemyShip();
-        enemyShip.ResetShipForCombat();
+        // enemyShip.EnableShip();
+        GenerateEnemyShip(playerShip);
+        // enemyShip.ResetShipForCombat();
 
-        enemyShip.GetMainCabin().OnDeath.RemoveAllListeners();
-        enemyShip.GetMainCabin().OnDeath.AddListener(EndCombat);
+        // enemyShip.GetMainCabin().OnDeath.RemoveAllListeners();
+        currentEnemyInstance.GetMainCabin().OnDeath.AddListener(EndCombat);
+
+        return currentEnemyInstance;
     }
 
     public void UnLoadEnemyShip()
     {
-        enemyShip.DisableShip();
-        if(enemyShipAgent ==null)enemyShipAgent = enemyShip.GetComponent<EnemyShipAgent>();
-        enemyShipAgent.thinking = false;
+        if(currentEnemyInstance != null) currentEnemyInstance.DisableShip();
+        if(currentEnemyAI != null) currentEnemyAI.thinking = false;
     }
 
     public void LoadPlayerShip()
@@ -95,8 +116,8 @@ public class CombatController : SmartSingleton<CombatController>
         //Time.timeScale = 1f;
         combatEnded = false;
 
-        enemyShipAgent.ActivateAgent();
-        enemyShipAgent.thinking = true;
+        currentEnemyAI.ActivateAgent();
+        currentEnemyAI.thinking = true;
 
         Debug.Log("Combat Start");
         
@@ -113,12 +134,12 @@ public class CombatController : SmartSingleton<CombatController>
             playerWon = false;
             Debug.Log("Player lost");
         }
-        else if (destroyedShip == enemyShip)
+        else if (destroyedShip == currentEnemyInstance)
         {
             playerWon=true;
             Debug.Log("Player won");
         }
-        enemyShipAgent.thinking = false;
+        currentEnemyAI.thinking = false;
         combatEnded = true;
         gameplayFlowManager.OnCombatEnd();
     }
@@ -144,7 +165,7 @@ public class CombatController : SmartSingleton<CombatController>
     {
         if(ship == playerShip)
         {
-            enemyShip.AddCurrency(component.destroyRevenue);
+            currentEnemyInstance.AddCurrency(component.destroyRevenue);
         } else
         {
             playerShip.AddCurrency(component.destroyRevenue);
@@ -152,32 +173,38 @@ public class CombatController : SmartSingleton<CombatController>
     }
 
     // ----------------------------------------------------
-    public void AssignEnemy(ShipData enemy) {
-        enemyShip.shipData = enemy;
+    public void AssignEnemy(ShipController enemy) {
+        pickedShip = enemy;
         shipGiven = true;
     }
 
     public ShipData AssignEnemyByDifficulty(int difficulty) {
 
-        var data = GetEnemyFromDifficulty(difficulty);
-        enemyShip.shipData = data;
+        // TEST
+        Debug.Log("Is prefab data real?: "+enemyShipPrefabs.GetRandom().shipData.name);
+
+        var enemyShipPrefab = GetEnemyFromDifficulty(difficulty);
+        Debug.Log(enemyShipPrefab);
+        pickedShip = enemyShipPrefab;
         shipGiven = true;
-        return data;
+        return enemyShipPrefab.shipData;
     }
 
     /// <summary>
     /// Gets enemy from given difficulty. Has a small chance to select a bit easier or harder enemy.
     /// If no enemies from +-1 range of difficulty exists, chooses first easier one.
     /// </summary>
-    private ShipData GetEnemyFromDifficulty(int difficulty) {
-        if (enemyShipDesigns.Count == 0) return null;
+    private ShipController GetEnemyFromDifficulty(int difficulty) {
+        Debug.Log("picking from dif");
+        if (enemyShipPrefabs.Count == 0) return null;
 
-        var easierEnemies = enemyShipDesigns.FindAll(x => x.enemyDifficulty == difficulty - 1);
-        var harderEnemies = enemyShipDesigns.FindAll(x => x.enemyDifficulty == difficulty + 1);
-        var normalEnemies = enemyShipDesigns.FindAll(x => x.enemyDifficulty == difficulty);
+
+        var easierEnemies = enemyShipPrefabs.FindAll(x => x.shipData.enemyDifficulty == difficulty - 1);
+        var harderEnemies = enemyShipPrefabs.FindAll(x => x.shipData.enemyDifficulty == difficulty + 1);
+        var normalEnemies = enemyShipPrefabs.FindAll(x => x.shipData.enemyDifficulty == difficulty);
 
         // Use normal enemies list more times, so it has higher chance to be picked
-        var enemyLists = new List<List<ShipData>>() {
+        var enemyLists = new List<List<ShipController>>() {
                     easierEnemies, harderEnemies, normalEnemies, normalEnemies, normalEnemies
                 };
         enemyLists.Shuffle();
@@ -192,12 +219,14 @@ public class CombatController : SmartSingleton<CombatController>
         // Selects first easier enemy.
         Debug.Log("No enemy found for set difficulty, picking first easier.");
         int lowerDifficulty = -1;
-        for (int i = 0; i < enemyShipDesigns.Count; i++) {
-            if (enemyShipDesigns[i].enemyDifficulty < difficulty) {
-                lowerDifficulty = Mathf.Max(lowerDifficulty, enemyShipDesigns[i].enemyDifficulty);
+        for (int i = 0; i < enemyShipPrefabs.Count; i++) {
+            Debug.Log("difficulty is " + enemyShipPrefabs[i].shipData.enemyDifficulty);
+            if (enemyShipPrefabs[i].shipData.enemyDifficulty < difficulty) {
+                lowerDifficulty = Mathf.Max(lowerDifficulty, enemyShipPrefabs[i].shipData.enemyDifficulty);
             }
         }
-        return enemyShipDesigns.FindAll(x => x.enemyDifficulty == lowerDifficulty).GetRandom();
+        Debug.Log("picked diffuclty " + lowerDifficulty);
+        return enemyShipPrefabs.FindAll(x => x.shipData.enemyDifficulty == lowerDifficulty).GetRandom();
     }
 
     /*

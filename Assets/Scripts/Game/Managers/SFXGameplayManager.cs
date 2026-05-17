@@ -1,8 +1,6 @@
 using DG.Tweening;
 using System;
 using System.Collections;
-using System.Runtime.InteropServices;
-using TMPro;
 using UnityEngine;
 
 
@@ -14,13 +12,6 @@ using UnityEngine;
 /// NOTE: no longer a singleton, because loses references on scene reload
 public class SFXGameplayManager : MonoBehaviour
 {
-    [Tooltip("The player's ship")]
-    [SerializeField]
-    private GameObject playersShip;
-
-    [Tooltip("The enemies's ship")]
-    [SerializeField]
-    private GameObject enemyShip;
 
     [SerializeField] private AudioClip victoryClip;
     [SerializeField] private AudioClip defeatClip;
@@ -29,6 +20,9 @@ public class SFXGameplayManager : MonoBehaviour
         // TODO: tween movement from the top maybe
 
     }
+
+    private ShipController enemyShip => GameManager.Instance.currentGameplayManager.EnemyShip;
+    private ShipController playersShip => GameManager.Instance.currentGameplayManager.PlayerShip;
 
     private float MoveTime = 1f;
     public void EnterEnemyShip()

@@ -49,7 +49,8 @@ public class NoneEffect : EventEffectInside {
 /// </summary>
 public class FightEffect : EventEffectInside {
     [Tooltip("Select specific enemy to fight")]
-    public ShipData enemy;
+    // public ShipData enemy;
+    public ShipController enemyShipPrefab;
 
     [Tooltip("Should the fight be with normal or elite. Ignored is enemy ship is set.")]
     public bool elite;
@@ -57,12 +58,12 @@ public class FightEffect : EventEffectInside {
     public override Color Color => Color.red;
 
     public override void ApplyEffect(EventController eventController) {
-        Debug.Log($"Fight {enemy}");
-        if (enemy == null) {
+        Debug.Log($"Fight {enemyShipPrefab?.shipData}");
+        if (enemyShipPrefab == null) {
             eventController.GameplayManager.Fight(elite);
         }
         else {
-            eventController.GameplayManager.Fight(enemy);
+            eventController.GameplayManager.Fight(enemyShipPrefab);
         }
     }
 }
