@@ -145,6 +145,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 5385403880273499414, guid: 76b53dd701359c84195162e28f3a0cbb, type: 3}
+      propertyPath: requiredEnergy
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5385403880273499414, guid: 76b53dd701359c84195162e28f3a0cbb, type: 3}
       propertyPath: placementRules.Top
       value: 0
       objectReference: {fileID: 0}
@@ -205,3 +209,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: daf1804bb333dd3438635152b32b15e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MainCabinComponentController
+  hookDamage: 1
