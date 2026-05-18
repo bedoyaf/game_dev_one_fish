@@ -1,5 +1,7 @@
+using DG.Tweening;
 using System.ComponentModel;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 /// <summary>
 /// Main cabin, worth considering if it should have a battery and generator implementation
@@ -10,7 +12,11 @@ public class MainCabinComponentController : BehaviourComponentControllerAbstract
 
     [SerializeField] private HookShotScript hookShot;
 
-    // TODO: list of stored components from the current combat
+    
+    // NOTE: - need to figure out, cooldown timing
+    //       - what should happen if there's a shield on the target
+    //       
+
 
     public override bool CanClickOnNow
     {
@@ -48,7 +54,7 @@ public class MainCabinComponentController : BehaviourComponentControllerAbstract
 
     public override bool OnDeactivate()
     {
-        // No action on click -> false
+        // ???
         return false;
     }
 
@@ -57,8 +63,7 @@ public class MainCabinComponentController : BehaviourComponentControllerAbstract
         var targetMesh = target.target;
 
         ShipComponentController targetShipComponent = targetMesh.transform.parent.GetComponent<ShipComponentController>();
-        ShipController targetShip = targetShipComponent.shipController;
-
+        
         shipComponentController.DeactivateComponent();
 
         if (targetShipComponent.transform.parent == transform.parent)
@@ -67,14 +72,16 @@ public class MainCabinComponentController : BehaviourComponentControllerAbstract
             return false;
         }
 
-        // check if the target is broken ->
+        
         Vector3 exactTargetPosition = targetShipComponent.transform.position
             + targetShipComponent.transform.right * 0.5f + target.ComponentOffset
             + targetShipComponent.transform.forward * 0.5f;
-        ShootHookAtDamaged(targetShipComponent, exactTargetPosition);
-
         
-        // else do damage
+        // TODO: uncommend once debugged
+        // if(targetShipComponent.broken)
+            ShootHookAtDamaged(targetShipComponent, exactTargetPosition);
+        // else
+        //    ShootHookAtWorking(targetShipComponent, exactTargetPosition);
 
         return true;
     }
@@ -82,8 +89,16 @@ public class MainCabinComponentController : BehaviourComponentControllerAbstract
     private void ShootHookAtWorking(ShipComponentController targetShipComponent, Vector3 targetPosition)
     {
         // SFX of hook shooting from this cabin
+        hookShot.ShootHookAt(targetShipComponent, targetPosition,
+            false,   // don't pull the component toward the main ship
+            () => { DealDamage(targetShipComponent); },
+            () => {}
+        );
+    }
 
-        // when over, deal damage to that component
+    private void DealDamage(ShipComponentController targetShipComponent)
+    {
+        targetShipComponent.TakeDamage(hookDamage);
     }
 
     private void ShootHookAtDamaged(ShipComponentController targetShipComponent, Vector3 targetPosition)
@@ -98,10 +113,9 @@ public class MainCabinComponentController : BehaviourComponentControllerAbstract
         
     }
 
+    // Called when the hook reaches the component and breaks it off (animation finished)
     private void BreakOffComponent(ShipComponentController targetShipComponent)
     {
-        // when over, separate that component from the ship
-
         ShipController targetShip = targetShipComponent.shipController;
 
         // TODO: effect of flying away destroyed...
@@ -114,17 +128,33 @@ public class MainCabinComponentController : BehaviourComponentControllerAbstract
         // actually break this component off
         targetShip.componentGrid.RemoveComponent(targetShipComponent.placementRules.connectedTile, true, false);
 
-        
+        // tween the removed components positions
+        foreach (var item in brokeOf)
+        {
+            // down position + slightly random left/right
+            var target = item.transform.position.SetZ(-5f) 
+                + 2f * (0.5f - Random.value) * Vector3.right;
 
-        // pull the selected component toward ship with the hook SFX   
+            float randomAngle = Random.Range(0f, 10f);
+
+            item.gameObject.transform.DOLocalRotate(
+                new Vector3(0f, randomAngle, 0f),
+                1f,
+                RotateMode.LocalAxisAdd
+            );
+
+            item.gameObject.transform.DOMove(target, 2f).onComplete +=
+
+                // then kill them...
+                () => { Destroy(item.gameObject); };
+        }
+
+
     }
 
     private void PickupComponent(ShipComponentController targetShipComponent)
     {
-
-        // Big todo: into the inventory
         GameManager.Instance.currentGameplayManager.combatController.AddComponentLoot(targetShipComponent);
-
     }
 
 }

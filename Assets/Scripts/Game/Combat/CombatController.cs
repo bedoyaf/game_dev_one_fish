@@ -20,6 +20,9 @@ public class CombatController : SmartSingleton<CombatController>
 
     [SerializeField] private Transform lootInventoryParent;
 
+
+
+    // Big todo: into the inventory
     public void AddComponentLoot(ShipComponentController component)
     {
         // TODO: some animation of moving maybe
