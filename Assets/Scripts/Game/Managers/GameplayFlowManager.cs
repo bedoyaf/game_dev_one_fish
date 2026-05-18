@@ -34,7 +34,7 @@ public class GameplayFlowManager : MonoBehaviour
     [SerializeField]
     private MapController mapController;
 
-    [SerializeField] private CombatController combatController;
+    public CombatController combatController;
     [SerializeField] private RewardController rewardController;
 
     public MouseController mouseController;

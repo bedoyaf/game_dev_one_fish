@@ -1,6 +1,7 @@
 using NUnit.Framework;
 using UnityEngine;
 using System.Collections.Generic;
+using DG.Tweening;
 
 public class CombatController : SmartSingleton<CombatController>
 {
@@ -16,6 +17,16 @@ public class CombatController : SmartSingleton<CombatController>
 
     [SerializeField] private GameplayFlowManager gameplayFlowManager;
 
+
+    [SerializeField] private Transform lootInventoryParent;
+
+    public void AddComponentLoot(ShipComponentController component)
+    {
+        // TODO: some animation of moving maybe
+        component.gameObject.transform.SetParent(lootInventoryParent);
+
+        component.gameObject.transform.DOLocalMove(Vector3.zero, 0.5f);
+    }
 
     public bool isPaused { private set; get; } = false;
     public bool combatEnded { private set; get; } = false;

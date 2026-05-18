@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using UnityEngine;
 
 /// <summary>
@@ -6,6 +7,10 @@ using UnityEngine;
 public class MainCabinComponentController : BehaviourComponentControllerAbstract
 {
     [SerializeField] private int hookDamage = 1;
+
+    [SerializeField] private HookShotScript hookShot;
+
+    // TODO: list of stored components from the current combat
 
     public override bool CanClickOnNow
     {
@@ -17,6 +22,12 @@ public class MainCabinComponentController : BehaviourComponentControllerAbstract
             !shipComponentController.broken &&
             shipController.GetEnergy >= shipComponentController.requiredEnergy;
         }
+    }
+
+    public void Start()
+    {
+        if (shipController != null && !shipController.playerShip)
+            hookShot.HideHook();
     }
 
     public override bool OnActivate()
@@ -56,26 +67,43 @@ public class MainCabinComponentController : BehaviourComponentControllerAbstract
             return false;
         }
 
-        ShootHookAtDamaged(targetShipComponent);
+        // check if the target is broken ->
+        Vector3 exactTargetPosition = targetShipComponent.transform.position
+            + targetShipComponent.transform.right * 0.5f + target.ComponentOffset
+            + targetShipComponent.transform.forward * 0.5f;
+        ShootHookAtDamaged(targetShipComponent, exactTargetPosition);
+
+        
+        // else do damage
 
         return true;
     }
 
-    private void ShootHookAtWorking(ShipComponentController targetShipComponent)
+    private void ShootHookAtWorking(ShipComponentController targetShipComponent, Vector3 targetPosition)
     {
         // SFX of hook shooting from this cabin
 
         // when over, deal damage to that component
     }
 
-    private void ShootHookAtDamaged(ShipComponentController targetShipComponent)
+    private void ShootHookAtDamaged(ShipComponentController targetShipComponent, Vector3 targetPosition)
     {
         // SFX of hook shooting from this cabin
+        hookShot.ShootHookAt(targetShipComponent, targetPosition,
+            true,   // pull the component toward the main ship
+            () => { BreakOffComponent(targetShipComponent); },
+            () => { PickupComponent(targetShipComponent); }
+        );
 
-        // when over, seperate that component from the ship
+        
+    }
+
+    private void BreakOffComponent(ShipComponentController targetShipComponent)
+    {
+        // when over, separate that component from the ship
 
         ShipController targetShip = targetShipComponent.shipController;
-        
+
         // TODO: effect of flying away destroyed...
         var brokeOf = targetShip.componentGrid.GetAllSeparatedComponentsAfterRemoval(
             targetShipComponent.placementRules.connectedTile, false);
@@ -84,8 +112,18 @@ public class MainCabinComponentController : BehaviourComponentControllerAbstract
         Debug.Log("Breaking off");
 
         // actually break this component off
-        targetShip.componentGrid.RemoveComponent(targetShipComponent.placementRules.connectedTile, true, true);
+        targetShip.componentGrid.RemoveComponent(targetShipComponent.placementRules.connectedTile, true, false);
 
+        
+
+        // pull the selected component toward ship with the hook SFX   
+    }
+
+    private void PickupComponent(ShipComponentController targetShipComponent)
+    {
+
+        // Big todo: into the inventory
+        GameManager.Instance.currentGameplayManager.combatController.AddComponentLoot(targetShipComponent);
 
     }
 
