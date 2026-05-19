@@ -22,8 +22,8 @@ public class MainCabinComponentController : BehaviourComponentControllerAbstract
         get
         {
             if (shipController == null) Debug.LogError("shipController is NULL (cabin)");
-            // TODO: add cooldonw here too
-            return
+            
+            return cooldown.IsReady &&
             !shipComponentController.broken &&
             shipController.GetEnergy >= shipComponentController.requiredEnergy;
         }
@@ -33,6 +33,10 @@ public class MainCabinComponentController : BehaviourComponentControllerAbstract
     {
         if (shipController != null && !shipController.playerShip)
             hookShot.HideHook();
+
+        // maybe set by parent ?
+        cooldown = GetComponent<ComponentCooldown>();
+    
     }
 
     public override bool OnActivate()
@@ -77,6 +81,7 @@ public class MainCabinComponentController : BehaviourComponentControllerAbstract
             + targetShipComponent.transform.forward * 0.5f;
 
         ShootHookAt(targetShipComponent, exactTargetPosition);
+        if (cooldown != null) cooldown.Trigger();
 
         return true;
     }

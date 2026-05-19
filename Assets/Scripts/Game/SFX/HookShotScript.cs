@@ -1,11 +1,14 @@
 using DG.Tweening;
-using NUnit.Framework.Internal;
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.UIElements;
 
 public class HookShotScript : MonoBehaviour
 {
+    [SerializeField] private MainCabinComponentController ownCabin;
+
     // hook 
     [SerializeField] private GameObject hook;
 
@@ -15,6 +18,8 @@ public class HookShotScript : MonoBehaviour
     [SerializeField] private float grabScaleMult = 1.5f;
 
     [SerializeField] private HookProbe hookProbePrefab;
+
+    [SerializeField] private Transform hookPivot;
 
     private Vector3 restPosition;
     private Vector3 restScale;
@@ -30,17 +35,42 @@ public class HookShotScript : MonoBehaviour
         hookLine.gameObject.SetActive(false);
     }
 
+    private bool following = true;
     private bool moving = false;
     private float moveSpeed = 0;
     private Vector3 nextDir = Vector3.zero;
 
 
+
     void Update()
     {
         // always trying to move the hook
-        if(moving)
+        if (moving)
         {
             hook.transform.position += moveSpeed * MyTime.deltaTime * nextDir;
+        }
+        else if(following)
+        {
+            // indicate that clickable, by moving around to match
+            // the screen mouse position
+            if(hook.activeSelf && ownCabin.CanClickOnNow)
+            {
+                Vector2 mousePosition = Mouse.current.position.ReadValue();
+                Vector3 screenPos = Camera.main.WorldToScreenPoint(hookPivot.transform.position);
+                Vector2 offset = mousePosition - new Vector2(screenPos.x, screenPos.y);
+
+                float angle = Mathf.Atan2(-offset.y, offset.x) * Mathf.Rad2Deg;
+
+                angle -= hook.transform.eulerAngles.y;
+
+                hook.transform.RotateAround(hookPivot.position, hookPivot.forward, angle);
+            } 
+            // rest position
+            else
+            {
+                hook.transform.position = restPosition;
+            }
+
         }
 
         // always trying to connect the line
@@ -57,11 +87,11 @@ public class HookShotScript : MonoBehaviour
 
     // How long to wait for the hookProbe to hit
     [SerializeField] private float probeTime = 0.3f;
-    
+
     public void ShootHookAt(
-        ShipComponentController component, 
-        Vector3 position, 
-        
+        ShipComponentController component,
+        Vector3 position,
+
         Predicate<bool> pullTowards,
         Action<bool> onFinished)
     {
@@ -69,7 +99,7 @@ public class HookShotScript : MonoBehaviour
     }
 
     private IEnumerator ShootHook(
-        ShipComponentController component, 
+        ShipComponentController component,
         Vector3 position,
 
         Predicate<bool> pullTowards,
@@ -84,6 +114,7 @@ public class HookShotScript : MonoBehaviour
         moveSpeed = nextDir.magnitude / flyTime;
         nextDir = nextDir.normalized;
 
+        following = false;
         moving = true;
 
         // prefire the probe slightly before there
@@ -128,6 +159,7 @@ public class HookShotScript : MonoBehaviour
 
         hook.transform.position = restPosition;
         moving = false;
+        following = true;
 
         onFinished(pull);
 

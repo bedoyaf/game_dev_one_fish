@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1061444897071681151
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3177316669159945430}
+  m_Layer: 0
+  m_Name: hookPivot
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3177316669159945430
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1061444897071681151}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.87, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4350326794468354101}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4227016552584004343
 GameObject:
   m_ObjectHideFlags: 0
@@ -426,6 +457,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2890683925031955270, guid: 76b53dd701359c84195162e28f3a0cbb, type: 3}
       insertIndex: -1
       addedObject: {fileID: 3769866787889316887}
+    - targetCorrespondingSourceObject: {fileID: 2890683925031955270, guid: 76b53dd701359c84195162e28f3a0cbb, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3177316669159945430}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 3143172193047539597, guid: 76b53dd701359c84195162e28f3a0cbb, type: 3}
       insertIndex: -1
@@ -433,6 +467,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 3143172193047539597, guid: 76b53dd701359c84195162e28f3a0cbb, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2757272427068822506}
+    - targetCorrespondingSourceObject: {fileID: 3143172193047539597, guid: 76b53dd701359c84195162e28f3a0cbb, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7937591298072591688}
   m_SourcePrefab: {fileID: 100100000, guid: 76b53dd701359c84195162e28f3a0cbb, type: 3}
 --- !u!4 &4350326794468354101 stripped
 Transform:
@@ -470,10 +507,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ff32f3bd6581364296c085453a22ed1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HookShotScript
+  ownCabin: {fileID: 334562515920405706}
   hook: {fileID: 7534460473691696406}
   hookLine: {fileID: 7922380473214953481}
   grabScaleMult: 2
   hookProbePrefab: {fileID: 4102089069651006468, guid: 9ad2bdfa8a812554aa7aee14f99dc798, type: 3}
+  hookPivot: {fileID: 3177316669159945430}
   flyTime: 1.3
   grabTime: 1
   probeTime: 0.3
+--- !u!114 &7937591298072591688
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4601685864176397566}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab847726f202de84f8cde2fb6905ab2a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ComponentCooldown
+  cooldownTime: 5
