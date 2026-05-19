@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 3256854227189917103}
   - component: {fileID: 7434778606790672620}
   - component: {fileID: 5312306444901929237}
-  - component: {fileID: 5826631224502835501}
   - component: {fileID: 7822803210124807396}
   m_Layer: 0
   m_Name: RocketReadyIndicator
@@ -92,28 +91,6 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &5826631224502835501
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 512291731967111715}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!114 &7822803210124807396
 MonoBehaviour:
   m_ObjectHideFlags: 0

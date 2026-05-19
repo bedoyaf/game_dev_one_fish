@@ -12,11 +12,10 @@ public class MainCabinComponentController : BehaviourComponentControllerAbstract
 
     [SerializeField] private HookShotScript hookShot;
 
-    
+
     // NOTE: - need to figure out, cooldown timing
     //       - what should happen if there's a shield on the target
     //       
-
 
     public override bool CanClickOnNow
     {
@@ -76,41 +75,51 @@ public class MainCabinComponentController : BehaviourComponentControllerAbstract
         Vector3 exactTargetPosition = targetShipComponent.transform.position
             + targetShipComponent.transform.right * 0.5f + target.ComponentOffset
             + targetShipComponent.transform.forward * 0.5f;
-        
-        // TODO: uncommend once debugged
-        // if(targetShipComponent.broken)
-            ShootHookAtDamaged(targetShipComponent, exactTargetPosition);
-        // else
-        //    ShootHookAtWorking(targetShipComponent, exactTargetPosition);
+
+        ShootHookAt(targetShipComponent, exactTargetPosition);
 
         return true;
     }
 
-    private void ShootHookAtWorking(ShipComponentController targetShipComponent, Vector3 targetPosition)
+    private void ShootHookAt(ShipComponentController targetShipComponent, Vector3 targetPosition)
     {
         // SFX of hook shooting from this cabin
+        // when arrive at target, checks using a probe, if shield present
         hookShot.ShootHookAt(targetShipComponent, targetPosition,
-            false,   // don't pull the component toward the main ship
-            () => { DealDamage(targetShipComponent); },
-            () => {}
+            (bool hitTarget) => {
+                // if the target is protected via shield -> just go back
+                // if broken -> probe will not hit
+                if (!hitTarget && !targetShipComponent.broken)
+                    // don't pull the component toward the main ship
+                    return false;
+
+                // Uncomment once debugged:
+                /*
+                // else check if broken -> not = do damage
+                if (!targetShipComponent.broken)
+                {
+                    DealDamage(targetShipComponent);
+                    // don't pull the component toward the main ship
+                    return false;
+                }
+                */
+
+                BreakOffComponent(targetShipComponent);
+                // else pull back 
+                return true;
+
+            },   
+            (bool pulled) => { 
+                if(pulled)
+                    PickupComponent(targetShipComponent);
+            }
         );
+
     }
 
     private void DealDamage(ShipComponentController targetShipComponent)
     {
         targetShipComponent.TakeDamage(hookDamage);
-    }
-
-    private void ShootHookAtDamaged(ShipComponentController targetShipComponent, Vector3 targetPosition)
-    {
-        // SFX of hook shooting from this cabin
-        hookShot.ShootHookAt(targetShipComponent, targetPosition,
-            true,   // pull the component toward the main ship
-            () => { BreakOffComponent(targetShipComponent); },
-            () => { PickupComponent(targetShipComponent); }
-        );
-
-        
     }
 
     // Called when the hook reaches the component and breaks it off (animation finished)
@@ -127,6 +136,9 @@ public class MainCabinComponentController : BehaviourComponentControllerAbstract
 
         // actually break this component off
         targetShip.componentGrid.RemoveComponent(targetShipComponent.placementRules.connectedTile, true, false);
+
+        // notify enemy now, so that cannot repair and activate on the way
+        GameManager.Instance.currentGameplayManager.combatController.InformEnemyOfComponentRemoved();
 
         // tween the removed components positions
         foreach (var item in brokeOf)

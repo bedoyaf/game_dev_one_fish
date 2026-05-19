@@ -20,6 +20,11 @@ public class CombatController : SmartSingleton<CombatController>
 
     [SerializeField] private Transform lootInventoryParent;
 
+    public void InformEnemyOfComponentRemoved()
+    {
+        currentEnemyAI.ComponentRemoved();
+    }
+
     public void AddComponentLoot(
         ShipComponentController lootedComponent)
     {

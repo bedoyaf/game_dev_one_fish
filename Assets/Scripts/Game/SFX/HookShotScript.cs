@@ -14,6 +14,8 @@ public class HookShotScript : MonoBehaviour
 
     [SerializeField] private float grabScaleMult = 1.5f;
 
+    [SerializeField] private HookProbe hookProbePrefab;
+
     private Vector3 restPosition;
     private Vector3 restScale;
     private void Start()
@@ -52,24 +54,26 @@ public class HookShotScript : MonoBehaviour
 
     // How long the game is slowed down, to see the effect of the grab
     [SerializeField] private float grabTime = 0.3f;
+
+    // How long to wait for the hookProbe to hit
+    [SerializeField] private float probeTime = 0.3f;
+    
     public void ShootHookAt(
         ShipComponentController component, 
         Vector3 position, 
         
-        bool pullTowards,
-        Action onGrab, 
-        Action onFinished)
+        Predicate<bool> pullTowards,
+        Action<bool> onFinished)
     {
-        StartCoroutine(ShootHook(component, position.SetY(hook.transform.position.y), pullTowards, onGrab, onFinished));
+        StartCoroutine(ShootHook(component, position.SetY(hook.transform.position.y), pullTowards, onFinished));
     }
 
     private IEnumerator ShootHook(
         ShipComponentController component, 
-        Vector3 position, 
-        
-        bool pullTowards,
-        Action onGrab, 
-        Action onFinished)
+        Vector3 position,
+
+        Predicate<bool> pullTowards,
+        Action<bool> onFinished)
     {
         // scale up
         hook.transform.localScale = grabScaleMult * Vector3.one;
@@ -82,21 +86,34 @@ public class HookShotScript : MonoBehaviour
 
         moving = true;
 
-        yield return MyTime.WaitForSeconds(flyTime);
+        // prefire the probe slightly before there
+        yield return MyTime.WaitForSeconds(flyTime - probeTime);
 
+        // Fire a hook probe and wait for it to hit
+        bool hookProbeHit = false;
+
+        HookProbe hookProbe = Instantiate(
+            hookProbePrefab,
+            position + 2f * Vector3.up,
+            Quaternion.LookRotation(Vector3.down)
+        );
+
+        hookProbe.Init(() => { hookProbeHit = true; });
+
+        yield return MyTime.WaitForSeconds(probeTime);
+
+        // There and probe is done
         hook.transform.position = position;
         moving = false;
 
         // Maybe rotate the hook / move back a pixel or two, as if pulling
-
         hook.transform.DOMove(position + 0.2f * (restPosition - position).normalized, grabTime * 0.8f);
 
         yield return MyTime.WaitForSeconds(grabTime);
 
-        onGrab();
-
         // reparent the component temporarily to the hook
-        if(pullTowards)
+        var pull = pullTowards(hookProbeHit);
+        if (pull)
             component.gameObject.transform.SetParent(hook.transform);
 
         // fly back
@@ -112,7 +129,7 @@ public class HookShotScript : MonoBehaviour
         hook.transform.position = restPosition;
         moving = false;
 
-        onFinished();
+        onFinished(pull);
 
         // reset scale
         hook.transform.localScale = restScale;
