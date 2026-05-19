@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -41,6 +42,7 @@ public class ShipComponentController : MonoBehaviour
     public GameObject ComponentMesh; // The child of the component, that has the mesh on it
     public GameObject ComponentHitbox; // The child of the component that has the hitbox on it
     
+    private GameObject outlineMesh;
     public Shield shield { private set; get; }
 
     [HideInInspector] public ShipComponentMeshController shipComponentMeshController;
@@ -214,6 +216,32 @@ public class ShipComponentController : MonoBehaviour
         shipComponentMeshController.ChangeMeshToBroken();
         shipComponentMeshController.OnHealthUpdate(0f);
         AudioManager.Instance.PlaySFX(breakClip, transform.position);
+    }
+
+    public void Highlight(Material highlightMaterial, Color color) {
+        outlineMesh = new GameObject($"{name} highlight");
+        outlineMesh.transform.parent = transform;
+        outlineMesh.transform.position = ComponentMesh.transform.position;
+        outlineMesh.transform.rotation = ComponentMesh.transform.rotation;
+        outlineMesh.transform.localScale = ComponentMesh.transform.localScale;
+
+
+        var filter = outlineMesh.AddComponent<MeshFilter>();
+        var mesh = outlineMesh.AddComponent<MeshRenderer>();
+
+        filter.mesh = ComponentMesh.GetComponent<MeshFilter>().mesh;
+        int materialsCount = ComponentMesh.GetComponent<MeshRenderer>().materials.Length;
+        var materials = new List<Material>();
+        for (int i = 0; i < materialsCount; i++) {
+            materials.Add(highlightMaterial);
+            materials[i].SetColor("_Color", color);
+        }
+
+        mesh.materials = materials.ToArray();
+    }
+
+    public void RemoveHighlight() {
+        outlineMesh.SmartDestroy();
     }
 
 

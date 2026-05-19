@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -43,6 +45,9 @@ public class MouseController : MonoBehaviour
     };
 
     private int directionIndex = 1;
+
+    public Material highlightMaterial;
+    private List<ShipComponentController> highlightedComponents = new();
 
     //public AudioClip componentClick;
 
@@ -348,6 +353,13 @@ public class MouseController : MonoBehaviour
                     // Cursor.SetCursor(defaultMouseIcon, Vector2.zero, CursorMode.Auto);
                     Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
                 }
+
+                if (highlightedComponents.Count > 0) {
+                    foreach(var highlight in highlightedComponents) {
+                        highlight.RemoveHighlight();
+                    }
+                    highlightedComponents.Clear();
+                }
                 break;
 
             case ClickMode.ComponentTargeting:
@@ -365,11 +377,37 @@ public class MouseController : MonoBehaviour
 
                         var chosen = dirTextures[directionIndex];
                         Cursor.SetCursor(chosen, new Vector2(chosen.width * 0.5f, chosen.height * 0.5f), CursorMode.Auto);
-
+                        
+                        if (highlightedComponents.Count == 0) {
+                            var enemyShip = GameManager.Instance.currentGameplayManager.EnemyShip;
+                            highlightedComponents = enemyShip.componentGrid.GetAllNonBrokenComponents();
+                            foreach(var highlight in highlightedComponents) {
+                                highlight.Highlight(highlightMaterial, Color.red);
+                            }
+                        }
                     }
                     else if (activeComponent is ShieldComponentController)
                     {
                         Cursor.SetCursor(shieldIcon, new Vector2(shieldIcon.width * 0.5f, shieldIcon.height * 0.5f), CursorMode.Auto);
+
+                        if (highlightedComponents.Count == 0) {
+                            var playerShip = GameManager.Instance.currentGameplayManager.PlayerShip;
+                            highlightedComponents = playerShip.componentGrid.GetAllNonBrokenComponents();
+                            foreach (var highlight in highlightedComponents) {
+                                highlight.Highlight(highlightMaterial, Color.blue);
+                            }
+                        }
+                    }
+
+                    else if (activeComponent is RepairerComponentController) {
+                        if (highlightedComponents.Count == 0) {
+                            var playerShip = GameManager.Instance.currentGameplayManager.PlayerShip;
+                            highlightedComponents = playerShip.componentGrid.GetAllComponents()
+                                .Where(x => x.IsBroken).ToList();
+                            foreach (var highlight in highlightedComponents) {
+                                highlight.Highlight(highlightMaterial, Color.orange);
+                            }
+                        }
                     }
                 }
 
@@ -389,6 +427,15 @@ public class MouseController : MonoBehaviour
                 {
                     // Default                    
                     Cursor.SetCursor(repairIcon, Vector2.zero, CursorMode.Auto);
+                }
+
+                if (highlightedComponents.Count == 0) {
+                    var playerShip = GameManager.Instance.currentGameplayManager.PlayerShip;
+                    highlightedComponents = playerShip.componentGrid.GetAllComponents()
+                        .Where(x => x.CanRepairThisComponent).ToList();
+                    foreach (var highlight in highlightedComponents) {
+                        highlight.Highlight(highlightMaterial, Color.orange);
+                    }
                 }
                 break;
         }
