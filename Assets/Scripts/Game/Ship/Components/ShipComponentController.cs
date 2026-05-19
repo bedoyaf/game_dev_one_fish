@@ -2,6 +2,7 @@ using DG.Tweening;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using Unity.VisualScripting;
 using Unity.VisualScripting.Antlr3.Runtime;
@@ -218,30 +219,56 @@ public class ShipComponentController : MonoBehaviour
         AudioManager.Instance.PlaySFX(breakClip, transform.position);
     }
 
-    public void Highlight(Material highlightMaterial, Color color) {
-        outlineMesh = new GameObject($"{name} highlight");
-        outlineMesh.transform.parent = transform;
-        outlineMesh.transform.position = ComponentMesh.transform.position;
-        outlineMesh.transform.rotation = ComponentMesh.transform.rotation;
-        outlineMesh.transform.localScale = ComponentMesh.transform.localScale;
 
+    private float baseOutlineWidth = 1.0f;
+    private float fadeTime;
+    public void Highlight(Material highlightMaterial, Color color, float outlineSize, float fadeTime) {
+        this.fadeTime = fadeTime;
+        MeshRenderer mesh;
+        if (outlineMesh == null) {
+            outlineMesh = new GameObject($"{name} highlight");
+            outlineMesh.transform.parent = transform;
+            outlineMesh.transform.position = ComponentMesh.transform.position;
+            outlineMesh.transform.rotation = ComponentMesh.transform.rotation;
+            outlineMesh.transform.localScale = ComponentMesh.transform.localScale;
 
-        var filter = outlineMesh.AddComponent<MeshFilter>();
-        var mesh = outlineMesh.AddComponent<MeshRenderer>();
+            var filter = outlineMesh.AddComponent<MeshFilter>();
+            filter.mesh = ComponentMesh.GetComponent<MeshFilter>().mesh;
+            mesh = outlineMesh.AddComponent<MeshRenderer>();
 
-        filter.mesh = ComponentMesh.GetComponent<MeshFilter>().mesh;
+        }
+        else {
+            outlineMesh.SetActive(true);
+            mesh = outlineMesh.GetComponent<MeshRenderer>();
+        }
+
         int materialsCount = ComponentMesh.GetComponent<MeshRenderer>().materials.Length;
         var materials = new List<Material>();
         for (int i = 0; i < materialsCount; i++) {
-            materials.Add(highlightMaterial);
+            materials.Add(new Material(highlightMaterial));
             materials[i].SetColor("_Color", color);
+            materials[i].SetFloat("_OutlineSize", baseOutlineWidth);
         }
 
         mesh.materials = materials.ToArray();
+        StartCoroutine(FadeOutline(materials, outlineSize, fadeTime, false));
+    }
+
+    private IEnumerator FadeOutline(List<Material> highlightMaterials, float target, float fadeTime, bool disable) {
+        foreach(var mat in highlightMaterials) {
+            mat.DOFloat(target, "_OutlineSize", fadeTime);
+        }
+
+        if (disable) {
+            yield return MyTime.WaitForSeconds(fadeTime);
+            outlineMesh.SetActive(false);
+        }
     }
 
     public void RemoveHighlight() {
-        outlineMesh.SmartDestroy();
+        if (outlineMesh != null) {
+            StartCoroutine(FadeOutline(outlineMesh.GetComponent<MeshRenderer>().materials.ToList(), baseOutlineWidth, fadeTime, true));
+        }
     }
 
 
