@@ -98,8 +98,6 @@ public class MainCabinComponentController : BehaviourComponentControllerAbstract
                     // don't pull the component toward the main ship
                     return false;
 
-                // Uncomment once debugged:
-                /*
                 // else check if broken -> not = do damage
                 if (!targetShipComponent.broken)
                 {
@@ -107,7 +105,7 @@ public class MainCabinComponentController : BehaviourComponentControllerAbstract
                     // don't pull the component toward the main ship
                     return false;
                 }
-                */
+                
 
                 BreakOffComponent(targetShipComponent);
                 // else pull back 
