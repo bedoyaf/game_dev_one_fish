@@ -35,7 +35,7 @@ public class GameplayFlowManager : MonoBehaviour
     private MapController mapController;
 
     public CombatController combatController;
-    [SerializeField] private RewardController rewardController;
+    public RewardController rewardController;
 
     public MouseController mouseController;
 
@@ -238,7 +238,8 @@ public class GameplayFlowManager : MonoBehaviour
         if (combatController.playerWon)
         {
             // Spawn loot
-            sfx.CombatEndTransition(true, () => { stateMachine.ChangeState(GameStates.RewardSelection); });
+            //sfx.CombatEndTransition(true, () => { stateMachine.ChangeState(GameStates.RewardSelection); });
+            sfx.CombatEndTransition(true, () => { stateMachine.ChangeState(GameStates.ShipModification); });
         }
         else
         {
@@ -254,7 +255,7 @@ public class GameplayFlowManager : MonoBehaviour
     }
 
  
-
+    
     //Helpers, later will be scraped
 
     public void AdvanceState()
@@ -274,7 +275,7 @@ public class GameplayFlowManager : MonoBehaviour
         {
             GameStates.WaitingForCombat => GameStates.PreCombat,
             GameStates.PreCombat => GameStates.Combat,
-            GameStates.Combat => GameStates.RewardSelection,
+            GameStates.Combat => GameStates.ShipModification,
             GameStates.RewardSelection => GameStates.ShipModification,
             GameStates.ShipModification => GameStates.MapSelection,
             GameStates.MapSelection => GameStates.WaitingForCombat,

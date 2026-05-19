@@ -80,6 +80,18 @@ public class EnemyShipAgent : MonoBehaviour
         playerCabin = Utils.ConvertBehaviourListToComponentList(playerShip.componentGrid.GetComponentsOfType<MainCabinComponentController>())[0];
 
     }
+
+
+    public void ComponentRemoved()
+    {
+        // update lists (parts of the ship might have been completely destroyed, so best
+        // to just update all the lists)
+
+        SetupAllImportantSystems();
+    }
+
+
+
     //Missleading name, hope in future it fits better
     public void ActivateAgent()
     {

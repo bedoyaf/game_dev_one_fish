@@ -12,6 +12,12 @@ public class RewardController : MonoBehaviour
     [SerializeField] private int choicesToShow = 9;
     [SerializeField] private int picksNeeded = 3;
 
+
+    public int inventoryCapacity = 3;
+    public int CurrentlyHolding => storedComponents.Count;
+
+
+
     [SerializeField] private GameplayFlowManager flowManager;
 
     private bool choosing = false;
@@ -37,6 +43,11 @@ public class RewardController : MonoBehaviour
 
         choosing = true;
         GenerateChoices();
+    }
+
+    public void ClearStoredComponents()
+    {
+        storedComponents.Clear();
     }
 
     // ----------------------------------------------------
@@ -75,6 +86,11 @@ public class RewardController : MonoBehaviour
 
     public void AssignComponent(ShipComponentController comp) {
         storedComponents.Clear();
+        storedComponents.Add(comp.ComponentPrefab);
+    }
+
+    public void AppendComponent(ShipComponentController comp)
+    {
         storedComponents.Add(comp.ComponentPrefab);
     }
 

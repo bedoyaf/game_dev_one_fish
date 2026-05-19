@@ -20,15 +20,44 @@ public class CombatController : SmartSingleton<CombatController>
 
     [SerializeField] private Transform lootInventoryParent;
 
-
-
-    // Big todo: into the inventory
-    public void AddComponentLoot(ShipComponentController component)
+    public void AddComponentLoot(
+        ShipComponentController lootedComponent)
     {
-        // TODO: some animation of moving maybe
-        component.gameObject.transform.SetParent(lootInventoryParent);
 
-        component.gameObject.transform.DOLocalMove(Vector3.zero, 0.5f);
+        // if has space in inventory, add as a reward
+        var inventoryController = GameManager.Instance.currentGameplayManager.rewardController;
+        if(inventoryController.CurrentlyHolding < inventoryController.inventoryCapacity)
+        {
+            inventoryController.AppendComponent(lootedComponent);
+
+            // separate the mesh for visuals only
+            var mesh = lootedComponent.ComponentMesh;
+            mesh.transform.DestroyAllChildren();
+            mesh.transform.SetParent(lootInventoryParent);
+            lootedComponent.gameObject.SmartDestroy();
+
+            // offset from each other
+            mesh.transform.DOLocalMove(2f * (inventoryController.CurrentlyHolding - 1) * 
+                Vector3.right, 0.5f);
+
+        }
+        // TODO: what to do when inventory full (choose which to keep ?)
+        else
+        {
+
+            lootedComponent.gameObject.SmartDestroy();
+        }
+
+        // notify the ai that this component is
+        currentEnemyAI.ComponentRemoved();
+
+    }
+
+    public void ClearInventory()
+    {
+        // TODO: maybe some effect ?
+
+        lootInventoryParent.DestroyAllChildren();
     }
 
     public bool isPaused { private set; get; } = false;
