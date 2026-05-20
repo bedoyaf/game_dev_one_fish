@@ -24,7 +24,7 @@ public class GameplayFlowManager : MonoBehaviour
     [SerializeField]
     private ShipController playerShip;
 
-    [Tooltip("The enemy ship")]
+    [Tooltip("The enemy's ship / for compatibility")]
     [SerializeField]
     private ShipController enemyShip;
 
@@ -34,8 +34,8 @@ public class GameplayFlowManager : MonoBehaviour
     [SerializeField]
     private MapController mapController;
 
-    [SerializeField] private CombatController combatController;
-    [SerializeField] private RewardController rewardController;
+    public CombatController combatController;
+    public RewardController rewardController;
 
     public MouseController mouseController;
 
@@ -184,7 +184,7 @@ public class GameplayFlowManager : MonoBehaviour
     // TODO: pass argument of the loaded ship etc..
     public void LoadEnemy()
     {
-        combatController.LoadEnemyShip();
+        enemyShip = combatController.LoadEnemyShip(playerShip);
         sfx.EnterEnemyShip();
     }
     public void LoadPlayer()
@@ -238,7 +238,8 @@ public class GameplayFlowManager : MonoBehaviour
         if (combatController.playerWon)
         {
             // Spawn loot
-            sfx.CombatEndTransition(true, () => { stateMachine.ChangeState(GameStates.RewardSelection); });
+            //sfx.CombatEndTransition(true, () => { stateMachine.ChangeState(GameStates.RewardSelection); });
+            sfx.CombatEndTransition(true, () => { stateMachine.ChangeState(GameStates.ShipModification); });
         }
         else
         {
@@ -254,7 +255,7 @@ public class GameplayFlowManager : MonoBehaviour
     }
 
  
-
+    
     //Helpers, later will be scraped
 
     public void AdvanceState()
@@ -274,7 +275,7 @@ public class GameplayFlowManager : MonoBehaviour
         {
             GameStates.WaitingForCombat => GameStates.PreCombat,
             GameStates.PreCombat => GameStates.Combat,
-            GameStates.Combat => GameStates.RewardSelection,
+            GameStates.Combat => GameStates.ShipModification,
             GameStates.RewardSelection => GameStates.ShipModification,
             GameStates.ShipModification => GameStates.MapSelection,
             GameStates.MapSelection => GameStates.WaitingForCombat,
@@ -292,11 +293,11 @@ public class GameplayFlowManager : MonoBehaviour
         sfx.CombatStartTransition(data.shipName, () => { stateMachine.ChangeState(GameStates.Combat); });
     }
 
-    public void Fight(ShipData enemy) {
-        Debug.Log($"Fight called {enemy}");
-        combatController.AssignEnemy(enemy);
+    public void Fight(ShipController enemyPrefab) {
+        Debug.Log($"Fight called {enemyPrefab.shipData}");
+        combatController.AssignEnemy(enemyPrefab);
         stateMachine.ChangeState(GameStates.PreCombat);
-        sfx.CombatStartTransition(enemy.shipName, () => { stateMachine.ChangeState(GameStates.Combat); });
+        sfx.CombatStartTransition(enemyPrefab.shipData.shipName, () => { stateMachine.ChangeState(GameStates.Combat); });
     }
 
     // TODO this is ugly - the same thing is already in map controller.

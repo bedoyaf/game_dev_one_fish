@@ -21,11 +21,17 @@ public class ShieldComponentController : BehaviourComponentControllerAbstract
 
     public AudioClip shieldActivationClip;
 
-    public override bool CanClickOnNow => 
-        cooldown.IsReady &&
-        !shipComponentController.broken &&
-        shipController.GetEnergy >= shipComponentController.requiredEnergy;        
+    public override bool CanClickOnNow
+    {
+        get
+        {
+            if (shipController == null) Debug.LogError("shipController is NULL (shield)"+gameObject.transform.parent.name);
 
+            return cooldown.IsReady &&
+            !shipComponentController.broken &&
+            shipController.GetEnergy >= shipComponentController.requiredEnergy;
+        }
+    }
     public void Start()
     {
         cooldown = GetComponent<ComponentCooldown>();

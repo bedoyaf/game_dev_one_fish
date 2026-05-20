@@ -333,11 +333,14 @@ public class ComponentGrid {
     /// <returns>Whether the component is connected to solid, and also list of all components it met during search</returns>
     public (bool, HashSet<ComponentGridTile> connectedTiles) IsComponentConnectedToSolid(int x, int z) {
         (x, z) = GetOriginTileCoordinates(x, z);
+        var originalTile = GetOriginTile(x, z);
+        var visitedTiles = new HashSet<ComponentGridTile> {
+            originalTile
+        };
+
+        if (originalTile.IsSolid) return (true, visitedTiles);
 
         // Standard bfs algorithm without going back
-        var visitedTiles = new HashSet<ComponentGridTile> {
-            GetOriginTile(x, z)
-        };
         var fringe = new Queue<ComponentGridTile>(GetTilesAroundComponent(x, z));
         while (fringe.Count > 0) {
             var tile = fringe.Dequeue();

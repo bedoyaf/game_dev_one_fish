@@ -25,6 +25,10 @@ public class EnemyShipAgent : MonoBehaviour
     private ShipController shipController;
     //player
     [SerializeField] private ShipController playerShip;
+    public void SetPlayerShip(ShipController player)
+    {
+        playerShip = player;
+    }
 
     private List<ShipComponentController> batteries = new List<ShipComponentController>();
     private List<ShipComponentController> generators = new List<ShipComponentController>();
@@ -76,6 +80,18 @@ public class EnemyShipAgent : MonoBehaviour
         playerCabin = Utils.ConvertBehaviourListToComponentList(playerShip.componentGrid.GetComponentsOfType<MainCabinComponentController>())[0];
 
     }
+
+
+    public void ComponentRemoved()
+    {
+        // update lists (parts of the ship might have been completely destroyed, so best
+        // to just update all the lists)
+
+        SetupAllImportantSystems();
+    }
+
+
+
     //Missleading name, hope in future it fits better
     public void ActivateAgent()
     {
