@@ -11,7 +11,7 @@ public class GameOverState : IGameState
 
     public void Enter()
     {
-        
+        manager.ShowGameOver();
     }
 
     public void Exit()

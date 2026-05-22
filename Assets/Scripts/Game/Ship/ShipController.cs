@@ -350,7 +350,7 @@ public class ShipController : MonoBehaviour
         }
         */
     }
-
+    /*
     void OnGUI()
     {
         if(playerShip)
@@ -365,7 +365,7 @@ public class ShipController : MonoBehaviour
             GUI.Label(new Rect(10 + DebugTextOffset, 34, 300, 40), $" {storedMoney} $", style);
         }
 
-    }
+    }*/
 }
 
 

@@ -1,3 +1,5 @@
+using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -28,13 +30,37 @@ public class GameUIScript : MonoBehaviour
     [SerializeField]
     private Button endRepairsButton;
 
+    [SerializeField]
+    private GameObject GameOverMenu;
+
+    [SerializeField]
+    private TextMeshProUGUI EnergyLabel;
+
+    [SerializeField]
+    private TextMeshProUGUI ScrapLabel;
+
+    [SerializeField]
+    private ShipController playerShip;
+
     void Start()
     {
         skipButton.gameObject.SetActive(false);
         endRepairsButton.gameObject.SetActive(false);
         pauseMenuItemsParent.SetActive(false);    
+        UpdateCombatUI();
     }
 
+
+    private void Update()
+    {
+        UpdateCombatUI();
+    }
+
+    private void UpdateCombatUI()
+    {
+        EnergyLabel.text = playerShip.storedEnergy.ToString();
+        ScrapLabel.text = playerShip.storedMoney.ToString();
+    }
 
     public void OnPauseClicked()
     {
@@ -99,4 +125,16 @@ public class GameUIScript : MonoBehaviour
     {
         gameplayFlowManager.ExitRepairsMode();
     }
+
+    public void ShowGameOver()
+    {
+        GameOverMenu.gameObject.SetActive(true);
+    }
+
+    public void HideGameOver()
+    {
+        GameManager.Instance.RestartGame();
+        GameOverMenu.gameObject.SetActive(false);
+    }
+
 }
