@@ -249,6 +249,11 @@ public class GameplayFlowManager : MonoBehaviour
 
     }
 
+    public void ShowGameOver()
+    {
+        gameUi.ShowGameOver();
+    }
+
     public void OnShowRewardEnd()
     {
         stateMachine.ChangeState(GameStates.ShipModification);
@@ -332,17 +337,18 @@ public class GameplayFlowManager : MonoBehaviour
             if (GUI.Button(new Rect(x, y, width, height), "DEBUG INSTAKILL ENEMY"))
             {
                 enemyShip.GetMainCabin().TakeDamage(1000);
+                //playerShip.GetMainCabin().TakeDamage(1000);
                 return;
             }
         }
 
-        if (stateMachine.CurrentStateKey == GameStates.GameOver)
+       /* if (stateMachine.CurrentStateKey == GameStates.GameOver)
         {
             if (GUI.Button(new Rect(500, 400, 150, 40), "RESTART"))
             {
                 GameManager.Instance.RestartGame();
             }
-        }
+        }*/
     }
 
     // TODO: (if will ever do) map selection

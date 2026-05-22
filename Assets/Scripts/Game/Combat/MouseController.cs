@@ -281,6 +281,7 @@ public class MouseController : MonoBehaviour
     public Texture2D rocketDownIcon;
     public Texture2D rocketRightIcon;
 
+    /*
     void OnGUI()
     {
         GUIStyle style = new GUIStyle(GUI.skin.button);
@@ -291,7 +292,7 @@ public class MouseController : MonoBehaviour
             CycleDirection();
         }
     }
-
+    */
     private void CycleDirection(int dir = 1)
     {
         directionIndex = (DIRECTIONS.Length + directionIndex + dir) % DIRECTIONS.Length;
