@@ -1,6 +1,7 @@
 using DG.Tweening;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
@@ -13,6 +14,7 @@ public class MapUI : MonoBehaviour
     public event Action<MapNode> OnNodeClicked;
 
     [SerializeField] private Vector2 nodeOffset = new Vector2( 0, 0);
+    [SerializeField] private Vector2 nodeDistances = new Vector2(150, 150);
     [SerializeField] private float randomNodeOffset = 10;
 
     [Header("Prefabs")]
@@ -25,6 +27,9 @@ public class MapUI : MonoBehaviour
 
     public CanvasGroup canvasGroup;
 
+    public int sightDistance = 1; // How far can the player see
+    public bool showWholeStages = true;
+
     [SerializeField] private MapUILine linePrefab;
     private List<MapUILine> lines = new();
 
@@ -36,6 +41,7 @@ public class MapUI : MonoBehaviour
     [SerializeField] private Color bossNodeColor = new Color(1f, 0.8f, 0.2f);
     [SerializeField] private Color defaultNodeColor = new Color(0.5f, 0.5f, 0.5f);
     [SerializeField] private Color visitedNodeColor = Color.gray;
+    [SerializeField] private Color visibleUnreachableNodeColor = Color.gray;
 
     [SerializeField] private Sprite playerSprite;
     [SerializeField] private Sprite combatSprite;
@@ -76,8 +82,8 @@ public class MapUI : MonoBehaviour
             var ui = Instantiate(nodePrefab, nodeParent);
 
             ui.transform.localPosition = new Vector3(
-                node.position.x * 150f + nodeOffset.x+ UnityEngine.Random.Range(-randomNodeOffset,randomNodeOffset),
-                node.position.y * -150f + nodeOffset.y + UnityEngine.Random.Range(-randomNodeOffset, randomNodeOffset),
+                node.position.x * nodeDistances.x + nodeOffset.x+ UnityEngine.Random.Range(-randomNodeOffset,randomNodeOffset),
+                node.position.y * -nodeDistances.y + nodeOffset.y + UnityEngine.Random.Range(-randomNodeOffset, randomNodeOffset),
                 0
             );
 
@@ -124,10 +130,11 @@ public class MapUI : MonoBehaviour
                 continue;
             }
 
-            if (IsReachable(current, node))
+            if (IsReachable(current, node, sightDistance))
             {
                 ui.SetIcon(GetTypeIcon(node.type));
-                ui.SetState(1f, baseColor); 
+                ui.SetState(1f, baseColor);
+                ui.SetReachable(IsReachable(current, node, 1), baseColor, 0.25f);
             }
             else
             {
@@ -163,9 +170,33 @@ public class MapUI : MonoBehaviour
         };
     }
 
-    private bool IsReachable(MapNode current, MapNode target)
+    private bool IsReachable(MapNode current, MapNode target, int sightDistance)
     {
-        return current.connections.Contains(target);
+        if (sightDistance <= 1)
+            return current.connections.Contains(target);
+        else {
+            if (showWholeStages)
+                return target.depth > current.depth && target.depth - current.depth <= sightDistance;
+            else {
+                // BFS in the left direction - gets really what is in from of the player
+                var previousNodes = target.backConnections;
+                for (int i = 0; i < sightDistance; i++) {
+                    var newPrevious = new HashSet<MapNode>();
+
+                    foreach (var prev in previousNodes) {
+                        if (prev == current) return true;
+
+                        foreach (var prevPrev in prev.backConnections) {
+                            newPrevious.Add(prevPrev);
+                        }
+                    }
+
+                    previousNodes = newPrevious.ToList();
+                }
+            }
+
+            return false;
+        }
     }
     private void Clear()
     {

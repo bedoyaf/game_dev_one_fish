@@ -11,6 +11,7 @@ public class MapNode
     public NodeType type;
 
     public List<MapNode> connections = new();
+    public List<MapNode> backConnections = new(); // Edge back in the graph
     public bool visited;
     public int depth;
 }

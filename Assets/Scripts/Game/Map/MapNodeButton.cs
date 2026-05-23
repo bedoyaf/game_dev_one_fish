@@ -18,6 +18,8 @@ public class MapNodeButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 
     public UnityEngine.UI.Image icon;
 
+    private bool isReachable;
+
     public void Init(MapNode node, Action<MapNode> onClick)
     {
         this.node = node;
@@ -40,6 +42,13 @@ public class MapNodeButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         background.color = col;
     }
 
+    public void SetReachable(bool reachable, Color tint, float alpha) {
+        isReachable = reachable;
+        if (!reachable) {
+            SetState(alpha, tint);
+        }
+    }
+
     public void SetIcon(Sprite sprite)
     {
         if (sprite == null)
@@ -55,7 +64,8 @@ public class MapNodeButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     public void OnPointerEnter(PointerEventData eventData)
     {
         transform.DOKill();
-        transform.DOScale(1.15f, 0.15f);
+        if (isReachable)
+            transform.DOScale(1.15f, 0.15f);
     }
 
     public void OnPointerExit(PointerEventData eventData)

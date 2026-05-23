@@ -34,6 +34,12 @@ public class MapController : MonoBehaviour
     /// </summary>
     public int bossStage = 10;
 
+    public int stageCount = 6;
+    public int pathCount = 3;
+
+    public int minConnectionsPerStage = 1;
+    public int maxConnectionsPerStage = 2;
+
     /// <summary>
     /// How much stronger are elite enemies than normal
     /// </summary>
@@ -58,7 +64,7 @@ public class MapController : MonoBehaviour
 
     public void StartMap()
     {
-        graph = MapGeneratorAlgorithms.GenerateMap(6, 3, nodeProbabilities);
+        graph = MapGeneratorAlgorithms.GenerateMap(stageCount, pathCount, minConnectionsPerStage, maxConnectionsPerStage, nodeProbabilities);
 
         currentNode = graph.startNode;
         currentNode.visited = true;
