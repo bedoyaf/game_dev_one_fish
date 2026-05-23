@@ -476,6 +476,21 @@ public class ComponentGrid {
     }
 
     /// <summary>
+    /// Gets all components that are stored in the grid, broken ones.
+    /// </summary>
+    public List<ShipComponentController> GetAllBrokenComponents() {
+        List<ShipComponentController> components = new();
+        foreach (var tile in tiles) {
+            if (tile.isPlaceholder || tile.hasOffset) continue;
+
+            if (!tile.component.broken) continue;
+            components.Add(tile.component);
+        }
+
+        return components;
+    }
+
+    /// <summary>
     /// Returns a list of all components from the grid that contain the specific behaviour
     /// </summary>
     public List<T> GetComponentsOfType<T>(bool includeBroken = true) where T : BehaviourComponentControllerAbstract {

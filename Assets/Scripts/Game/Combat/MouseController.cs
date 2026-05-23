@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -352,6 +351,7 @@ public class MouseController : MonoBehaviour
                     Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
                 }
 
+                // End highlight
                 if (highlightedComponents.Count > 0) {
                     foreach(var highlight in highlightedComponents) {
                         highlight.RemoveHighlight();
@@ -376,7 +376,7 @@ public class MouseController : MonoBehaviour
                         var chosen = dirTextures[directionIndex];
                         Cursor.SetCursor(chosen, new Vector2(chosen.width * 0.5f, chosen.height * 0.5f), CursorMode.Auto);
 
-                        HighlightAttack();
+                        HighlightAttack(rocketHighlightColor);
                     }
                     else if (activeComponent is ShieldComponentController)
                     {
@@ -386,6 +386,10 @@ public class MouseController : MonoBehaviour
 
                     else if (activeComponent is RepairerComponentController) {
                         HighlightRepair(true);
+                    }
+
+                    else if (activeComponent is MainCabinComponentController) {
+                        HighlightHook();
                     }
                 }
 
@@ -417,15 +421,17 @@ public class MouseController : MonoBehaviour
     public float outlineWidth = 1.2f;
     public float fadeTime = 0.2f;
     private List<ShipComponentController> highlightedComponents = new();
-    public Color rocketHighlightColor = Color.red;
-    public Color shieldHighlightColor = Color.blue;
-    public Color repairHighlightColor = Color.orange;
+    public Color rocketHighlightColor = new Color(255, 0, 3);
+    public Color shieldHighlightColor = new Color(0, 16, 166);
+    public Color repairHighlightColor = new Color(255, 204, 0);
+    public Color hookAttackHighlightColor = new Color(255, 0, 3);
+    public Color hookStealHighlightColor = new Color(38, 255, 0);
 
-    private void HighlightAttack() {
+    private void HighlightAttack(Color color) {
         if (highlightedComponents.Count == 0) {
             var enemyShip = GameManager.Instance.currentGameplayManager.EnemyShip;
             highlightedComponents = enemyShip.componentGrid.GetAllNonBrokenComponents();
-            HighlightComponents(highlightedComponents, rocketHighlightColor);
+            HighlightComponents(highlightedComponents, color);
         }
     }
     private void HighlightShields() {
@@ -448,6 +454,16 @@ public class MouseController : MonoBehaviour
             }
 
             HighlightComponents(highlightedComponents, repairHighlightColor);
+        }
+    }
+
+    private void HighlightHook() {
+        if (highlightedComponents.Count == 0) {
+            HighlightAttack(hookAttackHighlightColor);
+            var enemyShip = GameManager.Instance.currentGameplayManager.EnemyShip;
+            var brokenComponents = enemyShip.componentGrid.GetAllBrokenComponents();
+            HighlightComponents(brokenComponents, hookStealHighlightColor);
+            highlightedComponents.AddRange(brokenComponents);
         }
     }
 
