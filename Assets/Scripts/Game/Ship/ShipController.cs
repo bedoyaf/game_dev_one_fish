@@ -3,6 +3,7 @@ using System.Runtime.CompilerServices;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.Serialization;
 using static UnityEngine.EventSystems.EventTrigger;
 
@@ -34,7 +35,7 @@ public class ShipController : MonoBehaviour
     // Can take even without batteries
     [SerializeField] private int cabinEnergyCapacity = 1;
     public int storedEnergy = 0;
-    private int batteryCapacity = 0;
+    public int batteryCapacity { get; private set; } = 0;
     private List<BatteryComponentController> batteries = new List<BatteryComponentController>();
 
     //CURRENCY PARTS
@@ -50,6 +51,8 @@ public class ShipController : MonoBehaviour
     public bool componentsActive = false;
     public float DebugTextOffset = 0;
 
+    public UnityEvent onEnergyChanged;
+
 
     private void Start() {
         // Create temporary ship data that will be used during game time
@@ -58,6 +61,8 @@ public class ShipController : MonoBehaviour
         //componentGrid.ConnectGrid(battleShipData.componentGrid);
 
         AssignShipController();
+
+        UpdateEnergyUI();
     }
 
     public void BuildShip() {
@@ -196,10 +201,10 @@ public class ShipController : MonoBehaviour
             return;
         }
         */
-        batteryCapacity = batteries.Count == 0 ? 0 : batteries.Count * batteries[0].energyMax;
+        batteryCapacity = (batteries.Count == 0 ? 0 : batteries.Count * batteries[0].energyMax)+cabinEnergyCapacity;
 
-
-        int totalEnergy = Mathf.Min(storedEnergy+energy, cabinEnergyCapacity + batteryCapacity);
+       // Debug.Log(storedEnergy +"+" + energy +", "+batteryCapacity);
+        int totalEnergy = Mathf.Min(storedEnergy+energy,  batteryCapacity);
         int remaining = totalEnergy-storedEnergy;
 
         // NOTE: maybe want to choose which battery takes the energy
@@ -210,6 +215,7 @@ public class ShipController : MonoBehaviour
         }
         storedEnergy = totalEnergy;
         Debug.Log("energy" + totalEnergy);
+        onEnergyChanged.Invoke();
 
     }
 
@@ -228,7 +234,7 @@ public class ShipController : MonoBehaviour
                 return false;
             }
             */
-            batteryCapacity = batteries.Count == 0 ? 0 : batteries.Count * batteries[0].energyMax;
+            batteryCapacity = (batteries.Count == 0 ? 0 : batteries.Count * batteries[0].energyMax)+ cabinEnergyCapacity;
         }
         //not enough energy
         if(storedEnergy-energy<0)
@@ -244,9 +250,16 @@ public class ShipController : MonoBehaviour
             remaining = component.DrainEnergy(remaining);
         }
         storedEnergy = totalEnergy;
-
+        onEnergyChanged.Invoke();
         return true;
     }
+
+    public void UpdateEnergyUI()
+    {
+        batteryCapacity =( batteries.Count == 0 ? 0 : batteries.Count * batteries[0].energyMax) + cabinEnergyCapacity;
+        onEnergyChanged.Invoke();
+       // Debug.Log("Invoked energy change");
+    }    
 
     public int GetCurrency => storedMoney;
     public void AddCurrency(int amount)

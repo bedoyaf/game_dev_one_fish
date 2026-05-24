@@ -217,6 +217,7 @@ public class ShipComponentController : MonoBehaviour
         shipComponentMeshController.ChangeMeshToBroken();
         shipComponentMeshController.OnHealthUpdate(0f);
         AudioManager.Instance.PlaySFX(breakClip, transform.position);
+        shipController.UpdateEnergyUI();
     }
 
 

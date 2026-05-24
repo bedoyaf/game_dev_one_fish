@@ -27,7 +27,8 @@ public class MapUI : MonoBehaviour
 
     public CanvasGroup canvasGroup;
 
-    public int sightDistance = 1; // How far can the player see
+    // public int sightDistance = 1; // How far can the player see
+    private int sightDistance = 1;
     public bool showWholeStages = true;
 
     [SerializeField] private MapUILine linePrefab;
@@ -106,8 +107,9 @@ public class MapUI : MonoBehaviour
     /// <summary>
     /// function updates the visual of the map during movement
     /// </summary>
-    public void UpdatePlayerPosition(MapNode current)
+    public void UpdatePlayerPosition(MapNode current, int sightDistance)
     {
+        this.sightDistance = sightDistance;
         Debug.Log("Updating nodes");
         foreach (var kv in spawnedNodes)
         {

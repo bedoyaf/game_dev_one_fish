@@ -42,23 +42,28 @@ public class GameUIScript : MonoBehaviour
     [SerializeField]
     private ShipController playerShip;
 
+    private void Awake()
+    {
+        playerShip.onEnergyChanged.AddListener(UpdateCombatUI);
+    }
     void Start()
     {
         skipButton.gameObject.SetActive(false);
         endRepairsButton.gameObject.SetActive(false);
-        pauseMenuItemsParent.SetActive(false);    
+        pauseMenuItemsParent.SetActive(false);   
         UpdateCombatUI();
     }
 
 
     private void Update()
     {
-        UpdateCombatUI();
+      //  UpdateCombatUI();
     }
 
-    private void UpdateCombatUI()
+    public void UpdateCombatUI()
     {
-        EnergyLabel.text = playerShip.storedEnergy.ToString();
+      //  Debug.Log("changing energy");
+        EnergyLabel.text = playerShip.storedEnergy.ToString()+"/"+ playerShip.batteryCapacity.ToString();
         ScrapLabel.text = playerShip.storedMoney.ToString();
     }
 

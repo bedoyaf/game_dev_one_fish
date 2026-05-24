@@ -1909,7 +1909,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 4
+  m_text: 4/4
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -6756,6 +6756,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MapController
   bossStage: 10
+  stageCount: 6
+  pathCount: 3
+  minConnectionsPerStage: 1
+  maxConnectionsPerStage: 2
   eliteEnemyDifficulty: 3
   gameplayFlowManager: {fileID: 992669697}
   currentDifficulty: 1
@@ -8999,10 +9003,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MapUI
   nodeOffset: {x: -500, y: -200}
+  nodeDistances: {x: 150, y: 150}
   randomNodeOffset: 10
   nodePrefab: {fileID: 344792479086541794, guid: d5364c3169ec52e4b8e9c4aed16d3c55, type: 3}
   nodeParent: {fileID: 1127380459}
   canvasGroup: {fileID: 1723096967}
+  showWholeStages: 1
   linePrefab: {fileID: 2617016866678534494, guid: af3578ea2c3205e4d82469087920cefa, type: 3}
   currentNodeColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   combatNodeColor: {r: 0.9, g: 0.2, b: 0.2, a: 1}
@@ -9012,6 +9018,7 @@ MonoBehaviour:
   bossNodeColor: {r: 1, g: 0.8, b: 0.2, a: 1}
   defaultNodeColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   visitedNodeColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  visibleUnreachableNodeColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   playerSprite: {fileID: 709160525, guid: e2573f0c0767b224abd2d897fe7249d4, type: 3}
   combatSprite: {fileID: -1769497988, guid: ccdec57bfd6c9594e8b67d74bb889e8e, type: 3}
   eventSprite: {fileID: 1865591079, guid: 24ecef9368d69ad4b8990a3e39dfd805, type: 3}
@@ -9673,8 +9680,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: -859.9494, y: 396.57242}
-  m_SizeDelta: {x: 110.3734, y: 127.3279}
+  m_AnchoredPosition: {x: -832.5418, y: 396.57242}
+  m_SizeDelta: {x: 165.1886, y: 127.3279}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1981948279
 MonoBehaviour:

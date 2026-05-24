@@ -47,7 +47,6 @@ public class MapController : MonoBehaviour
 
     [SerializeField] private GameplayFlowManager gameplayFlowManager;
 
-
     private MapGraph graph;
     private MapNode currentNode;
     [SerializeField] private float currentDifficulty = 0; // Should be readonly
@@ -61,7 +60,8 @@ public class MapController : MonoBehaviour
     [Header("UI")]    
     public Canvas canvas;
     public MapUI mapUI;
-
+    private int mapSightDistance = 1;
+    
     public void StartMap()
     {
         graph = MapGeneratorAlgorithms.GenerateMap(stageCount, pathCount, minConnectionsPerStage, maxConnectionsPerStage, nodeProbabilities);
@@ -72,13 +72,20 @@ public class MapController : MonoBehaviour
         mapUI.ShowGraph(graph);
 
         mapUI.OnNodeClicked += OnNodeSelected;
-        mapUI.UpdatePlayerPosition(currentNode);
+        mapSightDistance = GetMapSightDistance();
+        mapUI.UpdatePlayerPosition(currentNode, mapSightDistance);
     }
 
     public void DisplayMap()
     {
         mapUI.Show();
-        mapUI.UpdatePlayerPosition(currentNode);
+        mapSightDistance = GetMapSightDistance();
+        mapUI.UpdatePlayerPosition(currentNode, mapSightDistance);
+    }
+
+    private int GetMapSightDistance()
+    {
+        return gameplayFlowManager.PlayerShip.componentGrid.GetComponentsOfType<EngineComponentController>().Count;
     }
 
     private void OnNodeSelected(MapNode node)
@@ -89,7 +96,8 @@ public class MapController : MonoBehaviour
         currentNode = node;
         currentNode.visited = true;
 
-        mapUI.UpdatePlayerPosition(currentNode);
+        mapSightDistance = GetMapSightDistance();
+        mapUI.UpdatePlayerPosition(currentNode, mapSightDistance);
         ResolveNode(node);
         mapUI.Hide();
     }
