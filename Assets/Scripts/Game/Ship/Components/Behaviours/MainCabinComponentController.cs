@@ -39,11 +39,9 @@ public class MainCabinComponentController : BehaviourComponentControllerAbstract
     
     }
 
-    public override bool OnActivate()
-    {
-        // TODO: cooldown (+ check currently held blocks maybe)
-        // maybe allow shooting and ripping, but just don't insert to inventory
 
+    public override bool OnActivate()
+    {       
         MouseController.Instance.EnterTargetingMode(this);
 
         return true;
@@ -122,6 +120,7 @@ public class MainCabinComponentController : BehaviourComponentControllerAbstract
 
     private void DealDamage(ShipComponentController targetShipComponent)
     {
+        Debug.Log("Hook deal damage");
         targetShipComponent.TakeDamage(hookDamage);
     }
 
@@ -135,7 +134,7 @@ public class MainCabinComponentController : BehaviourComponentControllerAbstract
             targetShipComponent.placementRules.connectedTile, false);
         // then kill them
 
-        Debug.Log("Breaking off");
+        // Debug.Log("Breaking off");
 
         // actually break this component off
         targetShip.componentGrid.RemoveComponent(targetShipComponent.placementRules.connectedTile, true, false);
