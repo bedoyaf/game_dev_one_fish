@@ -256,6 +256,12 @@ public class GameplayFlowManager : MonoBehaviour
 
     public void OnShowRewardEnd()
     {
+        if (rewardController.storedComponents.Count == 0)
+        {
+            stateMachine.ChangeState(GameStates.MapSelection);
+            return;
+        }
+
         stateMachine.ChangeState(GameStates.ShipModification);
     }
 

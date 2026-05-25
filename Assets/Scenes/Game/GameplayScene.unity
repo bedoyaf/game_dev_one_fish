@@ -665,12 +665,18 @@ MonoBehaviour:
   playerShip: {fileID: 516042540}
   enemySpawnPosition: {fileID: 1056875059}
   enemyShipPrefabs:
-  - {fileID: 178506578331663656, guid: 5e58848be53d71c4b890f725f045868c, type: 3}
-  - {fileID: 8735679993859663466, guid: 3964c196efb04b04591b1fdefbb7e903, type: 3}
-  - {fileID: 8735679993859663466, guid: 7634432d7e29c8b489c0a9cfe2f0904e, type: 3}
-  - {fileID: 8735679993859663466, guid: dd380c88832690e4b9f4a44ab6876527, type: 3}
-  - {fileID: 8735679993859663466, guid: a5eccf4db3f4a414a9ab994b9f9fb8e6, type: 3}
-  - {fileID: 8735679993859663466, guid: e3c41380397361847a30a95edc329487, type: 3}
+  - {fileID: 8735679993859663466, guid: f736d3e1018315b43aa43b21262a455c, type: 3}
+  - {fileID: 8735679993859663466, guid: e519d9dad2fbb9e4b9cda90370f7eda4, type: 3}
+  - {fileID: 8735679993859663466, guid: 352014913fbb56a46ab0384d8a0ff70c, type: 3}
+  - {fileID: 8735679993859663466, guid: 22c5b1ee68d7b0743b2dc63faa9191b1, type: 3}
+  - {fileID: 8735679993859663466, guid: 702be368baee5be45af41ddbeb7487b6, type: 3}
+  - {fileID: 8735679993859663466, guid: 8d6d6ccd98c086a4b991b879a131bf70, type: 3}
+  - {fileID: 8735679993859663466, guid: 610eea86b819b1a4cb91037a60a37af7, type: 3}
+  - {fileID: 8735679993859663466, guid: 82be415d529ca6746b1cf73be4f9c275, type: 3}
+  - {fileID: 8735679993859663466, guid: 2a7279b62bcfbd948bbfbd7b291a414b, type: 3}
+  - {fileID: 8735679993859663466, guid: 95e665b5e53c5c6479758ff1f431408d, type: 3}
+  - {fileID: 8735679993859663466, guid: ea0f447f043a0a640a49a0e716bbfb13, type: 3}
+  - {fileID: 8735679993859663466, guid: f95b30c2d0b3a8f44bdcd029635cb3dc, type: 3}
   gameplayFlowManager: {fileID: 992669697}
   lootInventoryParent: {fileID: 1442767120}
 --- !u!4 &224720032
@@ -2033,6 +2039,38 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3580451792754901194, guid: 9101963b760786d4783a45530197e394, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7408578033752756734, guid: 9101963b760786d4783a45530197e394, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -9.31
+      objectReference: {fileID: 0}
+    - target: {fileID: 7408578033752756734, guid: 9101963b760786d4783a45530197e394, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7408578033752756734, guid: 9101963b760786d4783a45530197e394, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 9023060938975131728, guid: 9101963b760786d4783a45530197e394, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 9023060938975131728, guid: 9101963b760786d4783a45530197e394, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 9037957298328804323, guid: 9101963b760786d4783a45530197e394, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 2.22
+      objectReference: {fileID: 0}
+    - target: {fileID: 9037957298328804323, guid: 9101963b760786d4783a45530197e394, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 288197366060487284, guid: 187c20461725122439c3c40d8368a792, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -5873,38 +5911,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player Ship
       objectReference: {fileID: 0}
-    - target: {fileID: 3580451792754901194, guid: 9101963b760786d4783a45530197e394, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 7408578033752756734, guid: 9101963b760786d4783a45530197e394, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -9.31
-      objectReference: {fileID: 0}
-    - target: {fileID: 7408578033752756734, guid: 9101963b760786d4783a45530197e394, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 7408578033752756734, guid: 9101963b760786d4783a45530197e394, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 9023060938975131728, guid: 9101963b760786d4783a45530197e394, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 9023060938975131728, guid: 9101963b760786d4783a45530197e394, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 9037957298328804323, guid: 9101963b760786d4783a45530197e394, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 2.22
-      objectReference: {fileID: 0}
-    - target: {fileID: 9037957298328804323, guid: 9101963b760786d4783a45530197e394, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.5
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 5601050381040963383, guid: 187c20461725122439c3c40d8368a792, type: 3}
@@ -6556,6 +6562,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 553948143093006649, guid: f28a73be86bdc3743a8b2abb6859b834, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1974249874210919041, guid: f28a73be86bdc3743a8b2abb6859b834, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -6711,6 +6721,10 @@ PrefabInstance:
     - target: {fileID: 8237810408535870286, guid: f28a73be86bdc3743a8b2abb6859b834, type: 3}
       propertyPath: m_fontColor32.rgba
       value: 4294967295
+      objectReference: {fileID: 0}
+    - target: {fileID: 8963300296435143338, guid: f28a73be86bdc3743a8b2abb6859b834, type: 3}
+      propertyPath: m_text
+      value: Continue journey
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
