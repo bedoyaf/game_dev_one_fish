@@ -47,7 +47,7 @@ public class MapController : MonoBehaviour
 
     [SerializeField] private GameplayFlowManager gameplayFlowManager;
 
-    private MapGraph graph;
+    public MapGraph graph { private set; get; }
     private MapNode currentNode;
     [SerializeField] private float currentDifficulty = 0; // Should be readonly
     [SerializeField] private MapNodeProbabilities nodeProbabilities;

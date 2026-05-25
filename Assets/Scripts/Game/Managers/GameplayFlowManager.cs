@@ -32,7 +32,7 @@ public class GameplayFlowManager : MonoBehaviour
     private EventController eventController;
 
     [SerializeField]
-    private MapController mapController;
+    public MapController mapController;
 
     public CombatController combatController;
     public RewardController rewardController;
@@ -256,12 +256,6 @@ public class GameplayFlowManager : MonoBehaviour
 
     public void OnShowRewardEnd()
     {
-        if (rewardController.storedComponents.Count == 0)
-        {
-            stateMachine.ChangeState(GameStates.MapSelection);
-            return;
-        }
-
         stateMachine.ChangeState(GameStates.ShipModification);
     }
 

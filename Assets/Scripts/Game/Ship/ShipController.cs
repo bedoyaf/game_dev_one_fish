@@ -143,6 +143,126 @@ public class ShipController : MonoBehaviour
     }
 
     /// <summary>
+    /// Captures the current runtime state of the ship and returns it as a serializable ShipState
+    /// Stores energy, money, health, and component states
+    /// </summary>
+    public ShipState SaveState()
+    {
+        ShipState state = new ShipState();
+
+        if (shipData != null)
+            state.shipDataName = shipData.name;
+
+        state.storedEnergy = storedEnergy;
+        state.storedMoney = storedMoney;
+
+        var mainCabin = GetMainCabin();
+        if (mainCabin != null)
+        {
+            state.mainCabinHealth = mainCabin.health;
+            state.mainCabinMaxHealth = mainCabin.maxHealth;
+        }
+
+        if (componentGrid != null)
+        {
+            var allComponents = componentGrid.GetAllComponents();
+            foreach (var component in allComponents)
+            {
+                if (component == null) continue;
+
+                var cs = new ComponentState
+                {
+                    componentType = (int)component.componentType,
+                    health = component.health,
+                    maxHealth = component.maxHealth,
+                    broken = component.broken
+                };
+
+                state.componentStates.Add(cs);
+            }
+        }
+
+        Debug.Log($"Ship state saved: Energy={state.storedEnergy}, Money={state.storedMoney}, Components={state.componentStates.Count}");
+        return state;
+    }
+
+    /// <summary>
+    /// Rebuilds the ship from a saved ShipState
+    /// If ShipData differs from the saved state, attempts to load it from Resources
+    /// Then rebuilds the ship and restores all runtime values (energy, money, health, components)
+    /// </summary>
+    public void BuildFromState(ShipState state)
+    {
+        if (state == null)
+        {
+            Debug.LogWarning("BuildFromState called with null state");
+            return;
+        }
+
+        // Try to load ShipData if the saved name differs
+        if (!string.IsNullOrEmpty(state.shipDataName) && (shipData == null || shipData.name != state.shipDataName))
+        {
+            ShipData loadedData = Resources.Load<ShipData>(state.shipDataName);
+            if (loadedData != null)
+            {
+                shipData = loadedData;
+                Debug.Log($"Loaded ShipData '{state.shipDataName}' from Resources");
+            }
+            else
+            {
+                Debug.LogWarning($"Could not find ShipData '{state.shipDataName}' in Resources. Using current ShipData.");
+            }
+        }
+
+        // Rebuild the ship's visual grid
+        if (shipData != null)
+        {
+            BuildShip();
+        }
+
+        // Restore runtime state (energy, money, health, component conditions)
+        storedEnergy = state.storedEnergy;
+        storedMoney = state.storedMoney;
+
+        var mainCabin = GetMainCabin();
+        if (mainCabin != null)
+        {
+            mainCabin.health = (int)state.mainCabinHealth;
+            mainCabin.maxHealth = (int)state.mainCabinMaxHealth;
+        }
+
+        if (componentGrid != null && state.componentStates != null)
+        {
+            var allComponents = componentGrid.GetAllComponents();
+            foreach (var component in allComponents)
+            {
+                if (component == null) continue;
+
+                var match = state.componentStates.Find(cs => cs.componentType == (int)component.componentType);
+                if (match != null)
+                {
+                    component.health = (int)match.health;
+                    // Note: 'broken' is read-only, so we can only restore health
+                    // To set broken state, use a different method if available
+                }
+            }
+        }
+
+        // Reassign controller references and update UI
+        if (componentGrid != null)
+        {
+            AssignShipController();
+        }
+
+        UpdateEnergyUI();
+
+        Debug.Log($"Ship rebuilt from state: Energy={state.storedEnergy}, Money={state.storedMoney}");
+    }
+
+
+
+
+    /// <summary>
     /// Tells builder to start building with given components.
     /// </summary>
     /// <param name="componentsForPlacement">Components to place.</param>

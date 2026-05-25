@@ -6,6 +6,8 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "SaveSlotData", menuName = "Scriptable Objects/SaveSlotData")]
 public class SaveSlotData : ScriptableObject
 {
+    public int slotIndex;
+
     // Instead of creating / deleting the slot, which is troublesome for reassigning
     // Keep the slots (instances) but check if it has data in it
     // And have the option to clear the data

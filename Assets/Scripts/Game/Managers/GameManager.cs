@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.IO;
 
 /// <summary>
 /// Current state:
@@ -64,26 +65,28 @@ public class GameManager : SmartSingleton<GameManager> {
     /// 
     /// * if in Editor Debug etc. if no slot is selected, a default one will be provided
     /// </summary>
-    public void StartGame() {
-        // Take the current save slot data (TODO)
-        // TODO: play cutscene maybe if first time
+    public void StartGame()
+    {
+        LoadRunFromJson();
 
-        // Start the game depending on it
-        // TODO: whatever needs to be done
+        if (currentRunData == null)
+        {
+            StartNewRun();
+        }
 
-        // Scene transition
-        // NOTE: is it okay to do like this ?
         TransitionScene("GameplayScene");
     }
 
     /// <summary>
     /// Call to change the current Run Data aka reset the Run.
     /// </summary>
-    public void RestartGame() {
-
+    public void RestartGame()
+    {
         MyTime.pausedOverride = 1;
         MyTime.slowDownOverride = 1;
-        // Maybe like this ?
+
+        StartNewRun();
+
         TransitionScene("GameplayScene");
     }
 
@@ -118,24 +121,11 @@ public class GameManager : SmartSingleton<GameManager> {
         // etc..
         MyTime.pausedOverride = 1;
         MyTime.slowDownOverride = 1;
+
+        GameManager.Instance.SaveRunToJson();
+
         TransitionScene("MainMenuScene");
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -167,7 +157,7 @@ public class GameManager : SmartSingleton<GameManager> {
 
     // 1-data
     private SaveSlotData _activeSaveSlot;
-    private SaveSlotData activeSaveSlot {
+    public SaveSlotData activeSaveSlot {
         get {
             // No save slot has been set
             // (ie. running in editor without picking
@@ -188,7 +178,55 @@ public class GameManager : SmartSingleton<GameManager> {
         activeSaveSlot = slot;
     }
 
+    public RunData CurrentRunData => currentRunData;
 
+    /// <summary>
+    /// Creates a new run and initializes RunData
+    /// </summary>
+    public void StartNewRun()
+    {
+        currentRunData = ScriptableObject.CreateInstance<RunData>();
+        Debug.Log("Started new run");
+    }
+
+    /// <summary>
+    /// Saves the current run to JSON
+    /// </summary>
+    public void SaveRunToJson()
+    {
+        if (currentRunData == null)
+        {
+            Debug.LogError("No active run to save");
+            return;
+        }
+
+        // Capture current game state
+        currentRunData.mapGraph = currentGameplayManager.mapController.graph;
+        currentRunData.map_pos = currentGameplayManager.mapController.CurrentNode.id;
+        currentRunData.playerShipState = currentGameplayManager.PlayerShip.SaveState();
+
+        string savePath = GetSaveFilePath();
+        currentRunData.SaveToJson(savePath);
+    }
+
+    /// <summary>
+    /// Loads a run from JSON
+    /// </summary>
+    public void LoadRunFromJson()
+    {
+        string savePath = GetSaveFilePath();
+        currentRunData = RunData.LoadFromJson(savePath);
+    }
+
+    /// <summary>
+    /// Gets the save file path for the current save slot
+    /// </summary>
+    private string GetSaveFilePath()
+    {
+        string persistentPath = Application.persistentDataPath;
+        return Path.Combine(persistentPath,$"slot_{activeSaveSlot.slotIndex}_run.json"
+);
+    }
 
     // -------------------------------------------------------
 
