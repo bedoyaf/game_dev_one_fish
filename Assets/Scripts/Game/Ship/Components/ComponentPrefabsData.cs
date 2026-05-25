@@ -40,6 +40,9 @@ public class ComponentPrefabsData : ScriptableObject
     //    public string Guid;
     //    public ShipComponentController component;
     //}
+    [TextArea(3,10)]
+    public string useDescription;
+
     public List<ShipComponentController> componentPrefabs;
 
     public void AssignGuids() {

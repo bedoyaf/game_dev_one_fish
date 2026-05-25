@@ -8220,6 +8220,8 @@ MonoBehaviour:
   statusBar: {fileID: 1880764423}
   energyBallSFXprefab: {fileID: 7728908910154949495, guid: a7074a163abac2f408d9c0b8cfc6f72c, type: 3}
   energyIndicatorPosition: {fileID: 1157773759}
+  shipExplosion: {fileID: 3482343678898837779, guid: 56d14597d04a4114d841c59d4e911429, type: 3}
+  particlesLifetime: 1
 --- !u!4 &1441420336
 Transform:
   m_ObjectHideFlags: 0
@@ -9008,6 +9010,7 @@ MonoBehaviour:
   nodePrefab: {fileID: 344792479086541794, guid: d5364c3169ec52e4b8e9c4aed16d3c55, type: 3}
   nodeParent: {fileID: 1127380459}
   canvasGroup: {fileID: 1723096967}
+  sightDistance: 1
   showWholeStages: 1
   linePrefab: {fileID: 2617016866678534494, guid: af3578ea2c3205e4d82469087920cefa, type: 3}
   currentNodeColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}

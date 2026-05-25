@@ -177,6 +177,9 @@ public class CombatController : SmartSingleton<CombatController>
         Debug.Log("COMBAT ENDING");
         var destroyedShip = mainCabin.shipController;
 
+        // FX of explosion
+        GameManager.Instance.SFXManager.ExplodeShip(destroyedShip);
+
         if (destroyedShip == playerShip)
         {
             playerWon = false;

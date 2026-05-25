@@ -175,4 +175,49 @@ public class SFXGameplayManager : MonoBehaviour
 
     }
 
+    // -----------------------------------------------------------------
+
+    [SerializeField] private ParticleSystem shipExplosion;
+    [SerializeField] private float particlesLifetime = 3;
+
+    public void ExplodeShip(ShipController ship)
+    {
+        
+
+        // Take all components in the ship's grid
+        var comps = ship.componentGrid.GetAllComponents();
+        var cabin = ship.GetMainCabin();
+
+        // Play explode particles
+        var particles = Instantiate(shipExplosion, 
+            cabin.transform.position + Vector3.up * 5, 
+            Quaternion.identity);
+        Destroy(particles.gameObject, particlesLifetime);
+
+        // Except cabin
+        comps.Remove(cabin);
+
+        // Scatter them into various directions
+        // tween the removed components positions
+        foreach (var item in comps)
+        {
+            // down position + slightly random left/right
+            var target = item.transform.position.SetZ(-5f)
+                + 10f * (0.5f - UnityEngine.Random.value) * Vector3.right;
+
+            float randomAngle = UnityEngine.Random.Range(0f, 30f);
+
+            // rotate
+            item.gameObject.transform.DOLocalRotate(
+                new Vector3(0f, randomAngle, 0f),
+                1f,
+                RotateMode.LocalAxisAdd
+            );
+
+            // move & don't destroy
+            item.gameObject.transform.DOMove(target, 2f);
+        }
+
+    }
+
 }
