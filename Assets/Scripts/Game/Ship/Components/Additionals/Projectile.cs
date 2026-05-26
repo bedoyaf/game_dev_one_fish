@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -36,18 +37,34 @@ public class Projectile : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-      //  Debug.Log("Hit: " + collision.gameObject.name);
+        //  Debug.Log("Hit: " + collision.gameObject.name);
+        bool shouldDestroy = true;
         
         if (collision.gameObject.TryGetComponent<ShipComponentMeshController>(out var target))
         {
-            target.OnDamagableCollision(damage);
+            StartCoroutine(DamageComponentCoroutine(target));
+            shouldDestroy = false;
         }
 
         var particles = Instantiate(deathParticles, transform.position, Quaternion.identity);
         MyTime.ScheduleDestruction(particles.gameObject, particlesLifetime);
         AudioManager.Instance.PlaySFX(deathSound, transform.position);
 
-        Destroy(gameObject);
+        if (shouldDestroy)
+            Destroy(gameObject);
+    }
+
+    /// <summary>
+    /// Do not question
+    /// Just give some time for physics to realize it hit a shield
+    /// </summary>
+    private IEnumerator DamageComponentCoroutine(ShipComponentMeshController target) {
+        yield return null;
+
+        target.OnDamagableCollision(damage);
+        if (gameObject != null) {
+            Destroy(gameObject);
+        }
     }
 }
 

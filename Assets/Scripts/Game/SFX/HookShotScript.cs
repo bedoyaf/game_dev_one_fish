@@ -23,6 +23,12 @@ public class HookShotScript : MonoBehaviour
 
     private Vector3 restPosition;
     private Vector3 restScale;
+
+    [Header("Sounds")]
+    [SerializeField] private AudioClip movingSound;
+    [SerializeField] private float movingSoundFadeDuration = 0.2f;
+    [SerializeField] private AudioClip tearingSound;
+
     private void Start()
     {
         restPosition = hook.transform.position;
@@ -117,6 +123,11 @@ public class HookShotScript : MonoBehaviour
         following = false;
         moving = true;
 
+        var movementAudio = AudioManager.Instance.PlaySFX(movingSound, hook.transform.position, 10);
+        movementAudio.volume = 0;
+        movementAudio.loop = true;
+        movementAudio.DOFade(1, movingSoundFadeDuration);
+
         // prefire the probe slightly before there
         yield return MyTime.WaitForSeconds(flyTime - probeTime);
 
@@ -140,6 +151,9 @@ public class HookShotScript : MonoBehaviour
         // Maybe rotate the hook / move back a pixel or two, as if pulling
         hook.transform.DOMove(position + 0.2f * (restPosition - position).normalized, grabTime * 0.8f);
 
+        movementAudio.DOFade(0, movingSoundFadeDuration);
+        AudioManager.Instance.PlaySFX(tearingSound);
+
         yield return MyTime.WaitForSeconds(grabTime);
 
         // reparent the component temporarily to the hook
@@ -155,8 +169,10 @@ public class HookShotScript : MonoBehaviour
 
         moving = true;
 
-        yield return MyTime.WaitForSeconds(flyTime);
+        movementAudio.DOFade(1, movingSoundFadeDuration);
 
+        yield return MyTime.WaitForSeconds(flyTime);
+        
         hook.transform.position = restPosition;
         moving = false;
         following = true;
@@ -165,6 +181,8 @@ public class HookShotScript : MonoBehaviour
 
         // reset scale
         hook.transform.localScale = restScale;
+
+        movementAudio.DOFade(0, movingSoundFadeDuration);
     }
 
 }
