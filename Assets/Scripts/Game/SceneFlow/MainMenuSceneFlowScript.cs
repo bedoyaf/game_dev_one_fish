@@ -19,7 +19,7 @@ public class MainMenuSceneFlowScript : MonoBehaviour
 
     public void OnPlayButtonClicked()
     {
-        GameManager.Instance.StartGame();
+        GameManager.Instance.TransitionScene("OpeningCutscenesScene");
     }
 
     // Probably not needed 

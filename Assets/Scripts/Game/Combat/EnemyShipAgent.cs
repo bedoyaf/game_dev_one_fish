@@ -265,7 +265,7 @@ public class EnemyShipAgent : MonoBehaviour
             {
 
                 // pick a random direction
-                var dir = MouseController.ENEMY_DIRECTIONS[Random.Range(0, 2)];
+                var dir = MouseController.ENEMY_DIRECTIONS[Random.Range(0, 3) % 3];
 
                 // Pick random tile of the component
                 var randomOffset = SelectRandomComponentTile(target);
