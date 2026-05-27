@@ -358,6 +358,11 @@ public class ShipComponentController : MonoBehaviour
         public ComponentGridTile connectedTile; // TODO - sorry, does not belong here
     }
 
+
+    // NOTE: maybe move to separate script ?
+    [SerializeField] private ComponentDescription myDescription;
+    public ComponentDescription GetDescription() => myDescription;
+
     public override string ToString()
     {
         return componentName;
@@ -377,4 +382,18 @@ public class ShipComponentController : MonoBehaviour
         Repaire
 
     }
+
+}
+
+[Serializable]
+public class ComponentDescription
+{
+    public bool ignore = true;
+
+    public string displayName;
+    public string costs;
+    public string textDescription;
+
+    public MeshFilter meshFilter;
+    public MeshRenderer meshRenderer;
 }

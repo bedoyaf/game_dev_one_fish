@@ -18,7 +18,7 @@ public class ShipComponentMeshController : MonoBehaviour, IDamagableCollider
 
     // Whether this component belongs to the player ship
     public bool BelongsToPlayer => shipComponentController.shipController.playerShip;
-
+    public ComponentDescription GetDescription => shipComponentController.GetDescription();
 
     public void Start()
     {
