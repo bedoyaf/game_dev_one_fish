@@ -17,40 +17,9 @@ using UnityEngine.UI;
 public class MainMenuSceneFlowScript : MonoBehaviour
 {
 
-    [Tooltip("The parent object for all main menu items")]
-    [SerializeField]
-    private GameObject mainMenuItemsParent;
-
-    [Tooltip("The parent object for all save slot selection items")]
-    [SerializeField]
-    private GameObject saveSelectionItemsParent;
-    
-    
-    [SerializeField]
-    private Transform background;
-    private float startBackX;
-
-
-    public float move_offset = 100;
-
-
-    public void Start()
-    {
-        startBackX = background.position.x;
-
-        mainMenuItemsParent.SetActive(true);
-        saveSelectionItemsParent.SetActive(false);
-
-    }
-
     public void OnPlayButtonClicked()
     {
-        mainMenuItemsParent.SetActive(false);
-        background.GetComponent<RectTransform>().DOAnchorPos3DX(startBackX - move_offset, 0.3f).onComplete += (
-            () => { 
-                saveSelectionItemsParent.SetActive(true);
-            });
-
+        GameManager.Instance.StartGame();
     }
 
     // Probably not needed 
@@ -61,13 +30,7 @@ public class MainMenuSceneFlowScript : MonoBehaviour
 
     public void OnBackFromSlotsClicked()
     {
-        saveSelectionItemsParent.SetActive(false);
-        mainMenuItemsParent.SetActive(true);
-        background.GetComponent<RectTransform>().DOAnchorPos3DX(startBackX, 0.2f).onComplete += (
-            () => {
-                mainMenuItemsParent.SetActive(true);
-            });
-
+        
     }
 
 
