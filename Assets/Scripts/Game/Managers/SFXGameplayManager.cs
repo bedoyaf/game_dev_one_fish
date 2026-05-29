@@ -1,6 +1,7 @@
 using DG.Tweening;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 
@@ -180,12 +181,13 @@ public class SFXGameplayManager : MonoBehaviour
     // -----------------------------------------------------------------
 
     [SerializeField] private ParticleSystem shipExplosion;
+    [SerializeField] private List<SoundData> explosionSounds;
+    [SerializeField] private int explosionCount = 3;
+    [SerializeField] private Vector2 timeBetweenExplosions = new Vector2(0.1f, 0.5f);
     [SerializeField] private float particlesLifetime = 3;
 
     public void ExplodeShip(ShipController ship)
     {
-        
-
         // Take all components in the ship's grid
         var comps = ship.componentGrid.GetAllComponents();
         var cabin = ship.GetMainCabin();
@@ -195,6 +197,7 @@ public class SFXGameplayManager : MonoBehaviour
             cabin.transform.position + Vector3.up * 5, 
             Quaternion.identity);
         Destroy(particles.gameObject, particlesLifetime);
+        StartCoroutine(PlayExplosionSounds());
 
         // Except cabin
         comps.Remove(cabin);
@@ -220,6 +223,14 @@ public class SFXGameplayManager : MonoBehaviour
             item.gameObject.transform.DOMove(target, 2f);
         }
 
+    }
+
+    private IEnumerator PlayExplosionSounds() {
+        for (int i = 0; i < explosionCount; i++) {
+            var sound = explosionSounds.GetRandom();
+            AudioManager.Instance.PlaySFX(sound);
+            yield return new WaitForSeconds(UnityEngine.Random.Range(timeBetweenExplosions.x, timeBetweenExplosions.y));
+        }
     }
 
 }

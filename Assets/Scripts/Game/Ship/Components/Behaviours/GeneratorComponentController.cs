@@ -19,9 +19,18 @@ public class GeneratorComponentController : BehaviourComponentControllerAbstract
 
     [SerializeField] private SoundData gatherPowerClip;
 
+    [SerializeField] private ParticleSystem energyParticles;
+    [SerializeField] private Vector2 emissionRate;
+
     public override bool CanClickOnNow => 
         !shipComponentController.broken 
         && GetCurrentEnergy > 0;
+
+    private void Start() {
+        if (shipComponentController.ComponentMesh.transform.localScale.z < 0) {
+            energyParticles.transform.localEulerAngles = new Vector3(180, 0, 0);
+        }
+    }
 
     public void DeleteEnergy()
     {
@@ -64,6 +73,9 @@ public class GeneratorComponentController : BehaviourComponentControllerAbstract
 
         energyStored = 0;
 
+        var emissionModule = energyParticles.emission;
+        emissionModule.rateOverTime = emissionRate.x;
+
         AudioManager.Instance.PlaySFX(gatherPowerClip, transform.position);
 
         if(shipComponentController.shipController.playerShip)
@@ -95,6 +107,9 @@ public class GeneratorComponentController : BehaviourComponentControllerAbstract
 
             energyStored++;
             energyStored = Mathf.Min(energyStored, energyMax);
+
+            var emissionModule = energyParticles.emission;
+            emissionModule.rateOverTime = Mathf.Lerp(emissionRate.x, emissionRate.y, (float)energyStored / energyMax);
         }
     }
 

@@ -25,6 +25,6 @@ public class UIButtonSound : MonoBehaviour, IPointerEnterHandler, IPointerClickH
     private void PlaySound(SoundData sound) {
         if (sound == null) return;
 
-        AudioManager.Instance.PlayUISound(sound);
+        AudioManager.Instance.PlaySFX(sound);
     }
 }

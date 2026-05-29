@@ -33,7 +33,7 @@ namespace UnityEngine {
         /// </summary>
         public static T Instance {
             get {
-                if (Quitting) {
+                if (Quitting && Application.isPlaying) {
                     Debug.LogWarning($"[{nameof(SmartSingleton<T>)}<{typeof(T)}>] Instance will not be returned because the application is quitting.");
                     // ReSharper disable once AssignNullToNotNullAttribute
                     return null;

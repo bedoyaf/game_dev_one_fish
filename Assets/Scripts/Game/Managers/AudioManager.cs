@@ -2,8 +2,6 @@ using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static GameplayFlowManager;
-using static Unity.VisualScripting.Member;
 
 /// <summary>
 /// Singleton managing the sound in the game.
@@ -116,8 +114,8 @@ public class AudioManager : SmartSingleton<AudioManager>
     public AudioSource PlaySFX(SoundData clip, Vector3 position = new Vector3(), float duration = -1, Transform parent = null) {
         if (clip == null || clip.clip == null) return null;
         var source = PlaySFX(clip.clip, position, duration, parent);
-        source.volume = clip.volume;
-        source.pitch = clip.pitch;
+        source.volume = clip.RandomizedVolume;
+        source.pitch = clip.RandomizedPitch;
 
         return source;
     }
@@ -139,8 +137,8 @@ public class AudioManager : SmartSingleton<AudioManager>
     public AudioSource CreateSFXAudioSource(GameObject target, SoundData sound) {
         var audioSource = CreateSFXAudioSource(target);
         audioSource.clip = sound.clip;
-        audioSource.volume = sound.volume;
-        audioSource.pitch = sound.pitch;
+        audioSource.volume = sound.RandomizedVolume;
+        audioSource.pitch = sound.RandomizedPitch;
         return audioSource;
     }
 

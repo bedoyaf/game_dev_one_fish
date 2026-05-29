@@ -16,5 +16,11 @@ public class SoundData : ScriptableObject
     [Range (0.5f, 1.5f)]
     public float pitch = 1f;
 
+    public Vector2 pitchRandomness = new Vector2(-0.05f, 0.05f);
+    public Vector2 volumeRandomness = new Vector2(-0.05f, 0.05f);
+
+    public float RandomizedVolume => volume + Random.Range(volumeRandomness.x, volumeRandomness.y);
+    public float RandomizedPitch => pitch + Random.Range(pitchRandomness.x, pitchRandomness.y);
+
     public bool doNotChangeName = false; // If the name should automatically be set to name of the clip
 }
