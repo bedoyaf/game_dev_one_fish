@@ -223,8 +223,10 @@ public class ShipComponentController : MonoBehaviour
 
     private float baseOutlineWidth = 1.0f;
     private float fadeTime;
+    private Color currentHightlightColor = Color.black;
     public void Highlight(Material highlightMaterial, Color color, float outlineSize, float fadeTime) {
         this.fadeTime = fadeTime;
+        currentHightlightColor = color;
         MeshRenderer mesh;
         if (outlineMesh == null) {
             outlineMesh = new GameObject($"{name} highlight");
@@ -253,6 +255,16 @@ public class ShipComponentController : MonoBehaviour
 
         mesh.materials = materials.ToArray();
         StartCoroutine(FadeOutline(materials, outlineSize, fadeTime, false));
+    }
+
+    public void ChangeHighlightColor(Color color) {
+        if (color == currentHightlightColor || outlineMesh == null) return;
+
+        currentHightlightColor = color;
+        var materials = outlineMesh.GetComponent<MeshRenderer>().materials;
+        foreach (var mat in materials) {
+            mat.DOColor(color, fadeTime);
+        }
     }
 
     private IEnumerator FadeOutline(List<Material> highlightMaterials, float target, float fadeTime, bool disable) {

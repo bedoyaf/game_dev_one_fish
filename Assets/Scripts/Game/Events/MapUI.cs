@@ -51,6 +51,8 @@ public class MapUI : MonoBehaviour
     [SerializeField] private Sprite restSprite;
     [SerializeField] private Sprite bossSprite;
 
+    [SerializeField] private bool debugAllVisible;
+
     /// <summary>
     /// function to hide and show the map ui
     /// </summary>
@@ -110,6 +112,7 @@ public class MapUI : MonoBehaviour
     public void UpdatePlayerPosition(MapNode current, int sightDistance)
     {
         this.sightDistance = sightDistance;
+        if (debugAllVisible) sightDistance = 10000;
         Debug.Log("Updating nodes");
         foreach (var kv in spawnedNodes)
         {

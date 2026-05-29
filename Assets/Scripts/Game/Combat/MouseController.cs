@@ -14,6 +14,7 @@ public class MouseController : MonoBehaviour
     public static MouseController Instance { get; private set; }
 
     private ClickMode currentMode = ClickMode.Default;
+    private ClickMode previousMode = ClickMode.Default;
     private IShipComponentBehaviour activeComponent;
 
     //Directional targeting
@@ -414,6 +415,8 @@ public class MouseController : MonoBehaviour
                 HighlightRepair(false);
                 break;
         }
+
+        previousMode = currentMode;
     }
 
 
@@ -427,43 +430,81 @@ public class MouseController : MonoBehaviour
     public Color hookAttackHighlightColor = new Color(255, 0, 3);
     public Color hookStealHighlightColor = new Color(38, 255, 0);
 
+
     private void HighlightAttack(Color color) {
+        var enemyShip = GameManager.Instance.currentGameplayManager.EnemyShip;
+        var newHighlighted = enemyShip.componentGrid.GetAllNonBrokenComponents();
+
         if (highlightedComponents.Count == 0) {
-            var enemyShip = GameManager.Instance.currentGameplayManager.EnemyShip;
-            highlightedComponents = enemyShip.componentGrid.GetAllNonBrokenComponents();
-            HighlightComponents(highlightedComponents, color);
+            HighlightComponents(newHighlighted, color);
         }
+        else if (currentMode == previousMode) {
+            CalculateDiffBetweenLists(highlightedComponents, newHighlighted, out var added, out var removed);
+            HandleChangesInHighlight(added, removed, color);
+        }
+
+        highlightedComponents = newHighlighted;
     }
     private void HighlightShields() {
+        var playerShip = GameManager.Instance.currentGameplayManager.PlayerShip;
+        var newHighlighted = playerShip.componentGrid.GetAllNonBrokenComponents();
+
         if (highlightedComponents.Count == 0) {
-            var playerShip = GameManager.Instance.currentGameplayManager.PlayerShip;
-            highlightedComponents = playerShip.componentGrid.GetAllNonBrokenComponents();
-            HighlightComponents(highlightedComponents, shieldHighlightColor);
+            HighlightComponents(newHighlighted, shieldHighlightColor);
         }
+        else if (currentMode == previousMode) {
+            CalculateDiffBetweenLists(highlightedComponents, newHighlighted, out var added, out var removed);
+            HandleChangesInHighlight(added, removed, shieldHighlightColor);
+        }
+
+        highlightedComponents = newHighlighted;
     }
     private void HighlightRepair(bool component) {
-        if (highlightedComponents.Count == 0) {
-            var playerShip = GameManager.Instance.currentGameplayManager.PlayerShip;
+        List<ShipComponentController> newHighlighted;
+        var playerShip = GameManager.Instance.currentGameplayManager.PlayerShip;
 
-            if (component) {
-                highlightedComponents = playerShip.componentGrid.GetAllComponents().Where(x => x.IsBroken).ToList();
-                HighlightComponents(highlightedComponents, repairHighlightColor);
-            }
-            else {
-                highlightedComponents = playerShip.componentGrid.GetAllComponents().Where(x => x.CanRepairThisComponent).ToList();
-            }
-
-            HighlightComponents(highlightedComponents, repairHighlightColor);
+        if (component) {
+            newHighlighted = playerShip.componentGrid.GetAllComponents().Where(x => x.IsBroken).ToList();
         }
+        else {
+            newHighlighted = playerShip.componentGrid.GetAllComponents().Where(x => x.CanRepairThisComponent).ToList();
+        }
+
+        if (highlightedComponents.Count == 0) {
+            HighlightComponents(newHighlighted, repairHighlightColor);
+        }
+        else {
+            CalculateDiffBetweenLists(highlightedComponents, newHighlighted, out var added, out var removed);
+            HandleChangesInHighlight(added, removed, repairHighlightColor);
+        }
+
+        highlightedComponents = newHighlighted;
     }
 
+    // Hook is bit more complicated than others
     private void HighlightHook() {
+        var enemyShip = GameManager.Instance.currentGameplayManager.EnemyShip;
+        var brokenComponents = enemyShip.componentGrid.GetAllBrokenComponents();
+
         if (highlightedComponents.Count == 0) {
             HighlightAttack(hookAttackHighlightColor);
-            var enemyShip = GameManager.Instance.currentGameplayManager.EnemyShip;
-            var brokenComponents = enemyShip.componentGrid.GetAllBrokenComponents();
             HighlightComponents(brokenComponents, hookStealHighlightColor);
             highlightedComponents.AddRange(brokenComponents);
+        }
+        else {
+            var targets = enemyShip.componentGrid.GetAllNonBrokenComponents();
+            var together = new List<ShipComponentController>();
+            together.AddRange(targets);
+            together.AddRange(brokenComponents);
+
+            CalculateDiffBetweenLists(highlightedComponents, together, out var added, out var removed);
+            HandleChangesInHighlight(added, removed, hookAttackHighlightColor);
+            foreach (var target in targets) {
+                target.ChangeHighlightColor(hookAttackHighlightColor);
+            }
+            foreach (var broken in brokenComponents) {
+                broken.ChangeHighlightColor(hookStealHighlightColor);
+            }
         }
     }
 
@@ -472,6 +513,31 @@ public class MouseController : MonoBehaviour
             highlight.Highlight(highlightMaterial, color, outlineWidth, fadeTime);
         }
     }
+
+    /// <summary>
+    /// Calculates difference in members between the original list and new list.
+    /// </summary>
+    private void CalculateDiffBetweenLists<T>(List<T> original, List<T> newValues, out List<T> added, out List<T> removed) {
+        added = new List<T>();
+        removed = new List<T>(original);
+
+        foreach (var item in newValues) {
+            if (!removed.Remove(item)) {
+                added.Add(item);
+            }
+        }
+    }
+
+    private void HandleChangesInHighlight(List<ShipComponentController> added, List<ShipComponentController> removed, Color componentColor) {
+        HighlightComponents(added, componentColor);
+
+        foreach (var highlight in removed) {
+            highlight.RemoveHighlight();
+        }
+    }
+
+
+
 
     private enum ShortTermMouseEvent
     {

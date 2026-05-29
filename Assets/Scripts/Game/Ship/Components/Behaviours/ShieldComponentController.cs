@@ -125,7 +125,7 @@ public class ShieldComponentController : BehaviourComponentControllerAbstract
         Vector3 position = targetTransform.position + Vector3.one * offset + target.ComponentOffset;
 
         if (!shipComponentController.shipController.playerShip)
-            position = targetTransform.position + new Vector3(-1, 1, 1) * offset + target.ComponentOffset;
+            position = targetTransform.position + new Vector3(-1, 0, 1) * offset + target.ComponentOffset;
             //position = new Vector3(targetTransform.position.x - offset, targetTransform.position.y + offset, targetTransform.position.z + offset);
 
         GameObject shieldObj = Instantiate(
