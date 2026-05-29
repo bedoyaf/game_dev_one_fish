@@ -1,4 +1,5 @@
 using NUnit.Framework;
+using NUnit.Framework.Constraints;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -101,7 +102,10 @@ public class MyTime : SmartSingleton<MyTime>
         }
     }
 
-    public static IEnumerator CallAfterTime(float seconds, Action callback) {
+    public static void CallAfterTime(float seconds, Action callback) {
+        Instance.StartCoroutine(_CallAfterTime(seconds, callback));
+    }
+    private static IEnumerator _CallAfterTime(float seconds, Action callback) {
         yield return WaitForSeconds(seconds);
         callback?.Invoke();
     }
