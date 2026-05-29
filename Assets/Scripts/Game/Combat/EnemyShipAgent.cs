@@ -124,7 +124,8 @@ public class EnemyShipAgent : MonoBehaviour
 
             // Activate this shield targeting the incoming component
             shieldComp.AgentActivateComponent(new TargetingData(targetComponent.shipComponentMeshController));
-            perfectShieldReaction = false; 
+            perfectShieldReaction = false;
+            perfectShieldTime = MyTime.time + perfectShieldInterval;
             return;
         }
     }

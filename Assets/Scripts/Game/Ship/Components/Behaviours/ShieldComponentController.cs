@@ -62,6 +62,13 @@ public class ShieldComponentController : BehaviourComponentControllerAbstract
         return false;
     }
 
+    public override bool CancelTargeting()
+    {
+        MouseController.Instance.ExitTargetingMode(false);
+
+        return true;
+    }
+
     public override bool OnTargetSelected(TargetingData target)
     {
         ShipComponentMeshController targetMesh = target.target;

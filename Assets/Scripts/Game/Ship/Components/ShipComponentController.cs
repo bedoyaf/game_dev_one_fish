@@ -153,6 +153,10 @@ public class ShipComponentController : MonoBehaviour
             activated = true;
             return componentBehaviour.OnActivate();
         }
+        else
+        {
+            DeactivateAimingAndRefund();
+        }
 
         return false;
     }
@@ -192,6 +196,41 @@ public class ShipComponentController : MonoBehaviour
         return false;
     }
 
+    /// <summary>
+    /// Deactivates only the aiming/targeting behaviour and refunds the energy used for activation.
+    /// This does not call the behaviour's normal OnDeactivate. Intended for scenarios like
+    /// cancelling targeting or when component breaks while in targeting mode.
+    /// Returns true if aiming was active and was cancelled, false otherwise.
+    /// </summary>
+    public bool DeactivateAimingAndRefund()
+    {
+        if (!activated) return false;
+
+        // If the behaviour supports explicit targeting cancel, call it so it can cleanup visuals.
+        bool handled = false;
+        if (componentBehaviour is BehaviourComponentControllerAbstract behaviourAbstract)
+        {
+            try
+            {
+                handled = behaviourAbstract.CancelTargeting();
+            }
+            catch (Exception e)
+            {
+                Debug.LogWarning($"Exception while cancelling targeting on {name}: {e}");
+            }
+        }
+
+        // Refund energy to ship
+        if (shipController != null && requiredEnergy > 0)
+        {
+            shipController.AddEnergy(requiredEnergy);
+        }
+
+        activated = false;
+
+        return handled;
+    }
+
     private void Die()//TODO MAKE BROKEN VERSION OF COMPONENT
     {
         OnDeath?.Invoke(this);
@@ -229,11 +268,16 @@ public class ShipComponentController : MonoBehaviour
 
     private void BreakComponent()
     {
+        // If component was active when it broke, cancel aiming and refund energy.
+        try {
+            DeactivateAimingAndRefund();
+        } catch (Exception) { }
+
         broken = true;
         shipComponentMeshController.ChangeMeshToBroken();
         shipComponentMeshController.OnHealthUpdate(0f);
         AudioManager.Instance.PlaySFX(breakClip, transform.position);
-        shipController.UpdateEnergyUI();
+        if (shipController != null) shipController.UpdateEnergyUI();
     }
 
 
