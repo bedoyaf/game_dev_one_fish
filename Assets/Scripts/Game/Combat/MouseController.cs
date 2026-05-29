@@ -89,7 +89,7 @@ public class MouseController : MonoBehaviour
     }
 
 
-    private ShipComponentMeshController GetMouseOver(ref RaycastHit hitInfo)
+    public ShipComponentMeshController GetMouseOver(ref RaycastHit hitInfo)
     {
         Vector2 mousePos = Mouse.current.position.ReadValue();
 
@@ -105,6 +105,24 @@ public class MouseController : MonoBehaviour
         // NOTE: might be null !!
         return hit.collider.GetComponentInParent<ShipComponentMeshController>();
     }
+
+    public ComponentBuildingDrag GetMouseOverDraggable(ref RaycastHit hitInfo)
+    {
+        Vector2 mousePos = Mouse.current.position.ReadValue();
+
+        if (float.IsNaN(mousePos.x) || float.IsNaN(mousePos.y))
+            return null;
+
+        Ray ray = cam.ScreenPointToRay(mousePos);
+
+        if (!Physics.Raycast(ray, out RaycastHit hit))
+            return null;
+
+        hitInfo = hit;
+        // NOTE: might be null !!
+        return hit.collider.GetComponentInParent<ComponentBuildingDrag>();
+    }
+
 
     private void OnClick(InputAction.CallbackContext ctx)
     {

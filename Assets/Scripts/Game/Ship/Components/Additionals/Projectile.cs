@@ -16,6 +16,8 @@ public class Projectile : MonoBehaviour
     public float particlesLifetime = 3;
 
     private Vector3 direction;
+    private bool incomingNotified = false;
+    private float maxRange = 0f;
 
     public void Init(Vector3 dir)
     {
@@ -23,6 +25,7 @@ public class Projectile : MonoBehaviour
 
         //Destroy(gameObject, lifetime);
         MyTime.ScheduleDestruction(gameObject, lifetime);
+        maxRange = speed * lifetime;
         var d = new Vector2(direction.x, direction.z).normalized;
         float angle = -(Mathf.Atan2(d.y, d.x) * Mathf.Rad2Deg);
         transform.localEulerAngles = new Vector3(0, angle, 0);
@@ -30,6 +33,22 @@ public class Projectile : MonoBehaviour
 
     void Update()
     {
+        // Before moving, raycast along the remaining path once to detect if we're going to hit a component.
+        if (!incomingNotified)
+        {
+            RaycastHit hit;
+            if (Physics.Raycast(transform.position, direction, out hit, maxRange))
+            {
+                if (hit.collider != null && hit.collider.TryGetComponent<ShipComponentMeshController>(out var meshController))
+                {
+                    float distance = hit.distance;
+                    float timeToImpact = distance / Mathf.Max(0.0001f, speed);
+                    meshController.OnIncomingProjectile(hit.point, timeToImpact, this);
+                    incomingNotified = true;
+                }
+            }
+        }
+
         transform.position += direction * speed * MyTime.deltaTime;
     }
 

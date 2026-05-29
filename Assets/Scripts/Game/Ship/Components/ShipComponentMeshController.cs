@@ -18,7 +18,7 @@ public class ShipComponentMeshController : MonoBehaviour, IDamagableCollider
 
     // Whether this component belongs to the player ship
     public bool BelongsToPlayer => shipComponentController.shipController.playerShip;
-
+    public ComponentDescription GetDescription => shipComponentController.GetDescription();
 
     public void Start()
     {
@@ -103,5 +103,16 @@ public class ShipComponentMeshController : MonoBehaviour, IDamagableCollider
     public void OnDamagableCollision(int amount)
     {
         shipComponentController.TakeDamage(amount);
+    }
+
+    /// <summary>
+    /// Called by projectiles to notify that they will hit this mesh at a future time.
+    /// Forwards the notification to the ShipComponentController so higher-level logic
+    /// (shields, components controller) can decide how to handle it.
+    /// </summary>
+    public void OnIncomingProjectile(Vector3 impactPoint, float timeToImpact, Projectile projectile)
+    {
+        // Forward to controller similar to collision handling
+        shipComponentController.IncomingProjectile(impactPoint, timeToImpact, projectile);
     }
 }

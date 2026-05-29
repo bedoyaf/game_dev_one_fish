@@ -29,6 +29,8 @@ public class ShipComponentController : MonoBehaviour
     private int healthPerRepair = 5;
 
     public UnityEvent<ShipComponentController> OnDeath;
+    // Event fired when a projectile is predicted to hit this component.
+    public UnityEvent<ShipComponentController> OnIncomingProjectile;
     public bool activated = false;
 
     public int requiredEnergy = 0;
@@ -76,6 +78,20 @@ public class ShipComponentController : MonoBehaviour
         if (componentBehaviour == null) Debug.LogWarning("Missing behaviour");//Make it error
         cooldown = GetComponent<ComponentCooldown>();
     }
+
+    /// <summary>
+    /// Called by mesh controller when a projectile is predicted to hit this component.
+    /// Forwards the notification via an event so other systems can react (shields, UI, etc).
+    /// </summary>
+    public void IncomingProjectile(Vector3 impactPoint, float timeToImpact, Projectile projectile)
+    {
+        // Default behavior: if shield exists, let shield know (shield may want to activate or block)
+        Debug.Log($"Incoming projectile in {timeToImpact}s at {impactPoint} to {name}");
+
+        OnIncomingProjectile?.Invoke(this);
+        
+    }
+
 
 
     // Update is called once per frame
@@ -370,6 +386,11 @@ public class ShipComponentController : MonoBehaviour
         public ComponentGridTile connectedTile; // TODO - sorry, does not belong here
     }
 
+
+    // NOTE: maybe move to separate script ?
+    [SerializeField] private ComponentDescription myDescription;
+    public ComponentDescription GetDescription() => myDescription;
+
     public override string ToString()
     {
         return componentName;
@@ -389,4 +410,18 @@ public class ShipComponentController : MonoBehaviour
         Repaire
 
     }
+
+}
+
+[Serializable]
+public class ComponentDescription
+{
+    public bool ignore = true;
+
+    public string displayName;
+    public string costs;
+    public string textDescription;
+
+    public MeshFilter meshFilter;
+    public MeshRenderer meshRenderer;
 }

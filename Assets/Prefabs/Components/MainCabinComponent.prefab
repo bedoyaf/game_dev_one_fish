@@ -417,7 +417,15 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5385403880273499414, guid: 76b53dd701359c84195162e28f3a0cbb, type: 3}
+      propertyPath: myDescription.costs
+      value: 3 <energy>
+      objectReference: {fileID: 0}
+    - target: {fileID: 5385403880273499414, guid: 76b53dd701359c84195162e28f3a0cbb, type: 3}
       propertyPath: placementRules.Left
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5385403880273499414, guid: 76b53dd701359c84195162e28f3a0cbb, type: 3}
+      propertyPath: myDescription.ignore
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5385403880273499414, guid: 76b53dd701359c84195162e28f3a0cbb, type: 3}
@@ -431,6 +439,24 @@ PrefabInstance:
     - target: {fileID: 5385403880273499414, guid: 76b53dd701359c84195162e28f3a0cbb, type: 3}
       propertyPath: placementRules.Bottom
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5385403880273499414, guid: 76b53dd701359c84195162e28f3a0cbb, type: 3}
+      propertyPath: myDescription.meshFilter
+      value: 
+      objectReference: {fileID: 7577069833932368215}
+    - target: {fileID: 5385403880273499414, guid: 76b53dd701359c84195162e28f3a0cbb, type: 3}
+      propertyPath: myDescription.displayName
+      value: Ship Cabin
+      objectReference: {fileID: 0}
+    - target: {fileID: 5385403880273499414, guid: 76b53dd701359c84195162e28f3a0cbb, type: 3}
+      propertyPath: myDescription.meshRenderer
+      value: 
+      objectReference: {fileID: 6321186679993111303}
+    - target: {fileID: 5385403880273499414, guid: 76b53dd701359c84195162e28f3a0cbb, type: 3}
+      propertyPath: myDescription.textDescription
+      value: The heart of the ship. Stores some <energy> for other ship components.
+        Can be used to fire a hook grabber. The grabber can steal broken components
+        of enemy ships.
       objectReference: {fileID: 0}
     - target: {fileID: 9035797840035424804, guid: 76b53dd701359c84195162e28f3a0cbb, type: 3}
       propertyPath: m_Mesh
@@ -532,3 +558,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ComponentCooldown
   cooldownTime: 5
+--- !u!23 &6321186679993111303 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 4898772173142610036, guid: 76b53dd701359c84195162e28f3a0cbb, type: 3}
+  m_PrefabInstance: {fileID: 1459925618552488819}
+  m_PrefabAsset: {fileID: 0}
+--- !u!33 &7577069833932368215 stripped
+MeshFilter:
+  m_CorrespondingSourceObject: {fileID: 9035797840035424804, guid: 76b53dd701359c84195162e28f3a0cbb, type: 3}
+  m_PrefabInstance: {fileID: 1459925618552488819}
+  m_PrefabAsset: {fileID: 0}

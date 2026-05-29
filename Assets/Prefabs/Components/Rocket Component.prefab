@@ -373,12 +373,36 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 6221272209699701762}
     - target: {fileID: 5385403880273499414, guid: 76b53dd701359c84195162e28f3a0cbb, type: 3}
+      propertyPath: myDescription.costs
+      value: 1 <energy>
+      objectReference: {fileID: 0}
+    - target: {fileID: 5385403880273499414, guid: 76b53dd701359c84195162e28f3a0cbb, type: 3}
+      propertyPath: myDescription.ignore
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5385403880273499414, guid: 76b53dd701359c84195162e28f3a0cbb, type: 3}
       propertyPath: placementRules.Right
       value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 5385403880273499414, guid: 76b53dd701359c84195162e28f3a0cbb, type: 3}
       propertyPath: placementRules.right
       value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5385403880273499414, guid: 76b53dd701359c84195162e28f3a0cbb, type: 3}
+      propertyPath: myDescription.meshFilter
+      value: 
+      objectReference: {fileID: 7577069833932368215}
+    - target: {fileID: 5385403880273499414, guid: 76b53dd701359c84195162e28f3a0cbb, type: 3}
+      propertyPath: myDescription.displayName
+      value: Rocket Launcher
+      objectReference: {fileID: 0}
+    - target: {fileID: 5385403880273499414, guid: 76b53dd701359c84195162e28f3a0cbb, type: 3}
+      propertyPath: myDescription.meshRenderer
+      value: 
+      objectReference: {fileID: 6321186679993111303}
+    - target: {fileID: 5385403880273499414, guid: 76b53dd701359c84195162e28f3a0cbb, type: 3}
+      propertyPath: myDescription.textDescription
+      value: Fires a single rocket at the selected target from the chosen direction.
       objectReference: {fileID: 0}
     - target: {fileID: 9035797840035424804, guid: 76b53dd701359c84195162e28f3a0cbb, type: 3}
       propertyPath: m_Mesh
@@ -462,5 +486,15 @@ MonoBehaviour:
 --- !u!1 &6221272209699701762 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4761664359144966001, guid: 76b53dd701359c84195162e28f3a0cbb, type: 3}
+  m_PrefabInstance: {fileID: 1459925618552488819}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &6321186679993111303 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 4898772173142610036, guid: 76b53dd701359c84195162e28f3a0cbb, type: 3}
+  m_PrefabInstance: {fileID: 1459925618552488819}
+  m_PrefabAsset: {fileID: 0}
+--- !u!33 &7577069833932368215 stripped
+MeshFilter:
+  m_CorrespondingSourceObject: {fileID: 9035797840035424804, guid: 76b53dd701359c84195162e28f3a0cbb, type: 3}
   m_PrefabInstance: {fileID: 1459925618552488819}
   m_PrefabAsset: {fileID: 0}
