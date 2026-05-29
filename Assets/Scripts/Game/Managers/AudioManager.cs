@@ -70,18 +70,24 @@ public class AudioManager : SmartSingleton<AudioManager>
     /// Plays SFX
     /// </summary>
     /// <param name="sfx">The sfx to play</param>
-    public void PlaySFX(AudioClip sfx) {
-        if (sfx == null) return;
-        sfxSource.PlayOneShot(sfx);
-    }
+    //public void PlaySFX(AudioClip sfx) {
+    //    if (sfx == null) return;
+    //    sfxSource.PlayOneShot(sfx);
+    //}
+
+    //public void PlaySFX(SoundData sfx) {
+    //    if (sfx == null || sfx.clip == null) return;
+    //    sfxSource.PlayOneShot(sfx.clip, sfx.volume);
+    //}
 
     /// <summary>
+    /// Do not use!
     /// Plays clip at a specific point in space
     /// We cannot do PlayClipAtPoint, because we want to use mixer, so we create a new object ourselves
     /// Returns the created audio source.
     /// TODO add object pooling if performance issues
     /// </summary>
-    public AudioSource PlaySFX(AudioClip clip, Vector3 position, float duration = -1, Transform parent = null) {
+    public AudioSource PlaySFX(AudioClip clip, Vector3 position = new Vector3(), float duration = -1, Transform parent = null) {
         if (clip == null) return null;
 
         var obj = new GameObject(clip.name);
@@ -107,6 +113,15 @@ public class AudioManager : SmartSingleton<AudioManager>
         return source;
     }
 
+    public AudioSource PlaySFX(SoundData clip, Vector3 position = new Vector3(), float duration = -1, Transform parent = null) {
+        if (clip == null || clip.clip == null) return null;
+        var source = PlaySFX(clip.clip, position, duration, parent);
+        source.volume = clip.volume;
+        source.pitch = clip.pitch;
+
+        return source;
+    }
+
     /// <summary>
     /// Adds an audio source to the game object with correct audio mixer
     /// </summary>
@@ -121,13 +136,22 @@ public class AudioManager : SmartSingleton<AudioManager>
         return audioSource;
     }
 
+    public AudioSource CreateSFXAudioSource(GameObject target, SoundData sound) {
+        var audioSource = CreateSFXAudioSource(target);
+        audioSource.clip = sound.clip;
+        audioSource.volume = sound.volume;
+        audioSource.pitch = sound.pitch;
+        return audioSource;
+    }
+
     /// <summary>
+    /// Do not use
     /// Plays sound using the sound data
     /// </summary>
-    public void PlayUISound(UISoundData sound) {
+    public void PlayUISound(SoundData sound) {
         var temp = sfxSource.volume;
         sfxSource.volume = sound.volume;
-        PlaySFX(sound.sound);
+        PlaySFX(sound.clip);
         sfxSource.volume = temp;
     }
 

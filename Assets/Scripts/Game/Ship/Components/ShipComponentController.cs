@@ -58,9 +58,9 @@ public class ShipComponentController : MonoBehaviour
 
     [Header("Sounds")]
     [FormerlySerializedAs("ActivationClip")]
-    public AudioClip activationClip;
-    public AudioClip repairClip;
-    public AudioClip breakClip;
+    public SoundData activationClip;
+    public SoundData repairClip;
+    public SoundData breakClip;
 
     [Header("Builder stuff")]
 

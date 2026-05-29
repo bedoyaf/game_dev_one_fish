@@ -11,7 +11,7 @@ public class MissileComponentController : BehaviourComponentControllerAbstract
     // How long, before the actual missile is spawned (the visual takes this long)
     [SerializeField] private float missileTravelTime;
 
-    [SerializeField] private AudioClip missileShootClip;
+    [SerializeField] private SoundData missileShootClip;
 
     public override bool CanClickOnNow
     {

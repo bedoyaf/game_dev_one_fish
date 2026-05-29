@@ -10,7 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4af37b221165e9642b8ebc8b65ace012, type: 3}
-  m_Name: StartGameSound
-  m_EditorClassIdentifier: Assembly-CSharp::UISoundData
-  sound: {fileID: 8300000, guid: 540d965dcaea46d40aaff04894fe89ba, type: 3}
+  m_Name: ComponentClickSound
+  m_EditorClassIdentifier: Assembly-CSharp::SoundData
+  clip: {fileID: 8300000, guid: 412434299ff6c8649b6377dd498c0232, type: 3}
   volume: 1
+  pitch: 1
+  doNotChangeName: 0

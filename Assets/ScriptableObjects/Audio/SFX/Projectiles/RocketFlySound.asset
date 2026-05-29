@@ -10,7 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4af37b221165e9642b8ebc8b65ace012, type: 3}
-  m_Name: NormalButtonClick
-  m_EditorClassIdentifier: Assembly-CSharp::UISoundData
-  sound: {fileID: 8300000, guid: 99c08290d50450e42be7c4c18fee5bbe, type: 3}
-  volume: 1
+  m_Name: RocketFlySound
+  m_EditorClassIdentifier: Assembly-CSharp::SoundData
+  clip: {fileID: 8300000, guid: b5b06c4fbc0a68e41ad69afc8c5d5a3d, type: 3}
+  volume: 0.6
+  pitch: 1
+  doNotChangeName: 0

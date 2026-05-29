@@ -17,7 +17,7 @@ public class GeneratorComponentController : BehaviourComponentControllerAbstract
 
     private float energyBuffer = 0;
 
-    [SerializeField] private AudioClip gatherPowerClip;
+    [SerializeField] private SoundData gatherPowerClip;
 
     public override bool CanClickOnNow => 
         !shipComponentController.broken 

@@ -13,8 +13,9 @@ using UnityEngine;
 public class SFXGameplayManager : MonoBehaviour
 {
 
-    [SerializeField] private AudioClip victoryClip;
-    [SerializeField] private AudioClip defeatClip;
+    [SerializeField] private SoundData victoryClip;
+    [SerializeField] private SoundData defeatClip;
+    [SerializeField] private SoundData shipEnterClip;
     public void EnterPlayerShip()
     {
         // TODO: tween movement from the top maybe
@@ -27,7 +28,8 @@ public class SFXGameplayManager : MonoBehaviour
     private float MoveTime = 1f;
     public void EnterEnemyShip()
     {
-        enemyShip.transform.DOMoveZ(playersShip.transform.position.z, MoveTime);
+        MyTime.CallAfterTime(0.5f, () => AudioManager.Instance.PlaySFX(shipEnterClip));
+        enemyShip.transform.DOMoveZ(playersShip.transform.position.z, MoveTime); 
     }
 
     public void ExitEnemyShip()

@@ -8830,8 +8830,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3d1eaaa5b60e1f48ab164b66e2e7612, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SFXGameplayManager
-  victoryClip: {fileID: 8300000, guid: ce1c57a18955efb449b15048e1c2f77f, type: 3}
-  defeatClip: {fileID: 8300000, guid: f41f5b7365a80d8449f25f85b47dbc13, type: 3}
+  victoryClip: {fileID: 11400000, guid: 61aacc5b5949ed44e960a68da2f8a11a, type: 2}
+  defeatClip: {fileID: 11400000, guid: e82486d40c8a3dc4cbfa8180f7391036, type: 2}
+  shipEnterClip: {fileID: 11400000, guid: 7fde0bf2bf6caf946bb2bf80d6837a8f, type: 2}
   SFXParent: {fileID: 1441420336}
   missileSFXprefab: {fileID: 7728908910154949495, guid: a29d78f1f9b1ae7408d03483e0c7f301, type: 3}
   statusBar: {fileID: 8237810407722717933}
@@ -9639,6 +9640,7 @@ MonoBehaviour:
   eliteSprite: {fileID: 539449100, guid: 14c7429eed96a084b88032b02add5840, type: 3}
   restSprite: {fileID: -1019446494, guid: ccdec57bfd6c9594e8b67d74bb889e8e, type: 3}
   bossSprite: {fileID: -134165214, guid: 14c7429eed96a084b88032b02add5840, type: 3}
+  debugAllVisible: 0
 --- !u!1001 &1723694585
 PrefabInstance:
   m_ObjectHideFlags: 0

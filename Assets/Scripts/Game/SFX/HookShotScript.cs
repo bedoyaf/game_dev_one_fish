@@ -25,9 +25,9 @@ public class HookShotScript : MonoBehaviour
     private Vector3 restScale;
 
     [Header("Sounds")]
-    [SerializeField] private AudioClip movingSound;
+    [SerializeField] private SoundData movingSound; 
     [SerializeField] private float movingSoundFadeDuration = 0.2f;
-    [SerializeField] private AudioClip tearingSound;
+    [SerializeField] private SoundData tearingSound;
 
     private void Start()
     {

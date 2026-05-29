@@ -46,8 +46,6 @@ public class MouseController : MonoBehaviour
 
     private int directionIndex = 1;
 
-    //public AudioClip componentClick;
-
     void Awake()
     {
         if (Instance != null && Instance != this)

@@ -4,8 +4,8 @@ using UnityEngine.UI;
 
 public class UIButtonSound : MonoBehaviour, IPointerEnterHandler, IPointerClickHandler
 {
-    [SerializeField] private UISoundData clickSound;
-    [SerializeField] private UISoundData hoverSound; // TODO use
+    [SerializeField] private SoundData clickSound;
+    [SerializeField] private SoundData hoverSound; // TODO use
 
     public void OnPointerClick(PointerEventData eventData) {
         PlaySound(clickSound);
@@ -22,7 +22,7 @@ public class UIButtonSound : MonoBehaviour, IPointerEnterHandler, IPointerClickH
         //}
     }
 
-    private void PlaySound(UISoundData sound) {
+    private void PlaySound(SoundData sound) {
         if (sound == null) return;
 
         AudioManager.Instance.PlayUISound(sound);

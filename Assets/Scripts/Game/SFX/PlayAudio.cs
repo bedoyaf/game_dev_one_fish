@@ -5,12 +5,11 @@ using UnityEngine;
 /// </summary>
 public class PlayAudio : MonoBehaviour
 {
-    public AudioClip sfxClip;
+    public SoundData sfxClip;
     void Start()
     {
-        var audioSource = AudioManager.Instance.CreateSFXAudioSource(gameObject);
+        var audioSource = AudioManager.Instance.CreateSFXAudioSource(gameObject, sfxClip);
         audioSource.loop = true;
-        audioSource.clip = sfxClip;
         audioSource.Play();
     }
 }

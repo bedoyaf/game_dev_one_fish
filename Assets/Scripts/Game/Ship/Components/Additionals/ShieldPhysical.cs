@@ -11,7 +11,7 @@ public class ShieldPhysical : MonoBehaviour
     [SerializeField] private float health = 10;
     [SerializeField] private float lifeSpan = 5;
     [SerializeField] private float shieldFadeTime = 0.2f;
-    [SerializeField] private AudioClip shieldEndClip;
+    [SerializeField] private SoundData shieldEndClip;
 
     public UnityEvent<ShieldPhysical> OnShieldDestroyed;
 

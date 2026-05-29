@@ -41,7 +41,7 @@ public class ShipBuildingController : MonoBehaviour
     private List<GameObject> instantiatedArrows = new();
 
     [Header("Sounds")]
-    public AudioClip placementClip;
+    public SoundData placementClip;
 
     private InputAction clickAction;
     private InputAction rightClickAction;

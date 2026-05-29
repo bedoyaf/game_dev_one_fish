@@ -19,7 +19,7 @@ public class ShieldComponentController : BehaviourComponentControllerAbstract
     private List<ShieldPhysical> physicalShields = new();
     private int physicalShieldsUp = 0;
 
-    public AudioClip shieldActivationClip;
+    public SoundData shieldActivationClip;
 
     public override bool CanClickOnNow
     {

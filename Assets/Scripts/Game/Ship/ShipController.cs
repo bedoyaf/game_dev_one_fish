@@ -40,8 +40,8 @@ public class ShipController : MonoBehaviour
 
     //CURRENCY PARTS
     public int storedMoney = 0;
-    public AudioClip moneyClip;
-    public AudioClip moneyBigClip;
+    public SoundData moneyClip;
+    public SoundData moneyBigClip;
 
     //Combat
     //Projectile spawnpoints

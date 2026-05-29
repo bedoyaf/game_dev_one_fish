@@ -1,4 +1,5 @@
 using NUnit.Framework;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -46,7 +47,7 @@ public class MyTime : SmartSingleton<MyTime>
     /// <param name="obj">The object to destroy</param>
     /// <param name="duration">After how long (in seconds)</param>
     public static void ScheduleDestruction(GameObject obj, float duration) {
-        destructionQueue.Add(time + duration + Random.Range(-0.001f, 0.001f), obj); // Randomness so that no two keys are the same
+        destructionQueue.Add(time + duration + UnityEngine.Random.Range(-0.01f, 0.01f), obj); // Randomness so that no two keys are the same
     }
 
     void Update()
@@ -98,5 +99,10 @@ public class MyTime : SmartSingleton<MyTime>
         while(time < endTime) {
             yield return null;
         }
+    }
+
+    public static IEnumerator CallAfterTime(float seconds, Action callback) {
+        yield return WaitForSeconds(seconds);
+        callback?.Invoke();
     }
 }

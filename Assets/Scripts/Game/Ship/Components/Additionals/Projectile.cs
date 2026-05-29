@@ -11,7 +11,7 @@ public class Projectile : MonoBehaviour
     public float lifetime = 5f;
     public int damage = 5;
 
-    public AudioClip deathSound;
+    public SoundData deathSound;
     public ParticleSystem deathParticles;
     public float particlesLifetime = 3;
 
