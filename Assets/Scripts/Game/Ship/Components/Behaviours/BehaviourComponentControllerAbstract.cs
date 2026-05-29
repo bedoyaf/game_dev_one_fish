@@ -54,4 +54,14 @@ public abstract class BehaviourComponentControllerAbstract : MonoBehaviour, IShi
     {
 
     }
+
+    /// <summary>
+    /// Optional hook for behaviours that enter targeting mode (aiming).
+    /// Called when the targeting should be cancelled (for example when player presses the component again
+    /// or the component breaks). Default implementation does nothing and returns false.
+    /// </summary>
+    public virtual bool CancelTargeting()
+    {
+        return false;
+    }
 }

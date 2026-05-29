@@ -54,6 +54,15 @@ public class MissileComponentController : BehaviourComponentControllerAbstract
         return true;
     }
 
+    public override bool CancelTargeting()
+    {
+        // If this behaviour entered targeting mode, ensure the mouse controller exits it
+        // and refund the activation energy to the ship.
+        MouseController.Instance.ExitTargetingMode(false);
+
+        return true;
+    }
+
     public override bool OnTargetSelected(TargetingData target)
     {
         var targetMesh = target.target;
