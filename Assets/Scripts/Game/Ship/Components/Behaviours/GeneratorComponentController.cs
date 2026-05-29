@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
@@ -19,8 +20,10 @@ public class GeneratorComponentController : BehaviourComponentControllerAbstract
 
     [SerializeField] private SoundData gatherPowerClip;
 
-    [SerializeField] private ParticleSystem energyParticles;
+    [SerializeField] private ParticleSystem generatorParticles;
     [SerializeField] private Vector2 emissionRate;
+    private List<BatteryComponentController> batteries;
+    private MainCabinComponentController mainCabin;
 
     public override bool CanClickOnNow => 
         !shipComponentController.broken 
@@ -28,8 +31,10 @@ public class GeneratorComponentController : BehaviourComponentControllerAbstract
 
     private void Start() {
         if (shipComponentController.ComponentMesh.transform.localScale.z < 0) {
-            energyParticles.transform.localEulerAngles = new Vector3(180, 0, 0);
+            generatorParticles.transform.localEulerAngles = new Vector3(180, 0, 0);
         }
+        batteries = shipComponentController.shipController.componentGrid.GetComponentsOfType<BatteryComponentController>();
+        mainCabin = shipComponentController.shipController.componentGrid.GetComponentsOfType<MainCabinComponentController>()[0];
     }
 
     public void DeleteEnergy()
@@ -69,11 +74,17 @@ public class GeneratorComponentController : BehaviourComponentControllerAbstract
 
         Debug.Log($"Transferred {energyStored} energy to ship");
 
+        //List<int> batteryEnergy = new();
+        //foreach (var battery in batteries) {
+        //    batteryEnergy.Add(battery.energyStored);
+        //}
+        //int shipEnergy = shipComponentController.shipController.GetEnergy;
+
         shipComponentController.shipController.AddEnergy(energyStored);
 
         energyStored = 0;
 
-        var emissionModule = energyParticles.emission;
+        var emissionModule = generatorParticles.emission;
         emissionModule.rateOverTime = emissionRate.x;
 
         AudioManager.Instance.PlaySFX(gatherPowerClip, transform.position);
@@ -83,6 +94,21 @@ public class GeneratorComponentController : BehaviourComponentControllerAbstract
             // Spawn SFX
             GameManager.Instance.SFXManager.EnergyGatheredEffect(gameObject.transform.position);
         }
+
+        //// Spawn energy particles
+        //int i = 0;
+        //foreach (var battery in batteries) {
+        //    int diff = battery.energyStored - batteryEnergy[i];
+        //    if (diff > 0) {
+        //        GameManager.Instance.SFXManager.EnergyTransmissionEffect(shipComponentController, battery.shipComponentController);
+        //        shipEnergy -= diff;
+        //    }
+        //}
+
+        //if (shipEnergy > 0) {
+        //    GameManager.Instance.SFXManager.EnergyTransmissionEffect(shipComponentController, mainCabin.shipComponentController);
+        //}
+
     }
 
     private void Update()
@@ -108,7 +134,7 @@ public class GeneratorComponentController : BehaviourComponentControllerAbstract
             energyStored++;
             energyStored = Mathf.Min(energyStored, energyMax);
 
-            var emissionModule = energyParticles.emission;
+            var emissionModule = generatorParticles.emission;
             emissionModule.rateOverTime = Mathf.Lerp(emissionRate.x, emissionRate.y, (float)energyStored / energyMax);
         }
     }

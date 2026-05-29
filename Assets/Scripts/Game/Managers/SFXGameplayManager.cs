@@ -156,6 +156,8 @@ public class SFXGameplayManager : MonoBehaviour
     public GameObject energyBallSFXprefab;
     public Transform energyIndicatorPosition;
 
+    public EnergyParticleMover energyParticlesPrefab;
+
     public void EnergyGatheredEffect(Vector3 spawnPoint)
     {
         // Spawn an energy ball, that moves toward the 
@@ -176,6 +178,26 @@ public class SFXGameplayManager : MonoBehaviour
             missileSFX.travelTime = 0.5f;
         }
 
+    }
+
+    public void EnergyTransmissionEffect(ShipComponentController start, ShipComponentController end) {
+        if (energyParticlesPrefab == null) return;
+        var startPoint = start.transform.position;
+        startPoint += new Vector3(0.5f, 0, 0.5f);
+        startPoint.y = 5;
+
+        var endPoint = end.transform.position;
+        endPoint += new Vector3(0.5f, 0, 0.5f);
+        endPoint.y = 5;
+
+        var energyParticles = Instantiate(
+            energyParticlesPrefab,
+            startPoint,
+            Quaternion.identity,
+            SFXParent
+        );
+
+        energyParticles.MoveParticles(endPoint);
     }
 
     // -----------------------------------------------------------------

@@ -11,8 +11,9 @@ GameObject:
   - component: {fileID: 3647605695843506793}
   - component: {fileID: 7771043190071248082}
   - component: {fileID: 829081919447243863}
+  - component: {fileID: 7760477601109047459}
   m_Layer: 0
-  m_Name: Particle System
+  m_Name: Energy Particles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -223,7 +224,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 1, g: 0, b: 0, a: 1}
+      maxColor: {r: 0.061437607, g: 1, b: 0, a: 1}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -4962,3 +4963,18 @@ ParticleSystemRenderer:
   m_MeshWeighting1: 1
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
+--- !u!114 &7760477601109047459
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7799760827031106742}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b3952f312411a049a5accb6a11dea03, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  speed: 6
+  delayOnStart: 0.1
+  delayOnEnd: 0.1
