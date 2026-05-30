@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using Unity.VisualScripting;
 using UnityEditor;
@@ -37,6 +38,7 @@ public class ShipController : MonoBehaviour
     public int storedEnergy = 0;
     public int batteryCapacity { get; private set; } = 0;
     private List<BatteryComponentController> batteries = new List<BatteryComponentController>();
+    private MainCabinComponentController mainCabin;
 
     //CURRENCY PARTS
     public int storedMoney = 0;
@@ -63,6 +65,7 @@ public class ShipController : MonoBehaviour
         AssignShipController();
 
         UpdateEnergyUI();
+        mainCabin = componentGrid.GetComponentsOfType<MainCabinComponentController>()[0];
     }
 
     public void BuildShip() {
@@ -309,11 +312,13 @@ public class ShipController : MonoBehaviour
     /// <summary>
     /// Adds energy through the generator system, makes sure it fits the batteries
     /// </summary>
-    public void AddEnergy(int energy)
+    /// <param name="originComponent">The component from which the energy originates. Add if you want particle effects</param>
+    public void AddEnergy(int energy, ShipComponentController originComponent = null)
     {
         //TODO BETTER LOADING OF BATTERIES
         
         batteries = componentGrid.GetComponentsOfType<BatteryComponentController>(false);
+        batteries.Shuffle();
         /* If living -> has cabin -> has at least some energy capacity
         if (batteries.Count == 0)
         {
@@ -331,8 +336,17 @@ public class ShipController : MonoBehaviour
         foreach (var component in batteries)
         {
             if (remaining == 0) break;
+            int temp = remaining;
             remaining = component.Chargenergy(remaining);
+
+            // Only send particles if some energy actually went into the baterry
+            if (originComponent != null && temp != remaining)
+                GameManager.Instance.SFXManager.EnergyTransmissionEffect(originComponent, component.shipComponentController);
         }
+
+        if (remaining > 0)
+            GameManager.Instance.SFXManager.EnergyTransmissionEffect(originComponent, mainCabin.shipComponentController);
+
         storedEnergy = totalEnergy;
         Debug.Log("energy" + totalEnergy);
         onEnergyChanged.Invoke();
@@ -342,7 +356,8 @@ public class ShipController : MonoBehaviour
     /// <summary>
     /// Takes energy through the component system, makes sure it fits the batteries. Returns true false if it had enaugh
     /// </summary>
-    public bool UseEnergy(int energy)
+    /// <param name="originComponent">The component from which the energy originates. Add if you want particle effects</param>
+    public bool UseEnergy(int energy, ShipComponentController originComponent = null)
     {
         if (batteries.Count == 0)//TODO BETTER LOADING OF BATTERIES
         {
@@ -356,6 +371,7 @@ public class ShipController : MonoBehaviour
             */
             batteryCapacity = (batteries.Count == 0 ? 0 : batteries.Count * batteries[0].energyMax)+ cabinEnergyCapacity;
         }
+        batteries.Shuffle();
         //not enough energy
         if(storedEnergy-energy<0)
         {
@@ -368,7 +384,14 @@ public class ShipController : MonoBehaviour
         {
             if (remaining == 0) break;
             remaining = component.DrainEnergy(remaining);
+            
+            if (originComponent != null)
+                GameManager.Instance.SFXManager.EnergyTransmissionEffect(component.shipComponentController, originComponent);
         }
+
+        if (remaining > 0)
+            GameManager.Instance.SFXManager.EnergyTransmissionEffect(mainCabin.shipComponentController, originComponent);
+
         storedEnergy = totalEnergy;
         onEnergyChanged.Invoke();
         return true;

@@ -143,7 +143,7 @@ public class ShipComponentController : MonoBehaviour
 
         if (!activated)
         {
-            if(!shipController.UseEnergy(requiredEnergy))
+            if(!shipController.UseEnergy(requiredEnergy, this))
             {
                 Debug.Log("Not enaugh energy");
                 return false;
@@ -173,7 +173,7 @@ public class ShipComponentController : MonoBehaviour
 
         if (!activated)
         {
-            if (!shipController.UseEnergy(requiredEnergy))
+            if (!shipController.UseEnergy(requiredEnergy, this))
             {
                 return;
             }

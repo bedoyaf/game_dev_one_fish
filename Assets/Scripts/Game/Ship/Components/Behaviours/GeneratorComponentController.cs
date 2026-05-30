@@ -33,8 +33,6 @@ public class GeneratorComponentController : BehaviourComponentControllerAbstract
         if (shipComponentController.ComponentMesh.transform.localScale.z < 0) {
             generatorParticles.transform.localEulerAngles = new Vector3(180, 0, 0);
         }
-        batteries = shipComponentController.shipController.componentGrid.GetComponentsOfType<BatteryComponentController>();
-        mainCabin = shipComponentController.shipController.componentGrid.GetComponentsOfType<MainCabinComponentController>()[0];
     }
 
     public void DeleteEnergy()
@@ -74,13 +72,22 @@ public class GeneratorComponentController : BehaviourComponentControllerAbstract
 
         Debug.Log($"Transferred {energyStored} energy to ship");
 
+        //// Had issues when it was in Start...
+        //if (batteries == null) {
+        //    batteries = shipComponentController.shipController.componentGrid.GetComponentsOfType<BatteryComponentController>(false);
+        //    mainCabin = shipComponentController.shipController.componentGrid.GetComponentsOfType<MainCabinComponentController>()[0];
+        //}
+
+        //// Store energy state before we add it
         //List<int> batteryEnergy = new();
         //foreach (var battery in batteries) {
         //    batteryEnergy.Add(battery.energyStored);
         //}
         //int shipEnergy = shipComponentController.shipController.GetEnergy;
 
-        shipComponentController.shipController.AddEnergy(energyStored);
+        shipComponentController.shipController.AddEnergy(energyStored, shipComponentController);
+
+        //int shipEnergyDiff = shipComponentController.shipController.GetEnergy - shipEnergy;
 
         energyStored = 0;
 
@@ -95,17 +102,18 @@ public class GeneratorComponentController : BehaviourComponentControllerAbstract
             GameManager.Instance.SFXManager.EnergyGatheredEffect(gameObject.transform.position);
         }
 
+        //// ----------------------
         //// Spawn energy particles
         //int i = 0;
         //foreach (var battery in batteries) {
         //    int diff = battery.energyStored - batteryEnergy[i];
         //    if (diff > 0) {
         //        GameManager.Instance.SFXManager.EnergyTransmissionEffect(shipComponentController, battery.shipComponentController);
-        //        shipEnergy -= diff;
+        //        shipEnergyDiff -= diff;
         //    }
         //}
 
-        //if (shipEnergy > 0) {
+        //if (shipEnergyDiff > 0) {
         //    GameManager.Instance.SFXManager.EnergyTransmissionEffect(shipComponentController, mainCabin.shipComponentController);
         //}
 

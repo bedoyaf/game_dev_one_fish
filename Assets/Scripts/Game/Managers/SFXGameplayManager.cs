@@ -183,11 +183,19 @@ public class SFXGameplayManager : MonoBehaviour
     public void EnergyTransmissionEffect(ShipComponentController start, ShipComponentController end) {
         if (energyParticlesPrefab == null) return;
         var startPoint = start.transform.position;
-        startPoint += new Vector3(0.5f, 0, 0.5f);
+        bool playerShip = start.shipController.playerShip;
+        if (playerShip)
+            startPoint += new Vector3(0.5f, 0, 0.5f);
+        else
+            startPoint += new Vector3(-0.5f, 0, 0.5f);
+
         startPoint.y = 5;
 
         var endPoint = end.transform.position;
-        endPoint += new Vector3(0.5f, 0, 0.5f);
+        if (playerShip)
+            endPoint += new Vector3(0.5f, 0, 0.5f);
+        else
+            endPoint += new Vector3(-0.5f, 0, 0.5f);
         endPoint.y = 5;
 
         var energyParticles = Instantiate(

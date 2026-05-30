@@ -224,7 +224,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 0.061437607, g: 1, b: 0, a: 1}
+      maxColor: {r: 1, g: 0.1259391, b: 0, a: 1}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -288,8 +288,8 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 0.15
-      minScalar: 0.1
+      scalar: 0.2
+      minScalar: 0.15
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -2811,7 +2811,7 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
   NoiseModule:
-    enabled: 1
+    enabled: 0
     strength:
       serializedVersion: 2
       minMaxState: 0
@@ -4975,6 +4975,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b3952f312411a049a5accb6a11dea03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  speed: 6
-  delayOnStart: 0.1
-  delayOnEnd: 0.1
+  speed: 10
+  delayOnStart: 0
+  delayOnEnd: 0.3
+  startPosition: {x: 0, y: 0, z: 0}
+  endPosition: {x: 0, y: 0, z: 0}

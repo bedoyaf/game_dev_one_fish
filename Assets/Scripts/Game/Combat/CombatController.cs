@@ -96,6 +96,7 @@ public class CombatController : SmartSingleton<CombatController>
 
         currentEnemyInstance = Instantiate(pickedShip);
         currentEnemyInstance.transform.position = enemySpawnPosition.position;
+        currentEnemyInstance.AssignShipController();
 
         currentEnemyAI = currentEnemyInstance.gameObject.GetComponent<EnemyShipAgent>();
         
