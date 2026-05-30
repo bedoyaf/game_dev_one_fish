@@ -167,4 +167,11 @@ public class AudioManager : SmartSingleton<AudioManager>
     private void CleanUp() {
         activeAudioSources.RemoveAll(x => x == null);
     }
+
+    public void StopAllSFX() {
+        foreach(var source in activeAudioSources) {
+            if (source != null) source.Stop();
+        }
+        activeAudioSources.Clear();
+    }
 }

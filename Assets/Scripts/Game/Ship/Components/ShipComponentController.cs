@@ -86,7 +86,7 @@ public class ShipComponentController : MonoBehaviour
     public void IncomingProjectile(Vector3 impactPoint, float timeToImpact, Projectile projectile)
     {
         // Default behavior: if shield exists, let shield know (shield may want to activate or block)
-        Debug.Log($"Incoming projectile in {timeToImpact}s at {impactPoint} to {name}");
+       // Debug.Log($"Incoming projectile in {timeToImpact}s at {impactPoint} to {name}");
 
         OnIncomingProjectile?.Invoke(this);
         

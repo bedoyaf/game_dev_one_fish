@@ -2,6 +2,7 @@ using NUnit.Framework;
 using UnityEngine;
 using System.Collections.Generic;
 using DG.Tweening;
+using System;
 
 public class CombatController : SmartSingleton<CombatController>
 {
@@ -19,6 +20,8 @@ public class CombatController : SmartSingleton<CombatController>
 
 
     [SerializeField] private Transform lootInventoryParent;
+
+    [SerializeField] public ShipController boss; 
 
     public void InformEnemyOfComponentRemoved()
     {
@@ -72,6 +75,7 @@ public class CombatController : SmartSingleton<CombatController>
     private EnemyShipAgent currentEnemyAI;
 
     public bool playerWon { get; private set; } = false;
+    public bool bossKilled { get; private set; } = false;
 
     private bool shipGiven;
 
@@ -191,6 +195,9 @@ public class CombatController : SmartSingleton<CombatController>
             playerWon=true;
             Debug.Log("Player won");
         }
+
+        if (destroyedShip.boss == true) bossKilled = true;
+
         currentEnemyAI.thinking = false;
         combatEnded = true;
         gameplayFlowManager.OnCombatEnd();

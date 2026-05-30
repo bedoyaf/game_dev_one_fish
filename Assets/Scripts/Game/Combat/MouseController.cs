@@ -231,7 +231,7 @@ public class MouseController : MonoBehaviour
         currentMode = ClickMode.Default;
         MyTime.slowDownOverride = 1f;
 
-        Debug.Log("Exited targeting mode");
+      //  Debug.Log("Exited targeting mode");
 
         // TODO: maybe fail sound ?
         if (!clickResult)

@@ -11,6 +11,7 @@ using static UnityEngine.EventSystems.EventTrigger;
 public class ShipController : MonoBehaviour
 {
     public bool playerShip = true;
+    public bool boss = false;
     public ShipBuildingController shipEditor;
     public Transform componentsParent;
 
@@ -66,6 +67,7 @@ public class ShipController : MonoBehaviour
 
         UpdateEnergyUI();
         mainCabin = componentGrid.GetComponentsOfType<MainCabinComponentController>()[0];
+        if (playerShip && boss) Debug.LogError("Something went wrong,the player is the boss");
     }
 
     public void BuildShip() {
@@ -348,7 +350,7 @@ public class ShipController : MonoBehaviour
             GameManager.Instance.SFXManager.EnergyTransmissionEffect(originComponent, mainCabin.shipComponentController);
 
         storedEnergy = totalEnergy;
-        Debug.Log("energy" + totalEnergy);
+       // Debug.Log("energy" + totalEnergy);
         onEnergyChanged.Invoke();
 
     }

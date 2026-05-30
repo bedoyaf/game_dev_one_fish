@@ -96,7 +96,7 @@ public class GameManager : SmartSingleton<GameManager> {
     public void PauseGame() {
         // TODO: actually pause 
         // disable in-game interactions etc.
-
+        AudioManager.Instance.StopAllSFX();
         MyTime.pausedOverride = 0;
         // maybe gameplay manager needs to know too
     }

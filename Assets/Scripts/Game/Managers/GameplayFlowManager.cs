@@ -45,6 +45,7 @@ public class GameplayFlowManager : MonoBehaviour
     public ShipController PlayerShip => playerShip;
     public ShipController EnemyShip => enemyShip;
 
+    
     void Awake()
     {
         GameManager.Instance.SetGameplayFlowInstance(this);
@@ -60,6 +61,7 @@ public class GameplayFlowManager : MonoBehaviour
             { GameStates.MapSelection, new MapSelectionState(this) },
             { GameStates.GameOver, new GameOverState(this) },
             { GameStates.Repairs, new RepairState(this) },
+            { GameStates.Ending, new GameEndingState(this) },
         };
 
         stateMachine = new GameStateMachine(states);
@@ -83,7 +85,8 @@ public class GameplayFlowManager : MonoBehaviour
         MapSelection,     // Map is up, can select where to go next
         GameOver,         // Game is over -> can restart
     
-        Repairs           // Repairing
+        Repairs,           // Repairing
+        Ending
     }
 
     public class GameStateMachine
@@ -148,6 +151,12 @@ public class GameplayFlowManager : MonoBehaviour
             return;
         }
 
+        if (choiceData.boss)
+        {
+            Debug.Log("Boss fight");
+            Fight(combatController.boss);
+            return;
+        }
         // TODO boss battle
     }
 
@@ -222,6 +231,11 @@ public class GameplayFlowManager : MonoBehaviour
     }
 
 
+    public void PlayGameEndingCutscene()
+    {
+        //TODO the actual cutscene
+    }
+
     // Called to stop modifying the ship 
     // Will toss unused components 
     public void StopModifying()
@@ -237,6 +251,11 @@ public class GameplayFlowManager : MonoBehaviour
         // kill the enemy / remove them
         if (combatController.playerWon)
         {
+            if(combatController.bossKilled)
+            {
+                OnBossDeath();
+                return;
+            }
             // Spawn loot
             //sfx.CombatEndTransition(true, () => { stateMachine.ChangeState(GameStates.RewardSelection); });
             sfx.CombatEndTransition(true, () => { stateMachine.ChangeState(GameStates.ShipModification); });
@@ -247,6 +266,11 @@ public class GameplayFlowManager : MonoBehaviour
             sfx.CombatEndTransition(false, () => { stateMachine.ChangeState(GameStates.GameOver); });
         }
 
+    }
+
+    public void OnBossDeath()
+    {
+        stateMachine.ChangeState(GameStates.Ending);
     }
 
     public void ShowGameOver()
