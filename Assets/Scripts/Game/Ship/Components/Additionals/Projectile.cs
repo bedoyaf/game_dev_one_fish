@@ -52,8 +52,6 @@ public class Projectile : MonoBehaviour
         transform.position += direction * speed * MyTime.deltaTime;
     }
 
-    private bool dead = false;
-
     private void OnCollisionEnter(Collision collision)
     {
         //  Debug.Log("Hit: " + collision.gameObject.name);

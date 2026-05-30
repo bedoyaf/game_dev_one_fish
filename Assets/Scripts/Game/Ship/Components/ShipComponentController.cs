@@ -266,6 +266,10 @@ public class ShipComponentController : MonoBehaviour
     }
 
 
+    public void ChangeVisualToBroken() {
+        shipComponentMeshController.ChangeMeshToBroken();
+    }
+
     private void BreakComponent()
     {
         // If component was active when it broke, cancel aiming and refund energy.
@@ -409,6 +413,14 @@ public class ShipComponentController : MonoBehaviour
         Debug.Log("Shield gone");
         if (shield != null) Destroy(shield);
         this.shield = null;
+    }
+
+    public Vector3 GetComponentCenter() {
+        var gridTile = placementRules.connectedTile;
+        if (shipController.playerShip) 
+            return transform.position + new Vector3(placementRules.width / 2.0f, 0.5f, placementRules.height / 2.0f);
+        else
+            return transform.position + new Vector3(-placementRules.width / 2.0f, 0.5f, placementRules.height / 2.0f);
     }
 
 

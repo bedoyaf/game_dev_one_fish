@@ -8954,9 +8954,11 @@ MonoBehaviour:
   energyIndicatorPosition: {fileID: 1157773759}
   energyParticlesPrefab: {fileID: 7760477601109047459, guid: 6c26ee3862477ce4c94a7165a1cdd577, type: 3}
   shipExplosion: {fileID: 3482343678898837779, guid: 56d14597d04a4114d841c59d4e911429, type: 3}
+  componentExplosion: {fileID: 3482343678898837779, guid: 17cd551733275c0469bf4afa1e04ac61, type: 3}
   explosionSounds:
   - {fileID: 11400000, guid: bac3d137b95194047b6aa0c4e02ba78b, type: 2}
-  explosionCount: 3
+  minExplosionCount: 3
+  maxExplosionCount: 5
   timeBetweenExplosions: {x: 0.1, y: 0.5}
   particlesLifetime: 1
 --- !u!4 &1441420336

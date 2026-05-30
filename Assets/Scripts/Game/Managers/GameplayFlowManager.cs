@@ -340,15 +340,21 @@ public class GameplayFlowManager : MonoBehaviour
                 //playerShip.GetMainCabin().TakeDamage(1000);
                 return;
             }
+
+            if (GUI.Button(new Rect(10, y, width, height), "DEBUG INSTAKILL PLAYER")) {
+                playerShip.GetMainCabin().TakeDamage(1000);
+                //playerShip.GetMainCabin().TakeDamage(1000);
+                return;
+            }
         }
 
-       /* if (stateMachine.CurrentStateKey == GameStates.GameOver)
-        {
-            if (GUI.Button(new Rect(500, 400, 150, 40), "RESTART"))
-            {
-                GameManager.Instance.RestartGame();
-            }
-        }*/
+        /* if (stateMachine.CurrentStateKey == GameStates.GameOver)
+         {
+             if (GUI.Button(new Rect(500, 400, 150, 40), "RESTART"))
+             {
+                 GameManager.Instance.RestartGame();
+             }
+         }*/
     }
 
     // TODO: (if will ever do) map selection

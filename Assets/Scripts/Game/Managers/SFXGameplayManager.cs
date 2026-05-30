@@ -2,7 +2,9 @@ using DG.Tweening;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using static Unity.Burst.Intrinsics.X86.Avx;
 
 
 /// <summary>
@@ -129,6 +131,10 @@ public class SFXGameplayManager : MonoBehaviour
 
         yield return new WaitForSeconds(0.2f);
 
+        // Wait for explosion to finish
+        while (shipExplosionOngoing)
+            yield return null;
+
         // Leave the text for the player to read
         yield return new WaitForSeconds(1f);
 
@@ -183,19 +189,21 @@ public class SFXGameplayManager : MonoBehaviour
     public void EnergyTransmissionEffect(ShipComponentController start, ShipComponentController end) {
         if (energyParticlesPrefab == null) return;
         var startPoint = start.transform.position;
-        bool playerShip = start.shipController.playerShip;
-        if (playerShip)
-            startPoint += new Vector3(0.5f, 0, 0.5f);
-        else
-            startPoint += new Vector3(-0.5f, 0, 0.5f);
+        //bool playerShip = start.shipController.playerShip;
+        //if (playerShip)
+        //    startPoint += new Vector3(0.5f, 0, 0.5f);
+        //else
+        //    startPoint += new Vector3(-0.5f, 0, 0.5f);
 
+        startPoint = start.GetComponentCenter();
         startPoint.y = 5;
 
         var endPoint = end.transform.position;
-        if (playerShip)
-            endPoint += new Vector3(0.5f, 0, 0.5f);
-        else
-            endPoint += new Vector3(-0.5f, 0, 0.5f);
+        //if (playerShip)
+        //    endPoint += new Vector3(0.5f, 0, 0.5f);
+        //else
+        //    endPoint += new Vector3(-0.5f, 0, 0.5f);
+        endPoint = end.GetComponentCenter();
         endPoint.y = 5;
 
         var energyParticles = Instantiate(
@@ -211,31 +219,73 @@ public class SFXGameplayManager : MonoBehaviour
     // -----------------------------------------------------------------
 
     [SerializeField] private ParticleSystem shipExplosion;
+    [SerializeField] private ParticleSystem componentExplosion;
     [SerializeField] private List<SoundData> explosionSounds;
-    [SerializeField] private int explosionCount = 3;
+    [SerializeField] private int minExplosionCount = 3;
+    [SerializeField] private int maxExplosionCount = 5;
     [SerializeField] private Vector2 timeBetweenExplosions = new Vector2(0.1f, 0.5f);
     [SerializeField] private float particlesLifetime = 3;
 
     public void ExplodeShip(ShipController ship)
     {
+        StartCoroutine(ExplodeShipCoroutine(ship));
+    }
+
+    private bool shipExplosionOngoing = false;
+
+    private IEnumerator ExplodeShipCoroutine(ShipController ship) {
         // Take all components in the ship's grid
         var comps = ship.componentGrid.GetAllComponents();
         var cabin = ship.GetMainCabin();
-
+        shipExplosionOngoing = true;
         // Play explode particles
-        var particles = Instantiate(shipExplosion, 
-            cabin.transform.position + Vector3.up * 5, 
-            Quaternion.identity);
-        Destroy(particles.gameObject, particlesLifetime);
-        StartCoroutine(PlayExplosionSounds());
+        //var particles = Instantiate(shipExplosion,
+        //    cabin.transform.position + Vector3.up * 5,
+        //    Quaternion.identity);
+        //Destroy(particles.gameObject, particlesLifetime);
+        //StartCoroutine(PlayExplosionSounds());
 
         // Except cabin
         comps.Remove(cabin);
 
+        // Explode in parts
+        comps.Shuffle();
+        int explosionCount = minExplosionCount;
+        int perPhase = comps.Count / explosionCount;
+        while (explosionCount < maxExplosionCount) {
+            if (perPhase <= 2 || UnityEngine.Random.Range(0.0f, 1.0f) < 0.33)
+                break;
+
+            explosionCount++;
+            perPhase = comps.Count / explosionCount;
+        }
+
+        for (int i = 0; i < explosionCount; i++) {
+            int start = i * perPhase;
+            int end = (i + 1) * perPhase;
+            // On last, get all remaining components
+            if (i == explosionCount - 1)
+                end = comps.Count;
+
+            for(int j = start; j < end; j++) {
+                var comp = comps[j];
+                var particles = Instantiate(componentExplosion, comp.GetComponentCenter() + Vector3.up * 5, Quaternion.identity);
+                Destroy(particles.gameObject, particlesLifetime);
+                comp.ChangeVisualToBroken();
+            }
+
+            AudioManager.Instance.PlaySFX(explosionSounds.GetRandom());
+            yield return new WaitForSeconds(UnityEngine.Random.Range(timeBetweenExplosions.x, timeBetweenExplosions.y));
+        }
+
+        // Explode main cabin and scatter parts
+        var shipParticles = Instantiate(shipExplosion, cabin.GetComponentCenter() + Vector3.up * 5, Quaternion.identity);
+        Destroy(shipParticles.gameObject, particlesLifetime);
+        AudioManager.Instance.PlaySFX(explosionSounds.GetRandom());
+
         // Scatter them into various directions
         // tween the removed components positions
-        foreach (var item in comps)
-        {
+        foreach (var item in comps) {
             // down position + slightly random left/right
             var target = item.transform.position.SetZ(-5f)
                 + 10f * (0.5f - UnityEngine.Random.value) * Vector3.right;
@@ -253,14 +303,15 @@ public class SFXGameplayManager : MonoBehaviour
             item.gameObject.transform.DOMove(target, 2f);
         }
 
+        shipExplosionOngoing = false;
     }
 
-    private IEnumerator PlayExplosionSounds() {
-        for (int i = 0; i < explosionCount; i++) {
-            var sound = explosionSounds.GetRandom();
-            AudioManager.Instance.PlaySFX(sound);
-            yield return new WaitForSeconds(UnityEngine.Random.Range(timeBetweenExplosions.x, timeBetweenExplosions.y));
-        }
-    }
+    //private IEnumerator PlayExplosionSounds() {
+    //    for (int i = 0; i < explosionCount; i++) {
+    //        var sound = explosionSounds.GetRandom();
+    //        AudioManager.Instance.PlaySFX(sound);
+    //        yield return new WaitForSeconds(UnityEngine.Random.Range(timeBetweenExplosions.x, timeBetweenExplosions.y));
+    //    }
+    //}
 
 }
