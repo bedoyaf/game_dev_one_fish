@@ -47,6 +47,7 @@ public class NoneEffect : EventEffectInside {
 /// <summary>
 /// Fight with this ship data
 /// </summary>
+[Serializable]
 public class FightEffect : EventEffectInside {
     [Tooltip("Select specific enemy to fight")]
     // public ShipData enemy;
@@ -71,6 +72,7 @@ public class FightEffect : EventEffectInside {
 /// <summary>
 /// Do nothing and leave
 /// </summary>
+[Serializable]
 public class RunEffect : EventEffectInside {
     public override bool ChangesState => false;
 
@@ -82,6 +84,7 @@ public class RunEffect : EventEffectInside {
 /// <summary>
 /// Changes player's money amount
 /// </summary>
+[Serializable]
 public class ChangeCurrencyAmountEffect : EventEffectInside {
     public int amount;
 
@@ -100,6 +103,7 @@ public class ChangeCurrencyAmountEffect : EventEffectInside {
 /// <summary>
 /// Randomly selects one effect.
 /// </summary>
+[Serializable]
 public class RandomChanceEffect : EventEffectInside {
     public List<ChanceData> possibilities;
     public override bool ChangesState {
@@ -134,6 +138,7 @@ public class RandomChanceEffect : EventEffectInside {
 /// <summary>
 /// Simply contains multiple effects inside
 /// </summary>
+[Serializable]
 public class MultiEffect : EventEffectInside {
     public List<EventEffect> effects;
     public override bool ChangesState {
@@ -154,6 +159,7 @@ public class MultiEffect : EventEffectInside {
 /// <summary>
 /// Adds a new event to potential event list
 /// </summary>
+[Serializable]
 public class AddEventEffect : EventEffectInside {
     public EventData eventToAdd;
 
@@ -169,6 +175,7 @@ public class AddEventEffect : EventEffectInside {
 /// <summary>
 /// Gives the player a component to place
 /// </summary>
+[Serializable]
 public class GetComponentEffect : EventEffectInside {
     public ShipComponentController component;
 
@@ -182,6 +189,7 @@ public class GetComponentEffect : EventEffectInside {
 /// <summary>
 /// Gives the player a component to place
 /// </summary>
+[Serializable]
 public class GetRandomComponentEffect : EventEffectInside {
     public List<ShipComponentController> components;
 
@@ -197,6 +205,7 @@ public class GetRandomComponentEffect : EventEffectInside {
 /// Breaks certain amount of components
 /// Makes sure one rocket remains
 /// </summary>
+[Serializable]
 public class BreakComponentsEffect : EventEffectInside {
     public int amount;
     [Tooltip("None means random")]
@@ -240,6 +249,7 @@ public class BreakComponentsEffect : EventEffectInside {
 /// <summary>
 /// Starts ship repairing
 /// </summary>
+[Serializable]
 public class RepairEffect : EventEffectInside {
     public override bool ChangesState => true;
 

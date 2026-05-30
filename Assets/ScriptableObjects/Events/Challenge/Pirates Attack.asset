@@ -24,18 +24,18 @@ MonoBehaviour:
     effects:
     - effectType: 1
       effectData:
-        rid: 2015264481275543779
+        rid: 4401092851130171396
     conditions: []
   - choiceID: pay
     choiceText: Pay them 5$ to let you go
     effects:
     - effectType: 3
       effectData:
-        rid: 2015264481275543780
+        rid: 4401092851130171398
     conditions:
     - conditionType: 1
       eventCondition:
-        rid: 2015264481275543782
+        rid: 4401092851130171400
   - choiceID: run
     choiceText: Run away from the fight using your fast engines
     effects:
@@ -49,20 +49,6 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
-    - rid: 2015264481275543779
-      type: {class: FightEffect, ns: , asm: Assembly-CSharp}
-      data:
-        enemyShipPrefab: {fileID: 0}
-        elite: 0
-    - rid: 2015264481275543780
-      type: {class: ChangeCurrencyAmountEffect, ns: , asm: Assembly-CSharp}
-      data:
-        amount: -5
-        randomness: 0
-    - rid: 2015264481275543782
-      type: {class: HasCurrencyCondition, ns: , asm: Assembly-CSharp}
-      data:
-        currencyCount: 5
     - rid: 4401092280337302474
       type: {class: RunEffect, ns: , asm: Assembly-CSharp}
       data: 
@@ -72,3 +58,17 @@ MonoBehaviour:
         componentType: 2
         component: {fileID: 0}
         componentCount: 3
+    - rid: 4401092851130171396
+      type: {class: FightEffect, ns: , asm: Assembly-CSharp}
+      data:
+        enemyShipPrefab: {fileID: 0}
+        elite: 0
+    - rid: 4401092851130171398
+      type: {class: ChangeCurrencyAmountEffect, ns: , asm: Assembly-CSharp}
+      data:
+        amount: -5
+        randomness: 0
+    - rid: 4401092851130171400
+      type: {class: HasCurrencyCondition, ns: , asm: Assembly-CSharp}
+      data:
+        currencyCount: 5

@@ -23,21 +23,21 @@ MonoBehaviour:
     effects:
     - effectType: 2
       effectData:
-        rid: 4401092280337302496
+        rid: 4401092851130171411
     conditions:
     - conditionType: 2
       eventCondition:
-        rid: 4401092280337302498
+        rid: 4401092851130171412
   - choiceID: shield
     choiceText: Use your shields to protect yourself
     effects:
     - effectType: 2
       effectData:
-        rid: 4401092280337302500
+        rid: 4401092851130171414
     conditions:
     - conditionType: 2
       eventCondition:
-        rid: 4401092280337302502
+        rid: 4401092851130171416
   - choiceID: damage
     choiceText: Meteorite hits! One random component becomes broken.
     effects:
@@ -48,26 +48,26 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
-    - rid: 4401092280337302496
-      type: {class: RunEffect, ns: , asm: Assembly-CSharp}
-      data: 
-    - rid: 4401092280337302498
-      type: {class: HasComponentsCondition, ns: , asm: Assembly-CSharp}
-      data:
-        componentType: 5
-        component: {fileID: 0}
-        componentCount: 3
-    - rid: 4401092280337302500
-      type: {class: RunEffect, ns: , asm: Assembly-CSharp}
-      data: 
-    - rid: 4401092280337302502
-      type: {class: HasComponentsCondition, ns: , asm: Assembly-CSharp}
-      data:
-        componentType: 6
-        component: {fileID: 0}
-        componentCount: 3
     - rid: 4401092280337302504
       type: {class: BreakComponentsEffect, ns: , asm: Assembly-CSharp}
       data:
         amount: 1
         componentType: 0
+    - rid: 4401092851130171411
+      type: {class: RunEffect, ns: , asm: Assembly-CSharp}
+      data: 
+    - rid: 4401092851130171412
+      type: {class: HasComponentsCondition, ns: , asm: Assembly-CSharp}
+      data:
+        componentType: 5
+        component: {fileID: 0}
+        componentCount: 3
+    - rid: 4401092851130171414
+      type: {class: RunEffect, ns: , asm: Assembly-CSharp}
+      data: 
+    - rid: 4401092851130171416
+      type: {class: HasComponentsCondition, ns: , asm: Assembly-CSharp}
+      data:
+        componentType: 6
+        component: {fileID: 0}
+        componentCount: 3

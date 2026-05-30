@@ -23,14 +23,14 @@ MonoBehaviour:
     effects:
     - effectType: 4
       effectData:
-        rid: 4401092281253757470
+        rid: 4401092851130171429
     conditions: []
   - choiceID: high_risk
     choiceText: 30 % win 10 money, 70 % nothing
     effects:
     - effectType: 4
       effectData:
-        rid: 4401092281253757474
+        rid: 4401092851130171433
     conditions: []
   - choiceID: leave
     choiceText: You are not interested
@@ -42,7 +42,10 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
-    - rid: 4401092281253757470
+    - rid: 4401092281253757477
+      type: {class: RunEffect, ns: , asm: Assembly-CSharp}
+      data: 
+    - rid: 4401092851130171429
       type: {class: RandomChanceEffect, ns: , asm: Assembly-CSharp}
       data:
         possibilities:
@@ -50,8 +53,8 @@ MonoBehaviour:
           effect:
             effectType: 3
             effectData:
-              rid: 4401092281253757478
-    - rid: 4401092281253757474
+              rid: 4401092851130171435
+    - rid: 4401092851130171433
       type: {class: RandomChanceEffect, ns: , asm: Assembly-CSharp}
       data:
         possibilities:
@@ -59,16 +62,13 @@ MonoBehaviour:
           effect:
             effectType: 3
             effectData:
-              rid: 4401092281253757479
-    - rid: 4401092281253757477
-      type: {class: RunEffect, ns: , asm: Assembly-CSharp}
-      data: 
-    - rid: 4401092281253757478
+              rid: 4401092851130171436
+    - rid: 4401092851130171435
       type: {class: ChangeCurrencyAmountEffect, ns: , asm: Assembly-CSharp}
       data:
         amount: 5
         randomness: 0
-    - rid: 4401092281253757479
+    - rid: 4401092851130171436
       type: {class: ChangeCurrencyAmountEffect, ns: , asm: Assembly-CSharp}
       data:
         amount: 10
