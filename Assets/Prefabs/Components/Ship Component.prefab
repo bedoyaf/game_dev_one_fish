@@ -32,6 +32,7 @@ Transform:
   m_Children:
   - {fileID: 2890683925031955270}
   - {fileID: 3276777902625882750}
+  - {fileID: 304789954040000001}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &5385403880273499414
@@ -61,6 +62,7 @@ MonoBehaviour:
   destroyRevenue: 1
   ComponentMesh: {fileID: 8104800591989940212}
   ComponentHitbox: {fileID: 4761664359144966001}
+  Decor: {fileID: 5660346433527769517}
   shipComponentMeshController: {fileID: 0}
   componentPrefabs: {fileID: 11400000, guid: f88a2b091bbc9dc4ea700e0654a36b57, type: 2}
   guid: fe783289-5cfe-44c7-be69-682dc79ae272
@@ -161,6 +163,37 @@ MonoBehaviour:
   meshRenderer: {fileID: 4898772173142610036}
   brokenColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   materialIndex: 0
+--- !u!1 &5660346433527769517
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 304789954040000001}
+  m_Layer: 0
+  m_Name: Decor
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &304789954040000001
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5660346433527769517}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.5, y: 0.5, z: 0.5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3549073369916533152}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8104800591989940212
 GameObject:
   m_ObjectHideFlags: 0

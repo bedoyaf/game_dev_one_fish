@@ -258,7 +258,12 @@ public class GameplayFlowManager : MonoBehaviour
             }
             // Spawn loot
             //sfx.CombatEndTransition(true, () => { stateMachine.ChangeState(GameStates.RewardSelection); });
-            sfx.CombatEndTransition(true, () => { stateMachine.ChangeState(GameStates.ShipModification); });
+            sfx.CombatEndTransition(true, () => {
+                Debug.Log("Entering ship mod");
+                stateMachine.ChangeState(GameStates.ShipModification);
+
+                Debug.Log($"Current state {stateMachine.CurrentStateKey}");
+            });
         }
         else
         {
@@ -365,7 +370,7 @@ public class GameplayFlowManager : MonoBehaviour
                 return;
             }
 
-            if (GUI.Button(new Rect(10, y, width, height), "DEBUG INSTAKILL PLAYER")) {
+            if (GUI.Button(new Rect(10, y-30, width, height), "DEBUG INSTAKILL PLAYER")) {
                 playerShip.GetMainCabin().TakeDamage(1000);
                 //playerShip.GetMainCabin().TakeDamage(1000);
                 return;

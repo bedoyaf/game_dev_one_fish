@@ -25,9 +25,10 @@ public class ShieldComponentController : BehaviourComponentControllerAbstract
     {
         get
         {
-            if (shipController == null) Debug.LogError("shipController is NULL (shield)"+gameObject.transform.parent.name);
-
-            return cooldown.IsReady &&
+            
+            return
+                shipController != null &&
+                cooldown.IsReady &&
             !shipComponentController.broken &&
             shipController.GetEnergy >= shipComponentController.requiredEnergy;
         }
