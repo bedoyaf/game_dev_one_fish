@@ -2,9 +2,13 @@ using DG.Tweening;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UIElements;
 using static Unity.Burst.Intrinsics.X86.Avx;
+using static UnityEditor.Progress;
+using static UnityEngine.Rendering.DebugUI;
 
 
 /// <summary>
@@ -253,21 +257,99 @@ public class SFXGameplayManager : MonoBehaviour
         int explosionCount = minExplosionCount;
         int perPhase = comps.Count / explosionCount;
         while (explosionCount < maxExplosionCount) {
-            if (perPhase <= 2 || UnityEngine.Random.Range(0.0f, 1.0f) < 0.33)
+            if (perPhase <= 2 || (perPhase <= 3 && UnityEngine.Random.Range(0.0f, 1.0f) < 0.33))
                 break;
 
             explosionCount++;
             perPhase = comps.Count / explosionCount;
         }
 
+        explosionCount = Mathf.Max(explosionCount, comps.Count);
+        if (explosionCount > 0)
+            perPhase = comps.Count / explosionCount;
+
         for (int i = 0; i < explosionCount; i++) {
+            var surroundings = AnalyzeComponentSurroundings(comps, ship);
+            int end = perPhase;
+
+            // On last, get all remaining components
+            if (i == explosionCount - 1)
+                end = surroundings.Count;
+
+            // Do explosion effect on each component and blast it away
+            for(int j = 0; j < end; j++) {
+                var surrounding = surroundings[j];
+                var comp = surrounding.component;
+                var particles = Instantiate(componentExplosion, comp.GetComponentCenter() + Vector3.up * 5, Quaternion.identity);
+                Destroy(particles.gameObject, particlesLifetime);
+                comp.ChangeVisualToBroken();
+                ship.componentGrid.RemoveComponent(comp.placementRules.connectedTile, false, false);
+                comps.Remove(comp);
+
+                // Explosion will blast the components away from the center with some randomization
+                var target = comp.GetComponentCenter();
+                var direction = (target - cabin.GetComponentCenter()).normalized;
+
+                var angle = UnityEngine.Random.Range(-30, 31) * Mathf.Deg2Rad;
+                direction = new Vector3(
+                    direction.x * Mathf.Cos(angle) - direction.z * Mathf.Sin(angle),
+                    0,
+                    direction.x * Mathf.Sin(angle) + direction.z * Mathf.Cos(angle));
+
+                target += direction.normalized * 200;
+
+                /*
+                // down position + slightly random left/right
+                //var target = comp.transform.position.SetZ(-5f) + 10f * (0.5f - UnityEngine.Random.value) * Vector3.right;
+
+                //if (surrounding.direction == Vector3.zero || UnityEngine.Random.Range(0, 1.0f) < 0.5) {
+                //    var hemispheres = surrounding.hemispheres;
+                //    var shuffledIndexes = new List<int>() { 0, 1, 2, 3 };
+                //    //var target = comp.transform.position + surroundings[j].direction * 200;
+
+                //    shuffledIndexes.Shuffle();
+                //    for (int k = 0; k < shuffledIndexes.Count; k++) {
+                //        int index = shuffledIndexes[k];
+                //        if (hemispheres[index]) {
+                //            float angle = (directionAngles[index] + UnityEngine.Random.Range(-45, 45 + 1)) * Mathf.Deg2Rad;
+                //            var direction = new Vector3(Mathf.Cos(angle), 0, Mathf.Sin(angle)).normalized;
+                //            target += direction * 200;
+                //            //target += new Vector3(directions[index].x, 0, directions[index].y) * 200;
+                //            //Debug.Log($"{index} {directions[index]} {hemispheres.ToDelimitedString()}");
+                //            break;
+                //        }
+                //    }
+                //}
+                //else {
+                //    target += surrounding.direction * 200;
+                //}
+                */
+
+                //rotate
+                float randomAngle = UnityEngine.Random.Range(0f, 360f);
+                comp.gameObject.transform.DOLocalRotate(
+                    new Vector3(0f, randomAngle, 0f),
+                    1f,
+                    RotateMode.LocalAxisAdd
+                );
+
+                // move & don't destroy
+                comp.gameObject.transform.DOMove(target, 10f);
+            }
+
+            AudioManager.Instance.PlaySFX(explosionSounds.GetRandom());
+            yield return MyTime.WaitForSeconds(UnityEngine.Random.Range(timeBetweenExplosions.x, timeBetweenExplosions.y));
+        }
+        /*
+        for (int i = 0; i < explosionCount; i++) {
+            var surroundings = AnalyzeComponentSurroundings(comps, ship);
             int start = i * perPhase;
             int end = (i + 1) * perPhase;
             // On last, get all remaining components
             if (i == explosionCount - 1)
                 end = comps.Count;
 
-            for(int j = start; j < end; j++) {
+            for (int j = start; j < end; j++) {
                 var comp = comps[j];
                 var particles = Instantiate(componentExplosion, comp.GetComponentCenter() + Vector3.up * 5, Quaternion.identity);
                 Destroy(particles.gameObject, particlesLifetime);
@@ -277,33 +359,92 @@ public class SFXGameplayManager : MonoBehaviour
             AudioManager.Instance.PlaySFX(explosionSounds.GetRandom());
             yield return new WaitForSeconds(UnityEngine.Random.Range(timeBetweenExplosions.x, timeBetweenExplosions.y));
         }
-
+        */
         // Explode main cabin and scatter parts
         var shipParticles = Instantiate(shipExplosion, cabin.GetComponentCenter() + Vector3.up * 5, Quaternion.identity);
         Destroy(shipParticles.gameObject, particlesLifetime);
         AudioManager.Instance.PlaySFX(explosionSounds.GetRandom());
 
-        // Scatter them into various directions
-        // tween the removed components positions
-        foreach (var item in comps) {
-            // down position + slightly random left/right
-            var target = item.transform.position.SetZ(-5f)
-                + 10f * (0.5f - UnityEngine.Random.value) * Vector3.right;
+        //// Scatter them into various directions
+        //// tween the removed components positions
+        //foreach (var item in comps) {
+        //    // down position + slightly random left/right
+        //    var target = item.transform.position.SetZ(-5f)
+        //        + 10f * (0.5f - UnityEngine.Random.value) * Vector3.right;
 
-            float randomAngle = UnityEngine.Random.Range(0f, 30f);
+        //    float randomAngle = UnityEngine.Random.Range(0f, 30f);
 
-            // rotate
-            item.gameObject.transform.DOLocalRotate(
-                new Vector3(0f, randomAngle, 0f),
-                1f,
-                RotateMode.LocalAxisAdd
-            );
+        //    // rotate
+        //    item.gameObject.transform.DOLocalRotate(
+        //        new Vector3(0f, randomAngle, 0f),
+        //        1f,
+        //        RotateMode.LocalAxisAdd
+        //    );
 
-            // move & don't destroy
-            item.gameObject.transform.DOMove(target, 2f);
-        }
+        //    // move & don't destroy
+        //    item.gameObject.transform.DOMove(target, 2f);
+        //}
 
         shipExplosionOngoing = false;
+    }
+
+    private static Vector2Int[] directions = new[] { Vector2Int.left, Vector2Int.right, Vector2Int.up, Vector2Int.down };
+    private static int[] directionAngles = new[] { 180, 0, 270, 90 };
+    
+    // Does not work on properly with big components
+    // Basically looks around components and 
+    private List<ComponentSurroundingsData> AnalyzeComponentSurroundings(List<ShipComponentController> comps, ShipController ship) {
+        List<ComponentSurroundingsData> surroundings = new();
+
+        var componentGrid = ship.componentGrid;
+        for (int i = 0; i < comps.Count; i++) {
+            var comp = comps[i];
+            var tile = comp.placementRules.connectedTile;
+
+            //var hemispheres = new List<bool>() { true, true, true, true };
+            Vector2Int sum = Vector2Int.zero;
+            // Figure out orientation
+            int k = 0;
+            int found = 0;
+            foreach (var dir in directions) {
+                int x = tile.x - dir.x;
+                if (playersShip) x = tile.x + dir.x;
+                int z = tile.z + dir.y;
+
+                if (componentGrid.ValidCoordinates(x, z) && !componentGrid[z, x].isPlaceholder) {
+                    sum += dir;
+                    //hemispheres[k] = false;
+                    found++;
+                }
+                k++;
+            }
+
+            //if (found == 4)
+            //    hemispheres[UnityEngine.Random.Range(0, 4)] = true;
+
+            int neighbors = componentGrid.GetTilesAroundComponent(tile.x, tile.z).Where(x => !x.isPlaceholder).ToList().Count;
+
+            ComponentSurroundingsData componentSur = new ComponentSurroundingsData();
+            componentSur.component = comp;
+            componentSur.neighbors = neighbors;
+            //componentSur.hemispheres = hemispheres;
+
+            if (sum != Vector2Int.zero) {
+                componentSur.direction = new Vector3(sum.x, 0, sum.y).normalized;
+            }
+
+            surroundings.Add(componentSur);
+        }
+
+        surroundings.Sort((x, y) => x.neighbors.CompareTo(y.neighbors));
+        return surroundings;
+    }
+
+    private struct ComponentSurroundingsData {
+        public ShipComponentController component;
+        public int neighbors;
+        public Vector3 direction;
+        //public List<bool> hemispheres;
     }
 
     //private IEnumerator PlayExplosionSounds() {

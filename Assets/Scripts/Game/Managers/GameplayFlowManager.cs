@@ -365,7 +365,7 @@ public class GameplayFlowManager : MonoBehaviour
                 return;
             }
 
-            if (GUI.Button(new Rect(10, y, width, height), "DEBUG INSTAKILL PLAYER")) {
+            if (GUI.Button(new Rect(10, y -  height * 1.5f, width, height), "DEBUG INSTAKILL PLAYER")) {
                 playerShip.GetMainCabin().TakeDamage(1000);
                 //playerShip.GetMainCabin().TakeDamage(1000);
                 return;
