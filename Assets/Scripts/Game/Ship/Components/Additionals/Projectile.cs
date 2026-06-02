@@ -14,10 +14,12 @@ public class Projectile : MonoBehaviour
     public SoundData deathSound;
     public ParticleSystem deathParticles;
     public float particlesLifetime = 3;
+    public bool hasDetachableParticles;
 
     private Vector3 direction;
     private bool incomingNotified = false;
     private float maxRange = 0f;
+
 
     public void Init(Vector3 dir)
     {
@@ -68,7 +70,7 @@ public class Projectile : MonoBehaviour
         AudioManager.Instance.PlaySFX(deathSound, transform.position);
 
         if (shouldDestroy)
-            Destroy(gameObject);
+            DoDestroy();
     }
 
     /// <summary>
@@ -80,8 +82,18 @@ public class Projectile : MonoBehaviour
 
         target.OnDamagableCollision(damage);
         if (gameObject != null) {
-            Destroy(gameObject);
+            DoDestroy();
         }
+    }
+
+    public void DoDestroy() {
+        if (hasDetachableParticles) {
+            foreach (var item in GetComponentsInChildren<DetachableParticles>()) {
+                item.Detach();
+            }
+        }
+
+        Destroy(gameObject);
     }
 }
 

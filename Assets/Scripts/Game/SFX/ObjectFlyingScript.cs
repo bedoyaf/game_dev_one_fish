@@ -7,7 +7,7 @@ public class ObjectFlyingScript : MonoBehaviour
     public Vector3 startPosition;
     public Vector3 endPosition;
     public float travelTime;
-
+    public bool hasDetachableParticles;
 
     
     private Vector3 dir;
@@ -32,6 +32,13 @@ public class ObjectFlyingScript : MonoBehaviour
         if (time > travelTime)
         {
             Destroy(gameObject);
+
+            if (hasDetachableParticles) {
+                foreach (var item in GetComponentsInChildren<DetachableParticles>()) {
+                    item.Detach();
+                }
+            }
+
         }
     }
 }

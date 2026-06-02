@@ -241,6 +241,9 @@ public class SFXGameplayManager : MonoBehaviour
         // Take all components in the ship's grid
         var comps = ship.componentGrid.GetAllComponents();
         var cabin = ship.GetMainCabin();
+
+        ship.componentsParent.transform.DOShakePosition(100, 0.3f);
+
         shipExplosionOngoing = true;
         // Play explode particles
         //var particles = Instantiate(shipExplosion,
@@ -264,7 +267,7 @@ public class SFXGameplayManager : MonoBehaviour
             perPhase = comps.Count / explosionCount;
         }
 
-        explosionCount = Mathf.Max(explosionCount, comps.Count);
+        explosionCount = Mathf.Min(explosionCount, comps.Count);
         if (explosionCount > 0)
             perPhase = comps.Count / explosionCount;
 
@@ -340,29 +343,21 @@ public class SFXGameplayManager : MonoBehaviour
             AudioManager.Instance.PlaySFX(explosionSounds.GetRandom());
             yield return MyTime.WaitForSeconds(UnityEngine.Random.Range(timeBetweenExplosions.x, timeBetweenExplosions.y));
         }
-        /*
-        for (int i = 0; i < explosionCount; i++) {
-            var surroundings = AnalyzeComponentSurroundings(comps, ship);
-            int start = i * perPhase;
-            int end = (i + 1) * perPhase;
-            // On last, get all remaining components
-            if (i == explosionCount - 1)
-                end = comps.Count;
 
-            for (int j = start; j < end; j++) {
-                var comp = comps[j];
-                var particles = Instantiate(componentExplosion, comp.GetComponentCenter() + Vector3.up * 5, Quaternion.identity);
-                Destroy(particles.gameObject, particlesLifetime);
-                comp.ChangeVisualToBroken();
-            }
-
-            AudioManager.Instance.PlaySFX(explosionSounds.GetRandom());
-            yield return new WaitForSeconds(UnityEngine.Random.Range(timeBetweenExplosions.x, timeBetweenExplosions.y));
-        }
-        */
         // Explode main cabin and scatter parts
         var shipParticles = Instantiate(shipExplosion, cabin.GetComponentCenter() + Vector3.up * 5, Quaternion.identity);
-        Destroy(shipParticles.gameObject, particlesLifetime);
+        MyTime.CallAfterTime(particlesLifetime, () => {
+            if (shipParticles != null) {
+                foreach (var particle in shipParticles.GetComponentsInChildren<ParticleSystem>()) {
+                    var main = particle.main;
+                    main.stopAction = ParticleSystemStopAction.Destroy;
+
+                    particle.Stop(false, ParticleSystemStopBehavior.StopEmitting);
+                }
+
+            }
+        });
+        //Destroy(shipParticles.gameObject, particlesLifetime);
         AudioManager.Instance.PlaySFX(explosionSounds.GetRandom());
 
         //// Scatter them into various directions
