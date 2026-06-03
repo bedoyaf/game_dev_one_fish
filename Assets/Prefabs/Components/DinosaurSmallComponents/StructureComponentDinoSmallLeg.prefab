@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 698461808431029003}
   - component: {fileID: 8417772720008300766}
   - component: {fileID: 7191509424731583889}
+  - component: {fileID: 5575620888812987369}
   m_Layer: 0
   m_Name: dino_small_0
   m_TagString: Untagged
@@ -26,13 +27,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 311740032691035553}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0.008, y: 0.739, z: 0.093}
+  m_LocalRotation: {x: 0.7041398, y: -0.06470845, z: 0.06470845, w: 0.7041398}
+  m_LocalPosition: {x: -0.097167015, y: 0.7390001, z: 0.14606231}
   m_LocalScale: {x: -1.7, y: 1.7, z: 1.7}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3154033290190673294}
-  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 10.501}
 --- !u!212 &8417772720008300766
 SpriteRenderer:
   serializedVersion: 2
@@ -59,7 +60,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
+  - {fileID: 2100000, guid: 5d95471b2a2ea9246870230c0be4f989, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -107,6 +108,18 @@ MonoBehaviour:
   angle: 5
   speed: 2
   offset: 0.36
+--- !u!114 &5575620888812987369
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 311740032691035553}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27dab1e73f4ead0408abc67a80795ce9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MaterialTransparentRotateUpdate
 --- !u!1001 &2791487881618985314
 PrefabInstance:
   m_ObjectHideFlags: 0
