@@ -284,7 +284,7 @@ public class SFXGameplayManager : MonoBehaviour
                 var surrounding = surroundings[j];
                 var comp = surrounding.component;
                 var particles = Instantiate(componentExplosion, comp.GetComponentCenter() + Vector3.up * 5, Quaternion.identity);
-                Destroy(particles.gameObject, particlesLifetime);
+                //Destroy(particles.gameObject, particlesLifetime);
                 comp.ChangeVisualToBroken();
                 ship.componentGrid.RemoveComponent(comp.placementRules.connectedTile, false, false);
                 comps.Remove(comp);
@@ -301,32 +301,6 @@ public class SFXGameplayManager : MonoBehaviour
 
                 target += direction.normalized * 200;
 
-                /*
-                // down position + slightly random left/right
-                //var target = comp.transform.position.SetZ(-5f) + 10f * (0.5f - UnityEngine.Random.value) * Vector3.right;
-
-                //if (surrounding.direction == Vector3.zero || UnityEngine.Random.Range(0, 1.0f) < 0.5) {
-                //    var hemispheres = surrounding.hemispheres;
-                //    var shuffledIndexes = new List<int>() { 0, 1, 2, 3 };
-                //    //var target = comp.transform.position + surroundings[j].direction * 200;
-
-                //    shuffledIndexes.Shuffle();
-                //    for (int k = 0; k < shuffledIndexes.Count; k++) {
-                //        int index = shuffledIndexes[k];
-                //        if (hemispheres[index]) {
-                //            float angle = (directionAngles[index] + UnityEngine.Random.Range(-45, 45 + 1)) * Mathf.Deg2Rad;
-                //            var direction = new Vector3(Mathf.Cos(angle), 0, Mathf.Sin(angle)).normalized;
-                //            target += direction * 200;
-                //            //target += new Vector3(directions[index].x, 0, directions[index].y) * 200;
-                //            //Debug.Log($"{index} {directions[index]} {hemispheres.ToDelimitedString()}");
-                //            break;
-                //        }
-                //    }
-                //}
-                //else {
-                //    target += surrounding.direction * 200;
-                //}
-                */
 
                 //rotate
                 float randomAngle = UnityEngine.Random.Range(0f, 360f);
@@ -359,26 +333,6 @@ public class SFXGameplayManager : MonoBehaviour
         });
         //Destroy(shipParticles.gameObject, particlesLifetime);
         AudioManager.Instance.PlaySFX(explosionSounds.GetRandom());
-
-        //// Scatter them into various directions
-        //// tween the removed components positions
-        //foreach (var item in comps) {
-        //    // down position + slightly random left/right
-        //    var target = item.transform.position.SetZ(-5f)
-        //        + 10f * (0.5f - UnityEngine.Random.value) * Vector3.right;
-
-        //    float randomAngle = UnityEngine.Random.Range(0f, 30f);
-
-        //    // rotate
-        //    item.gameObject.transform.DOLocalRotate(
-        //        new Vector3(0f, randomAngle, 0f),
-        //        1f,
-        //        RotateMode.LocalAxisAdd
-        //    );
-
-        //    // move & don't destroy
-        //    item.gameObject.transform.DOMove(target, 2f);
-        //}
 
         shipExplosionOngoing = false;
     }
@@ -441,13 +395,4 @@ public class SFXGameplayManager : MonoBehaviour
         public Vector3 direction;
         //public List<bool> hemispheres;
     }
-
-    //private IEnumerator PlayExplosionSounds() {
-    //    for (int i = 0; i < explosionCount; i++) {
-    //        var sound = explosionSounds.GetRandom();
-    //        AudioManager.Instance.PlaySFX(sound);
-    //        yield return new WaitForSeconds(UnityEngine.Random.Range(timeBetweenExplosions.x, timeBetweenExplosions.y));
-    //    }
-    //}
-
 }

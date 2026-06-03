@@ -56,6 +56,8 @@ public class ShipComponentController : MonoBehaviour
     public ComponentPrefabsData componentPrefabs;
     public string guid;
 
+    public ParticleSystem componentBreakParticles;
+
     [Header("Sounds")]
     [FormerlySerializedAs("ActivationClip")]
     public SoundData activationClip;
@@ -281,6 +283,8 @@ public class ShipComponentController : MonoBehaviour
         shipComponentMeshController.ChangeMeshToBroken();
         shipComponentMeshController.OnHealthUpdate(0f);
         AudioManager.Instance.PlaySFX(breakClip, transform.position);
+        if (componentBreakParticles != null)
+            Instantiate(componentBreakParticles, GetComponentCenter().SetY(3.5f), Quaternion.identity);
         if (shipController != null) shipController.UpdateEnergyUI();
     }
 

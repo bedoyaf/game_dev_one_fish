@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4754359756477001679}
   - component: {fileID: 3482343678898837779}
   - component: {fileID: 4103798723371129076}
+  - component: {fileID: -611379432858379092}
   m_Layer: 0
   m_Name: RocketExplosion
   m_TagString: Untagged
@@ -4931,6 +4932,20 @@ ParticleSystemRenderer:
   m_MeshWeighting1: 1
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
+--- !u!114 &-611379432858379092
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8214604426109733049}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5bc10a35eb95b184f98a3303a6850b52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ParticleSlowDown
+  fadeDuration: 0
+  affectChildren: 0
 --- !u!1001 &7127485305929897837
 PrefabInstance:
   m_ObjectHideFlags: 0

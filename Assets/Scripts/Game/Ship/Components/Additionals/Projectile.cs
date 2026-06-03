@@ -66,7 +66,7 @@ public class Projectile : MonoBehaviour
         }
 
         var particles = Instantiate(deathParticles, transform.position, Quaternion.identity);
-        MyTime.ScheduleDestruction(particles.gameObject, particlesLifetime);
+        //MyTime.ScheduleDestruction(particles.gameObject, particlesLifetime);
         AudioManager.Instance.PlaySFX(deathSound, transform.position);
 
         if (shouldDestroy)

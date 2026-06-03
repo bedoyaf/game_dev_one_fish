@@ -51,6 +51,8 @@ public class MyTime : SmartSingleton<MyTime>
         destructionQueue.Add(time + duration + UnityEngine.Random.Range(-0.01f, 0.01f), obj); // Randomness so that no two keys are the same
     }
 
+    public static float CurrentTimeScale => Mathf.Min(pausedOverride, Mathf.Min(slowDownOverride, timeScale));
+
     void Update()
     {
         // Not accurate in the long run, but I don't think it matters to us.
