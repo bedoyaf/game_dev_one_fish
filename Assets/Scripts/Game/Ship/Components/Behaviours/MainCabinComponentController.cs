@@ -1,6 +1,7 @@
 using DG.Tweening;
 using System.ComponentModel;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.Rendering;
 
 /// <summary>
@@ -16,7 +17,7 @@ public class MainCabinComponentController : BehaviourComponentControllerAbstract
     // NOTE: - need to figure out, cooldown timing
     //       - what should happen if there's a shield on the target
     //       
-
+    public UnityEvent onComponentPickup;
     public override bool CanClickOnNow
     {
         get
@@ -168,6 +169,7 @@ public class MainCabinComponentController : BehaviourComponentControllerAbstract
 
     private void PickupComponent(ShipComponentController targetShipComponent)
     {
+        onComponentPickup.Invoke();
         GameManager.Instance.currentGameplayManager.combatController.AddComponentLoot(targetShipComponent);
     }
 

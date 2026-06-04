@@ -38,7 +38,7 @@ public class ShipComponentController : MonoBehaviour
     // how much currency added if destroyed by the player
     public int destroyRevenue = 1;
 
-    private IShipComponentBehaviour componentBehaviour;
+    public IShipComponentBehaviour componentBehaviour { get; private set; }
 
     public ShipController shipController { get; private set; }
 
@@ -75,7 +75,7 @@ public class ShipComponentController : MonoBehaviour
     {
         componentBehaviour = GetComponent<IShipComponentBehaviour>();
       //  componentBehaviour.set
-        if (componentBehaviour == null) Debug.LogWarning("Missing behaviour");//Make it error
+       // if (componentBehaviour == null) Debug.LogWarning("Missing behaviour");//Make it error
         cooldown = GetComponent<ComponentCooldown>();
     }
 
@@ -243,6 +243,20 @@ public class ShipComponentController : MonoBehaviour
         BreakComponent();
 
 
+    }
+
+    [ContextMenu("Kill component")]
+    public void KillComponent()
+    {
+        BreakComponentInspector();
+    }
+
+    private void BreakComponentInspector()
+    {
+        broken = true;
+        CombatController.Instance.ComponentDestroyed(this, shipController);
+        GetComponentInChildren<ShipComponentMeshController>().ChangeMeshToBroken();
+        GetComponentInChildren<ShipComponentMeshController>().OnHealthUpdate(0f);
     }
 
     public void BreakOff() {

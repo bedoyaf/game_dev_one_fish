@@ -24,51 +24,51 @@ MonoBehaviour:
     effects:
     - effectType: 1
       effectData:
-        rid: 4401092851130171396
+        rid: 3958358507914002870
     conditions: []
   - choiceID: pay
-    choiceText: Pay them 5$ to let you go
+    choiceText: Pay them 5 scrap to let you go
     effects:
     - effectType: 3
       effectData:
-        rid: 4401092851130171398
+        rid: 3958358507914002872
     conditions:
     - conditionType: 1
       eventCondition:
-        rid: 4401092851130171400
+        rid: 3958358507914002874
   - choiceID: run
     choiceText: Run away from the fight using your fast engines
     effects:
     - effectType: 2
       effectData:
-        rid: 4401092280337302474
+        rid: 3958358507914002876
     conditions:
     - conditionType: 2
       eventCondition:
-        rid: 4401092280337302476
+        rid: 3958358507914002878
   references:
     version: 2
     RefIds:
-    - rid: 4401092280337302474
+    - rid: 3958358507914002870
+      type: {class: FightEffect, ns: , asm: Assembly-CSharp}
+      data:
+        enemyShipPrefab: {fileID: 0}
+        elite: 0
+    - rid: 3958358507914002872
+      type: {class: ChangeCurrencyAmountEffect, ns: , asm: Assembly-CSharp}
+      data:
+        amount: -5
+        randomness: 0
+    - rid: 3958358507914002874
+      type: {class: HasCurrencyCondition, ns: , asm: Assembly-CSharp}
+      data:
+        currencyCount: 5
+    - rid: 3958358507914002876
       type: {class: RunEffect, ns: , asm: Assembly-CSharp}
       data: 
-    - rid: 4401092280337302476
+    - rid: 3958358507914002878
       type: {class: HasComponentsCondition, ns: , asm: Assembly-CSharp}
       data:
         componentType: 2
         component: {fileID: 0}
         componentCount: 3
-    - rid: 4401092851130171396
-      type: {class: FightEffect, ns: , asm: Assembly-CSharp}
-      data:
-        enemyShipPrefab: {fileID: 0}
-        elite: 0
-    - rid: 4401092851130171398
-      type: {class: ChangeCurrencyAmountEffect, ns: , asm: Assembly-CSharp}
-      data:
-        amount: -5
-        randomness: 0
-    - rid: 4401092851130171400
-      type: {class: HasCurrencyCondition, ns: , asm: Assembly-CSharp}
-      data:
-        currencyCount: 5

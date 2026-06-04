@@ -22,5 +22,6 @@ public enum NodeType
     Event,
    // Shop,
     Rest,
-    Boss
+    Boss,
+    Tutorial
 }

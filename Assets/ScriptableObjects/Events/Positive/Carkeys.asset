@@ -10,86 +10,87 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ce492c0da6d80b0438eeff88d89d2455, type: 3}
-  m_Name: Shop
+  m_Name: Carkeys
   m_EditorClassIdentifier: Assembly-CSharp::EventData
-  eventID: shop
+  eventID: carkeys
   eventType: 0
   eventImage: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
   minimumStage: 2
-  eventText: You arrive at a shop. The shopkeeper offers to sell you one component.
+  eventText: We stumbled upon strange alien like thing. We might as well get some
+    of it for ourself.
   choices:
   - choiceID: rocket
-    choiceText: Buy one rocket for 5$
+    choiceText: Detach the rocket for 5 scrap
     effects:
     - effectType: 3
       effectData:
-        rid: 4401092281253757579
+        rid: 3958358507914002784
     - effectType: 7
       effectData:
-        rid: 4401092281253757581
+        rid: 3958358507914002786
     conditions:
     - conditionType: 1
       eventCondition:
-        rid: 4401092281253757583
+        rid: 3958358507914002788
   - choiceID: battery
-    choiceText: 'Buy one battery for 5$ '
+    choiceText: Detach the battery for 5 scrap
     effects:
     - effectType: 7
       effectData:
-        rid: 4401092281253757585
+        rid: 3958358507914002790
     conditions:
     - conditionType: 1
       eventCondition:
-        rid: 4401092281253757587
+        rid: 3958358507914002792
   - choiceID: repair
-    choiceText: Buy a repair component for 15$
+    choiceText: Detach the repair thingy for 15 scrap
     effects:
     - effectType: 7
       effectData:
-        rid: 4401092281253757589
+        rid: 3958358507914002794
     conditions:
     - conditionType: 1
       eventCondition:
-        rid: 4401092281253757591
+        rid: 3958358507914002796
   - choiceID: leave
-    choiceText: You are not interested
+    choiceText: You are not interested (they seem important)
     effects:
     - effectType: 2
       effectData:
-        rid: 4401092281253757593
+        rid: 3958358507914002798
     conditions: []
   references:
     version: 2
     RefIds:
-    - rid: 4401092281253757579
+    - rid: 3958358507914002784
       type: {class: ChangeCurrencyAmountEffect, ns: , asm: Assembly-CSharp}
       data:
         amount: -5
         randomness: 0
-    - rid: 4401092281253757581
+    - rid: 3958358507914002786
       type: {class: GetComponentEffect, ns: , asm: Assembly-CSharp}
       data:
         component: {fileID: 6845047944256034405, guid: 2830b339b4f764746b89c4505b1d6cbf, type: 3}
-    - rid: 4401092281253757583
+    - rid: 3958358507914002788
       type: {class: HasCurrencyCondition, ns: , asm: Assembly-CSharp}
       data:
         currencyCount: 5
-    - rid: 4401092281253757585
+    - rid: 3958358507914002790
       type: {class: GetComponentEffect, ns: , asm: Assembly-CSharp}
       data:
         component: {fileID: 6845047944256034405, guid: 8b861ca9d28fd524fa290b025e2c0f81, type: 3}
-    - rid: 4401092281253757587
+    - rid: 3958358507914002792
       type: {class: HasCurrencyCondition, ns: , asm: Assembly-CSharp}
       data:
         currencyCount: 5
-    - rid: 4401092281253757589
+    - rid: 3958358507914002794
       type: {class: GetComponentEffect, ns: , asm: Assembly-CSharp}
       data:
         component: {fileID: 6845047944256034405, guid: 0a116e11bf70077489ff96ae96f870b9, type: 3}
-    - rid: 4401092281253757591
+    - rid: 3958358507914002796
       type: {class: HasCurrencyCondition, ns: , asm: Assembly-CSharp}
       data:
         currencyCount: 15
-    - rid: 4401092281253757593
+    - rid: 3958358507914002798
       type: {class: RunEffect, ns: , asm: Assembly-CSharp}
       data: 
