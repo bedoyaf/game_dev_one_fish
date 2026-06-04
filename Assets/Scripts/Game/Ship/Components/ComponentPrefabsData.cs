@@ -47,9 +47,18 @@ public class ComponentPrefabsData : ScriptableObject
 
     public void AssignGuids() {
         //if (count != componentPrefabs.Count) {
+        var visited = new HashSet<string>();
         foreach (var component in componentPrefabs) {
-            if (component != null)
-                component.guid = System.Guid.NewGuid().ToString();
+            if (component != null) {
+                if (visited.Contains(component.guid)) {
+                    component.guid = System.Guid.NewGuid().ToString();
+                    #if UNITY_EDITOR
+                        UnityEditor.EditorUtility.SetDirty(component);
+                    #endif
+                }
+
+                visited.Add(component.guid);
+            }
         }
         this.SaveScene();
         //}

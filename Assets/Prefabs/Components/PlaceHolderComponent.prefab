@@ -61,9 +61,11 @@ MonoBehaviour:
   destroyRevenue: 1
   ComponentMesh: {fileID: 4356154640019006303}
   ComponentHitbox: {fileID: 8795247399380236874}
+  Decor: {fileID: 0}
   shipComponentMeshController: {fileID: 0}
   componentPrefabs: {fileID: 11400000, guid: f88a2b091bbc9dc4ea700e0654a36b57, type: 2}
-  guid: ed855e7d-b37f-4e39-936f-950a5a97928c
+  guid: 30a95f7c-22f4-4002-8a37-bbc0dce2580c
+  componentBreakParticles: {fileID: 0}
   activationClip: {fileID: 0}
   repairClip: {fileID: 0}
   breakClip: {fileID: 0}
@@ -120,7 +122,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0.5, y: 0.5, z: 0.5}
-  m_LocalScale: {x: 0.13, y: 1, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3549073369916533152}
