@@ -4,11 +4,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-<<<<<<< HEAD
-using static Unity.Burst.Intrinsics.X86.Avx;
-=======
->>>>>>> dev
-
 
 /// <summary>
 /// Special Effects for the Gameplay Scene.
@@ -226,14 +221,7 @@ public class SFXGameplayManager : MonoBehaviour
     [SerializeField] private SoundData componentExplosionSound;
     [SerializeField] private SoundData shipExplosionSound;
     [SerializeField] private float waitAfterShipExplosionTime = 2;
-<<<<<<< HEAD
     [SerializeField] private float waitBeforeShipExplosionTime = 0.5f;
-    //[SerializeField] private int minExplosionCount = 3;
-    //[SerializeField] private int maxExplosionCount = 5;
-=======
-    [SerializeField] private int minExplosionCount = 3;
-    [SerializeField] private int maxExplosionCount = 5;
->>>>>>> dev
     [SerializeField] private Vector2 timeBetweenExplosions = new Vector2(0.1f, 0.5f);
     [SerializeField] private float particlesLifetime = 1;
 
@@ -250,14 +238,11 @@ public class SFXGameplayManager : MonoBehaviour
         var cabin = ship.GetMainCabin();
 
         var shake = ship.componentsParent.transform.DOShakePosition(100f, 0.2f);
-<<<<<<< HEAD
         Tweener wireShake = null; 
         var wire = ship.transform.Find("wire");
         if (wire != null) {
             wireShake = ship.componentsParent.transform.DOShakePosition(100f, 0.2f);
         }
-=======
->>>>>>> dev
 
         shipExplosionOngoing = true;
         // Play explode particles
@@ -357,10 +342,7 @@ public class SFXGameplayManager : MonoBehaviour
         //Destroy(shipParticles.gameObject, particlesLifetime);
         AudioManager.Instance.PlaySFX(shipExplosionSound);
         shake.Kill();
-<<<<<<< HEAD
         if (wireShake != null) wireShake.Kill();
-=======
->>>>>>> dev
         yield return MyTime.WaitForSeconds(waitAfterShipExplosionTime);
 
         shipExplosionOngoing = false;
