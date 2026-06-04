@@ -10,7 +10,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 451362502789759760, guid: 9190658838a60b344af20b15098d4a8a, type: 3}
       propertyPath: m_Name
-      value: MainCabinComponentDinoMid Variant
+      value: MainCabinComponentDinoSmall
       objectReference: {fileID: 0}
     - target: {fileID: 2061965659983611197, guid: 9190658838a60b344af20b15098d4a8a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -52,6 +52,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7391571773637799411, guid: 9190658838a60b344af20b15098d4a8a, type: 3}
+      propertyPath: meshMat
+      value: 
+      objectReference: {fileID: 1876031153164143366}
+    - target: {fileID: 7391571773637799411, guid: 9190658838a60b344af20b15098d4a8a, type: 3}
+      propertyPath: selfMat
+      value: 
+      objectReference: {fileID: 3960664948457555275}
     - target: {fileID: 7937219328011091177, guid: 9190658838a60b344af20b15098d4a8a, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
@@ -65,3 +73,13 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9190658838a60b344af20b15098d4a8a, type: 3}
+--- !u!23 &1876031153164143366 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 7937219328011091177, guid: 9190658838a60b344af20b15098d4a8a, type: 3}
+  m_PrefabInstance: {fileID: 8372097733692848111}
+  m_PrefabAsset: {fileID: 0}
+--- !u!212 &3960664948457555275 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 4816794694987690660, guid: 9190658838a60b344af20b15098d4a8a, type: 3}
+  m_PrefabInstance: {fileID: 8372097733692848111}
+  m_PrefabAsset: {fileID: 0}
