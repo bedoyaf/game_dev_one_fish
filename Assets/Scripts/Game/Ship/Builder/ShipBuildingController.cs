@@ -180,6 +180,8 @@ public class ShipBuildingController : MonoBehaviour
             var collider = Instantiate(comp.ComponentHitbox, parent.transform);
             Destroy(collider.GetComponent<ShipComponentMeshController>());
 
+            // Decor add
+            Instantiate(comp.Decor, parent.transform);
 
             parent.transform.localPosition = new Vector3(left, 0, 0);
             left += comp.placementRules.width;

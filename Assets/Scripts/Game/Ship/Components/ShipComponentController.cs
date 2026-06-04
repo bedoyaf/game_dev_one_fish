@@ -44,7 +44,8 @@ public class ShipComponentController : MonoBehaviour
 
     public GameObject ComponentMesh; // The child of the component, that has the mesh on it
     public GameObject ComponentHitbox; // The child of the component that has the hitbox on it
-    
+    public GameObject Decor;
+
     private GameObject outlineMesh;
     public Shield shield { private set; get; }
 

@@ -10,6 +10,9 @@ using Unity.VisualScripting;
 public class RepairerComponentController : BehaviourComponentControllerAbstract
 {
     public override bool CanClickOnNow => 
+        cooldown != null &&
+        shipComponentController != null &&
+        shipController != null &&
         cooldown.IsReady && 
         !shipComponentController.broken && 
         shipController.GetCurrency > 0 && 

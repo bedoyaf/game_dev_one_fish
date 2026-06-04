@@ -21,11 +21,14 @@ public class MainCabinComponentController : BehaviourComponentControllerAbstract
     {
         get
         {
-            if (shipController == null) Debug.LogError("shipController is NULL (cabin)");
+            // if (shipController == null) Debug.LogError("shipController is NULL (cabin)");
             
-            return cooldown.IsReady &&
-            !shipComponentController.broken &&
-            shipController.GetEnergy >= shipComponentController.requiredEnergy;
+            return shipComponentController != null &&
+                shipController != null &&
+                cooldown != null &&
+                cooldown.IsReady &&
+                !shipComponentController.broken &&
+                shipController.GetEnergy >= shipComponentController.requiredEnergy;
         }
     }
 

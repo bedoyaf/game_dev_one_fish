@@ -15,12 +15,16 @@ MonoBehaviour:
   autoUpdateDrops: 1
   enemyDifficulty: 5
   possibleDrops:
-  - {fileID: 6845047944256034405, guid: ced45103487cc3142bc6a877a20dfe66, type: 3}
-  - {fileID: 6845047944256034405, guid: 2830b339b4f764746b89c4505b1d6cbf, type: 3}
-  - {fileID: 6845047944256034405, guid: b08409fe63a51854697c0a666f536de1, type: 3}
-  - {fileID: 6845047944256034405, guid: 9ea8d571fd3e8a74586990b7fea34728, type: 3}
-  - {fileID: 6845047944256034405, guid: 6f05b655c31756b40a087f6dcfe7ee9c, type: 3}
-  - {fileID: 6845047944256034405, guid: 8b861ca9d28fd524fa290b025e2c0f81, type: 3}
+  - {fileID: 4899392425198911483, guid: ce6d532c14f7e0443af3ce05d9c7df98, type: 3}
+  - {fileID: 7593485501123774582, guid: f0531711de513bc4ca9091ae208b1071, type: 3}
+  - {fileID: 7780522250174788284, guid: 15f140e672629f14192b8bf8d6037b86, type: 3}
+  - {fileID: 1635234049106972612, guid: 9177147d365adb340b85371867154217, type: 3}
+  - {fileID: 7364729330213461824, guid: a1068c14fa590894ab12990cceff3edd, type: 3}
+  - {fileID: 9028237159818242313, guid: 941493f41f8f740458b500db62c73e57, type: 3}
+  - {fileID: 9032577283367274622, guid: 9d775dce294775c4fb08e22dcf4926bd, type: 3}
+  - {fileID: 6697502486626589608, guid: 76feeb259872b4743abda20f74c079c2, type: 3}
+  - {fileID: 1366050611312012074, guid: bd342214a374f8a41bfc006d94ced514, type: 3}
+  - {fileID: 8130706776418589777, guid: 864f8d5eb730bb643bca6adf0579a724, type: 3}
   _componentGrid:
     tiles:
     - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
@@ -779,22 +783,22 @@ MonoBehaviour:
       isPlaceholder: 1
       _instantiatedComponent: 0
       shouldDestroy: 0
-    - component: {fileID: 6845047944256034405, guid: ced45103487cc3142bc6a877a20dfe66, type: 3}
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
       x: 4
       z: 8
       offsetX: 0
       offsetZ: 0
-      blocked: 1
-      isPlaceholder: 0
+      blocked: 0
+      isPlaceholder: 1
       _instantiatedComponent: 0
       shouldDestroy: 0
-    - component: {fileID: 6845047944256034405, guid: 2830b339b4f764746b89c4505b1d6cbf, type: 3}
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
       x: 5
       z: 8
       offsetX: 0
       offsetZ: 0
-      blocked: 1
-      isPlaceholder: 0
+      blocked: 0
+      isPlaceholder: 1
       _instantiatedComponent: 0
       shouldDestroy: 0
     - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
@@ -802,7 +806,7 @@ MonoBehaviour:
       z: 8
       offsetX: 0
       offsetZ: 0
-      blocked: 1
+      blocked: 0
       isPlaceholder: 1
       _instantiatedComponent: 0
       shouldDestroy: 0
@@ -811,7 +815,7 @@ MonoBehaviour:
       z: 8
       offsetX: 0
       offsetZ: 0
-      blocked: 1
+      blocked: 0
       isPlaceholder: 1
       _instantiatedComponent: 0
       shouldDestroy: 0
@@ -820,7 +824,7 @@ MonoBehaviour:
       z: 8
       offsetX: 0
       offsetZ: 0
-      blocked: 1
+      blocked: 0
       isPlaceholder: 1
       _instantiatedComponent: 0
       shouldDestroy: 0
@@ -829,7 +833,7 @@ MonoBehaviour:
       z: 8
       offsetX: 0
       offsetZ: 0
-      blocked: 1
+      blocked: 0
       isPlaceholder: 1
       _instantiatedComponent: 0
       shouldDestroy: 0
@@ -860,16 +864,16 @@ MonoBehaviour:
       isPlaceholder: 1
       _instantiatedComponent: 0
       shouldDestroy: 0
-    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+    - component: {fileID: 4899392425198911483, guid: ce6d532c14f7e0443af3ce05d9c7df98, type: 3}
       x: 3
       z: 9
       offsetX: 0
       offsetZ: 0
-      blocked: 0
-      isPlaceholder: 1
+      blocked: 1
+      isPlaceholder: 0
       _instantiatedComponent: 0
       shouldDestroy: 0
-    - component: {fileID: 6845047944256034405, guid: b08409fe63a51854697c0a666f536de1, type: 3}
+    - component: {fileID: 7593485501123774582, guid: f0531711de513bc4ca9091ae208b1071, type: 3}
       x: 4
       z: 9
       offsetX: 0
@@ -883,7 +887,7 @@ MonoBehaviour:
       z: 9
       offsetX: 0
       offsetZ: 0
-      blocked: 0
+      blocked: 1
       isPlaceholder: 1
       _instantiatedComponent: 0
       shouldDestroy: 0
@@ -892,7 +896,7 @@ MonoBehaviour:
       z: 9
       offsetX: 0
       offsetZ: 0
-      blocked: 0
+      blocked: 1
       isPlaceholder: 1
       _instantiatedComponent: 0
       shouldDestroy: 0
@@ -901,7 +905,7 @@ MonoBehaviour:
       z: 9
       offsetX: 0
       offsetZ: 0
-      blocked: 0
+      blocked: 1
       isPlaceholder: 1
       _instantiatedComponent: 0
       shouldDestroy: 0
@@ -910,7 +914,7 @@ MonoBehaviour:
       z: 9
       offsetX: 0
       offsetZ: 0
-      blocked: 0
+      blocked: 1
       isPlaceholder: 1
       _instantiatedComponent: 0
       shouldDestroy: 0
@@ -919,7 +923,7 @@ MonoBehaviour:
       z: 9
       offsetX: 0
       offsetZ: 0
-      blocked: 0
+      blocked: 1
       isPlaceholder: 1
       _instantiatedComponent: 0
       shouldDestroy: 0
@@ -932,7 +936,7 @@ MonoBehaviour:
       isPlaceholder: 1
       _instantiatedComponent: 0
       shouldDestroy: 0
-    - component: {fileID: 6845047944256034405, guid: 9ea8d571fd3e8a74586990b7fea34728, type: 3}
+    - component: {fileID: 7780522250174788284, guid: 15f140e672629f14192b8bf8d6037b86, type: 3}
       x: 1
       z: 10
       offsetX: 0
@@ -941,7 +945,7 @@ MonoBehaviour:
       isPlaceholder: 0
       _instantiatedComponent: 0
       shouldDestroy: 0
-    - component: {fileID: 6845047944256034405, guid: 6f05b655c31756b40a087f6dcfe7ee9c, type: 3}
+    - component: {fileID: 1635234049106972612, guid: 9177147d365adb340b85371867154217, type: 3}
       x: 2
       z: 10
       offsetX: 0
@@ -950,7 +954,7 @@ MonoBehaviour:
       isPlaceholder: 0
       _instantiatedComponent: 0
       shouldDestroy: 0
-    - component: {fileID: 6845047944256034405, guid: 6f05b655c31756b40a087f6dcfe7ee9c, type: 3}
+    - component: {fileID: 7364729330213461824, guid: a1068c14fa590894ab12990cceff3edd, type: 3}
       x: 3
       z: 10
       offsetX: 0
@@ -959,13 +963,13 @@ MonoBehaviour:
       isPlaceholder: 0
       _instantiatedComponent: 0
       shouldDestroy: 0
-    - component: {fileID: 6845047944256034405, guid: 5925702e554f7f943b4c07060942fb1f, type: 3}
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
       x: 4
       z: 10
       offsetX: 0
       offsetZ: 0
-      blocked: 1
-      isPlaceholder: 0
+      blocked: 0
+      isPlaceholder: 1
       _instantiatedComponent: 0
       shouldDestroy: 0
     - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
@@ -1031,16 +1035,16 @@ MonoBehaviour:
       isPlaceholder: 1
       _instantiatedComponent: 0
       shouldDestroy: 0
-    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+    - component: {fileID: 9028237159818242313, guid: 941493f41f8f740458b500db62c73e57, type: 3}
       x: 2
       z: 11
       offsetX: 0
       offsetZ: 0
-      blocked: 0
-      isPlaceholder: 1
+      blocked: 1
+      isPlaceholder: 0
       _instantiatedComponent: 0
       shouldDestroy: 0
-    - component: {fileID: 6845047944256034405, guid: ced45103487cc3142bc6a877a20dfe66, type: 3}
+    - component: {fileID: 7449386927338994059, guid: 9190658838a60b344af20b15098d4a8a, type: 3}
       x: 3
       z: 11
       offsetX: 0
@@ -1049,7 +1053,7 @@ MonoBehaviour:
       isPlaceholder: 0
       _instantiatedComponent: 0
       shouldDestroy: 0
-    - component: {fileID: 6845047944256034405, guid: 8b861ca9d28fd524fa290b025e2c0f81, type: 3}
+    - component: {fileID: 9032577283367274622, guid: 9d775dce294775c4fb08e22dcf4926bd, type: 3}
       x: 4
       z: 11
       offsetX: 0
@@ -1058,13 +1062,13 @@ MonoBehaviour:
       isPlaceholder: 0
       _instantiatedComponent: 0
       shouldDestroy: 0
-    - component: {fileID: 6845047944256034405, guid: 2830b339b4f764746b89c4505b1d6cbf, type: 3}
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
       x: 5
       z: 11
       offsetX: 0
       offsetZ: 0
       blocked: 1
-      isPlaceholder: 0
+      isPlaceholder: 1
       _instantiatedComponent: 0
       shouldDestroy: 0
     - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
@@ -1121,31 +1125,31 @@ MonoBehaviour:
       isPlaceholder: 1
       _instantiatedComponent: 0
       shouldDestroy: 0
-    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+    - component: {fileID: 6697502486626589608, guid: 76feeb259872b4743abda20f74c079c2, type: 3}
       x: 2
-      z: 12
-      offsetX: 0
-      offsetZ: 0
-      blocked: 0
-      isPlaceholder: 1
-      _instantiatedComponent: 0
-      shouldDestroy: 0
-    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
-      x: 3
-      z: 12
-      offsetX: 0
-      offsetZ: 0
-      blocked: 0
-      isPlaceholder: 1
-      _instantiatedComponent: 0
-      shouldDestroy: 0
-    - component: {fileID: 6845047944256034405, guid: b08409fe63a51854697c0a666f536de1, type: 3}
-      x: 4
       z: 12
       offsetX: 0
       offsetZ: 0
       blocked: 1
       isPlaceholder: 0
+      _instantiatedComponent: 0
+      shouldDestroy: 0
+    - component: {fileID: 1366050611312012074, guid: bd342214a374f8a41bfc006d94ced514, type: 3}
+      x: 3
+      z: 12
+      offsetX: 0
+      offsetZ: 0
+      blocked: 1
+      isPlaceholder: 0
+      _instantiatedComponent: 0
+      shouldDestroy: 0
+    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+      x: 4
+      z: 12
+      offsetX: 0
+      offsetZ: 0
+      blocked: 0
+      isPlaceholder: 1
       _instantiatedComponent: 0
       shouldDestroy: 0
     - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
@@ -1220,16 +1224,16 @@ MonoBehaviour:
       isPlaceholder: 1
       _instantiatedComponent: 0
       shouldDestroy: 0
-    - component: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
+    - component: {fileID: 7364729330213461824, guid: a1068c14fa590894ab12990cceff3edd, type: 3}
       x: 3
       z: 13
       offsetX: 0
       offsetZ: 0
-      blocked: 0
-      isPlaceholder: 1
+      blocked: 1
+      isPlaceholder: 0
       _instantiatedComponent: 0
       shouldDestroy: 0
-    - component: {fileID: 6845047944256034405, guid: ced45103487cc3142bc6a877a20dfe66, type: 3}
+    - component: {fileID: 9028237159818242313, guid: 941493f41f8f740458b500db62c73e57, type: 3}
       x: 4
       z: 13
       offsetX: 0
@@ -1238,7 +1242,7 @@ MonoBehaviour:
       isPlaceholder: 0
       _instantiatedComponent: 0
       shouldDestroy: 0
-    - component: {fileID: 6845047944256034405, guid: 2830b339b4f764746b89c4505b1d6cbf, type: 3}
+    - component: {fileID: 8130706776418589777, guid: 864f8d5eb730bb643bca6adf0579a724, type: 3}
       x: 5
       z: 13
       offsetX: 0

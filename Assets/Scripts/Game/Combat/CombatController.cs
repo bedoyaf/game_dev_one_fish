@@ -42,6 +42,12 @@ public class CombatController : SmartSingleton<CombatController>
             var mesh = lootedComponent.ComponentMesh;
             mesh.transform.DestroyAllChildren();
             mesh.transform.SetParent(lootInventoryParent);
+
+            // include Decor child
+            var decor = lootedComponent.gameObject.transform.Find("Decor");
+            if (decor != null)
+                decor.gameObject.transform.SetParent(mesh.transform);
+
             lootedComponent.gameObject.SmartDestroy();
 
             // offset from each other
@@ -64,6 +70,7 @@ public class CombatController : SmartSingleton<CombatController>
     public void ClearInventory()
     {
         // TODO: maybe some effect ?
+        Debug.Log("Clearing inventory"); ;
 
         lootInventoryParent.DestroyAllChildren();
     }
@@ -249,6 +256,8 @@ public class CombatController : SmartSingleton<CombatController>
         return enemyShipPrefab.shipData;
     }
 
+    public bool debug_override = false;
+
     /// <summary>
     /// Gets enemy from given difficulty. Has a small chance to select a bit easier or harder enemy.
     /// If no enemies from +-1 range of difficulty exists, chooses first easier one.
@@ -257,6 +266,8 @@ public class CombatController : SmartSingleton<CombatController>
         Debug.Log("picking from dif");
         if (enemyShipPrefabs.Count == 0) return null;
 
+        if (debug_override)
+            return enemyShipPrefabs.GetRandom();
 
         var easierEnemies = enemyShipPrefabs.FindAll(x => x.shipData.enemyDifficulty == difficulty - 1);
         var harderEnemies = enemyShipPrefabs.FindAll(x => x.shipData.enemyDifficulty == difficulty + 1);
