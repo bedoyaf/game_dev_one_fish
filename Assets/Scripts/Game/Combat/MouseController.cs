@@ -253,6 +253,10 @@ public class MouseController : MonoBehaviour
 
     private void Update()
     {
+        // No icon changes when paused
+        if (GameManager.IsPaused)
+            return;
+
         // When scrolling -> cycle through attack direction
         float scroll = Mouse.current.scroll.ReadValue().y;
 
