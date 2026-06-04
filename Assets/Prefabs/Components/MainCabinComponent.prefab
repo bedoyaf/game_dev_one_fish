@@ -519,7 +519,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: daf1804bb333dd3438635152b32b15e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MainCabinComponentController
-  hookDamage: 1
+  hookDamage: 3
   hookShot: {fileID: 2757272427068822506}
 --- !u!114 &2757272427068822506
 MonoBehaviour:
@@ -539,6 +539,7 @@ MonoBehaviour:
   grabScaleMult: 2
   hookProbePrefab: {fileID: 4102089069651006468, guid: 9ad2bdfa8a812554aa7aee14f99dc798, type: 3}
   hookPivot: {fileID: 3177316669159945430}
+  componentTearParticles: {fileID: 3482343678898837779, guid: 98aaa70d0041bf74eada67ab918ba04e, type: 3}
   movingSound: {fileID: 11400000, guid: d05833b9e082f444485211a8490920ab, type: 2}
   movingSoundFadeDuration: 0.2
   tearingSound: {fileID: 11400000, guid: 08e928c5bb936dd4faecab8f257dfde8, type: 2}

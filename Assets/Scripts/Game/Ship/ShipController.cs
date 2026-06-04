@@ -57,7 +57,8 @@ public class ShipController : MonoBehaviour
     public UnityEvent onEnergyChanged;
 
 
-    private void Start() {
+    private void Start()
+    {
         // Create temporary ship data that will be used during game time
         //battleShipData = ScriptableObject.CreateInstance<ShipData>();
         //battleShipData = Instantiate(shipData);
@@ -70,11 +71,12 @@ public class ShipController : MonoBehaviour
         if (playerShip && boss) Debug.LogError("Something went wrong,the player is the boss");
     }
 
-    public void BuildShip() {
+    public void BuildShip()
+    {
         Debug.Log("Build ship called");
         if (shipData == null) return;
         DeconstructShip();
-        
+
         // NOTE: this way is stupid too, and breaks some things too
 
         // If not player => enemy
@@ -88,10 +90,10 @@ public class ShipController : MonoBehaviour
             componentsParent.transform.position = new Vector3(oldPos.x, 0, oldPos.z);
         }
 
-        componentGrid = shipData.BuildShip(componentsParent); 
+        componentGrid = shipData.BuildShip(componentsParent);
 
         // NOTE: meshes after the grid !!!
-        if(!playerShip)
+        if (!playerShip)
         {
             /*foreach (var mesh in componentsParent.GetComponentsInChildren<MeshRenderer>())
             {
@@ -103,17 +105,33 @@ public class ShipController : MonoBehaviour
             }*/
 
             // If we use all children, it affects the indicators as well
-            foreach (Transform comp in componentsParent.transform) {
-                foreach (Transform child in comp.transform) {
+            foreach (Transform comp in componentsParent.transform)
+            {
+                foreach (Transform child in comp.transform)
+                {
                     var mesh = child.GetComponent<MeshRenderer>();
                     if (mesh == null) continue;
-    
+
                     var oldScale = mesh.gameObject.transform.localScale;
                     mesh.gameObject.transform.localScale = new Vector3(oldScale.x, oldScale.y, -oldScale.z);
 
                     var meshPos = mesh.gameObject.transform.localPosition;
                     mesh.gameObject.transform.localPosition = new Vector3(meshPos.x, 1 - meshPos.y, meshPos.z);
+                
                 }
+
+                // Get the child named "Decor"
+                var decor = comp.Find("Decor");
+                if (decor != null)
+                {
+                    decor.localPosition = new Vector3(0.5f, 0.5f, 0.5f); 
+                    // negate y pos of all children
+                    foreach (Transform child in decor.transform)
+                    {
+                        child.localPosition = child.localPosition.SetY(-child.localPosition.y);
+                    }
+                }
+
             }
 
             var oldPos = componentsParent.transform.position;
@@ -123,9 +141,9 @@ public class ShipController : MonoBehaviour
         AssignShipController();
 
         // Needs to be here for Unity to save the ship
-        #if UNITY_EDITOR
-            UnityEditor.EditorUtility.SetDirty(this);
-        #endif
+#if UNITY_EDITOR
+        UnityEditor.EditorUtility.SetDirty(this);
+#endif
     }
 
     private void DeconstructShip()
@@ -140,9 +158,11 @@ public class ShipController : MonoBehaviour
     /// <summary>
     /// Gives all components reference to this
     /// </summary>
-    public void AssignShipController() {
+    public void AssignShipController()
+    {
         var components = componentGrid.GetAllComponents();
-        foreach (var component in components) {
+        foreach (var component in components)
+        {
             component.SetShipController(this);
         }
     }
@@ -271,25 +291,29 @@ public class ShipController : MonoBehaviour
     /// Tells builder to start building with given components.
     /// </summary>
     /// <param name="componentsForPlacement">Components to place.</param>
-    public void GiveControlToEditor(List<ShipComponentController> componentsForPlacement) {
+    public void GiveControlToEditor(List<ShipComponentController> componentsForPlacement)
+    {
         shipEditor.InitializeBuilder(componentGrid, componentsForPlacement);
     }
 
     /// <summary>
     /// Debug only. Starts placing with 3 components that are on the player.
     /// </summary>
-    public void GiveControlToEditorDebug() {
+    public void GiveControlToEditorDebug()
+    {
         var componentsForPlacement = new List<ShipComponentController>();
         var components = componentGrid.GetAllComponents();
 
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 3; i++)
+        {
             componentsForPlacement.Add(components[Random.Range(0, components.Count)]);
         }
 
         shipEditor.InitializeBuilder(componentGrid, componentsForPlacement);
     }
 
-    public void RemoveControlFromEditor() {
+    public void RemoveControlFromEditor()
+    {
         shipEditor.RemoveBuilderConnection();
     }
 
@@ -299,9 +323,9 @@ public class ShipController : MonoBehaviour
     public ShipComponentController GetMainCabin()
     {
         var maincabins = componentGrid.GetComponentsOfType<MainCabinComponentController>();
-        if(maincabins.Count != 1)
+        if (maincabins.Count != 1)
         {
-            Debug.LogError("Wrong number of main cabings "+ maincabins.Count);
+            Debug.LogError("Wrong number of main cabings " + maincabins.Count);
         }
         var maincabin = maincabins[0];
 
@@ -318,7 +342,7 @@ public class ShipController : MonoBehaviour
     public void AddEnergy(int energy, ShipComponentController originComponent = null)
     {
         //TODO BETTER LOADING OF BATTERIES
-        
+
         batteries = componentGrid.GetComponentsOfType<BatteryComponentController>(false);
         batteries.Shuffle();
         /* If living -> has cabin -> has at least some energy capacity
@@ -328,11 +352,11 @@ public class ShipController : MonoBehaviour
             return;
         }
         */
-        batteryCapacity = (batteries.Count == 0 ? 0 : batteries.Count * batteries[0].energyMax)+cabinEnergyCapacity;
+        batteryCapacity = (batteries.Count == 0 ? 0 : batteries.Count * batteries[0].energyMax) + cabinEnergyCapacity;
 
-       // Debug.Log(storedEnergy +"+" + energy +", "+batteryCapacity);
-        int totalEnergy = Mathf.Min(storedEnergy+energy,  batteryCapacity);
-        int remaining = totalEnergy-storedEnergy;
+        // Debug.Log(storedEnergy +"+" + energy +", "+batteryCapacity);
+        int totalEnergy = Mathf.Min(storedEnergy + energy, batteryCapacity);
+        int remaining = totalEnergy - storedEnergy;
 
         // NOTE: maybe want to choose which battery takes the energy
         foreach (var component in batteries)
@@ -350,7 +374,7 @@ public class ShipController : MonoBehaviour
             GameManager.Instance.SFXManager.EnergyTransmissionEffect(originComponent, mainCabin.shipComponentController);
 
         storedEnergy = totalEnergy;
-       // Debug.Log("energy" + totalEnergy);
+        // Debug.Log("energy" + totalEnergy);
         onEnergyChanged.Invoke();
 
     }
@@ -371,22 +395,22 @@ public class ShipController : MonoBehaviour
                 return false;
             }
             */
-            batteryCapacity = (batteries.Count == 0 ? 0 : batteries.Count * batteries[0].energyMax)+ cabinEnergyCapacity;
+            batteryCapacity = (batteries.Count == 0 ? 0 : batteries.Count * batteries[0].energyMax) + cabinEnergyCapacity;
         }
         batteries.Shuffle();
         //not enough energy
-        if(storedEnergy-energy<0)
+        if (storedEnergy - energy < 0)
         {
             return false;
         }
 
         int totalEnergy = Mathf.Max(storedEnergy - energy, 0);
-        int remaining = storedEnergy-totalEnergy;
+        int remaining = storedEnergy - totalEnergy;
         foreach (var component in batteries)
         {
             if (remaining == 0) break;
             remaining = component.DrainEnergy(remaining);
-            
+
             if (originComponent != null)
                 GameManager.Instance.SFXManager.EnergyTransmissionEffect(component.shipComponentController, originComponent);
         }
@@ -401,10 +425,10 @@ public class ShipController : MonoBehaviour
 
     public void UpdateEnergyUI()
     {
-        batteryCapacity =( batteries.Count == 0 ? 0 : batteries.Count * batteries[0].energyMax) + cabinEnergyCapacity;
+        batteryCapacity = (batteries.Count == 0 ? 0 : batteries.Count * batteries[0].energyMax) + cabinEnergyCapacity;
         onEnergyChanged.Invoke();
-       // Debug.Log("Invoked energy change");
-    }    
+        // Debug.Log("Invoked energy change");
+    }
 
     public int GetCurrency => storedMoney;
     public void AddCurrency(int amount)
@@ -412,10 +436,12 @@ public class ShipController : MonoBehaviour
         // TODO: maybe limit via some components like energy
 
         storedMoney += amount;
-        if (amount >= 5) {
+        if (amount >= 5)
+        {
             AudioManager.Instance.PlaySFX(moneyBigClip, transform.position);
         }
-        else {
+        else
+        {
             AudioManager.Instance.PlaySFX(moneyClip, transform.position);
         }
     }
@@ -453,7 +479,7 @@ public class ShipController : MonoBehaviour
 
     public void RepaireShip()
     {
-        foreach(var component in componentGrid.GetAllComponents())
+        foreach (var component in componentGrid.GetAllComponents())
         {
             component.RepaireComponent();
         }
@@ -464,7 +490,7 @@ public class ShipController : MonoBehaviour
         RepaireShip();
         storedEnergy = 0;
         var componentBehaviours = componentGrid.GetComponentsOfType<BehaviourComponentControllerAbstract>();
-        foreach(var com in componentBehaviours)
+        foreach (var com in componentBehaviours)
         {
             com.ResetBehaviour();
         }

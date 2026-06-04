@@ -17,9 +17,9 @@ public class MissileComponentController : BehaviourComponentControllerAbstract
     {
         get
         {
-            if (cooldown == null) Debug.LogError("cooldown is NULL");
-            if (shipComponentController == null) Debug.LogError("shipComponentController is NULL");
-            if (shipController == null) Debug.LogError("shipController is NULL ");
+            // if (cooldown == null) Debug.LogError("cooldown is NULL");
+            // if (shipComponentController == null) Debug.LogError("shipComponentController is NULL");
+            // if (shipController == null) Debug.LogError("shipController is NULL ");
 
             return cooldown != null &&
                    shipComponentController != null &&

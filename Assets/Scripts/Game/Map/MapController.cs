@@ -90,7 +90,7 @@ public class MapController : MonoBehaviour
 
     private void OnNodeSelected(MapNode node)
     {
-        if (!currentNode.connections.Contains(node))
+        if (!currentNode.connections.Contains(node) && !mapUI.DebugMap)
             return;
 
         currentNode = node;

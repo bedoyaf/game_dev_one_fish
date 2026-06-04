@@ -44,7 +44,8 @@ public class ShipComponentController : MonoBehaviour
 
     public GameObject ComponentMesh; // The child of the component, that has the mesh on it
     public GameObject ComponentHitbox; // The child of the component that has the hitbox on it
-    
+    public GameObject Decor;
+
     private GameObject outlineMesh;
     public Shield shield { private set; get; }
 
@@ -55,6 +56,8 @@ public class ShipComponentController : MonoBehaviour
 
     public ComponentPrefabsData componentPrefabs;
     public string guid;
+
+    public ParticleSystem componentBreakParticles;
 
     [Header("Sounds")]
     [FormerlySerializedAs("ActivationClip")]
@@ -281,6 +284,8 @@ public class ShipComponentController : MonoBehaviour
         shipComponentMeshController.ChangeMeshToBroken();
         shipComponentMeshController.OnHealthUpdate(0f);
         AudioManager.Instance.PlaySFX(breakClip, transform.position);
+        if (componentBreakParticles != null)
+            Instantiate(componentBreakParticles, GetComponentCenter().SetY(3.5f), Quaternion.identity);
         if (shipController != null) shipController.UpdateEnergyUI();
     }
 
