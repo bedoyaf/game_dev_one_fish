@@ -52,6 +52,7 @@ public class MapUI : MonoBehaviour
     [SerializeField] private Sprite bossSprite;
 
     [SerializeField] private bool debugAllVisible;
+    public bool DebugMap => debugAllVisible;
 
     /// <summary>
     /// function to hide and show the map ui

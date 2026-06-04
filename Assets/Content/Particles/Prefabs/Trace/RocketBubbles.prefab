@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4589798890555039839}
   - component: {fileID: 5001671924037451018}
   - component: {fileID: 5569629786171954526}
+  - component: {fileID: 1602717124391608245}
   m_Layer: 0
   m_Name: RocketBubbles
   m_TagString: Untagged
@@ -4849,3 +4850,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 676f8f3f7002fb0409f0cb8937a05ef7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+--- !u!114 &1602717124391608245
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5736938851423095510}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5bc10a35eb95b184f98a3303a6850b52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ParticleSlowDown
+  fadeDuration: 0
+  affectChildren: 0

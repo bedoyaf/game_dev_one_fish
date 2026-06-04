@@ -39,6 +39,7 @@ public class GeneratorComponentController : BehaviourComponentControllerAbstract
     {
         energyBuffer = 0;
         energyStored = 0;
+        StopGeneratorParticles();
     }
 
     public override bool OnActivate()
@@ -60,6 +61,7 @@ public class GeneratorComponentController : BehaviourComponentControllerAbstract
     {
         energyBuffer = 0;
         energyStored = 0;
+        StopGeneratorParticles();
     }
 
     /// <summary>
@@ -72,27 +74,12 @@ public class GeneratorComponentController : BehaviourComponentControllerAbstract
 
         Debug.Log($"Transferred {energyStored} energy to ship");
 
-        //// Had issues when it was in Start...
-        //if (batteries == null) {
-        //    batteries = shipComponentController.shipController.componentGrid.GetComponentsOfType<BatteryComponentController>(false);
-        //    mainCabin = shipComponentController.shipController.componentGrid.GetComponentsOfType<MainCabinComponentController>()[0];
-        //}
-
-        //// Store energy state before we add it
-        //List<int> batteryEnergy = new();
-        //foreach (var battery in batteries) {
-        //    batteryEnergy.Add(battery.energyStored);
-        //}
-        //int shipEnergy = shipComponentController.shipController.GetEnergy;
-
         shipComponentController.shipController.AddEnergy(energyStored, shipComponentController);
 
         //int shipEnergyDiff = shipComponentController.shipController.GetEnergy - shipEnergy;
 
         energyStored = 0;
-
-        var emissionModule = generatorParticles.emission;
-        emissionModule.rateOverTime = emissionRate.x;
+        StopGeneratorParticles();
 
         AudioManager.Instance.PlaySFX(gatherPowerClip, transform.position);
 
@@ -103,20 +90,11 @@ public class GeneratorComponentController : BehaviourComponentControllerAbstract
         }
 
         //// ----------------------
-        //// Spawn energy particles
-        //int i = 0;
-        //foreach (var battery in batteries) {
-        //    int diff = battery.energyStored - batteryEnergy[i];
-        //    if (diff > 0) {
-        //        GameManager.Instance.SFXManager.EnergyTransmissionEffect(shipComponentController, battery.shipComponentController);
-        //        shipEnergyDiff -= diff;
-        //    }
-        //}
+    }
 
-        //if (shipEnergyDiff > 0) {
-        //    GameManager.Instance.SFXManager.EnergyTransmissionEffect(shipComponentController, mainCabin.shipComponentController);
-        //}
-
+    private void StopGeneratorParticles() {
+        var emissionModule = generatorParticles.emission;
+        emissionModule.rateOverTime = emissionRate.x;
     }
 
     private void Update()
