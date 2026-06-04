@@ -1,3 +1,4 @@
+using DG.Tweening;
 using NUnit.Framework.Internal;
 using System.Collections.Generic;
 using TMPro;
@@ -15,6 +16,9 @@ public class ComponentDescriptionUI : MonoBehaviour
     [SerializeField] private MeshFilter meshFilter;
     [SerializeField] private MeshRenderer meshPreview;
 
+
+    [SerializeField] private CanvasGroup group;
+
     public void ShowDescription(ComponentDescription description)
     {
         costsText.text = ParseString(description.costs);
@@ -26,12 +30,14 @@ public class ComponentDescriptionUI : MonoBehaviour
 
         // TODO: animation ? or fade
         panel.SetActive(true);
-
+        group.DOFade(1f, 0.2f);
+        
     }
 
     public void HideDescription()
     {
-        panel.SetActive(false);
+        group.DOFade(0f, 0.2f)
+            .onComplete += () => panel.SetActive(false);
     }
 
     // ----- 
