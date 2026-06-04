@@ -21,7 +21,15 @@ public class CombatController : SmartSingleton<CombatController>
 
     [SerializeField] private Transform lootInventoryParent;
 
-    [SerializeField] public ShipController boss; 
+    [SerializeField] public ShipController boss;
+    [SerializeField] public ShipController tutorialShip;
+    [SerializeField] public TutorialController tutorialController;
+
+    [SerializeField] public ComponentGeneratorSO componentGeneratorSO;
+
+
+    [SerializeField] public ShipData tutorialPlayerShip;
+    [SerializeField] public ShipData EmptyPlayerShip;
 
     public void InformEnemyOfComponentRemoved()
     {
@@ -97,6 +105,7 @@ public class CombatController : SmartSingleton<CombatController>
 
     public void GenerateEnemyShip(ShipController playerShip)
     {
+
         if (!shipGiven)
         {
             pickedShip = enemyShipPrefabs.GetRandom();
@@ -115,7 +124,10 @@ public class CombatController : SmartSingleton<CombatController>
 
         currentEnemyInstance.EnableShip();
         currentEnemyInstance.ResetShipForCombat();
+        
         currentEnemyAI.SetPlayerShip(playerShip);
+
+
 
     }
 
@@ -154,6 +166,8 @@ public class CombatController : SmartSingleton<CombatController>
         // enemyShip.GetMainCabin().OnDeath.RemoveAllListeners();
         currentEnemyInstance.GetMainCabin().OnDeath.AddListener(EndCombat);
 
+        
+
         return currentEnemyInstance;
     }
 
@@ -173,6 +187,8 @@ public class CombatController : SmartSingleton<CombatController>
 
     public void StartCombat()
     {
+        if (gameplayFlowManager.tutorialRunning) currentEnemyInstance.DestroyEnemyComponents(tutorialController.typesToDestroyForTutorial);
+
         //Time.timeScale = 1f;
         combatEnded = false;
 

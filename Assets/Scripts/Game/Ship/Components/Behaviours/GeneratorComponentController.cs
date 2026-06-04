@@ -72,7 +72,23 @@ public class GeneratorComponentController : BehaviourComponentControllerAbstract
         if (energyStored <= 0)
             return;
 
-        Debug.Log($"Transferred {energyStored} energy to ship");
+        //Debug.Log($"Transferred {energyStored} energy to ship");
+
+
+        //// Had issues when it was in Start...
+        //if (batteries == null) {
+        //    batteries = shipComponentController.shipController.componentGrid.GetComponentsOfType<BatteryComponentController>(false);
+        //    mainCabin = shipComponentController.shipController.componentGrid.GetComponentsOfType<MainCabinComponentController>()[0];
+        //}
+
+        //// Store energy state before we add it
+        //List<int> batteryEnergy = new();
+        //foreach (var battery in batteries) {
+        //    batteryEnergy.Add(battery.energyStored);
+        //}
+        //int shipEnergy = shipComponentController.shipController.GetEnergy;
+
+        if (GameManager.Instance.currentGameplayManager.tutorialRunning) energyStored = energyMax;
 
         shipComponentController.shipController.AddEnergy(energyStored, shipComponentController);
 

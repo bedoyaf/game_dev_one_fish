@@ -22,7 +22,7 @@ public class GameplayFlowManager : MonoBehaviour
 
     [Tooltip("The player's ship")]
     [SerializeField]
-    private ShipController playerShip;
+    public ShipController playerShip;
 
     [Tooltip("The enemy's ship / for compatibility")]
     [SerializeField]
@@ -34,6 +34,8 @@ public class GameplayFlowManager : MonoBehaviour
     [SerializeField]
     public MapController mapController;
 
+
+    public TutorialController tutorialController;
     public CombatController combatController;
     public RewardController rewardController;
 
@@ -45,7 +47,8 @@ public class GameplayFlowManager : MonoBehaviour
     public ShipController PlayerShip => playerShip;
     public ShipController EnemyShip => enemyShip;
 
-    
+    public bool tutorialRunning { get; private set; } = false;
+
     void Awake()
     {
         GameManager.Instance.SetGameplayFlowInstance(this);
@@ -65,9 +68,16 @@ public class GameplayFlowManager : MonoBehaviour
         };
 
         stateMachine = new GameStateMachine(states);
-        stateMachine.ChangeState(GameStates.MapSelection);
+       //  stateMachine.ChangeState(GameStates.MapSelection);
+
+       // EnterTutorial();
 
         mapController.StartMap();
+    }
+
+    void Start()
+    {
+        EnterTutorial();
     }
 
     // TODO: state machine for the game phases
@@ -240,7 +250,50 @@ public class GameplayFlowManager : MonoBehaviour
     // Will toss unused components 
     public void StopModifying()
     {
+        if(tutorialRunning)
+        {
+            stateMachine.ChangeState(GameStates.Repairs);
+            EndTutorial();
+            return;
+        }
         stateMachine.ChangeState(GameStates.MapSelection);
+    }
+
+    public void SkipTutorial()
+    {
+        //change TODO
+        enemyShip.GetMainCabin()?.TakeDamage(1000);
+
+        EndTutorial();
+    }
+    private void EndTutorial()
+    {
+        tutorialRunning = false;
+        ChangePlayerShip();
+
+
+        tutorialController.EndTutorial();
+        EnterFirstGameplay();
+    }
+
+    private void ChangePlayerShip()
+    {
+        playerShip.shipData = combatController.EmptyPlayerShip;
+        playerShip.BuildShip();
+    }
+
+    public void EnterFirstGameplay()
+    {
+        Debug.Log("Entering first gameplay");
+        var components = combatController.componentGeneratorSO.GenerateComponentList();
+
+        foreach (var compPrefab in components)
+        {
+            var instancedComp = Instantiate(compPrefab);
+
+            combatController.AddComponentLoot(instancedComp);
+        }
+        stateMachine.ChangeState(GameStates.ShipModification);
     }
 
     // EVENTS that trigger the change of state
@@ -334,6 +387,14 @@ public class GameplayFlowManager : MonoBehaviour
         sfx.CombatStartTransition(enemyPrefab.shipData.shipName, () => { stateMachine.ChangeState(GameStates.Combat); });
     }
 
+  /*  public void Fight(ShipController enemyPrefab)
+    {
+        Debug.Log($"Fight called {enemyPrefab.shipData}");
+        combatController.AssignEnemy(enemyPrefab);
+        stateMachine.ChangeState(GameStates.PreCombat);
+        sfx.CombatStartTransition(enemyPrefab.shipData.shipName, () => { stateMachine.ChangeState(GameStates.Combat); });
+    }*/
+
     // TODO this is ugly - the same thing is already in map controller.
     public void Fight(bool elite) {
         float difficulty = elite ? mapController.EliteDifficulty : mapController.CurrentDifficulty;
@@ -344,6 +405,13 @@ public class GameplayFlowManager : MonoBehaviour
         Debug.Log($"Adding component {component}");
         rewardController.AssignComponent(component);
         stateMachine.ChangeState(GameStates.ShipModification);
+    }
+
+    public void EnterTutorial()
+    {
+        tutorialRunning = true;
+        Fight(combatController.tutorialShip);
+            tutorialController.StartTutorial();
     }
 
 

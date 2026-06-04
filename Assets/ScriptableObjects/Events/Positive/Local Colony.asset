@@ -24,49 +24,49 @@ MonoBehaviour:
     effects:
     - effectType: 6
       effectData:
-        rid: 4401092281253757558
+        rid: 3958358507914002820
     - effectType: 3
       effectData:
-        rid: 4401092281253757560
+        rid: 3958358507914002822
     conditions:
     - conditionType: 1
       eventCondition:
-        rid: 4401092281253757562
+        rid: 3958358507914002824
   - choiceID: steal
     choiceText: Steal even the little money they have
     effects:
     - effectType: 3
       effectData:
-        rid: 4401092281253757564
+        rid: 3958358507914002826
     conditions: []
   - choiceID: leave
     choiceText: Just leave them be
     effects:
     - effectType: 2
       effectData:
-        rid: 4401092281253757566
+        rid: 3958358507914002828
     conditions: []
   references:
     version: 2
     RefIds:
-    - rid: 4401092281253757558
+    - rid: 3958358507914002820
       type: {class: AddEventEffect, ns: , asm: Assembly-CSharp}
       data:
         eventToAdd: {fileID: 11400000, guid: 0edd88b7ba9241d4399c22c820e9458c, type: 2}
-    - rid: 4401092281253757560
+    - rid: 3958358507914002822
       type: {class: ChangeCurrencyAmountEffect, ns: , asm: Assembly-CSharp}
       data:
         amount: -5
         randomness: 0
-    - rid: 4401092281253757562
+    - rid: 3958358507914002824
       type: {class: HasCurrencyCondition, ns: , asm: Assembly-CSharp}
       data:
         currencyCount: 5
-    - rid: 4401092281253757564
+    - rid: 3958358507914002826
       type: {class: ChangeCurrencyAmountEffect, ns: , asm: Assembly-CSharp}
       data:
         amount: 5
         randomness: 0
-    - rid: 4401092281253757566
+    - rid: 3958358507914002828
       type: {class: RunEffect, ns: , asm: Assembly-CSharp}
       data: 

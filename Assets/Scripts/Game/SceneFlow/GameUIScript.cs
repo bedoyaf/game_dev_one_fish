@@ -136,6 +136,10 @@ public class GameUIScript : MonoBehaviour
         GameOverMenu.gameObject.SetActive(true);
     }
 
+    public void SkipTutorial()
+    {
+        gameplayFlowManager.SkipTutorial();
+    }
     public void HideGameOver()
     {
         GameManager.Instance.RestartGame();

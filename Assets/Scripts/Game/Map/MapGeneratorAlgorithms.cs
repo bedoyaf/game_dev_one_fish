@@ -17,7 +17,7 @@ public static class MapGeneratorAlgorithms
         {
             id = 0,
             position = new Vector2(0, 0),
-            type = NodeType.Rest,
+            type = NodeType.Tutorial,
             depth = 0
         };
 

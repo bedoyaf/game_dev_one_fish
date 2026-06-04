@@ -6,6 +6,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Serialization;
+using static ShipComponentController;
 using static UnityEngine.EventSystems.EventTrigger;
 
 public class ShipController : MonoBehaviour
@@ -487,7 +488,7 @@ public class ShipController : MonoBehaviour
 
     public void ResetShipForCombat()
     {
-        RepaireShip();
+        if(!GameManager.Instance.currentGameplayManager.tutorialRunning)RepaireShip();
         storedEnergy = 0;
         var componentBehaviours = componentGrid.GetComponentsOfType<BehaviourComponentControllerAbstract>();
         foreach (var com in componentBehaviours)
@@ -550,6 +551,99 @@ public class ShipController : MonoBehaviour
         }
 
     }*/
+
+    public void DestroyEnemyComponents(List<ComponentType> componentTypes)
+    {
+        foreach (var componentType in componentTypes)
+        {
+            DestroyComponentsOfType(componentType);
+        }
+    }
+
+    private void DestroyComponentsOfType(ComponentType type)
+    {
+        List<ShipComponentController> components = type switch
+        {
+            ComponentType.Generator =>
+                Utils.ConvertBehaviourListToComponentList(
+                    componentGrid.GetComponentsOfType<GeneratorComponentController>()),
+
+            ComponentType.Battery =>
+                Utils.ConvertBehaviourListToComponentList(
+                    componentGrid.GetComponentsOfType<BatteryComponentController>()),
+
+            ComponentType.Shield =>
+                Utils.ConvertBehaviourListToComponentList(
+                    componentGrid.GetComponentsOfType<ShieldComponentController>()),
+
+            ComponentType.Rocket =>
+                Utils.ConvertBehaviourListToComponentList(
+                    componentGrid.GetComponentsOfType<MissileComponentController>()),
+
+            ComponentType.Repaire =>
+                Utils.ConvertBehaviourListToComponentList(
+                    componentGrid.GetComponentsOfType<RepairerComponentController>()),
+
+            ComponentType.Engine =>
+                Utils.ConvertBehaviourListToComponentList(
+                    componentGrid.GetComponentsOfType<EngineComponentController>()),
+
+            _ => new List<ShipComponentController>()
+        };
+
+        foreach (var component in components)
+        {
+            if (component == null || component.broken)
+                continue;
+
+            component.KillComponent();
+            return;
+        }
+    }
+
+
+
+    /// <summary>
+    /// disables colliders
+    /// </summary>
+    /// <param name="exceptionComponent">.</param>
+    public void DisableAllCollidersExcept(ComponentType type = ComponentType.None, ComponentType type2 = ComponentType.None)
+    {
+        if (componentGrid == null) return;
+
+        var allComponents = componentGrid.GetAllComponents();
+
+        foreach (var comp in allComponents)
+        {
+            if (comp.componentType == type || comp.componentType == type2)
+                continue;
+
+            var colliders = comp.GetComponentsInChildren<Collider>();
+            foreach (var col in colliders)
+            {
+                col.enabled = false;
+            }
+        }
+    }
+
+    /// <summary>
+    /// turn them all on
+    /// </summary>
+    public void EnableAllColliders()
+    {
+        if (componentGrid == null) return;
+
+        var allComponents = componentGrid.GetAllComponents();
+
+        foreach (var comp in allComponents)
+        {
+            var colliders = comp.GetComponentsInChildren<Collider>();
+            foreach (var col in colliders)
+            {
+                col.enabled = true;
+            }
+        }
+    }
 }
 
 

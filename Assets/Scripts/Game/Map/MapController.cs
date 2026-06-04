@@ -126,6 +126,10 @@ public class MapController : MonoBehaviour
                 gameplayFlowManager.EnterRepairsMode();
                 return;
 
+            case NodeType.Tutorial:
+                gameplayFlowManager.EnterTutorial();
+                return;
+
             case NodeType.Boss:
                 data.fight = true;
                 data.boss = true;

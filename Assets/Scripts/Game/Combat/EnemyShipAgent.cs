@@ -89,7 +89,7 @@ public class EnemyShipAgent : MonoBehaviour
 
     private void SubscribeToPlayerIncomingProjectiles()
     {
-        Debug.Log("Subscribing to player incoming projectile events...");
+       // Debug.Log("Subscribing to player incoming projectile events...");
         if (shipController == null) return;
 
         var playerComponents = shipController.componentGrid.GetAllNonBrokenComponents();
@@ -113,8 +113,8 @@ public class EnemyShipAgent : MonoBehaviour
 
     private void OnIncomingProjectileForComponent(ShipComponentController targetComponent)
     {
-        Debug.Log("Incoming missile, raise shield on "+ targetComponent.name);
-        if(!perfectShieldReaction) return;
+     //   Debug.Log("Incoming missile, raise shield on "+ targetComponent.name);
+        if(!perfectShieldReaction || !thinking) return;
         // Decide whether to spawn a shield in reaction. Simple strategy: use first available shield component.
         foreach (var shieldComp in shields)
         {
@@ -189,7 +189,7 @@ public class EnemyShipAgent : MonoBehaviour
             nextBehaviorSwitchTime = MyTime.time + behaviorSwitchInterval;
         }
 
-        if (MyTime.time >= nextActTime && thinking)
+        if (MyTime.time >= nextActTime && thinking && !GameManager.Instance.currentGameplayManager.tutorialRunning)
         {
             Act();
             nextActTime = MyTime.time + actActionDuration;
