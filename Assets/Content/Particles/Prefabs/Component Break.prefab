@@ -223,7 +223,7 @@ ParticleSystem:
     startColor:
       serializedVersion: 2
       minMaxState: 2
-      minColor: {r: 0.4188679, g: 0.4188679, b: 0.4188679, a: 1}
+      minColor: {r: 0.20754719, g: 0.20754719, b: 0.20754719, a: 1}
       maxColor: {r: 0.19245279, g: 0.12371965, b: 0, a: 1}
       maxGradient:
         serializedVersion: 2
@@ -669,7 +669,7 @@ ParticleSystem:
     angle: 25
     length: 5
     boxThickness: {x: 0, y: 0, z: 0}
-    radiusThickness: 1
+    radiusThickness: 0
     donutRadius: 0.2
     m_Position: {x: 0, y: 0, z: 0}
     m_Rotation: {x: 0, y: 0, z: 0}
@@ -752,7 +752,7 @@ ParticleSystem:
     sphericalDirectionAmount: 0
     randomPositionAmount: 0
     radius:
-      value: 0.5
+      value: 0.0001
       mode: 0
       spread: 0
       speed:
@@ -1054,22 +1054,22 @@ ParticleSystem:
           inWeight: 0.33333334
           outWeight: 0.33333334
         - serializedVersion: 3
-          time: 0.24302374
+          time: 0.022267208
           value: 1
-          inSlope: 0.5734004
-          outSlope: 0.5734004
+          inSlope: -0.7180332
+          outSlope: -0.7180332
           tangentMode: 0
           weightedMode: 0
           inWeight: 0.33333334
-          outWeight: 0.1882733
+          outWeight: 0.104832165
         - serializedVersion: 3
-          time: 1
-          value: 1
-          inSlope: 1
-          outSlope: 1
+          time: 0.99649584
+          value: 0.42222223
+          inSlope: 0.22492455
+          outSlope: 0.22492455
           tangentMode: 0
           weightedMode: 0
-          inWeight: 0.33333334
+          inWeight: 0.096659034
           outWeight: 0.33333334
         m_PreInfinity: 2
         m_PostInfinity: 2
@@ -2073,14 +2073,14 @@ ParticleSystem:
           inWeight: 0.33333334
           outWeight: 0.12433338
         - serializedVersion: 3
-          time: 0.29089105
-          value: 0.031682312
-          inSlope: -0.8688792
-          outSlope: -0.8688792
+          time: 0.14370993
+          value: -0.03943229
+          inSlope: -0.10725321
+          outSlope: -0.10725321
           tangentMode: 0
           weightedMode: 0
           inWeight: 0.33333334
-          outWeight: 0.33333334
+          outWeight: 0.15136765
         - serializedVersion: 3
           time: 1
           value: -0.019355416

@@ -3,6 +3,8 @@ using UnityEngine;
 
 /// <summary>
 /// Let the particles scale with current time scale
+/// Plus kills them after they finish
+/// I.E. just add this to every particle...
 /// </summary>
 [RequireComponent(typeof(ParticleSystem))]
 public class ParticleSlowDown : MonoBehaviour
@@ -13,6 +15,8 @@ public class ParticleSlowDown : MonoBehaviour
 
     private void Start() {
         ps = GetComponent<ParticleSystem>();
+        var main = ps.main;
+        main.stopAction = ParticleSystemStopAction.Destroy;
         currentSpeed = 1;
         //if (main.playOnAwake) {
         //    main.playOnAwake = false;

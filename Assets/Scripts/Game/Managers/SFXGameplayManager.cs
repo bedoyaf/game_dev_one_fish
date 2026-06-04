@@ -224,7 +224,9 @@ public class SFXGameplayManager : MonoBehaviour
 
     [SerializeField] private ParticleSystem shipExplosion;
     [SerializeField] private ParticleSystem componentExplosion;
-    [SerializeField] private List<SoundData> explosionSounds;
+    [SerializeField] private SoundData componentExplosionSound;
+    [SerializeField] private SoundData shipExplosionSound;
+    [SerializeField] private float waitAfterShipExplosionTime = 2;
     [SerializeField] private int minExplosionCount = 3;
     [SerializeField] private int maxExplosionCount = 5;
     [SerializeField] private Vector2 timeBetweenExplosions = new Vector2(0.1f, 0.5f);
@@ -242,7 +244,7 @@ public class SFXGameplayManager : MonoBehaviour
         var comps = ship.componentGrid.GetAllComponents();
         var cabin = ship.GetMainCabin();
 
-        ship.componentsParent.transform.DOShakePosition(100, 0.3f);
+        var shake = ship.componentsParent.transform.DOShakePosition(100f, 0.2f);
 
         shipExplosionOngoing = true;
         // Play explode particles
@@ -303,18 +305,18 @@ public class SFXGameplayManager : MonoBehaviour
 
 
                 //rotate
-                float randomAngle = UnityEngine.Random.Range(0f, 360f);
+                float randomAngle = UnityEngine.Random.Range(0f, 360f) * 10;
                 comp.gameObject.transform.DOLocalRotate(
                     new Vector3(0f, randomAngle, 0f),
-                    1f,
+                    10f,
                     RotateMode.LocalAxisAdd
                 );
 
                 // move & don't destroy
-                comp.gameObject.transform.DOMove(target, 10f);
+                comp.gameObject.transform.DOMove(target, 30f);
             }
 
-            AudioManager.Instance.PlaySFX(explosionSounds.GetRandom());
+            AudioManager.Instance.PlaySFX(componentExplosionSound);
             yield return MyTime.WaitForSeconds(UnityEngine.Random.Range(timeBetweenExplosions.x, timeBetweenExplosions.y));
         }
 
@@ -332,7 +334,9 @@ public class SFXGameplayManager : MonoBehaviour
             }
         });
         //Destroy(shipParticles.gameObject, particlesLifetime);
-        AudioManager.Instance.PlaySFX(explosionSounds.GetRandom());
+        AudioManager.Instance.PlaySFX(shipExplosionSound);
+        shake.Kill();
+        yield return MyTime.WaitForSeconds(waitAfterShipExplosionTime);
 
         shipExplosionOngoing = false;
     }

@@ -65,7 +65,7 @@ public class Projectile : MonoBehaviour
             shouldDestroy = false;
         }
 
-        var particles = Instantiate(deathParticles, transform.position, Quaternion.identity);
+        var particles = Instantiate(deathParticles, transform.position - direction * 0.1f, Quaternion.identity);
         //MyTime.ScheduleDestruction(particles.gameObject, particlesLifetime);
         AudioManager.Instance.PlaySFX(deathSound, transform.position);
 
@@ -87,6 +87,7 @@ public class Projectile : MonoBehaviour
     }
 
     public void DoDestroy() {
+        // Separate the trace from the rocket, so that it does not disappear with it
         if (hasDetachableParticles) {
             foreach (var item in GetComponentsInChildren<DetachableParticles>()) {
                 item.Detach();

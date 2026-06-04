@@ -24,6 +24,8 @@ public class HookShotScript : MonoBehaviour
     private Vector3 restPosition;
     private Vector3 restScale;
 
+    [SerializeField] private ParticleSystem componentTearParticles;
+
     [Header("Sounds")]
     [SerializeField] private SoundData movingSound; 
     [SerializeField] private float movingSoundFadeDuration = 0.2f;
@@ -155,6 +157,7 @@ public class HookShotScript : MonoBehaviour
         AudioManager.Instance.PlaySFX(tearingSound);
 
         yield return MyTime.WaitForSeconds(grabTime);
+        var componentOriginalPosition = component.GetComponentCenter();
 
         // reparent the component temporarily to the hook
         var pull = pullTowards(hookProbeHit);
@@ -170,6 +173,7 @@ public class HookShotScript : MonoBehaviour
         moving = true;
 
         movementAudio.DOFade(1, movingSoundFadeDuration);
+        Instantiate(componentTearParticles, componentOriginalPosition, Quaternion.identity);
 
         yield return MyTime.WaitForSeconds(flyTime);
         
