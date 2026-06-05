@@ -195,8 +195,10 @@ public class MouseController : MonoBehaviour
         //       Debug.Log("Default click: " + comp.name);
         var clickResult = comp.OnMouseClick();
 
-        if(!clickResult)
+        if (!clickResult) {
             ShowShortTermMouseIcon(ShortTermMouseEvent.FAIL, 0.1f);
+            AudioManager.Instance.PlaySFX(failSound);
+        }
     }
 
     private void HandleComponentTargetClick(ShipComponentMeshController target, Vector3 componentOffset)
@@ -234,8 +236,10 @@ public class MouseController : MonoBehaviour
       //  Debug.Log("Exited targeting mode");
 
         // TODO: maybe fail sound ?
-        if (!clickResult)
+        if (!clickResult) {
             ShowShortTermMouseIcon(ShortTermMouseEvent.FAIL, 0.3f);
+            AudioManager.Instance.PlaySFX(failSound);
+        }
 
         // Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
     }
@@ -300,6 +304,8 @@ public class MouseController : MonoBehaviour
     public Texture2D rocketUpIcon;
     public Texture2D rocketDownIcon;
     public Texture2D rocketRightIcon;
+
+    public SoundData failSound;
 
     /*
     void OnGUI()
