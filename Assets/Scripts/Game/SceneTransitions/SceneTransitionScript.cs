@@ -58,7 +58,11 @@ public class SceneTransitionScript : MonoBehaviour
         yield return SceneManager.LoadSceneAsync(sceneName);
 
         // Fade back
-        yield return Fade(1, 0);
+        // The 1.5f just means it will hide first few frames so that there are no visual bugs
+        var originalFade = fadeDuration;
+        fadeDuration *= 1.5f;
+        yield return Fade(1.5f, 0);
+        fadeDuration = originalFade;
     }
 
     private IEnumerator Fade(float from, float to)

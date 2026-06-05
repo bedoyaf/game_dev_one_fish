@@ -38,6 +38,11 @@ public class SFXGameplayManager : MonoBehaviour
         enemyShip.transform.DOMoveZ(24f, MoveTime);
     }
 
+    public void SuperSpeedEnemyShipExit() {
+        enemyShip.transform.DOKill();
+        enemyShip.transform.DOMoveZ(24f, 0);
+    }
+
 
 
     // ------------------------------------------------------------

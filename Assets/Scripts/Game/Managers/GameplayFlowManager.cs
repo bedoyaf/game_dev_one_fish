@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using static MapController;
@@ -42,6 +43,7 @@ public class GameplayFlowManager : MonoBehaviour
     public MouseController mouseController;
 
     public GameUIScript gameUi;
+    public SoundData startGameSound;
 
     // Some access to player ship is needed
     public ShipController PlayerShip => playerShip;
@@ -77,7 +79,19 @@ public class GameplayFlowManager : MonoBehaviour
 
     void Start()
     {
-        EnterTutorial();
+        if (!GameManager.Instance.TutorialFinished) {
+            EnterTutorial();
+        }
+        else {
+            StartCoroutine(StartNormalGame());
+        }
+    }
+
+    private IEnumerator StartNormalGame() {
+        yield return null;
+        ChangePlayerShip();
+        EnterFirstGameplay();
+        sfx.SuperSpeedEnemyShipExit();
     }
 
     // TODO: state machine for the game phases
@@ -259,16 +273,22 @@ public class GameplayFlowManager : MonoBehaviour
         stateMachine.ChangeState(GameStates.MapSelection);
     }
 
-    private bool skippedTutorial = false;
+    //private bool skippedTutorial = false;
     public void SkipTutorial()
     {
-        skippedTutorial = true;
+        //skippedTutorial = true;
+        EndTutorial();
         //change TODO
-        enemyShip.GetMainCabin()?.TakeDamage(1000);
-
+        //enemyShip.GetMainCabin()?.TakeDamage(1000);
         //EndTutorial(); // not needed, combat end will handle it
     }
-    private void EndTutorial()
+
+    public void EndTutorial() {
+        AudioManager.Instance.PlaySFX(startGameSound);
+        GameManager.Instance.OnTutorialFinished();
+
+    }
+    /*private void EndTutorial()
     {
         tutorialRunning = false;
         ChangePlayerShip();
@@ -276,11 +296,12 @@ public class GameplayFlowManager : MonoBehaviour
 
         tutorialController.EndTutorial();
         EnterFirstGameplay();
-    }
+    }*/
 
     public void OnRegularTutorialEnd() {
         EndTutorial();
-        stateMachine.ChangeState(GameStates.ShipModification);
+        //EndTutorial();
+        //stateMachine.ChangeState(GameStates.ShipModification);
     }
 
     private void ChangePlayerShip()
@@ -291,8 +312,6 @@ public class GameplayFlowManager : MonoBehaviour
 
     public void EnterFirstGameplay()
     {
-        combatController.ClearInventory();
-        rewardController.ClearStoredComponents();
         Debug.Log("Entering first gameplay");
         var components = combatController.componentGeneratorSO.GenerateComponentList();
 
@@ -302,7 +321,7 @@ public class GameplayFlowManager : MonoBehaviour
 
             combatController.AddComponentLoot(instancedComp, false);
         }
-        //stateMachine.ChangeState(GameStates.ShipModification);
+        stateMachine.ChangeState(GameStates.ShipModification);
     }
 
     // EVENTS that trigger the change of state
@@ -310,12 +329,12 @@ public class GameplayFlowManager : MonoBehaviour
 
     public void OnCombatEnd()
     {
-        if(skippedTutorial)
-        {
-            skippedTutorial = false;
-            EndTutorial();
-            //return;
-        }
+        //if(skippedTutorial)
+        //{
+        //    skippedTutorial = false;
+        //    EndTutorial();
+        //    //return;
+        //}
         // kill the enemy / remove them
         if (combatController.playerWon)
         {
@@ -427,7 +446,7 @@ public class GameplayFlowManager : MonoBehaviour
     {
         tutorialRunning = true;
         Fight(combatController.tutorialShip);
-            tutorialController.StartTutorial();
+        tutorialController.StartTutorial();
     }
 
 

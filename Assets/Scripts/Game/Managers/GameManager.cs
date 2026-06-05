@@ -45,7 +45,8 @@ public class GameManager : SmartSingleton<GameManager> {
         currentGameplayManager = instance;
     }
 
-
+    [SerializeField] private bool tutorialFinished;
+    public bool TutorialFinished => tutorialFinished;
 
 
     public static bool IsPaused => MyTime.pausedOverride < 1;
@@ -88,6 +89,11 @@ public class GameManager : SmartSingleton<GameManager> {
         StartNewRun();
 
         TransitionScene("GameplayScene");
+    }
+
+    public void OnTutorialFinished() {
+        tutorialFinished = true;
+        RestartGame();
     }
 
     /// <summary>

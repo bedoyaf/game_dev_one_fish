@@ -76,7 +76,8 @@ public class CombatController : SmartSingleton<CombatController>
         }
 
         // notify the ai that this component is
-        currentEnemyAI.ComponentRemoved();
+        if (currentEnemyAI != null)
+            currentEnemyAI.ComponentRemoved();
 
     }
 
@@ -171,7 +172,8 @@ public class CombatController : SmartSingleton<CombatController>
         // enemyShip.GetMainCabin().OnDeath.RemoveAllListeners();
         currentEnemyInstance.GetMainCabin().OnDeath.AddListener(EndCombat);
 
-        
+        if (gameplayFlowManager.tutorialRunning) currentEnemyInstance.DestroyEnemyComponents(tutorialController.typesToDestroyForTutorial);
+
 
         return currentEnemyInstance;
     }
@@ -196,7 +198,6 @@ public class CombatController : SmartSingleton<CombatController>
 
     public void StartCombat()
     {
-        if (gameplayFlowManager.tutorialRunning) currentEnemyInstance.DestroyEnemyComponents(tutorialController.typesToDestroyForTutorial);
         ResetListeners();
 
         //Time.timeScale = 1f;
