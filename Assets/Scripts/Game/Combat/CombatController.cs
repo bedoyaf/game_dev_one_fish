@@ -37,12 +37,12 @@ public class CombatController : SmartSingleton<CombatController>
     }
 
     public void AddComponentLoot(
-        ShipComponentController lootedComponent)
+        ShipComponentController lootedComponent, bool isCaptured = true)
     {
 
         // if has space in inventory, add as a reward
         var inventoryController = GameManager.Instance.currentGameplayManager.rewardController;
-        if(inventoryController.CurrentlyHolding < inventoryController.inventoryCapacity)
+        if(inventoryController.CurrentlyHolding < inventoryController.inventoryCapacity || !isCaptured)
         {
             inventoryController.AppendComponent(lootedComponent);
 

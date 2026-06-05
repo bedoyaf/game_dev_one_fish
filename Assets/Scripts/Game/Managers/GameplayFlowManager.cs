@@ -259,8 +259,10 @@ public class GameplayFlowManager : MonoBehaviour
         stateMachine.ChangeState(GameStates.MapSelection);
     }
 
+    private bool skippedTutorial = false;
     public void SkipTutorial()
     {
+        skippedTutorial = true;
         //change TODO
         enemyShip.GetMainCabin()?.TakeDamage(1000);
 
@@ -291,7 +293,7 @@ public class GameplayFlowManager : MonoBehaviour
         {
             var instancedComp = Instantiate(compPrefab);
 
-            combatController.AddComponentLoot(instancedComp);
+            combatController.AddComponentLoot(instancedComp, false);
         }
         stateMachine.ChangeState(GameStates.ShipModification);
     }
@@ -301,6 +303,12 @@ public class GameplayFlowManager : MonoBehaviour
 
     public void OnCombatEnd()
     {
+        if(skippedTutorial)
+        {
+            skippedTutorial = false;
+            EndTutorial();
+            return;
+        }
         // kill the enemy / remove them
         if (combatController.playerWon)
         {
