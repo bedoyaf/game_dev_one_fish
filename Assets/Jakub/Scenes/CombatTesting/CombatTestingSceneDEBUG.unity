@@ -1029,7 +1029,7 @@ MonoBehaviour:
   playerShip: {fileID: 516042540}
   enemySpawnPosition: {fileID: 1056875059}
   enemyShipPrefabs:
-  - {fileID: 8735679993859663466, guid: 8d6d6ccd98c086a4b991b879a131bf70, type: 3}
+  - {fileID: 8735679993859663466, guid: 702be368baee5be45af41ddbeb7487b6, type: 3}
   gameplayFlowManager: {fileID: 992669697}
   lootInventoryParent: {fileID: 1442767120}
   boss: {fileID: 8735679993859663466, guid: 5d04a6a4e23bc6d4fa7e43b0c5f73631, type: 3}
@@ -8023,6 +8023,7 @@ MonoBehaviour:
   mouseController: {fileID: 1419061291}
   gameUi: {fileID: 7707693019974820916}
   startGameSound: {fileID: 0}
+  debugSkipTutorial: 1
 --- !u!1 &1047250074
 GameObject:
   m_ObjectHideFlags: 0
@@ -9654,6 +9655,7 @@ MonoBehaviour:
   rocketUpIcon: {fileID: 2800000, guid: 567fb1e0ef23f4d488aa151eed80e9e6, type: 3}
   rocketDownIcon: {fileID: 2800000, guid: 83aa1d9a07fbada4894822e8d7e8f199, type: 3}
   rocketRightIcon: {fileID: 2800000, guid: 1369e180e5595bd46987bdd1394a62e3, type: 3}
+  failSound: {fileID: 0}
   highlightMaterial: {fileID: 2100000, guid: cda624106eb1c3c4ba479815a852bd77, type: 2}
   outlineWidth: 1.2
   fadeTime: 0.2
