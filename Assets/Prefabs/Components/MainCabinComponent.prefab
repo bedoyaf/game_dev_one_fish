@@ -454,9 +454,8 @@ PrefabInstance:
       objectReference: {fileID: 6321186679993111303}
     - target: {fileID: 5385403880273499414, guid: 76b53dd701359c84195162e28f3a0cbb, type: 3}
       propertyPath: myDescription.textDescription
-      value: The heart of the ship. Stores some <energy> for other ship components.
-        Can be used to fire a hook grabber. The grabber can steal broken components
-        of enemy ships.
+      value: Stores some <energy> for other ship components.\nFires a hook grabber
+        that steals broken enemy components.
       objectReference: {fileID: 0}
     - target: {fileID: 9035797840035424804, guid: 76b53dd701359c84195162e28f3a0cbb, type: 3}
       propertyPath: m_Mesh
@@ -521,6 +520,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MainCabinComponentController
   hookDamage: 3
   hookShot: {fileID: 2757272427068822506}
+  onComponentPickup:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &2757272427068822506
 MonoBehaviour:
   m_ObjectHideFlags: 0

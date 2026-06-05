@@ -46,6 +46,7 @@ public class ShipBuildingController : MonoBehaviour
     private InputAction clickAction;
     private InputAction rightClickAction;
 
+    public bool removeDesigns = false;
 
     private void Awake() {
         // Setup mouse
@@ -180,8 +181,9 @@ public class ShipBuildingController : MonoBehaviour
             var collider = Instantiate(comp.ComponentHitbox, parent.transform);
             Destroy(collider.GetComponent<ShipComponentMeshController>());
 
-            // Decor add
-            Instantiate(comp.Decor, parent.transform);
+            // Decor add (if enabled)
+            if(!removeDesigns)
+                Instantiate(comp.Decor, parent.transform);
 
             parent.transform.localPosition = new Vector3(left, 0, 0);
             left += comp.placementRules.width;
@@ -319,7 +321,7 @@ public class ShipBuildingController : MonoBehaviour
             componentGrid.RemoveComponent(x, z);
             //shipData.componentGrid.RemoveComponent(x, z);
             if (!isPlaceholder) {
-                componentGrid.PlaceComponent(componentPrefab, x, z, false, false);
+                componentGrid.PlaceComponent(componentPrefab, x, z, false, false, removeDesigns);
 
                 if (placementClip != null)
                     AudioManager.Instance.PlaySFX(placementClip, transform.position);
