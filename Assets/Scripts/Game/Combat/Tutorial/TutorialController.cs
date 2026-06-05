@@ -59,6 +59,7 @@ public class TutorialController : MonoBehaviour
         if (currentStepIndex >= tutorialSteps.Length)
         {
             EndTutorial();
+            GameManager.Instance.currentGameplayManager.OnRegularTutorialEnd();
             return;
         }
 

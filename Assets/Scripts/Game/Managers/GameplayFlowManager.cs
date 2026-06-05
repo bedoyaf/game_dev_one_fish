@@ -250,12 +250,12 @@ public class GameplayFlowManager : MonoBehaviour
     // Will toss unused components 
     public void StopModifying()
     {
-        if(tutorialRunning)
-        {
-            stateMachine.ChangeState(GameStates.Repairs);
-            EndTutorial();
-            return;
-        }
+        //if(tutorialRunning)
+        //{
+        //    stateMachine.ChangeState(GameStates.Repairs);
+        //    EndTutorial();
+        //    return;
+        //}
         stateMachine.ChangeState(GameStates.MapSelection);
     }
 
@@ -266,7 +266,7 @@ public class GameplayFlowManager : MonoBehaviour
         //change TODO
         enemyShip.GetMainCabin()?.TakeDamage(1000);
 
-        EndTutorial();
+        //EndTutorial(); // not needed, combat end will handle it
     }
     private void EndTutorial()
     {
@@ -278,6 +278,11 @@ public class GameplayFlowManager : MonoBehaviour
         EnterFirstGameplay();
     }
 
+    public void OnRegularTutorialEnd() {
+        EndTutorial();
+        stateMachine.ChangeState(GameStates.ShipModification);
+    }
+
     private void ChangePlayerShip()
     {
         playerShip.shipData = combatController.EmptyPlayerShip;
@@ -286,6 +291,8 @@ public class GameplayFlowManager : MonoBehaviour
 
     public void EnterFirstGameplay()
     {
+        combatController.ClearInventory();
+        rewardController.ClearStoredComponents();
         Debug.Log("Entering first gameplay");
         var components = combatController.componentGeneratorSO.GenerateComponentList();
 
@@ -295,7 +302,7 @@ public class GameplayFlowManager : MonoBehaviour
 
             combatController.AddComponentLoot(instancedComp, false);
         }
-        stateMachine.ChangeState(GameStates.ShipModification);
+        //stateMachine.ChangeState(GameStates.ShipModification);
     }
 
     // EVENTS that trigger the change of state
@@ -307,7 +314,7 @@ public class GameplayFlowManager : MonoBehaviour
         {
             skippedTutorial = false;
             EndTutorial();
-            return;
+            //return;
         }
         // kill the enemy / remove them
         if (combatController.playerWon)
@@ -321,7 +328,8 @@ public class GameplayFlowManager : MonoBehaviour
             //sfx.CombatEndTransition(true, () => { stateMachine.ChangeState(GameStates.RewardSelection); });
             sfx.CombatEndTransition(true, () => {
                 Debug.Log("Entering ship mod");
-                stateMachine.ChangeState(GameStates.ShipModification);
+                if (!tutorialRunning)
+                    stateMachine.ChangeState(GameStates.ShipModification);
 
                 Debug.Log($"Current state {stateMachine.CurrentStateKey}");
             });

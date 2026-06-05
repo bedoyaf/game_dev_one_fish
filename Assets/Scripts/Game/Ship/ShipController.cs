@@ -139,7 +139,7 @@ public class ShipController : MonoBehaviour
             componentsParent.transform.position = new Vector3(oldPos.x, 1, oldPos.z);
         }
 
-        AssignShipController();
+        Start();
 
         // Needs to be here for Unity to save the ship
 #if UNITY_EDITOR

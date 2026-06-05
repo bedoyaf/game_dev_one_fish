@@ -46,21 +46,26 @@ public class CombatController : SmartSingleton<CombatController>
         {
             inventoryController.AppendComponent(lootedComponent);
 
-            // separate the mesh for visuals only
-            var mesh = lootedComponent.ComponentMesh;
-            mesh.transform.DestroyAllChildren();
-            mesh.transform.SetParent(lootInventoryParent);
+            // Only show the meshes of actually stolen components
+            // From my understanding, when called from tutorial end, there is no need to show the components now,
+            // but only when we want to use them for the building
+            if (isCaptured) {
+                // separate the mesh for visuals only
+                var mesh = lootedComponent.ComponentMesh;
+                mesh.transform.DestroyAllChildren();
+                mesh.transform.SetParent(lootInventoryParent);
 
-            // include Decor child
-            var decor = lootedComponent.gameObject.transform.Find("Decor");
-            if (decor != null)
-                decor.gameObject.transform.SetParent(mesh.transform);
+                // include Decor child
+                var decor = lootedComponent.gameObject.transform.Find("Decor");
+                if (decor != null)
+                    decor.gameObject.transform.SetParent(mesh.transform);
 
-            lootedComponent.gameObject.SmartDestroy();
+                lootedComponent.gameObject.SmartDestroy();
 
-            // offset from each other
-            mesh.transform.DOLocalMove(2f * (inventoryController.CurrentlyHolding - 1) * 
-                Vector3.right, 0.5f);
+                // offset from each other
+                mesh.transform.DOLocalMove(2f * (inventoryController.CurrentlyHolding - 1) *
+                    Vector3.right, 0.5f);
+            }
 
         }
         // TODO: what to do when inventory full (choose which to keep ?)
@@ -181,6 +186,10 @@ public class CombatController : SmartSingleton<CombatController>
     {
 
         SetupPlayerShip();
+        ResetListeners();
+    }
+
+    private void ResetListeners() {
         playerShip.GetMainCabin().OnDeath.RemoveAllListeners();
         playerShip.GetMainCabin().OnDeath.AddListener(EndCombat);
     }
@@ -188,6 +197,7 @@ public class CombatController : SmartSingleton<CombatController>
     public void StartCombat()
     {
         if (gameplayFlowManager.tutorialRunning) currentEnemyInstance.DestroyEnemyComponents(tutorialController.typesToDestroyForTutorial);
+        ResetListeners();
 
         //Time.timeScale = 1f;
         combatEnded = false;
