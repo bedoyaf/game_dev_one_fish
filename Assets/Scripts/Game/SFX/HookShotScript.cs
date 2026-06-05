@@ -161,8 +161,10 @@ public class HookShotScript : MonoBehaviour
 
         // reparent the component temporarily to the hook
         var pull = pullTowards(hookProbeHit);
-        if (pull)
+        if (pull) {
             component.gameObject.transform.SetParent(hook.transform);
+            Instantiate(componentTearParticles, componentOriginalPosition, Quaternion.identity);
+        }
 
         // fly back
 
@@ -173,7 +175,6 @@ public class HookShotScript : MonoBehaviour
         moving = true;
 
         movementAudio.DOFade(1, movingSoundFadeDuration);
-        Instantiate(componentTearParticles, componentOriginalPosition, Quaternion.identity);
 
         yield return MyTime.WaitForSeconds(flyTime);
         
