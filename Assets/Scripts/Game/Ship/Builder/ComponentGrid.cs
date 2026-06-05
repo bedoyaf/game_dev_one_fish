@@ -131,11 +131,20 @@ public class ComponentGrid {
     /// <param name="alreadyInstantiated">Whether the component is already instantiated, so I should not instantiate it again.</param>
     /// <param name="solid">Whether the component should be solid or not</param>
     /// <returns>The created component.</returns>
-    public ShipComponentController PlaceComponent(ShipComponentController componentPrefab, int x, int z, bool alreadyInstantiated, bool solid) {
+    public ShipComponentController PlaceComponent(ShipComponentController componentPrefab, int x, int z, bool alreadyInstantiated, bool solid, bool removeDecor=false) {
         var component = componentPrefab;
         if (shouldInstantiate && !alreadyInstantiated) {
             var newComponent = InstantiateComponent(componentPrefab, x, z);
             component = newComponent;
+
+            // Hack to not include the decorations
+            if(removeDecor)
+            {
+                var d = component.transform.Find("Decor");
+                if (d != null)
+                    d.gameObject.SmartDestroy();
+            }
+
         }
 
         // Remove old things in the area of the 
