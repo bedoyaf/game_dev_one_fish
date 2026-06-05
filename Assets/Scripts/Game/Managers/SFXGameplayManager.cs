@@ -223,7 +223,7 @@ public class SFXGameplayManager : MonoBehaviour
 
     [SerializeField] private ParticleSystem shipExplosion;
     [SerializeField] private ParticleSystem componentExplosion;
-    [SerializeField] private SoundData componentExplosionSound;
+    [SerializeField] private SoundData[] componentExplosionSounds;
     [SerializeField] private SoundData shipExplosionSound;
     [SerializeField] private float waitAfterShipExplosionTime = 2;
     [SerializeField] private float waitBeforeShipExplosionTime = 0.5f;
@@ -325,7 +325,12 @@ public class SFXGameplayManager : MonoBehaviour
                 comp.gameObject.transform.DOMove(target, 30f);
             }
 
-            AudioManager.Instance.PlaySFX(componentExplosionSound);
+            if (componentExplosionSounds != null && componentExplosionSounds.Length > 0)
+            {
+                SoundData randomExplosionSound = componentExplosionSounds[UnityEngine.Random.Range(0, componentExplosionSounds.Length)];
+                AudioManager.Instance.PlaySFX(randomExplosionSound);
+            }
+
             yield return MyTime.WaitForSeconds(UnityEngine.Random.Range(timeBetweenExplosions.x, timeBetweenExplosions.y));
         }
 
