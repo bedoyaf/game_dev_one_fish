@@ -3888,7 +3888,7 @@ ParticleSystem:
     radiusScale: 0.02
     collidesWith:
       serializedVersion: 2
-      m_Bits: 4294967295
+      m_Bits: 4407
     maxCollisionShapes: 256
     quality: 0
     voxelSize: 0.5
@@ -4992,6 +4992,14 @@ PrefabInstance:
     - target: {fileID: 987659117832594257, guid: ef880b1c0015e2b46971a36804cbc23d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4589798890555039839, guid: ef880b1c0015e2b46971a36804cbc23d, type: 3}
+      propertyPath: CollisionModule.radiusScale
+      value: 0.0001
+      objectReference: {fileID: 0}
+    - target: {fileID: 4589798890555039839, guid: ef880b1c0015e2b46971a36804cbc23d, type: 3}
+      propertyPath: CollisionModule.collidesWith.m_Bits
+      value: 4407
       objectReference: {fileID: 0}
     - target: {fileID: 5736938851423095510, guid: ef880b1c0015e2b46971a36804cbc23d, type: 3}
       propertyPath: m_Name
