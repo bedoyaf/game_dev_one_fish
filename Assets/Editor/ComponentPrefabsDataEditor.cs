@@ -11,6 +11,14 @@ public class ComponentPrefabsDataEditor : Editor {
             prefabsData.AssignGuids();
         }
 
+        if (GUILayout.Button("Add new components")) {
+            prefabsData.LoadComponentPrefabs();
+        }
+
+        if (GUILayout.Button("Clear components")) {
+            prefabsData.ClearAndLoad();
+        }
+
         //if (GUILayout.Button("Print")) {
         //    prefabsData.Print();
         //}

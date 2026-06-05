@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using UnityEditor;
 using UnityEngine;
 
 /// <summary>
@@ -69,6 +70,29 @@ public class ComponentPrefabsData : ScriptableObject
             if (component.guid == guid) return component;
         }
         return null;
+    }
+
+    // Loads all prefabs in assets/prefabs/components and adds those that are missing
+    public void LoadComponentPrefabs() {
+#if UNITY_EDITOR
+        // Guid je trochu pøetížený pojem
+        string[] guids = AssetDatabase.FindAssets("t:Prefab", new[] {"Assets/Prefabs/Components"});
+
+        foreach (var guid in guids) {
+            var path = AssetDatabase.GUIDToAssetPath(guid);
+            ShipComponentController comp = AssetDatabase.LoadAssetAtPath<ShipComponentController>(path);
+
+            if (!componentPrefabs.Contains(comp)) {
+                componentPrefabs.Add(comp);
+            }
+        }
+
+        AssignGuids();
+#endif
+    }
+
+    public void ClearAndLoad() {
+        componentPrefabs.Clear();
     }
 
     public void Print() {

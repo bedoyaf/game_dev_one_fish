@@ -16,6 +16,8 @@ public class ShipBuildingControllerEditor : Editor {
     }
 }
 
+#if UNITY_EDITOR
+
 // Vibe coding
 public static class SoundDataSync {
     private const string ClipsFolder = "Assets/Content/Audio";
@@ -143,3 +145,4 @@ public static class SoundDataSync {
         }
     }
 }
+#endif

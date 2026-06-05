@@ -488,6 +488,7 @@ MonoBehaviour:
   descriptionText: {fileID: 837945413}
   meshFilter: {fileID: 1053029599}
   meshPreview: {fileID: 1053029598}
+  group: {fileID: 0}
 --- !u!1 &104090603
 GameObject:
   m_ObjectHideFlags: 0
@@ -1028,10 +1029,15 @@ MonoBehaviour:
   playerShip: {fileID: 516042540}
   enemySpawnPosition: {fileID: 1056875059}
   enemyShipPrefabs:
-  - {fileID: 8735679993859663466, guid: f736d3e1018315b43aa43b21262a455c, type: 3}
+  - {fileID: 8735679993859663466, guid: 702be368baee5be45af41ddbeb7487b6, type: 3}
   gameplayFlowManager: {fileID: 992669697}
   lootInventoryParent: {fileID: 1442767120}
   boss: {fileID: 8735679993859663466, guid: 5d04a6a4e23bc6d4fa7e43b0c5f73631, type: 3}
+  tutorialShip: {fileID: 0}
+  tutorialController: {fileID: 0}
+  componentGeneratorSO: {fileID: 0}
+  tutorialPlayerShip: {fileID: 0}
+  EmptyPlayerShip: {fileID: 0}
   debug_override: 1
 --- !u!4 &224720032
 Transform:
@@ -2692,6 +2698,38 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3580451792754901194, guid: 9101963b760786d4783a45530197e394, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7408578033752756734, guid: 9101963b760786d4783a45530197e394, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -9.31
+      objectReference: {fileID: 0}
+    - target: {fileID: 7408578033752756734, guid: 9101963b760786d4783a45530197e394, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7408578033752756734, guid: 9101963b760786d4783a45530197e394, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 9023060938975131728, guid: 9101963b760786d4783a45530197e394, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 9023060938975131728, guid: 9101963b760786d4783a45530197e394, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 9037957298328804323, guid: 9101963b760786d4783a45530197e394, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 2.22
+      objectReference: {fileID: 0}
+    - target: {fileID: 9037957298328804323, guid: 9101963b760786d4783a45530197e394, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 288197366060487284, guid: 187c20461725122439c3c40d8368a792, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -2711,6 +2749,10 @@ PrefabInstance:
     - target: {fileID: 305381807646929517, guid: 187c20461725122439c3c40d8368a792, type: 3}
       propertyPath: m_LocalPosition.z
       value: 3.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1948459516148943744, guid: 187c20461725122439c3c40d8368a792, type: 3}
+      propertyPath: removeDesigns
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2353206029449680602, guid: 187c20461725122439c3c40d8368a792, type: 3}
       propertyPath: topLeft.x
@@ -6532,38 +6574,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player Ship
       objectReference: {fileID: 0}
-    - target: {fileID: 3580451792754901194, guid: 9101963b760786d4783a45530197e394, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 7408578033752756734, guid: 9101963b760786d4783a45530197e394, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -9.31
-      objectReference: {fileID: 0}
-    - target: {fileID: 7408578033752756734, guid: 9101963b760786d4783a45530197e394, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 7408578033752756734, guid: 9101963b760786d4783a45530197e394, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 9023060938975131728, guid: 9101963b760786d4783a45530197e394, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 9023060938975131728, guid: 9101963b760786d4783a45530197e394, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 9037957298328804323, guid: 9101963b760786d4783a45530197e394, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 2.22
-      objectReference: {fileID: 0}
-    - target: {fileID: 9037957298328804323, guid: 9101963b760786d4783a45530197e394, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.5
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 5601050381040963383, guid: 187c20461725122439c3c40d8368a792, type: 3}
@@ -8011,10 +8021,13 @@ MonoBehaviour:
   enemyShip: {fileID: 1613926697}
   eventController: {fileID: 915306588}
   mapController: {fileID: 826056873}
+  tutorialController: {fileID: 0}
   combatController: {fileID: 224720031}
   rewardController: {fileID: 1717443702}
   mouseController: {fileID: 1419061291}
   gameUi: {fileID: 7707693019974820916}
+  startGameSound: {fileID: 0}
+  debugSkipTutorial: 1
 --- !u!1 &1047250074
 GameObject:
   m_ObjectHideFlags: 0
@@ -9646,6 +9659,7 @@ MonoBehaviour:
   rocketUpIcon: {fileID: 2800000, guid: 567fb1e0ef23f4d488aa151eed80e9e6, type: 3}
   rocketDownIcon: {fileID: 2800000, guid: 83aa1d9a07fbada4894822e8d7e8f199, type: 3}
   rocketRightIcon: {fileID: 2800000, guid: 1369e180e5595bd46987bdd1394a62e3, type: 3}
+  failSound: {fileID: 0}
   highlightMaterial: {fileID: 2100000, guid: cda624106eb1c3c4ba479815a852bd77, type: 2}
   outlineWidth: 1.2
   fadeTime: 0.2
@@ -9822,10 +9836,10 @@ MonoBehaviour:
   energyParticlesPrefab: {fileID: 7760477601109047459, guid: 6c26ee3862477ce4c94a7165a1cdd577, type: 3}
   shipExplosion: {fileID: 3482343678898837779, guid: 56d14597d04a4114d841c59d4e911429, type: 3}
   componentExplosion: {fileID: 3482343678898837779, guid: 17cd551733275c0469bf4afa1e04ac61, type: 3}
-  explosionSounds:
-  - {fileID: 11400000, guid: bac3d137b95194047b6aa0c4e02ba78b, type: 2}
-  minExplosionCount: 3
-  maxExplosionCount: 5
+  componentExplosionSound: {fileID: 0}
+  shipExplosionSound: {fileID: 0}
+  waitAfterShipExplosionTime: 2
+  waitBeforeShipExplosionTime: 0.5
   timeBetweenExplosions: {x: 0.1, y: 0.5}
   particlesLifetime: 1
 --- !u!4 &1441420336

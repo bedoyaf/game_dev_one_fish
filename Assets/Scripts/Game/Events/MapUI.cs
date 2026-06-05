@@ -40,6 +40,7 @@ public class MapUI : MonoBehaviour
     [SerializeField] private Color eventNodeColor = new Color(0.2f, 0.5f, 0.9f);
     [SerializeField] private Color restNodeColor = Color.green;
     [SerializeField] private Color bossNodeColor = new Color(1f, 0.8f, 0.2f);
+    [SerializeField] private Color unknownNodeColor = new Color(1f, 0.1f, 1f);
     [SerializeField] private Color defaultNodeColor = new Color(0.5f, 0.5f, 0.5f);
     [SerializeField] private Color visitedNodeColor = Color.gray;
     [SerializeField] private Color visibleUnreachableNodeColor = Color.gray;
@@ -50,6 +51,7 @@ public class MapUI : MonoBehaviour
     [SerializeField] private Sprite eliteSprite;
     [SerializeField] private Sprite restSprite;
     [SerializeField] private Sprite bossSprite;
+    [SerializeField] private Sprite unknownSprite;
 
     [SerializeField] private bool debugAllVisible;
     public bool DebugMap => debugAllVisible;
@@ -136,11 +138,19 @@ public class MapUI : MonoBehaviour
                 continue;
             }
 
-            if (IsReachable(current, node, sightDistance))
+            else if (IsReachable(current, node, sightDistance))
             {
-                ui.SetIcon(GetTypeIcon(node.type));
-                ui.SetState(1f, baseColor);
-                ui.SetReachable(IsReachable(current, node, 1), baseColor, 0.25f);
+                // On sight 0, player still sees one tile ahead, just with unknown sprites
+                if (sightDistance == 0) {
+                    ui.SetIcon(unknownSprite);
+                    ui.SetState(1f, unknownNodeColor);
+                    ui.SetReachable(true, baseColor, 0.25f);
+                }
+                else {
+                    ui.SetIcon(GetTypeIcon(node.type));
+                    ui.SetState(1f, baseColor);
+                    ui.SetReachable(IsReachable(current, node, 1), baseColor, 0.25f);
+                }
             }
             else
             {

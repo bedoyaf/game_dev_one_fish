@@ -17,6 +17,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1039438194971829982, guid: d62e4788b61ee3247b66f9b3f7ffe20d, type: 3}
+      propertyPath: removeDesigns
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1039438194971829982, guid: d62e4788b61ee3247b66f9b3f7ffe20d, type: 3}
       propertyPath: shipController
       value: 
       objectReference: {fileID: 2917786402282024532}
@@ -71,6 +75,18 @@ PrefabInstance:
     - target: {fileID: 2779248880310250863, guid: d62e4788b61ee3247b66f9b3f7ffe20d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5835962800365350490, guid: d62e4788b61ee3247b66f9b3f7ffe20d, type: 3}
+      propertyPath: m_ActionEvents.Array.size
+      value: 22
+      objectReference: {fileID: 0}
+    - target: {fileID: 5835962800365350490, guid: d62e4788b61ee3247b66f9b3f7ffe20d, type: 3}
+      propertyPath: m_ActionEvents.Array.data[21].m_ActionId
+      value: 34a2a58f-5e8e-4a81-aea3-c9c81c44ad16
+      objectReference: {fileID: 0}
+    - target: {fileID: 5835962800365350490, guid: d62e4788b61ee3247b66f9b3f7ffe20d, type: 3}
+      propertyPath: m_ActionEvents.Array.data[21].m_ActionName
+      value: 'Player/Any[/Keyboard/anyKey,/Mouse/rightButton]'
       objectReference: {fileID: 0}
     - target: {fileID: 6448978121080443775, guid: d62e4788b61ee3247b66f9b3f7ffe20d, type: 3}
       propertyPath: m_Name

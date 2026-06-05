@@ -44,6 +44,7 @@ public class GameplayFlowManager : MonoBehaviour
 
     public GameUIScript gameUi;
     public SoundData startGameSound;
+    public bool debugSkipTutorial;
 
     // Some access to player ship is needed
     public ShipController PlayerShip => playerShip;
@@ -79,11 +80,17 @@ public class GameplayFlowManager : MonoBehaviour
 
     void Start()
     {
-        if (!GameManager.Instance.TutorialFinished) {
-            EnterTutorial();
+        // Just debug if I want to start with some better ship
+        if (debugSkipTutorial) {
+            stateMachine.ChangeState(GameStates.MapSelection);
         }
         else {
-            StartCoroutine(StartNormalGame());
+            if (!GameManager.Instance.TutorialFinished) {
+                EnterTutorial();
+            }
+            else {
+                StartCoroutine(StartNormalGame());
+            }
         }
     }
 
