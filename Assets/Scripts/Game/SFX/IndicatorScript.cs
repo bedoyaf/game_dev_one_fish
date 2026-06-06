@@ -35,6 +35,8 @@ public class IndicatorScript : MonoBehaviour
         if (unusableQuadMaterial != null) {
             unusableColor = unusableQuadMaterial.GetColor("_MainColor");
         }
+
+        OnStart();
     }
 
     // Update is called once per frame
@@ -79,4 +81,6 @@ public class IndicatorScript : MonoBehaviour
 
     // Update for chilren
     public virtual void OnUpdate() { }
+
+    public virtual void OnStart() { }
 }

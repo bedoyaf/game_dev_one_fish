@@ -56,6 +56,7 @@ public class CombatController : SmartSingleton<CombatController>
                 mesh.transform.DestroyAllChildren();
                 mesh.transform.SetParent(lootInventoryParent);
 
+                // TODO: maybe destroy decor here if decide to not want it
                 // include Decor child
                 var decor = lootedComponent.gameObject.transform.Find("Decor");
                 if (decor != null)
@@ -69,11 +70,13 @@ public class CombatController : SmartSingleton<CombatController>
             }
 
         }
-        // TODO: what to do when inventory full (choose which to keep ?)
+        // when inventory full -> toss away
         else
         {
-
-            lootedComponent.gameObject.SmartDestroy();
+            // move off screen
+            lootedComponent.transform.DOMove(
+                lootedComponent.transform.position - Vector3.forward * 10, 0.5f).onComplete += 
+                () => lootedComponent.gameObject.SmartDestroy();
         }
 
         // notify the ai that this component is

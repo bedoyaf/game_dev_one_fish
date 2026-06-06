@@ -45,6 +45,7 @@ public class ComponentDescriptionUI : MonoBehaviour
     private Dictionary<string, string> mapping = new Dictionary<string, string> {
         { "<energy>",   "<sprite=0>" },
         { "<currency>", "<sprite=1>" },
+        { "<wheel>",    "<sprite=2>" },
 
     };
 
