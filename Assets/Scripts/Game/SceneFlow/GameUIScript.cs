@@ -77,7 +77,7 @@ public class GameUIScript : MonoBehaviour
         pauseMenuItemsParent.SetActive(true);
 
 
-        if (tutorialController.IsRunning) tutorialController.PauseTutorial();
+        if (tutorialController != null && tutorialController.IsRunning) tutorialController.PauseTutorial();
 
         GameManager.Instance.PauseGame();
         combatManager.StopGame();
@@ -87,7 +87,7 @@ public class GameUIScript : MonoBehaviour
     {
         pauseMenuItemsParent.SetActive(false);
 
-        if (tutorialController.IsRunning) tutorialController.ResumeTutorial();
+        if (tutorialController != null && tutorialController.IsRunning) tutorialController.ResumeTutorial();
 
         GameManager.Instance.ResumeGame();
         combatManager.ResumeGame();

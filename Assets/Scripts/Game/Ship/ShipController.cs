@@ -479,7 +479,10 @@ public class ShipController : MonoBehaviour
             gen.ResetBehaviour();
         }
 
-
+        var cooldowns = GetComponentsInChildren<ComponentCooldown>();
+        foreach (var cooldown in cooldowns) {
+            cooldown.Trigger();
+        }
     }
 
 

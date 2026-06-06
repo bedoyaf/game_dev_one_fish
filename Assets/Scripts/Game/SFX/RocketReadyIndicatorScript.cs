@@ -1,25 +1,22 @@
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class RocketReadyIndicatorScript : MonoBehaviour
+public class RocketReadyIndicatorScript : IndicatorScript
 {
-    
     [SerializeField]
     private MissileComponentController missiles;
 
     [SerializeField]
-    private MeshRenderer quadIndicator;
+    private ComponentCooldown cooldown;
 
     [SerializeField]
     private SpriteRenderer spriteIndicator;
 
-    // Update is called once per frame
-    void Update()
-    {
+    public override void OnUpdate() {
         if (missiles == null)
             return;
 
-        quadIndicator.transform.localScale = missiles.CanClickOnNow ? Vector3.one : Vector3.zero;
+        CooldownUpdate(cooldown, missiles.CanClickOnNow);
         spriteIndicator.transform.localScale = missiles.CanClickOnNow ? Vector3.one : Vector3.zero;
     }
 }

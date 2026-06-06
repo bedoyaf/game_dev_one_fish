@@ -103,8 +103,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 548d43a7d306a524da5da61e08abef6b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RocketReadyIndicatorScript
-  missiles: {fileID: 787439523021449703}
   quadIndicator: {fileID: 5312306444901929237}
+  unusableQuadMaterial: {fileID: 2100000, guid: af382e7dd1627f14a9013ad61ad6e463, type: 2}
+  missiles: {fileID: 787439523021449703}
+  cooldown: {fileID: -6365399140400035441}
   spriteIndicator: {fileID: 9178814736299308222}
 --- !u!1 &858361770900129664
 GameObject:
