@@ -31,15 +31,16 @@ public class MapNodeButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 
     public void SetTypeColor(Color c)
     {
-        background.color = c;
+        //background.color = c;
+        icon.color = c;
     }
 
     public void SetState(float alpha, Color tint)
     {
-        var col = background.color;
+        var col = icon.color;
         col = tint;
         col.a = alpha;
-        background.color = col;
+        icon.color = col;
     }
 
     public void SetReachable(bool reachable, Color tint, float alpha) {
@@ -53,24 +54,24 @@ public class MapNodeButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     {
         if (sprite == null)
         {
-            icon.color = new Color(1, 1, 1, 0);
+            // icon.color = new Color(1, 1, 1, 0);
             return;
         }
 
         icon.sprite = sprite;
-        icon.color = Color.white;
+        // icon.color = Color.white;
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        transform.DOKill();
+        icon.transform.DOKill();
         if (isReachable)
-            transform.DOScale(1.15f, 0.15f);
+            icon.transform.DOScale(1.15f, 0.15f);
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        transform.DOKill();
-        transform.DOScale(1f, 0.15f);
+        icon.transform.DOKill();
+        icon.transform.DOScale(1f, 0.15f);
     }
 }
