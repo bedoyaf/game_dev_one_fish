@@ -10,6 +10,9 @@ public class ComponentCooldown : MonoBehaviour
     public bool IsReady => MyTime.time >= nextReadyTime;
 
     public float Remaining => Mathf.Max(0, nextReadyTime - MyTime.time);
+    public float RemainingRatio => Remaining / Mathf.Max(0.001f, cooldownTime);
+
+    public float RemainingInDegrees => (1 - RemainingRatio) * 360;
 
     public void Trigger()
     {
