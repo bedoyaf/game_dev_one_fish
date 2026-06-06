@@ -174,7 +174,6 @@ public class CombatController : SmartSingleton<CombatController>
 
         if (gameplayFlowManager.tutorialRunning) currentEnemyInstance.DestroyEnemyComponents(tutorialController.typesToDestroyForTutorial);
 
-
         return currentEnemyInstance;
     }
 

@@ -56,6 +56,7 @@ public class ShipController : MonoBehaviour
     public float DebugTextOffset = 0;
 
     public UnityEvent onEnergyChanged;
+    public UnityEvent onScrapChanged;
 
 
     private void Start()
@@ -445,6 +446,7 @@ public class ShipController : MonoBehaviour
         {
             AudioManager.Instance.PlaySFX(moneyClip, transform.position);
         }
+        onScrapChanged.Invoke();
     }
 
     public bool UseCurrency(int amount)
@@ -456,6 +458,7 @@ public class ShipController : MonoBehaviour
         // use it now
         storedMoney -= amount;
         AudioManager.Instance.PlaySFX(moneyClip, transform.position);
+        onScrapChanged.Invoke();
         return true;
     }
 
