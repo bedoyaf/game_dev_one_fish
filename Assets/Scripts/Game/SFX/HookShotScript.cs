@@ -1,6 +1,7 @@
 using DG.Tweening;
 using System;
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
@@ -11,6 +12,8 @@ public class HookShotScript : MonoBehaviour
 
     // hook 
     [SerializeField] private GameObject hook;
+
+    [SerializeField] private SpriteRenderer hookVisual;
 
     // hook's line
     [SerializeField] private LineRenderer hookLine;
@@ -37,10 +40,13 @@ public class HookShotScript : MonoBehaviour
         restScale = hook.transform.localScale;
     }
 
+    [SerializeField] private HookIndicatorScript hookIndicator;
+
     public void HideHook()
     {
         hook.SetActive(false);
         hookLine.gameObject.SetActive(false);
+        hookIndicator.gameObject.SetActive(false);
     }
 
     private bool following = true;
@@ -49,6 +55,15 @@ public class HookShotScript : MonoBehaviour
     private Vector3 nextDir = Vector3.zero;
 
 
+    [SerializeField]
+    private float angleRange = 20;
+    [SerializeField]
+    private float hookLen = 1;
+
+
+    private float prevAngle = 0;
+    private float hookSwing = 0;
+    private float hookSwingVelocity = 0;
 
     void Update()
     {
@@ -57,12 +72,16 @@ public class HookShotScript : MonoBehaviour
         {
             hook.transform.position += moveSpeed * MyTime.deltaTime * nextDir;
         }
-        else if(following)
+        else if(following && hook.activeSelf)
         {
-            // indicate that clickable, by moving around to match
-            // the screen mouse position
-            if(hook.activeSelf && ownCabin.CanClickOnNow)
+            // Follow when aiming only // else just rotate slightly
+            if(ownCabin.shipComponentController.activated)
             {
+                // Scale up
+                hook.transform.localScale = grabScaleMult * Vector3.one;
+
+                hookVisual.transform.localRotation = Quaternion.Euler(0, 0, 0);
+
                 Vector2 mousePosition = Mouse.current.position.ReadValue();
                 Vector3 screenPos = Camera.main.WorldToScreenPoint(hookPivot.transform.position);
                 Vector2 offset = mousePosition - new Vector2(screenPos.x, screenPos.y);
@@ -72,11 +91,34 @@ public class HookShotScript : MonoBehaviour
                 angle -= hook.transform.eulerAngles.y;
 
                 hook.transform.RotateAround(hookPivot.position, hookPivot.forward, angle);
-            } 
-            // rest position
+            }
+            // rest position (slightly rotating)
             else
             {
-                hook.transform.position = restPosition;
+                // rest scale
+                hook.transform.localScale = restScale;
+
+                // where want to be now 
+                float angle = 90 - 2*angleRange + Mathf.Cos(MyTime.time) * angleRange;
+
+                float ropeAngularVelocity = Mathf.DeltaAngle(prevAngle, angle);
+                hookSwing += -ropeAngularVelocity * 0.5f;
+
+                hookSwingVelocity += -hookSwing * 20f * MyTime.deltaTime;
+                hookSwingVelocity *= 0.98f;
+                hookSwing += hookSwingVelocity * MyTime.deltaTime;
+
+                float finalAngle = -90 + angle + hookSwing;
+
+                prevAngle = angle;
+
+                // rotate the rope attached point
+                angle -= hook.transform.eulerAngles.y;
+                hook.transform.RotateAround(hookPivot.position, hookPivot.forward, angle);
+
+                // rotate the hook
+                hookVisual.transform.localRotation = Quaternion.Euler(0, 0, finalAngle);
+                
             }
 
         }
@@ -117,9 +159,9 @@ public class HookShotScript : MonoBehaviour
         hook.transform.localScale = grabScaleMult * Vector3.one;
 
         // fly there
-
+        // shorten by some length (of the hook)
         nextDir = (position - hook.transform.position);
-        moveSpeed = nextDir.magnitude / flyTime;
+        moveSpeed = (nextDir.magnitude - hookLen) / flyTime;
         nextDir = nextDir.normalized;
 
         following = false;
@@ -147,11 +189,12 @@ public class HookShotScript : MonoBehaviour
         yield return MyTime.WaitForSeconds(probeTime);
 
         // There and probe is done
-        hook.transform.position = position;
+        var goalPos = position - nextDir * hookLen;
+        hook.transform.position = goalPos;
         moving = false;
 
         // Maybe rotate the hook / move back a pixel or two, as if pulling
-        hook.transform.DOMove(position + 0.2f * (restPosition - position).normalized, grabTime * 0.8f);
+        hook.transform.DOMove(goalPos + 0.2f * (restPosition - goalPos).normalized, grabTime * 0.8f);
 
         movementAudio.DOFade(0, movingSoundFadeDuration);
         AudioManager.Instance.PlaySFX(tearingSound);
