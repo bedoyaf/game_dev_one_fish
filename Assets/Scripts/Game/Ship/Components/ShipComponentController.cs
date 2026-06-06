@@ -238,6 +238,10 @@ public class ShipComponentController : MonoBehaviour
     {
         OnDeath?.Invoke(this);
 
+        if (shipController.playerShip)
+        {
+            shipController.CheckFailState();
+        }
         // Award money 
         CombatController.Instance.ComponentDestroyed(this, shipController);
 

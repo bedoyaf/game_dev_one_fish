@@ -11,6 +11,7 @@ public class GameEndingState : IGameState
 
     public void Enter()
     {
+        Debug.Log("calling end of game functions");
         manager.PlayGameEndingCutscene();
     }
 

@@ -52,6 +52,9 @@ public class GameplayFlowManager : MonoBehaviour
 
     public bool tutorialRunning { get; private set; } = false;
 
+    [SerializeField] private SoundData combatMusic;
+
+    [SerializeField] private float timeTillEndingCutscene = 10f;
     void Awake()
     {
         GameManager.Instance.SetGameplayFlowInstance(this);
@@ -71,15 +74,16 @@ public class GameplayFlowManager : MonoBehaviour
         };
 
         stateMachine = new GameStateMachine(states);
-       //  stateMachine.ChangeState(GameStates.MapSelection);
+        //  stateMachine.ChangeState(GameStates.MapSelection);
 
-       // EnterTutorial();
+        // EnterTutorial();
 
         mapController.StartMap();
     }
 
     void Start()
     {
+        AudioManager.Instance.PlayMusic(combatMusic);
         // Just debug if I want to start with some better ship
         if (debugSkipTutorial) {
             stateMachine.ChangeState(GameStates.MapSelection);
@@ -264,7 +268,15 @@ public class GameplayFlowManager : MonoBehaviour
 
     public void PlayGameEndingCutscene()
     {
-        //TODO the actual cutscene
+        StartCoroutine(LoadEndingAfterDelay());
+    }
+
+    private IEnumerator LoadEndingAfterDelay()
+    {
+
+        yield return new WaitForSeconds(timeTillEndingCutscene);
+
+        GameManager.Instance.TransitionScene("EndingCutscenesScene");
     }
 
     // Called to stop modifying the ship 

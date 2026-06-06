@@ -42,6 +42,8 @@ public class GameUIScript : MonoBehaviour
     [SerializeField]
     private ShipController playerShip;
 
+
+    [SerializeField] private Button resignButton;
     [SerializeField] private TutorialController tutorialController;
 
     private void Awake()
@@ -137,6 +139,21 @@ public class GameUIScript : MonoBehaviour
     public void OnRepairsCancel()
     {
         gameplayFlowManager.ExitRepairsMode();
+    }
+
+    public void OnResignClicked()
+    {
+        HideResignButton();
+        OnRestartClicked();
+    }
+
+    public void ShowResignButton()
+    {
+        resignButton.gameObject.SetActive(true);
+    }
+    public void HideResignButton()
+    {
+        resignButton.gameObject.SetActive(false);
     }
 
     public void ShowGameOver()

@@ -27,26 +27,43 @@ public class AudioManager : SmartSingleton<AudioManager>
     //[SerializeField] private AudioSource musicSource2; // Second source for switching music
     //private AudioSource currentMusicSource; // Which of the music sources is currently playing.
 
+    private Coroutine musicRoutine;
 
     /// <summary>
     /// Plays the music with smooth transition
     /// Smooth transitions will be added (TODO)
     /// </summary>
     /// <param name="music">The music to play</param>
-    public void PlayMusic(AudioClip music) {
-        //musicSource.clip = music;
-        //musicSource.Play();
+    public void PlayMusic(SoundData musicData)
+    {
+        if (musicData == null || musicData.clip == null) return;
 
-        // TODO test properly if the fading sounds nice
-        StartCoroutine(SwitchMusic(music));
+        if (musicSource.clip == musicData.clip && musicSource.isPlaying) return;
+
+        if (musicRoutine != null)
+        {
+            StopCoroutine(musicRoutine);
+            musicSource.DOKill(); 
+        }
+
+        musicRoutine = StartCoroutine(SwitchMusic(musicData));
     }
 
-    private IEnumerator SwitchMusic(AudioClip music) {
-        musicSource.DOFade(0, musicFadeTime);
-        yield return new WaitForSeconds(musicFadeTime + betweenMusicTime); // Since DOFade is in normal unity time, normal wait for seconds is used here.
-        musicSource.clip = music;
-        musicSource.DOFade(1, musicFadeTime);
+    private IEnumerator SwitchMusic(SoundData musicData)
+    {
+        if (musicSource.isPlaying)
+        {
+            musicSource.DOFade(0, musicFadeTime);
+            yield return new WaitForSeconds(musicFadeTime + betweenMusicTime);
+        }
+
+        musicSource.clip = musicData.clip;
+
+        musicSource.pitch = musicData.pitch;
+
+        musicSource.volume = 0;
         musicSource.Play();
+        musicSource.DOFade(musicData.volume, musicFadeTime);
     }
 
     //private IEnumerator SwitchMusic(AudioClip newMusic) {

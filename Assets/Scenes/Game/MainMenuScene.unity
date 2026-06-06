@@ -2036,6 +2036,51 @@ RectTransform:
   m_AnchoredPosition: {x: -5, y: 0}
   m_SizeDelta: {x: -20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &1668428212
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1668428214}
+  - component: {fileID: 1668428213}
+  m_Layer: 0
+  m_Name: MusicMenu
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1668428213
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1668428212}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e546b5c22e1274042af6b098e3cf98bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MenuMusicSwitcher
+  menuMusic: {fileID: 11400000, guid: e03794b2968734242a36cdb8c566964f, type: 2}
+--- !u!4 &1668428214
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1668428212}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 608.7472, y: 269.93747, z: 494.2608}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1729409640
 GameObject:
   m_ObjectHideFlags: 0
@@ -2330,9 +2375,13 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 278136999652217446, guid: 21315653a5dac0747b9a1a4cf4c0f78b, type: 3}
+      propertyPath: Loop
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 278136999652217446, guid: 21315653a5dac0747b9a1a4cf4c0f78b, type: 3}
       propertyPath: m_Resource
       value: 
-      objectReference: {fileID: 8300000, guid: eb8c99b7c9b348b41851b3df6f7de50f, type: 3}
+      objectReference: {fileID: 0}
     - target: {fileID: 490687306132652821, guid: 21315653a5dac0747b9a1a4cf4c0f78b, type: 3}
       propertyPath: m_LocalPosition.x
       value: 6789.417
@@ -2673,3 +2722,4 @@ SceneRoots:
   - {fileID: 362241254}
   - {fileID: 1895069133}
   - {fileID: 2008553577}
+  - {fileID: 1668428214}

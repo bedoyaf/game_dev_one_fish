@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using Unity.VisualScripting;
 using UnityEditor;
@@ -58,6 +59,7 @@ public class ShipController : MonoBehaviour
     public UnityEvent onEnergyChanged;
     public UnityEvent onScrapChanged;
 
+    public UnityEvent OnSoftLock;
 
     private void Start()
     {
@@ -389,7 +391,7 @@ public class ShipController : MonoBehaviour
     {
         if (batteries.Count == 0)//TODO BETTER LOADING OF BATTERIES
         {
-            batteries = componentGrid.GetComponentsOfType<BatteryComponentController>();
+            batteries = componentGrid.GetComponentsOfType<BatteryComponentController>(false);
             /*
             if(batteries.Count == 0) 
             {
@@ -645,6 +647,31 @@ public class ShipController : MonoBehaviour
             {
                 col.enabled = true;
             }
+        }
+    }
+
+    public bool IsSoftLocked()
+    {
+        bool hasWeapon = !(componentGrid.GetComponentsOfType<MissileComponentController>(false).Count == 0);
+
+        bool hasGenerator = !(componentGrid.GetComponentsOfType<GeneratorComponentController>(false).Count == 0);
+
+        bool hasRepair = !(componentGrid.GetComponentsOfType<RepairerComponentController>(false).Count == 0);
+
+        return !hasRepair && (!hasWeapon || !hasGenerator);
+    }
+
+    public void CheckFailState()
+    {
+        Debug.Log("checking failstate");
+        if (!playerShip)
+            return;
+
+        if (IsSoftLocked())
+        {
+            Debug.Log("Player is softlocked.");
+
+            OnSoftLock?.Invoke();
         }
     }
 }

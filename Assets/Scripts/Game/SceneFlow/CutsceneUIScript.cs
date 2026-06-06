@@ -29,6 +29,8 @@ public class CutsceneUIScript : MonoBehaviour
 
     private Coroutine thisRoutine;
 
+    [SerializeField] private bool endingCutscene = false;
+
     void Start()
     {
         thisRoutine = StartCoroutine(PlayCutscene());
@@ -80,7 +82,8 @@ public class CutsceneUIScript : MonoBehaviour
     {
         StopCoroutine(thisRoutine);
 
-        GameManager.Instance.StartGame();
+        if(!endingCutscene)  GameManager.Instance.StartGame();
+        else GameManager.Instance.TransitionScene("MainMenuScene");
     }
 
 

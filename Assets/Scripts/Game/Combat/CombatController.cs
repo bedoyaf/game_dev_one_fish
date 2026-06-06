@@ -31,6 +31,7 @@ public class CombatController : SmartSingleton<CombatController>
     [SerializeField] public ShipData tutorialPlayerShip;
     [SerializeField] public ShipData EmptyPlayerShip;
 
+    [SerializeField] private GameUIScript gameUI;
     public void InformEnemyOfComponentRemoved()
     {
         currentEnemyAI.ComponentRemoved();
@@ -193,12 +194,22 @@ public class CombatController : SmartSingleton<CombatController>
     private void ResetListeners() {
         playerShip.GetMainCabin().OnDeath.RemoveAllListeners();
         playerShip.GetMainCabin().OnDeath.AddListener(EndCombat);
+
+        playerShip.OnSoftLock.RemoveAllListeners();
+        playerShip.OnSoftLock.AddListener(OnSoftLock);
+    }
+
+    public void OnSoftLock()
+    {
+        gameUI.ShowResignButton();
     }
 
     public void StartCombat()
     {
         ResetListeners();
 
+
+        playerShip.CheckFailState();
         //Time.timeScale = 1f;
         combatEnded = false;
 
@@ -214,6 +225,8 @@ public class CombatController : SmartSingleton<CombatController>
     {
         Debug.Log("COMBAT ENDING");
         var destroyedShip = mainCabin.shipController;
+
+        gameUI.HideResignButton();
 
         // FX of explosion
         GameManager.Instance.SFXManager.ExplodeShip(destroyedShip);
