@@ -12,6 +12,12 @@ public class RocketReadyIndicatorScript : IndicatorScript
     [SerializeField]
     private SpriteRenderer spriteIndicator;
 
+    public override void OnStart()
+    {
+        // start hidden
+        spriteIndicator.transform.localScale = Vector3.zero;
+    }
+
     public override void OnUpdate() {
         if (missiles == null)
             return;
