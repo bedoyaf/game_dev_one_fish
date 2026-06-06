@@ -176,7 +176,12 @@ public class CombatController : SmartSingleton<CombatController>
         // enemyShip.GetMainCabin().OnDeath.RemoveAllListeners();
         currentEnemyInstance.GetMainCabin().OnDeath.AddListener(EndCombat);
 
-        if (gameplayFlowManager.tutorialRunning) currentEnemyInstance.DestroyEnemyComponents(tutorialController.typesToDestroyForTutorial);
+        if (gameplayFlowManager.tutorialRunning) {
+            AudioManager.Instance.ToggleSFX(false);
+            currentEnemyInstance.DestroyEnemyComponents(tutorialController.typesToDestroyForTutorial);
+            playerShip.UseCurrency(playerShip.storedMoney);
+            AudioManager.Instance.ToggleSFX(true);
+        }
 
         return currentEnemyInstance;
     }
@@ -211,6 +216,12 @@ public class CombatController : SmartSingleton<CombatController>
     {
         ResetListeners();
 
+        if (gameplayFlowManager.tutorialRunning) {
+            AudioManager.Instance.ToggleSFX(false);
+            currentEnemyInstance.DestroyEnemyComponents(tutorialController.typesToDestroyForTutorial);
+            playerShip.UseCurrency(playerShip.storedMoney);
+            AudioManager.Instance.ToggleSFX(true);
+        }
 
         playerShip.CheckFailState();
         //Time.timeScale = 1f;

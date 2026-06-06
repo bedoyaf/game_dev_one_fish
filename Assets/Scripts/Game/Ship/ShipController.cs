@@ -605,7 +605,7 @@ public class ShipController : MonoBehaviour
 
         foreach (var component in components)
         {
-            if (component == null || component.broken)
+            if (component == null/* || component.broken*/)
                 continue;
 
             component.KillComponent();

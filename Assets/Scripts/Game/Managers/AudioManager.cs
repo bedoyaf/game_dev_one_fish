@@ -95,6 +95,11 @@ public class AudioManager : SmartSingleton<AudioManager>
     //    sfxSource.PlayOneShot(sfx.clip, sfx.volume);
     //}
 
+    private bool sfxOn = true;
+    public void ToggleSFX(bool toggle) {
+        sfxOn = toggle;
+    }
+
     /// <summary>
     /// Do not use!
     /// Plays clip at a specific point in space
@@ -129,7 +134,7 @@ public class AudioManager : SmartSingleton<AudioManager>
     }
 
     public AudioSource PlaySFX(SoundData clip, Vector3 position = new Vector3(), float duration = -1, Transform parent = null) {
-        if (clip == null || clip.clip == null) return null;
+        if (clip == null || clip.clip == null || !sfxOn) return null;
         var source = PlaySFX(clip.clip, position, duration, parent);
         source.volume = clip.RandomizedVolume;
         source.pitch = clip.RandomizedPitch;

@@ -382,7 +382,7 @@ public class ShipComponentController : MonoBehaviour
 
     public bool CanRepairThisComponent =>
         health < maxHealth &&
-        shipController.GetCurrency > repairCost;
+        shipController.GetCurrency >= repairCost;
 
     public void RepairClick()
     {
