@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class UIMover : MonoBehaviour
 {
-    public GameObject targetImage;
+    public RectTransform targetImage;
     private float y;
     [SerializeField]
     private float offsetDistance = 550;
@@ -12,7 +12,7 @@ public class UIMover : MonoBehaviour
     [SerializeField] private float moveDuration = 0.2f;
 
     private void Start() {
-        y = targetImage.transform.position.y;
+        y = targetImage.anchoredPosition.y;
     }
 
 
@@ -31,10 +31,10 @@ public class UIMover : MonoBehaviour
     }
 
     private void MoveDown() {
-        targetImage.transform.DOMoveY(y - offsetDistance, moveDuration);
+        targetImage.DOAnchorPosY(y - offsetDistance, moveDuration);
     }
 
     private void MoveUp() {
-        targetImage.transform.DOMoveY(y, moveDuration);
+        targetImage.DOAnchorPosY(y, moveDuration);
     }
 }
