@@ -37,6 +37,11 @@ public class MapNodeButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 
     public void SetState(float alpha, Color tint)
     {
+        if(icon.sprite == null)
+        {
+            alpha = 0f;
+        }
+
         var col = icon.color;
         col = tint;
         col.a = alpha;

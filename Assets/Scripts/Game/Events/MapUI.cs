@@ -144,18 +144,18 @@ public class MapUI : MonoBehaviour
                 if (sightDistance == 0) {
                     ui.SetIcon(unknownSprite);
                     ui.SetState(1f, unknownNodeColor);
-                    ui.SetReachable(true, baseColor, 0.25f);
+                    ui.SetReachable(true, baseColor, 0.5f);
                 }
                 else {
                     ui.SetIcon(GetTypeIcon(node.type));
                     ui.SetState(1f, baseColor);
-                    ui.SetReachable(IsReachable(current, node, 1), baseColor, 0.25f);
+                    ui.SetReachable(IsReachable(current, node, 1), baseColor, 0.5f);
                 }
             }
             else
             {
                 ui.SetIcon(null);
-                ui.SetState(0.25f, defaultNodeColor); 
+                ui.SetState(0.5f, defaultNodeColor); 
             }
         }
     }
