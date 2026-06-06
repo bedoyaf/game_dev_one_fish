@@ -26,7 +26,7 @@ Transform:
   m_GameObject: {fileID: 9128217826982043599}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: -7.18, y: 0.22, z: 21.61}
+  m_LocalPosition: {x: -4.52, y: 0.22, z: 21.61}
   m_LocalScale: {x: 0.4, y: 23.599998, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4121,7 +4121,11 @@ MonoBehaviour:
   cycleBehaviors: 0000000000000000020000000000000005000000000000000100000004000000
   behaviorSwitchInterval: 3.5
   actActionDuration: 0.01
+  perfectShieldInterval: 5
   playerShip: {fileID: 0}
+  targetingMode: 5
+  cycleTargeting: 1
+  targetingSwitchInterval: 6
 --- !u!4 &7591810781141667283 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8304951664254679413, guid: 9101963b760786d4783a45530197e394, type: 3}

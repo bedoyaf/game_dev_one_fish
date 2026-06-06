@@ -42,6 +42,8 @@ public class GameUIScript : MonoBehaviour
     [SerializeField]
     private ShipController playerShip;
 
+    [SerializeField] private TutorialController tutorialController;
+
     private void Awake()
     {
         playerShip.onEnergyChanged.AddListener(UpdateCombatUI);
@@ -71,6 +73,9 @@ public class GameUIScript : MonoBehaviour
     {
         pauseMenuItemsParent.SetActive(true);
 
+
+        if (tutorialController.IsRunning) tutorialController.PauseTutorial();
+
         GameManager.Instance.PauseGame();
         combatManager.StopGame();
     }
@@ -78,6 +83,8 @@ public class GameUIScript : MonoBehaviour
     public void OnResumeClicked()
     {
         pauseMenuItemsParent.SetActive(false);
+
+        if (tutorialController.IsRunning) tutorialController.ResumeTutorial();
 
         GameManager.Instance.ResumeGame();
         combatManager.ResumeGame();

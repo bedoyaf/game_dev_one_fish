@@ -105,6 +105,11 @@ public class ShipComponentMeshController : MonoBehaviour, IDamagableCollider
         shipComponentController.TakeDamage(amount);
     }
 
+    public ShipComponentController OnHover()
+    {
+        return shipComponentController;
+    }
+
     /// <summary>
     /// Called by projectiles to notify that they will hit this mesh at a future time.
     /// Forwards the notification to the ShipComponentController so higher-level logic

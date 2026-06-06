@@ -374,7 +374,7 @@ public class ShipComponentController : MonoBehaviour
     }
 
     // NOTE: maybe could adjust ?
-    private int repairCost = 1;
+    public int repairCost { get;  private set; } = 1;
 
     public bool CanRepairThisComponent =>
         health < maxHealth &&

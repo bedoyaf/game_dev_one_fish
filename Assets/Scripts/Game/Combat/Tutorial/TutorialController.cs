@@ -15,6 +15,8 @@ public class TutorialController : MonoBehaviour
     [SerializeField] public List<ComponentType> typesToDestroyForTutorial;
 
     public bool IsRunning { get; private set; }
+    public bool IsPaused { get; private set; }
+
     private int currentStepIndex;
 
     private void Start()
@@ -50,7 +52,7 @@ public class TutorialController : MonoBehaviour
 
     public void NextStep()
     {
-        if (!IsRunning) return;
+        if (!IsRunning || IsPaused) return;
 
         DisconnectCurrentTask();
 
@@ -68,7 +70,8 @@ public class TutorialController : MonoBehaviour
 
     public void PreviousStep()
     {
-        if (!IsRunning) return;
+        if (!IsRunning || IsPaused)
+            return;
 
         DisconnectCurrentTask();
         currentStepIndex = Mathf.Max(0, currentStepIndex - 1);
@@ -77,6 +80,9 @@ public class TutorialController : MonoBehaviour
 
     private void ShowCurrentStep()
     {
+        if ( IsPaused)
+            return;
+
         foreach (var step in tutorialSteps)
         {
             if (step.popup != null) step.popup.SetActive(false);
@@ -106,4 +112,38 @@ public class TutorialController : MonoBehaviour
             }
         }
     }
+
+    public void PauseTutorial()
+    {
+        if (!IsRunning || IsPaused)
+            return;
+
+        IsPaused = true;
+
+        if (currentStepIndex >= 0 && currentStepIndex < tutorialSteps.Length)
+        {
+            var step = tutorialSteps[currentStepIndex];
+
+            if (step.popup != null)
+                step.popup.SetActive(false);
+        }
+    }
+
+    public void ResumeTutorial()
+    {
+        if (!IsRunning || !IsPaused)
+            return;
+
+        IsPaused = false;
+
+        if (currentStepIndex >= 0 && currentStepIndex < tutorialSteps.Length)
+        {
+            var step = tutorialSteps[currentStepIndex];
+
+            if (step.popup != null)
+                step.popup.SetActive(true);
+        }
+    }
+
+
 }

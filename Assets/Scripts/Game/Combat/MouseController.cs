@@ -46,6 +46,10 @@ public class MouseController : MonoBehaviour
 
     private int directionIndex = 1;
 
+
+    //hover filip schizo code
+    private ShipComponentMeshController hoveredComponent;
+    [SerializeField] private RepairCostTooltip repaireTooltip;
     void Awake()
     {
         if (Instance != null && Instance != this)
@@ -252,7 +256,6 @@ public class MouseController : MonoBehaviour
     }
 
 
-
     //Directional shit
 
     private void Update()
@@ -272,6 +275,35 @@ public class MouseController : MonoBehaviour
         }
 
         UpdateIcons(scroll);
+
+
+        //hover schizo code
+        Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
+        if (Physics.Raycast(ray, out var hit))
+        {
+            var comp = hit.collider.GetComponent<ShipComponentMeshController>();
+
+            if (comp != hoveredComponent)
+            {
+                hoveredComponent = comp;
+
+                if (comp != null &&
+                    currentMode == ClickMode.Repairing &&
+                    comp.OnHover().CanRepairThisComponent)
+                {
+                    repaireTooltip.Show(comp.OnHover().repairCost);
+                }
+                else
+                {
+                    repaireTooltip.Hide();
+                }
+            }
+        }
+        else
+        {
+            hoveredComponent = null;
+            repaireTooltip.Hide();
+        }
 
     }
 
