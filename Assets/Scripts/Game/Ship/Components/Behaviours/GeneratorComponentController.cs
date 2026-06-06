@@ -17,6 +17,7 @@ public class GeneratorComponentController : BehaviourComponentControllerAbstract
     private TextMesh debugText;
 
     private float energyBuffer = 0;
+    public float EnergyBuffer => energyBuffer;
 
     [SerializeField] private SoundData gatherPowerClip;
 

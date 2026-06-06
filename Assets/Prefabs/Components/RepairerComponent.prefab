@@ -103,8 +103,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5f87a824bad4664b936fdaf0fd8f298, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RepairIndicatorScript
-  repairer: {fileID: 5543746535486595029}
   quadIndicator: {fileID: 3174657028607466005}
+  unusableQuadMaterial: {fileID: 2100000, guid: af382e7dd1627f14a9013ad61ad6e463, type: 2}
+  repairer: {fileID: 5543746535486595029}
+  cooldown: {fileID: 3522242297305419921}
 --- !u!1001 &1459925618552488819
 PrefabInstance:
   m_ObjectHideFlags: 0

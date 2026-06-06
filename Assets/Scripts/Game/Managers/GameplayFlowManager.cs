@@ -50,6 +50,7 @@ public class GameplayFlowManager : MonoBehaviour
     public ShipController PlayerShip => playerShip;
     public ShipController EnemyShip => enemyShip;
 
+    public bool InCombat => stateMachine.CurrentStateKey == GameStates.Combat;
     public bool tutorialRunning { get; private set; } = false;
 
     void Awake()
