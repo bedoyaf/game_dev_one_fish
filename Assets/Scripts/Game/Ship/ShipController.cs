@@ -596,6 +596,10 @@ public class ShipController : MonoBehaviour
                 Utils.ConvertBehaviourListToComponentList(
                     componentGrid.GetComponentsOfType<EngineComponentController>()),
 
+           ComponentType.None =>
+                Utils.ConvertBehaviourListToComponentList(
+                    componentGrid.GetComponentsOfType<StructureComponentController>()),
+
             _ => new List<ShipComponentController>()
         };
 
