@@ -20,53 +20,53 @@ MonoBehaviour:
     might not survive.
   choices:
   - choiceID: help
-    choiceText: Give them 5$ to recuperate. They might help you later.
+    choiceText: Give them 5 scraps to recuperate. They might help you later.
     effects:
     - effectType: 6
       effectData:
-        rid: 3958358507914002820
+        rid: 3958358563296641257
     - effectType: 3
       effectData:
-        rid: 3958358507914002822
+        rid: 3958358563296641259
     conditions:
     - conditionType: 1
       eventCondition:
-        rid: 3958358507914002824
+        rid: 3958358563296641261
   - choiceID: steal
-    choiceText: Steal even the little money they have
+    choiceText: Steal even the little scrap they have
     effects:
     - effectType: 3
       effectData:
-        rid: 3958358507914002826
+        rid: 3958358563296641263
     conditions: []
   - choiceID: leave
     choiceText: Just leave them be
     effects:
     - effectType: 2
       effectData:
-        rid: 3958358507914002828
+        rid: 3958358563296641265
     conditions: []
   references:
     version: 2
     RefIds:
-    - rid: 3958358507914002820
+    - rid: 3958358563296641257
       type: {class: AddEventEffect, ns: , asm: Assembly-CSharp}
       data:
         eventToAdd: {fileID: 11400000, guid: 0edd88b7ba9241d4399c22c820e9458c, type: 2}
-    - rid: 3958358507914002822
+    - rid: 3958358563296641259
       type: {class: ChangeCurrencyAmountEffect, ns: , asm: Assembly-CSharp}
       data:
         amount: -5
         randomness: 0
-    - rid: 3958358507914002824
+    - rid: 3958358563296641261
       type: {class: HasCurrencyCondition, ns: , asm: Assembly-CSharp}
       data:
         currencyCount: 5
-    - rid: 3958358507914002826
+    - rid: 3958358563296641263
       type: {class: ChangeCurrencyAmountEffect, ns: , asm: Assembly-CSharp}
       data:
         amount: 5
         randomness: 0
-    - rid: 3958358507914002828
+    - rid: 3958358563296641265
       type: {class: RunEffect, ns: , asm: Assembly-CSharp}
       data: 
