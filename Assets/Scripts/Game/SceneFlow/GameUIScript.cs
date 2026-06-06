@@ -45,6 +45,7 @@ public class GameUIScript : MonoBehaviour
     private void Awake()
     {
         playerShip.onEnergyChanged.AddListener(UpdateCombatUI);
+        playerShip.onScrapChanged.AddListener(UpdateCombatUI);
     }
     void Start()
     {
