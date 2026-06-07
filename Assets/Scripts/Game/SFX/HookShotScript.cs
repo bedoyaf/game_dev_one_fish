@@ -138,6 +138,9 @@ public class HookShotScript : MonoBehaviour
     // How long to wait for the hookProbe to hit
     [SerializeField] private float probeTime = 0.3f;
 
+    [SerializeField] private ParticleSystem bubbleParticlesPrefab;
+    //[SerializeField] private ParticleSystem tearParticlesPrefab;
+
     public void ShootHookAt(
         ShipComponentController component,
         Vector3 position,
@@ -157,6 +160,11 @@ public class HookShotScript : MonoBehaviour
     {
         // scale up
         hook.transform.localScale = grabScaleMult * Vector3.one;
+
+        // Create bubbles
+        var bubbles = Instantiate(bubbleParticlesPrefab, hook.transform);
+        bubbles.transform.localPosition = Vector3.zero;
+        //var bubblesMain = bubbles.main;
 
         // fly there
         // shorten by some length (of the hook)
@@ -196,8 +204,11 @@ public class HookShotScript : MonoBehaviour
         // Maybe rotate the hook / move back a pixel or two, as if pulling
         hook.transform.DOMove(goalPos + 0.2f * (restPosition - goalPos).normalized, grabTime * 0.8f);
 
+        // SFX
         movementAudio.DOFade(0, movingSoundFadeDuration);
         AudioManager.Instance.PlaySFX(tearingSound);
+        bubbles.Stop(false, ParticleSystemStopBehavior.StopEmitting);
+        //var tearParticles = Instantiate(tearParticlesPrefab, component.GetComponentCenter().SetY(2f), Quaternion.identity);
 
         yield return MyTime.WaitForSeconds(grabTime);
         var componentOriginalPosition = component.GetComponentCenter();
@@ -219,6 +230,12 @@ public class HookShotScript : MonoBehaviour
 
         movementAudio.DOFade(1, movingSoundFadeDuration);
 
+        bubbles.transform.localEulerAngles = bubbles.transform.localEulerAngles.SetX(180); // Flip bubbles
+        bubbles.Play(false);
+        //if (tearParticles.TryGetComponent<DetachableParticles>(out var detachable)) {
+        //    detachable.Detach();
+        //}
+
         yield return MyTime.WaitForSeconds(flyTime);
         
         hook.transform.position = restPosition;
@@ -231,6 +248,9 @@ public class HookShotScript : MonoBehaviour
         hook.transform.localScale = restScale;
 
         movementAudio.DOFade(0, movingSoundFadeDuration);
+        if (bubbles.TryGetComponent<DetachableParticles>(out var detachable)) {
+            detachable.Detach();
+        }
     }
 
 }
