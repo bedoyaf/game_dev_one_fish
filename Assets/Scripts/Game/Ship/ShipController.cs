@@ -619,7 +619,7 @@ public class ShipController : MonoBehaviour
     /// disables colliders
     /// </summary>
     /// <param name="exceptionComponent">.</param>
-    public void DisableAllCollidersExcept(ComponentType type = ComponentType.None, ComponentType type2 = ComponentType.None)
+    public void DisableAllCollidersExcept(ComponentType type = ComponentType.Null, ComponentType type2 = ComponentType.Null)
     {
         if (componentGrid == null) return;
 

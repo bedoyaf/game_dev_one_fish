@@ -72,6 +72,8 @@ public class ShipComponentController : MonoBehaviour
 
     public ComponentPlacement placementRules;
 
+    public UnityEvent OnDamage;
+
     //  public UnityEvent OnBroken; Ondeath preferable 
 
     void Start()
@@ -121,7 +123,7 @@ public class ShipComponentController : MonoBehaviour
             shield.TakeDamage(dmg);
             return;
         }
-
+        OnDamage?.Invoke();
     //    Debug.Log("No shield -> damaging HP");
 
         health -= dmg;
@@ -494,7 +496,8 @@ public class ShipComponentController : MonoBehaviour
         MainCabin,
         Rocket,
         Shield,
-        Repaire
+        Repaire,
+        Null
 
     }
 

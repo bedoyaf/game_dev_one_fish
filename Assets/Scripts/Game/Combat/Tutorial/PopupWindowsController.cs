@@ -49,10 +49,6 @@ public class PopupWindowsController : MonoBehaviour
     {
         currentPageIndex++;
 
-        if(!(tipToHide==null) && currentPageIndex==textPages.Length-1)
-        {
-            tipToHide.SetActive(false);
-        }
 
         if (currentPageIndex >= textPages.Length)
         {
@@ -66,6 +62,11 @@ public class PopupWindowsController : MonoBehaviour
 
     private void UpdateTextDisplay()
     {
+        if (!(tipToHide == null) && currentPageIndex == textPages.Length - 1)
+        {
+            tipToHide.SetActive(false);
+        }
+
         if (textPages.Length > 0 && textComponent != null)
         {
             textComponent.text = textPages[currentPageIndex];
