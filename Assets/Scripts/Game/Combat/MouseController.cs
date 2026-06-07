@@ -264,14 +264,19 @@ public class MouseController : MonoBehaviour
         if (GameManager.IsPaused)
             return;
 
+        if (Mouse.current == null)
+            return;
+
         // When scrolling -> cycle through attack direction
         float scroll = Mouse.current.scroll.ReadValue().y;
 
         if (scroll != 0)
         {
-            CycleDirection((int)scroll);
-
-            ShowShortTermMouseIcon(ShortTermMouseEvent.ROTATE, 0.1f);
+            if (Mathf.Abs(scroll) > 0.1f)
+            {
+                CycleDirection(scroll > 0 ? 1 : -1);
+                ShowShortTermMouseIcon(ShortTermMouseEvent.ROTATE, 0.1f);
+            }
         }
 
         UpdateIcons(scroll);

@@ -21,6 +21,8 @@ public class PopupWindowsController : MonoBehaviour
     [Tooltip("On sequence completed")]
     public UnityEvent OnSequenceCompleted;
 
+    [SerializeField] private GameObject tipToHide;
+
     private int currentPageIndex = 0;
 
     private void OnEnable()
@@ -46,6 +48,11 @@ public class PopupWindowsController : MonoBehaviour
     private void AdvanceText(InputAction.CallbackContext context)
     {
         currentPageIndex++;
+
+        if(!(tipToHide==null) && currentPageIndex==textPages.Length-1)
+        {
+            tipToHide.SetActive(false);
+        }
 
         if (currentPageIndex >= textPages.Length)
         {
