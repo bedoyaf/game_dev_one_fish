@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 /// <summary>
 /// The ship editor
@@ -29,6 +30,7 @@ public class ShipBuildingController : MonoBehaviour
     public float draggableDistance = 2;
     public List<ComponentBuildingDrag> draggableComponents;
     public ComponentBuildingDrag currentlyDragging;
+    private ComponentBuildingDrag currentlyDraggingPrefab;
 
     [SerializeField] private ShipController shipController;
 
@@ -112,6 +114,8 @@ public class ShipBuildingController : MonoBehaviour
         draggablesParent.DestroyAllChildren();
         draggableComponents.Clear();
         MouseController.Instance.enabled = true;
+
+        if (unplaceButton != null) unplaceButton.SetActive(false);
     }
 
     /// <summary>
@@ -163,6 +167,9 @@ public class ShipBuildingController : MonoBehaviour
 
     public Material highlightMaterial;
     public Color hightlightColor;
+    public GameObject unplaceButton;
+    private List<PlacementData> draggablePlacementData;
+
     private void InitializeDraggableComponents(List<ShipComponentController> componentPrefabs) {
         // Make sure we are working with prefabs
         var temp = new List<ShipComponentController>();
@@ -171,7 +178,16 @@ public class ShipBuildingController : MonoBehaviour
         }
         componentPrefabs = temp;
 
+        // Clear up
+        if (draggableComponents != null && draggableComponents.Count > 0) {
+            foreach(var comp in draggableComponents) {
+                if (comp != null)
+                    comp.gameObject.SmartDestroy();
+            }
+        }
+
         // Create components for dragging 
+        draggablePlacementData = new();
         draggableComponents = new();
         float left = 0;
         for (int i = 0; i < componentPrefabs.Count; i++) {
@@ -203,6 +219,12 @@ public class ShipBuildingController : MonoBehaviour
         }
     }
 
+    private struct PlacementData {
+        public int draggableIndex;
+        public int x;
+        public int z;
+    }
+
     /// <summary>
     /// Places component
     /// </summary>
@@ -228,6 +250,7 @@ public class ShipBuildingController : MonoBehaviour
                 var draggable = hit.collider.gameObject.GetComponentInParent<ComponentBuildingDrag>();
                 if (draggable == null) return;
 
+                currentlyDraggingPrefab = draggable;
                 currentlyDragging = Instantiate(draggable, draggablesParent);
                 currentlyDragging.outline.SetActive(false);
                 currentlyDragging.Setup(transform, draggable);
@@ -275,12 +298,21 @@ public class ShipBuildingController : MonoBehaviour
         else if (context.canceled) {
             if (currentlyDragging == null) return;
 
-            var successful = RaycastAndPlaceComponent(currentlyDragging.componentPrefab);
+            // Get index of draggable
+            int index = -1;
+            for(int i = 0; i < draggableComponents.Count; i++) {
+                if (draggableComponents[i] == currentlyDraggingPrefab) {
+                    index = i;
+                    break;
+                }
+            }
+            var successful = RaycastAndPlaceComponent(currentlyDragging.componentPrefab, false, index);
 
             // Destroy the object and possibly the original one as well
             if (isPlayer) {
                 if (successful)
-                    currentlyDragging.originalObject.gameObject.SmartDestroy();
+                    //currentlyDragging.originalObject.gameObject.SmartDestroy();
+                    currentlyDragging.originalObject.gameObject.SetActive(false); // Not really needed
                 else
                     currentlyDragging.originalObject.gameObject.SetActive(true);
             }
@@ -303,7 +335,7 @@ public class ShipBuildingController : MonoBehaviour
     /// <summary>
     /// Raycasts in the scene and tries to place the given component
     /// </summary>
-    private bool RaycastAndPlaceComponent(ShipComponentController componentPrefab, bool isPlaceholder = false) {
+    private bool RaycastAndPlaceComponent(ShipComponentController componentPrefab, bool isPlaceholder = false, int draggableIndex = -1) {
         if (Physics.Raycast(Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue()), out RaycastHit hit, 100)) {
             var component = hit.collider.gameObject.GetComponentInParent<ShipComponentController>();
             if (component == null) return false;
@@ -330,6 +362,13 @@ public class ShipBuildingController : MonoBehaviour
             if (!isPlaceholder) {
                 componentGrid.PlaceComponent(componentPrefab, x, z, false, false, removeDesigns);
 
+                // Store that we placed the component
+                if (draggableIndex != -1) {
+                    draggablePlacementData.Add(new PlacementData { draggableIndex = draggableIndex, x = x, z = z });
+
+                    if (unplaceButton != null) unplaceButton.SetActive(true);
+                }
+
                 if (placementClip != null)
                     AudioManager.Instance.PlaySFX(placementClip, transform.position);
                 //shipData.componentGrid.PlaceComponent(componentPrefab, x, z);
@@ -339,6 +378,19 @@ public class ShipBuildingController : MonoBehaviour
         }
 
         return false;
+    }
+
+    public void UnplaceLastComponent() {
+        if (draggablePlacementData.Count == 0) return;
+        
+        var placementData = draggablePlacementData[draggablePlacementData.Count - 1];
+        draggablePlacementData.RemoveAt(draggablePlacementData.Count - 1);
+        componentGrid.RemoveComponent(placementData.x, placementData.z);
+        draggableComponents[placementData.draggableIndex].gameObject.SetActive(true);
+
+        if (draggablePlacementData.Count == 0 && unplaceButton != null) {
+            unplaceButton.SetActive(false);
+        }
     }
 
     /// <summary>
