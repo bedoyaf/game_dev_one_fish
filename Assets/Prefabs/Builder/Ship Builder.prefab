@@ -100,7 +100,7 @@ MonoBehaviour:
   placeholderComponent: {fileID: 5385403880273499414, guid: 0a1037066a579fd48846e6ea9cbd69b8, type: 3}
   placeholdersVisible: 1
   draggablesParent: {fileID: 1250431961410051891}
-  draggableDistance: 1
+  draggableDistance: 1.5
   draggableComponents: []
   currentlyDragging: {fileID: 0}
   shipController: {fileID: 0}
@@ -109,6 +109,9 @@ MonoBehaviour:
   arrowParent: {fileID: 3725498546007395717}
   arrowOffset: {x: 0.5, y: 1, z: 0.5}
   placementClip: {fileID: 11400000, guid: d13d6d774df287a45b06189cfdc1a79e, type: 2}
+  removeDesigns: 0
+  highlightMaterial: {fileID: 0}
+  hightlightColor: {r: 1, g: 0.3100996, b: 0, a: 1}
 --- !u!114 &5835962800365350490
 MonoBehaviour:
   m_ObjectHideFlags: 0
