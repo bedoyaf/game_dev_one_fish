@@ -311,19 +311,25 @@ public class ShipComponentController : MonoBehaviour
     private float baseOutlineWidth = 1.0f;
     private float fadeTime;
     private Color currentHightlightColor = Color.black;
-    public void Highlight(Material highlightMaterial, Color color, float outlineSize, float fadeTime) {
+    public GameObject OutlineMesh => outlineMesh;
+
+    // Sorry, I butchered the code a bit to be callable when only prefab
+    public GameObject Highlight(Material highlightMaterial, Color color, float outlineSize, float fadeTime, Transform parent = null, GameObject componentMesh = null, MonoBehaviour caller = null) {
+        if (parent == null) parent = transform;
+        if (componentMesh == null) componentMesh = ComponentMesh;
+
         this.fadeTime = fadeTime;
         currentHightlightColor = color;
         MeshRenderer mesh;
-        if (outlineMesh == null) {
+        if (outlineMesh == null || caller != null) {
             outlineMesh = new GameObject($"{name} highlight");
-            outlineMesh.transform.parent = transform;
-            outlineMesh.transform.position = ComponentMesh.transform.position;
-            outlineMesh.transform.rotation = ComponentMesh.transform.rotation;
-            outlineMesh.transform.localScale = ComponentMesh.transform.localScale;
+            outlineMesh.transform.parent = parent;
+            outlineMesh.transform.position = componentMesh.transform.position;
+            outlineMesh.transform.rotation = componentMesh.transform.rotation;
+            outlineMesh.transform.localScale = componentMesh.transform.localScale;
 
             var filter = outlineMesh.AddComponent<MeshFilter>();
-            filter.mesh = ComponentMesh.GetComponent<MeshFilter>().mesh;
+            filter.mesh = componentMesh.GetComponent<MeshFilter>().mesh;
             mesh = outlineMesh.AddComponent<MeshRenderer>();
 
         }
@@ -332,7 +338,7 @@ public class ShipComponentController : MonoBehaviour
             mesh = outlineMesh.GetComponent<MeshRenderer>();
         }
 
-        int materialsCount = ComponentMesh.GetComponent<MeshRenderer>().materials.Length;
+        int materialsCount = componentMesh.GetComponent<MeshRenderer>().materials.Length;
         var materials = new List<Material>();
         for (int i = 0; i < materialsCount; i++) {
             materials.Add(new Material(highlightMaterial));
@@ -341,7 +347,11 @@ public class ShipComponentController : MonoBehaviour
         }
 
         mesh.materials = materials.ToArray();
-        StartCoroutine(FadeOutline(materials, outlineSize, fadeTime, false));
+        if (caller == null)
+            StartCoroutine(FadeOutline(materials, outlineSize, fadeTime, false));
+        else
+            caller.StartCoroutine(FadeOutline(materials, outlineSize, fadeTime, false));
+        return outlineMesh;
     }
 
     public void ChangeHighlightColor(Color color) {
@@ -354,7 +364,7 @@ public class ShipComponentController : MonoBehaviour
         }
     }
 
-    private IEnumerator FadeOutline(List<Material> highlightMaterials, float target, float fadeTime, bool disable) {
+    public IEnumerator FadeOutline(List<Material> highlightMaterials, float target, float fadeTime, bool disable) {
         foreach(var mat in highlightMaterials) {
             mat.DOFloat(target, "_OutlineSize", fadeTime);
         }

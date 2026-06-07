@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -160,6 +161,8 @@ public class ShipBuildingController : MonoBehaviour
         InitializeDraggableComponents(componentPrefabs);
     }
 
+    public Material highlightMaterial;
+    public Color hightlightColor;
     private void InitializeDraggableComponents(List<ShipComponentController> componentPrefabs) {
         // Make sure we are working with prefabs
         var temp = new List<ShipComponentController>();
@@ -180,9 +183,11 @@ public class ShipBuildingController : MonoBehaviour
             mesh.transform.DestroyAllChildren();
             var collider = Instantiate(comp.ComponentHitbox, parent.transform);
             Destroy(collider.GetComponent<ShipComponentMeshController>());
+            var outline = comp.Highlight(highlightMaterial, hightlightColor, 1.1f, 0.2f, parent.transform, mesh, this);
+            outline.transform.DOScale(0.05f, 1f).SetRelative().SetLoops(-1, LoopType.Yoyo);
 
             // Decor add (if enabled)
-            if(!removeDesigns)
+            if (!removeDesigns)
                 Instantiate(comp.Decor, parent.transform);
 
             parent.transform.localPosition = new Vector3(left, 0, 0);
@@ -191,6 +196,7 @@ public class ShipBuildingController : MonoBehaviour
 
             var draggable = parent.AddComponent<ComponentBuildingDrag>();
             draggable.componentPrefab = componentPrefabs[i];
+            draggable.outline = outline;
             draggableComponents.Add(draggable);
 
             //Destroy(tmp);
@@ -223,6 +229,7 @@ public class ShipBuildingController : MonoBehaviour
                 if (draggable == null) return;
 
                 currentlyDragging = Instantiate(draggable, draggablesParent);
+                currentlyDragging.outline.SetActive(false);
                 currentlyDragging.Setup(transform, draggable);
                 if (isPlayer) {
                     currentlyDragging.originalObject.gameObject.SetActive(false);
