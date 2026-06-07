@@ -374,7 +374,7 @@ public class ShipController : MonoBehaviour
                 GameManager.Instance.SFXManager.EnergyTransmissionEffect(originComponent, component.shipComponentController);
         }
 
-        if (remaining > 0)
+        if (remaining > 0 && originComponent !=null)
             GameManager.Instance.SFXManager.EnergyTransmissionEffect(originComponent, mainCabin.shipComponentController);
 
         storedEnergy = totalEnergy;

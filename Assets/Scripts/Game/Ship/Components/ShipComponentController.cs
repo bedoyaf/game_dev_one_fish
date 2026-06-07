@@ -47,7 +47,7 @@ public class ShipComponentController : MonoBehaviour
     public GameObject Decor;
 
     private GameObject outlineMesh;
-    public Shield shield { private set; get; }
+    public ShieldPhysical shield { private set; get; }
 
     [HideInInspector] public ShipComponentMeshController shipComponentMeshController;
     private ComponentCooldown cooldown;
@@ -434,17 +434,15 @@ public class ShipComponentController : MonoBehaviour
         }
     }
 
-    public void ActivateShield(Shield shield)
+    public void ActivateShield(ShieldPhysical shield)
     {
         Debug.Log("Shield activated");
         this.shield = shield;
         shield.OnShieldDestroyed.AddListener(ResetShield);
     }
 
-    private void ResetShield(Shield shield)
+    private void ResetShield(ShieldPhysical shield)
     {
-        Debug.Log("Shield gone");
-        if (shield != null) Destroy(shield);
         this.shield = null;
     }
 
