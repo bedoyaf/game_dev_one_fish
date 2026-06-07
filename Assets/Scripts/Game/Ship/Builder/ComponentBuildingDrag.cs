@@ -17,6 +17,7 @@ public class ComponentBuildingDrag : MonoBehaviour
     /// </summary>
     public ComponentBuildingDrag originalObject;
     public bool beingDragged;
+    public GameObject outline;
     private Camera cam;
     private Vector3 builderOffsetFromGrid;
 
