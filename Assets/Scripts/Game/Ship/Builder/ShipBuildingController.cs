@@ -253,7 +253,7 @@ public class ShipBuildingController : MonoBehaviour
                 currentlyDraggingPrefab = draggable;
                 currentlyDragging = Instantiate(draggable, draggablesParent);
                 currentlyDragging.outline.SetActive(false);
-                currentlyDragging.Setup(transform, draggable);
+                currentlyDragging.Setup(transform, draggable, componentGrid);
                 if (isPlayer) {
                     currentlyDragging.originalObject.gameObject.SetActive(false);
                 }

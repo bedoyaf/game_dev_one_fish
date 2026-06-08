@@ -18,17 +18,21 @@ public class ComponentBuildingDrag : MonoBehaviour
     public ComponentBuildingDrag originalObject;
     public bool beingDragged;
     public GameObject outline;
+    private ComponentGrid componentGrid;
     private Camera cam;
     private Vector3 builderOffsetFromGrid;
+    private Vector3 builderWorldPos;
 
     private void Awake() {
         cam = Camera.main;
     }
 
-    public void Setup(Transform builderTransform, ComponentBuildingDrag original) {
+    public void Setup(Transform builderTransform, ComponentBuildingDrag original, ComponentGrid componentGrid) {
         beingDragged = true;
         originalObject = original;
+        this.componentGrid = componentGrid;
         var pos = builderTransform.position;
+        builderWorldPos = componentGrid.componentParent.position;
         builderOffsetFromGrid = pos - new Vector3((int)pos.x, (int)pos.y, (int)pos.z);
         GetComponentInChildren<Collider>().enabled = false;
     }
@@ -47,6 +51,16 @@ public class ComponentBuildingDrag : MonoBehaviour
                 worldPosition.y = 0.01f;
                 worldPosition.x = (int)(worldPosition.x);
                 worldPosition.z = (int)(worldPosition.z);
+                var builderCoordinates = worldPosition - builderWorldPos;
+                builderCoordinates += new Vector3(1, 0, 1);
+                //Debug.Log($"{worldPosition} {builderWorldPos} {builderCoordinates}");
+
+                // If we are inside the grid, don't go inside other components
+                if (componentGrid.ValidCoordinates((int)builderCoordinates.x, (int)builderCoordinates.z) && 
+                        componentGrid.IsAnyComponentAtLocation(componentPrefab, (int)builderCoordinates.x, (int)builderCoordinates.z)){
+                    return;
+                }
+
                 //if (worldPosition.x < 0) worldPosition.x -= 1;
                 //if (worldPosition.z < 0) worldPosition.z -= 1;
 

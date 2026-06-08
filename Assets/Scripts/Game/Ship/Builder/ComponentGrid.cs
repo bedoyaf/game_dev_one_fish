@@ -682,6 +682,19 @@ public class ComponentGrid {
         return grid[z, x];
     }
 
+    public bool IsAnyComponentAtLocation(ShipComponentController component, int x, int z) {
+        // Check if any tile is blocked
+        for (int i = 0; i < component.placementRules.height; i++) {
+            for (int j = 0; j < component.placementRules.width; j++) {
+                if (!grid[z + i, x + j].isPlaceholder) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
     /// <summary>
     /// Checks whether the component can be placed at the coordinates
     /// </summary>
@@ -690,8 +703,9 @@ public class ComponentGrid {
     /// <param name="z">The z coordinate</param>
     /// <param name="isPlaceholder">Whether the component I'm placing is a placeholder</param>
     /// <param name="mustConnect">Whether the component must be connected to some other component</param>
+    /// <param name="checkBlocking">Whether we will check what blocking the component will cause</param>
     /// <returns>True if valid placement, false otherwise</returns>
-    public bool IsValidPlacementPosition(ShipComponentController component, int x, int z, bool isPlaceholder, bool mustConnect) {
+    public bool IsValidPlacementPosition(ShipComponentController component, int x, int z, bool isPlaceholder, bool mustConnect, bool checkBlocking = true) {
         if (isPlaceholder) return true;
         if (!DoesComponentFit(component, x, z)) return false;
 
@@ -719,7 +733,7 @@ public class ComponentGrid {
 
         // If the block is blocking, check if to-be-blocked tiles are empty
         // TODO copied from SetupBlocking
-        if (component.placementRules.blockSurroundings) {
+        if (checkBlocking && component.placementRules.blockSurroundings) {
             int componentHeight = component.placementRules.height;
             int componentWidth = component.placementRules.width;
 
