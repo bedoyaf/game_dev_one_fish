@@ -92,7 +92,8 @@ public class SFXGameplayManager : MonoBehaviour
     {
         // Show the combat text in ui
         statusBar.text = $"--- Fight ---\n{enemyName}";
-        var pos = statusBar.transform.position.y;
+        var pos = statusBar.GetComponent<RectTransform>().position.y;
+        
         statusBar.gameObject.SetActive(true);
         statusBar.DOFade(0f, 0f);
         statusBar.DOFade(1f, 0.2f);
@@ -105,13 +106,13 @@ public class SFXGameplayManager : MonoBehaviour
 
         // Move the text up
 
-        statusBar.transform.DOMoveY(pos + 500, 0.5f);
+        statusBar.GetComponent<RectTransform>().DOAnchorPos3DY(pos + 500, 0.5f);
 
         yield return new WaitForSeconds(0.5f);
 
         statusBar.gameObject.SetActive(false);
         statusBar.DOFade(0f, 0f);
-        statusBar.transform.DOMoveY(pos, 0f);
+        statusBar.GetComponent<RectTransform>().DOAnchorPos3DY(pos, 0f);
 
         onFinished();
     }
@@ -125,7 +126,7 @@ public class SFXGameplayManager : MonoBehaviour
     {
         // Show the combat text in ui
         statusBar.text = $"{name}";
-        var pos = statusBar.transform.position.y;
+        var pos = statusBar.GetComponent<RectTransform>().position.y;
         statusBar.gameObject.SetActive(true);
         statusBar.DOFade(0f, 0f);
         statusBar.DOFade(1f, 0.2f);
@@ -138,13 +139,13 @@ public class SFXGameplayManager : MonoBehaviour
 
         // Move the text up
 
-        statusBar.transform.DOMoveY(pos + 500, 0.5f);
+        statusBar.GetComponent<RectTransform>().DOAnchorPos3DY(pos + 500, 0.5f);
 
         yield return new WaitForSeconds(0.5f);
 
         statusBar.gameObject.SetActive(false);
         statusBar.DOFade(0f, 0f);
-        statusBar.transform.DOMoveY(pos, 0f);
+        statusBar.GetComponent<RectTransform>().DOAnchorPos3DY(pos, 0f);
     }
 
 
@@ -159,7 +160,7 @@ public class SFXGameplayManager : MonoBehaviour
         // Show victory / loss
         statusBar.text = playerVictory ? "Victory" : "Defeat";
         AudioManager.Instance.PlaySFX(playerVictory ? victoryClip : defeatClip);
-        var pos = statusBar.transform.position.y;
+        var pos = statusBar.GetComponent<RectTransform>().position.y;
         statusBar.gameObject.SetActive(true);
         statusBar.DOFade(0f, 0f);
         statusBar.DOFade(1f, 0.2f);
@@ -180,13 +181,13 @@ public class SFXGameplayManager : MonoBehaviour
 
         // Move the text up
 
-        statusBar.transform.DOMoveY(pos + 500, 0.5f);
+        statusBar.GetComponent<RectTransform>().DOAnchorPos3DY(pos + 500, 0.5f);
 
         yield return new WaitForSeconds(0.5f);
 
         statusBar.gameObject.SetActive(false);
         statusBar.DOFade(0f, 0f);
-        statusBar.transform.DOMoveY(pos, 0f);
+        statusBar.GetComponent<RectTransform>().DOAnchorPos3DY(pos, 0f);
 
         onFinished();
 
