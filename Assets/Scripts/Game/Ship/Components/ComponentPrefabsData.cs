@@ -58,6 +58,7 @@ public class ComponentPrefabsData : ScriptableObject
         {
             if (component != null)
             {
+#if UNITY_EDITOR
                 var path = AssetDatabase.GetAssetPath(component);
 
                 var root = PrefabUtility.LoadPrefabContents(path);
@@ -71,7 +72,7 @@ public class ComponentPrefabsData : ScriptableObject
                 PrefabUtility.UnloadPrefabContents(root);
 
                 
-#if UNITY_EDITOR
+
                 UnityEditor.EditorUtility.SetDirty(component);
 #endif
 
