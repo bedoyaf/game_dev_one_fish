@@ -253,7 +253,7 @@ public class ShipBuildingController : MonoBehaviour
                 currentlyDraggingPrefab = draggable;
                 currentlyDragging = Instantiate(draggable, draggablesParent);
                 currentlyDragging.outline.SetActive(false);
-                currentlyDragging.Setup(transform, draggable);
+                currentlyDragging.Setup(transform, draggable, componentGrid);
                 if (isPlayer) {
                     currentlyDragging.originalObject.gameObject.SetActive(false);
                 }
@@ -307,6 +307,7 @@ public class ShipBuildingController : MonoBehaviour
                 }
             }
             var successful = RaycastAndPlaceComponent(currentlyDragging.componentPrefab, false, index);
+            shipController.AddEnergy(0); // Updates the energy ui
 
             // Destroy the object and possibly the original one as well
             if (isPlayer) {
@@ -391,6 +392,8 @@ public class ShipBuildingController : MonoBehaviour
         if (draggablePlacementData.Count == 0 && unplaceButton != null) {
             unplaceButton.SetActive(false);
         }
+
+        shipController.AddEnergy(0); // Updates the energy ui
     }
 
     /// <summary>

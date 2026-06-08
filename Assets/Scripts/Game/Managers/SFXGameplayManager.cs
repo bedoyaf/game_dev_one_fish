@@ -355,6 +355,7 @@ public class SFXGameplayManager : MonoBehaviour
 
                 // move & don't destroy
                 comp.gameObject.transform.DOMove(target, 30f);
+                comp.RemoveShield();
             }
 
             if (componentExplosionSounds != null && componentExplosionSounds.Length > 0)
