@@ -112,7 +112,8 @@ public class SFXGameplayManager : MonoBehaviour
 
         statusBar.gameObject.SetActive(false);
         statusBar.DOFade(0f, 0f);
-        statusBar.GetComponent<RectTransform>().DOAnchorPos3DY(pos, 0f);
+        statusBar.GetComponent<RectTransform>().position = 
+            statusBar.GetComponent<RectTransform>().position.SetY(pos);
 
         onFinished();
     }
@@ -145,7 +146,8 @@ public class SFXGameplayManager : MonoBehaviour
 
         statusBar.gameObject.SetActive(false);
         statusBar.DOFade(0f, 0f);
-        statusBar.GetComponent<RectTransform>().DOAnchorPos3DY(pos, 0f);
+        statusBar.GetComponent<RectTransform>().position =
+            statusBar.GetComponent<RectTransform>().position.SetY(pos);
     }
 
 
@@ -187,7 +189,8 @@ public class SFXGameplayManager : MonoBehaviour
 
         statusBar.gameObject.SetActive(false);
         statusBar.DOFade(0f, 0f);
-        statusBar.GetComponent<RectTransform>().DOAnchorPos3DY(pos, 0f);
+        statusBar.GetComponent<RectTransform>().position =
+            statusBar.GetComponent<RectTransform>().position.SetY(pos);
 
         onFinished();
 
@@ -356,7 +359,6 @@ public class SFXGameplayManager : MonoBehaviour
 
                 // move & don't destroy
                 comp.gameObject.transform.DOMove(target, 30f);
-                comp.RemoveShield();
             }
 
             if (componentExplosionSounds != null && componentExplosionSounds.Length > 0)
