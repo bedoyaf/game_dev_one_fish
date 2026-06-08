@@ -65,7 +65,7 @@ MonoBehaviour:
   Decor: {fileID: 5660346433527769517}
   shipComponentMeshController: {fileID: 0}
   componentPrefabs: {fileID: 11400000, guid: f88a2b091bbc9dc4ea700e0654a36b57, type: 2}
-  guid: fe783289-5cfe-44c7-be69-682dc79ae272
+  guid: 74
   componentBreakParticles: {fileID: 3482343678898837779, guid: 98aaa70d0041bf74eada67ab918ba04e, type: 3}
   activationClip: {fileID: 11400000, guid: 2520c679a018f3b4ca74c1ff51d2c093, type: 2}
   repairClip: {fileID: 11400000, guid: ad558f25ca248df48aca3ab48a97cc31, type: 2}
@@ -88,6 +88,9 @@ MonoBehaviour:
       isPlaceholder: 0
       _instantiatedComponent: 0
       shouldDestroy: 0
+  OnDamage:
+    m_PersistentCalls:
+      m_Calls: []
   myDescription:
     ignore: 1
     displayName: 
