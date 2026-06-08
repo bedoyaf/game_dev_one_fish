@@ -79,7 +79,7 @@ public class MissileComponentController : BehaviourComponentControllerAbstract
         if (targetShipComponent.transform.parent == transform.parent)
         {
             Debug.Log("Wrong ship");
-            shipComponentController.DeactivateComponent();
+            shipComponentController.DeactivateAimingAndRefund();
             return false;
         }
 

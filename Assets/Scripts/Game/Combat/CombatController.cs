@@ -3,6 +3,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using DG.Tweening;
 using System;
+using System.Collections;
 
 public class CombatController : SmartSingleton<CombatController>
 {
@@ -32,6 +33,8 @@ public class CombatController : SmartSingleton<CombatController>
     [SerializeField] public ShipData EmptyPlayerShip;
 
     [SerializeField] private GameUIScript gameUI;
+
+    [SerializeField] private GameObject RemoveLootButton;
     public void InformEnemyOfComponentRemoved()
     {
         currentEnemyAI.ComponentRemoved();
@@ -55,6 +58,12 @@ public class CombatController : SmartSingleton<CombatController>
                 var mesh = lootedComponent.ComponentMesh;
                 mesh.transform.DestroyAllChildren();
                 mesh.transform.SetParent(lootInventoryParent);
+
+                var hoverHandler = mesh.gameObject.GetComponent<LootHoverHandler>();
+                if (hoverHandler == null) hoverHandler = mesh.gameObject.AddComponent<LootHoverHandler>();
+
+                hoverHandler.Setup(RemoveLootButton, gameUI.transform);
+                hoverHandler.OnRemove.AddListener(RemoveComponentFromLoot);
 
                 // TODO: maybe destroy decor here if decide to not want it
                 // include Decor child
@@ -84,6 +93,40 @@ public class CombatController : SmartSingleton<CombatController>
             currentEnemyAI.ComponentRemoved();
 
     }
+
+    public void RemoveComponentFromLoot(LootHoverHandler visualItem)
+    {
+        var inventoryController = GameManager.Instance.currentGameplayManager.rewardController;
+
+        int indexToRemove = visualItem.transform.GetSiblingIndex();
+
+        if (indexToRemove >= 0 && indexToRemove < inventoryController.storedComponents.Count)
+        {
+            inventoryController.storedComponents.RemoveAt(indexToRemove);
+        }
+
+        Destroy(visualItem.gameObject);
+
+        StartCoroutine(UpdateLootPositionsDeferred());
+    }
+
+    private IEnumerator UpdateLootPositionsDeferred()
+    {
+        yield return new WaitForEndOfFrame();
+        UpdateLootPositions();
+    }
+
+    public void UpdateLootPositions()
+    {
+        int index = 0;
+        foreach (Transform child in lootInventoryParent)
+        {
+            child.DOLocalMove(2f * index * Vector3.right, 0.4f).SetEase(Ease.OutQuad);
+            index++;
+        }
+    }
+
+
 
     public void ClearInventory()
     {

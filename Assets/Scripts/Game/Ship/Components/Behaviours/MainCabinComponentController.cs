@@ -69,15 +69,16 @@ public class MainCabinComponentController : BehaviourComponentControllerAbstract
 
         ShipComponentController targetShipComponent = targetMesh.transform.parent.GetComponent<ShipComponentController>();
         
-        shipComponentController.DeactivateComponent();
+
 
         if (targetShipComponent.transform.parent == transform.parent)
         {
             Debug.Log("Wrong ship");
+            shipComponentController.DeactivateAimingAndRefund();
             return false;
         }
+        shipComponentController.DeactivateComponent();
 
-        
         Vector3 exactTargetPosition = targetShipComponent.transform.position
             + targetShipComponent.transform.right * 0.5f + target.ComponentOffset
             + targetShipComponent.transform.forward * 0.5f;
