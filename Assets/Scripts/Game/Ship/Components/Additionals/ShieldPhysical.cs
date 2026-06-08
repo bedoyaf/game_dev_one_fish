@@ -10,8 +10,12 @@ public class ShieldPhysical : MonoBehaviour
 {
     [SerializeField] private float health = 10;
     [SerializeField] private float lifeSpan = 5;
-    [SerializeField] private float shieldFadeTime = 0.2f;
     [SerializeField] private SoundData shieldEndClip;
+
+    [Header("Shader settings")]
+    [SerializeField] private float shieldFadeTime = 0.2f;
+    [SerializeField] private float hurtFadeTime = 0.2f;
+    [SerializeField] private float hurtMaxDistance = 1f;
 
     public UnityEvent<ShieldPhysical> OnShieldDestroyed;
 
@@ -81,6 +85,10 @@ public class ShieldPhysical : MonoBehaviour
 
         if (projectile != null) {
             TakeDamage(projectile.damage);
+            if (health > 0) {
+                shieldMaterial.SetVector("_HurtPosition", collision.GetContact(0).point);
+                shieldMaterial.DOFloat(hurtMaxDistance, "_HurtDistance", hurtFadeTime).SetLoops(2, LoopType.Yoyo);
+            }
             projectile.damage -= (int)health;
             projectile.damage = Mathf.Max(projectile.damage, 0);
         }

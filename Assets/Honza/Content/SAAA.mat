@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: ShieldFadeMaterial
+  m_Name: SAAA
   m_Shader: {fileID: -6465566751694194690, guid: cffbd3f2d628a89418cb5f82e65c99e0, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -38,15 +38,15 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _HurtDistance: 0
+    - _HurtDistance: 1.24
     - _Progress: 1
     - _QueueControl: 0
     - _QueueOffset: 0
     - _Scale: 5
     m_Colors:
-    - _Color: {r: 0, g: 0.12770116, b: 1, a: 0.54901963}
-    - _HurtColor: {r: 1, g: 0, b: 0, a: 0.8117647}
-    - _HurtPosition: {r: 0, g: 0, b: 0, a: 0}
+    - _Color: {r: 0.017231941, g: 0, b: 1, a: 0.54901963}
+    - _HurtColor: {r: 1, g: 0, b: 0, a: 1}
+    - _HurtPosition: {r: 15, g: 0, b: 9, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
 --- !u!114 &4591183441061604200
