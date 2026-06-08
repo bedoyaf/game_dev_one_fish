@@ -159,6 +159,7 @@ public class GameplayFlowManager : MonoBehaviour
 
     public void OpenShipBuilder()
     {
+        sfx.EncounterTransition("Building stage");
         playerShip.GiveControlToEditor(rewardController.storedComponents);
         //should switch to building ship
     }
@@ -210,6 +211,7 @@ public class GameplayFlowManager : MonoBehaviour
     
     public void EnterRepairsMode()
     {
+        sfx.EncounterTransition("Repaire stage");
         stateMachine.ChangeState(GameStates.Repairs);
     }
 

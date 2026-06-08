@@ -18,29 +18,29 @@ MonoBehaviour:
   minimumStage: 0
   eventText: You encounter a ship wreck, it looks abandoned.
   choices:
-  - choiceID: money
+  - choiceID: scrap
     choiceText: Take scrap from the wreck
     effects:
     - effectType: 3
       effectData:
-        rid: 3958358563296641121
+        rid: 3958358603026661521
     conditions: []
   - choiceID: component
     choiceText: Take one random component
     effects:
     - effectType: 8
       effectData:
-        rid: 3958358563296641123
+        rid: 3958358603026661523
     conditions: []
   references:
     version: 2
     RefIds:
-    - rid: 3958358563296641121
+    - rid: 3958358603026661521
       type: {class: ChangeCurrencyAmountEffect, ns: , asm: Assembly-CSharp}
       data:
         amount: 5
         randomness: 2
-    - rid: 3958358563296641123
+    - rid: 3958358603026661523
       type: {class: GetRandomComponentEffect, ns: , asm: Assembly-CSharp}
       data:
         components:

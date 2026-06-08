@@ -179,7 +179,7 @@ public class AudioManager : SmartSingleton<AudioManager>
     /// Changes speed of the clips playing.
     /// </summary>
     public void ChangeSpeed(float newSpeed) {
-        musicSource.DOPitch(newSpeed, slowdownSpeed);
+       // musicSource.DOPitch(newSpeed, slowdownSpeed);
         CleanUp();
         foreach(var source in activeAudioSources) {
             source.DOPitch(newSpeed, slowdownSpeed);

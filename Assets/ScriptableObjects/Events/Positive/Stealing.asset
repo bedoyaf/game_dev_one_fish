@@ -23,26 +23,26 @@ MonoBehaviour:
     effects:
     - effectType: 4
       effectData:
-        rid: 3958358563296641241
+        rid: 3958358603026661532
     conditions: []
   - choiceID: high_risk
     choiceText: Steal their tools 30 % to get 10 scrap
     effects:
     - effectType: 4
       effectData:
-        rid: 3958358563296641245
+        rid: 3958358603026661536
     conditions: []
   - choiceID: leave
     choiceText: You are not interested (scared)
     effects:
     - effectType: 2
       effectData:
-        rid: 3958358563296641248
+        rid: 3958358603026661539
     conditions: []
   references:
     version: 2
     RefIds:
-    - rid: 3958358563296641241
+    - rid: 3958358603026661532
       type: {class: RandomChanceEffect, ns: , asm: Assembly-CSharp}
       data:
         possibilities:
@@ -50,13 +50,13 @@ MonoBehaviour:
           effect:
             effectType: 3
             effectData:
-              rid: 3958358563296641242
-    - rid: 3958358563296641242
+              rid: 3958358603026661533
+    - rid: 3958358603026661533
       type: {class: ChangeCurrencyAmountEffect, ns: , asm: Assembly-CSharp}
       data:
         amount: 5
         randomness: 0
-    - rid: 3958358563296641245
+    - rid: 3958358603026661536
       type: {class: RandomChanceEffect, ns: , asm: Assembly-CSharp}
       data:
         possibilities:
@@ -64,12 +64,12 @@ MonoBehaviour:
           effect:
             effectType: 3
             effectData:
-              rid: 3958358563296641246
-    - rid: 3958358563296641246
+              rid: 3958358603026661537
+    - rid: 3958358603026661537
       type: {class: ChangeCurrencyAmountEffect, ns: , asm: Assembly-CSharp}
       data:
         amount: 10
         randomness: 0
-    - rid: 3958358563296641248
+    - rid: 3958358603026661539
       type: {class: RunEffect, ns: , asm: Assembly-CSharp}
       data: 

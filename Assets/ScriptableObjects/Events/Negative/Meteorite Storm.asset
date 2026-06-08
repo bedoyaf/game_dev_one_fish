@@ -23,50 +23,50 @@ MonoBehaviour:
     effects:
     - effectType: 2
       effectData:
-        rid: 3958358507914002835
+        rid: 3958358603026661605
     conditions:
     - conditionType: 2
       eventCondition:
-        rid: 3958358507914002837
+        rid: 3958358603026661607
   - choiceID: shield
     choiceText: Use your shields to protect yourself
     effects:
     - effectType: 2
       effectData:
-        rid: 3958358507914002839
+        rid: 3958358603026661609
     conditions:
     - conditionType: 2
       eventCondition:
-        rid: 3958358507914002841
+        rid: 3958358603026661611
   - choiceID: damage
     choiceText: Meteorite hits! One random component becomes broken.
     effects:
     - effectType: 9
       effectData:
-        rid: 3958358507914002843
+        rid: 3958358603026661613
     conditions: []
   references:
     version: 2
     RefIds:
-    - rid: 3958358507914002835
+    - rid: 3958358603026661605
       type: {class: RunEffect, ns: , asm: Assembly-CSharp}
       data: 
-    - rid: 3958358507914002837
+    - rid: 3958358603026661607
       type: {class: HasComponentsCondition, ns: , asm: Assembly-CSharp}
       data:
         componentType: 5
         component: {fileID: 0}
         componentCount: 3
-    - rid: 3958358507914002839
+    - rid: 3958358603026661609
       type: {class: RunEffect, ns: , asm: Assembly-CSharp}
       data: 
-    - rid: 3958358507914002841
+    - rid: 3958358603026661611
       type: {class: HasComponentsCondition, ns: , asm: Assembly-CSharp}
       data:
         componentType: 6
         component: {fileID: 0}
         componentCount: 3
-    - rid: 3958358507914002843
+    - rid: 3958358603026661613
       type: {class: BreakComponentsEffect, ns: , asm: Assembly-CSharp}
       data:
         amount: 1

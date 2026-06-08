@@ -305,7 +305,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ShieldComponentController
   shieldPrefab: {fileID: 8459617928677406710, guid: 6f3b9adefba52ca40b7656dda43086b1, type: 3}
-  maxAviableShields: 3
+  maxAviableShields: 1
   physicalShieldPrefab: {fileID: 8459617928677406710, guid: 7a8ebd4ff326cf3429069859f72ae9c4, type: 3}
   usesPhysicalShields: 1
   shieldActivationClip: {fileID: 11400000, guid: 156c0636532dd454cbabb96ad2022138, type: 2}
@@ -321,7 +321,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab847726f202de84f8cde2fb6905ab2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ComponentCooldown
-  cooldownTime: 2
+  cooldownTime: 4
 --- !u!23 &6321186679993111303 stripped
 MeshRenderer:
   m_CorrespondingSourceObject: {fileID: 4898772173142610036, guid: 76b53dd701359c84195162e28f3a0cbb, type: 3}

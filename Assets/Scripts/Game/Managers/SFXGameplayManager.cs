@@ -116,6 +116,38 @@ public class SFXGameplayManager : MonoBehaviour
         onFinished();
     }
 
+    public void EncounterTransition(string name)
+    {
+        StartCoroutine(EncounterTransitionCoroutine(name));
+    }
+
+    private IEnumerator EncounterTransitionCoroutine(string name)
+    {
+        // Show the combat text in ui
+        statusBar.text = $"{name}";
+        var pos = statusBar.transform.position.y;
+        statusBar.gameObject.SetActive(true);
+        statusBar.DOFade(0f, 0f);
+        statusBar.DOFade(1f, 0.2f);
+
+        yield return new WaitForSeconds(0.2f);
+
+        // Leave the text for the player to read
+
+        yield return new WaitForSeconds(3f);
+
+        // Move the text up
+
+        statusBar.transform.DOMoveY(pos + 500, 0.5f);
+
+        yield return new WaitForSeconds(0.5f);
+
+        statusBar.gameObject.SetActive(false);
+        statusBar.DOFade(0f, 0f);
+        statusBar.transform.DOMoveY(pos, 0f);
+    }
+
+
 
     public void CombatEndTransition(bool playerVictory, Action onFinished)
     {

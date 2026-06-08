@@ -46,6 +46,11 @@ public class MissileComponentController : BehaviourComponentControllerAbstract
     public override void OnAgentActivate(TargetingData data)
     {
         OnTargetSelected(data);
+
+        var cooldown = GetComponent<ComponentCooldown>();
+        if (cooldown != null) cooldown.Trigger();
+
+        shipComponentController.DeactivateComponent();
     }
 
     public override bool OnDeactivate()
