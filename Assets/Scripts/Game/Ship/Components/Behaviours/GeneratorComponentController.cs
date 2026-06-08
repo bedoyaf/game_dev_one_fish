@@ -90,7 +90,8 @@ public class GeneratorComponentController : BehaviourComponentControllerAbstract
         //int shipEnergy = shipComponentController.shipController.GetEnergy;
 
         if (GameManager.Instance.currentGameplayManager.tutorialRunning) energyStored = energyMax;
-
+        
+        var previousEnergy = shipController.GetEnergy;
         shipComponentController.shipController.AddEnergy(energyStored, shipComponentController);
 
         //int shipEnergyDiff = shipComponentController.shipController.GetEnergy - shipEnergy;
@@ -100,7 +101,7 @@ public class GeneratorComponentController : BehaviourComponentControllerAbstract
 
         AudioManager.Instance.PlaySFX(gatherPowerClip, transform.position);
 
-        if(shipComponentController.shipController.playerShip)
+        if(shipComponentController.shipController.playerShip && previousEnergy != shipController.GetEnergy)
         {
             // Spawn SFX
             GameManager.Instance.SFXManager.EnergyGatheredEffect(gameObject.transform.position);

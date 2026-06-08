@@ -218,6 +218,7 @@ public class HookShotScript : MonoBehaviour
         if (pull) {
             component.gameObject.transform.SetParent(hook.transform);
             Instantiate(componentTearParticles, componentOriginalPosition, Quaternion.identity);
+            component.RemoveShield();
         }
 
         // fly back

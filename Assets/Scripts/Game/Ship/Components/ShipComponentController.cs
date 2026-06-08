@@ -135,6 +135,12 @@ public class ShipComponentController : MonoBehaviour
         }
     }
 
+    public void RemoveShield() {
+        if (shield != null) {
+            shield.TakeDamage(1000);
+        }
+    }
+
     public bool ActivateComponent()
     {
         if(broken) return false;
