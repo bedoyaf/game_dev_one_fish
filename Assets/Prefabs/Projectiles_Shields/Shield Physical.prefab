@@ -127,8 +127,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ShieldPhysical
   health: 10
   lifeSpan: 5
-  shieldFadeTime: 0.3
   shieldEndClip: {fileID: 11400000, guid: 3468df3b8988ba1499cb410d34c24f5c, type: 2}
+  shieldFadeTime: 0.3
+  hurtFadeTime: 0.15
+  hurtMaxDistance: 1.2
   OnShieldDestroyed:
     m_PersistentCalls:
       m_Calls: []
