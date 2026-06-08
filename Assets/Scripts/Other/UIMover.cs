@@ -11,6 +11,8 @@ public class UIMover : MonoBehaviour
 
     [SerializeField] private float moveDuration = 0.2f;
 
+    [SerializeField] private Image faderImage;
+
     private void Start() {
         y = targetImage.anchoredPosition.y;
     }
@@ -30,11 +32,15 @@ public class UIMover : MonoBehaviour
         visible = !visible;
     }
 
+
+
     private void MoveDown() {
         targetImage.DOAnchorPosY(y - offsetDistance, moveDuration);
+        faderImage.DOFade(0f, moveDuration);
     }
 
     private void MoveUp() {
         targetImage.DOAnchorPosY(y, moveDuration);
+        faderImage.DOFade(0.8f, moveDuration);
     }
 }

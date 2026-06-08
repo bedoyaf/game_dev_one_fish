@@ -96,10 +96,15 @@ public class MapController : MonoBehaviour
         currentNode = node;
         currentNode.visited = true;
 
-        mapSightDistance = GetMapSightDistance();
-        mapUI.UpdatePlayerPosition(currentNode, mapSightDistance);
-        ResolveNode(node);
         mapUI.Hide();
+        
+        // wait for a bit
+        DOVirtual.DelayedCall(0.3f, () =>
+        {
+            mapSightDistance = GetMapSightDistance();
+            mapUI.UpdatePlayerPosition(currentNode, mapSightDistance);
+            ResolveNode(node);
+        });
     }
 
     private void ResolveNode(MapNode node)

@@ -26,6 +26,7 @@ public class MapUI : MonoBehaviour
     private Dictionary<MapNode, MapNodeButton> spawnedNodes = new();
 
     public CanvasGroup canvasGroup;
+    public UIMover mover;
 
     // public int sightDistance = 1; // How far can the player see
     private int sightDistance = 1;
@@ -56,6 +57,12 @@ public class MapUI : MonoBehaviour
     [SerializeField] private bool debugAllVisible;
     public bool DebugMap => debugAllVisible;
 
+    void Start()
+    {
+        // hide by default
+        mover.ToggleVisible();
+    }
+
     /// <summary>
     /// function to hide and show the map ui
     /// </summary>
@@ -63,14 +70,17 @@ public class MapUI : MonoBehaviour
     {
         gameObject.SetActive(true);
         canvasGroup.alpha = 0f;
+        mover.ToggleVisible();
         canvasGroup.DOFade(1f, 0.2f);
         canvasGroup.interactable = true;
         canvasGroup.blocksRaycasts = true;
     }
     public void Hide()
     {
+        // call hide to move on the mover
+        mover.ToggleVisible();
         canvasGroup.DOFade(0f, 0.2f)
-            .OnComplete(() => gameObject.SetActive(false));
+            .OnComplete(() => { gameObject.SetActive(false); } );
 
         canvasGroup.interactable = false;
         canvasGroup.blocksRaycasts = false;
@@ -128,12 +138,14 @@ public class MapUI : MonoBehaviour
             {
                 ui.SetIcon(playerSprite);
                 ui.SetTypeColor(currentNodeColor);
+                ui.SetVisited();
                 continue;
             }
 
             if (node.visited)
             {
                 ui.SetState(1f, visitedNodeColor);
+                ui.SetVisited();
                 ui.SetIcon(null);
                 continue;
             }
@@ -144,18 +156,21 @@ public class MapUI : MonoBehaviour
                 if (sightDistance == 0) {
                     ui.SetIcon(unknownSprite);
                     ui.SetState(1f, unknownNodeColor);
-                    ui.SetReachable(true, baseColor, 0.5f);
+                    ui.SetReachable(true, (baseColor + 2f*defaultNodeColor) * 0.33f, 1f);
+                    ui.SetVisited(false);
                 }
                 else {
                     ui.SetIcon(GetTypeIcon(node.type));
                     ui.SetState(1f, baseColor);
-                    ui.SetReachable(IsReachable(current, node, 1), baseColor, 0.5f);
+                    ui.SetReachable(IsReachable(current, node, 1), (baseColor + 2f*defaultNodeColor)*0.33f, 1f);
+                    ui.SetVisited(false);
                 }
             }
             else
             {
                 ui.SetIcon(null);
-                ui.SetState(0.5f, defaultNodeColor); 
+                ui.SetState(1f, defaultNodeColor);
+                ui.SetVisited();
             }
         }
     }
