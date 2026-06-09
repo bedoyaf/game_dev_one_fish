@@ -25,8 +25,8 @@ public class DamageCabinTask : TutorialTaskSO
 
         GameManager.Instance.currentGameplayManager.playerShip.EnableAllColliders();
 
-        GameManager.Instance.currentGameplayManager.playerShip.componentGrid.GetComponentsOfType<MissileComponentController>()[0]
-.shipComponentController.RemoveHighlight();
+//        GameManager.Instance.currentGameplayManager.playerShip.componentGrid.GetComponentsOfType<MissileComponentController>()[0]
+//.shipComponentController.RemoveHighlight();
     }
 
 }

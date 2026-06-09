@@ -393,6 +393,7 @@ public class ShipComponentController : MonoBehaviour
         currentHightlightColor = color;
         var materials = outlineMesh.GetComponent<MeshRenderer>().materials;
         foreach (var mat in materials) {
+            mat.DOKill();
             mat.DOColor(color, fadeTime);
         }
 
@@ -401,6 +402,7 @@ public class ShipComponentController : MonoBehaviour
 
     public IEnumerator FadeOutline(List<Material> highlightMaterials, float target, float fadeTime, bool disable) {
         foreach(var mat in highlightMaterials) {
+            mat.DOKill();
             mat.DOFloat(target, "_OutlineSize", fadeTime);
         }
         if (spriteOutline != null) spriteOutline.material.DOFloat(target, "_OutlineSize", fadeTime);
