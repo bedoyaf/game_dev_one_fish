@@ -8,12 +8,18 @@ public class HookIndicatorScript : IndicatorScript
     [SerializeField]
     private ComponentCooldown cooldown;
 
+    [SerializeField]
+    private bool actuallyUpdate = true;
+
     public override void OnUpdate()
     {
         if (cabin == null)
             return;
 
-        CooldownUpdate(cooldown, cabin.CanClickOnNow);
+        if (actuallyUpdate)
+            CooldownUpdate(cooldown, cabin.CanClickOnNow);
+        else
+            CooldownBinaryUpdate(cooldown, cabin.CanClickOnNow);
     }
 
 }

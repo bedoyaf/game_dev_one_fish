@@ -78,6 +78,23 @@ public class IndicatorScript : MonoBehaviour
             }
         }
     }
+    
+    public void CooldownBinaryUpdate(ComponentCooldown cooldown, bool clickable)
+    {
+        if (cooldown == null)
+        {
+            quadIndicator.transform.localScale = clickable ? Vector3.one : Vector3.zero;
+        }
+        else
+        {
+            // quadIndicator.material.SetFloat("_Degrees", cooldown.RemainingInDegrees);
+            if (lastFrameActive != clickable)
+            {
+                lastFrameActive = !lastFrameActive;
+                quadIndicator.material.SetColor("_MainColor", lastFrameActive ? defaultColor : unusableColor);
+            }
+        }
+    }
 
     // Update for chilren
     public virtual void OnUpdate() { }
