@@ -221,6 +221,7 @@ public class ShipBuildingController : MonoBehaviour
 
             var draggable = parent.AddComponent<ComponentBuildingDrag>();
             draggable.componentPrefab = componentPrefabs[i];
+            draggable.player = isPlayer;
             if (highlightMaterial != null) {
                 draggable.outline = outline;
             }
@@ -266,6 +267,7 @@ public class ShipBuildingController : MonoBehaviour
                 if (currentlyDragging.outline != null)
                     currentlyDragging.outline.SetActive(false);
                 currentlyDragging.Setup(transform, draggable, componentGrid);
+
                 if (isPlayer) {
                     currentlyDragging.originalObject.gameObject.SetActive(false);
                 }
