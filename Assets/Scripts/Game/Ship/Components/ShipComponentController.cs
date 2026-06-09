@@ -523,4 +523,5 @@ public class ComponentDescription
 
     public MeshFilter meshFilter;
     public MeshRenderer meshRenderer;
+    public Sprite decorPreview;
 }
