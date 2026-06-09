@@ -412,7 +412,9 @@ public class ShipComponentController : MonoBehaviour
             shipController.UseCurrency(1);
 
             // do the repair
-            health = Math.Min(health + healthPerRepair, maxHealth);
+            var healthCache = Math.Min(health + healthPerRepair, maxHealth);
+            health = healthCache;
+
             shipComponentMeshController.OnHealthUpdate((float)health / maxHealth);
             AudioManager.Instance.PlaySFX(repairClip, transform.position);
 

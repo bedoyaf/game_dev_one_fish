@@ -81,10 +81,14 @@ public class SFXGameplayManager : MonoBehaviour
 
     [SerializeField]
     private TMPro.TMP_Text statusBar;
+    // hack :(
+    private float status_y = 900;
+
 
     // NOTE: maybe move constants from the methods to like here...
     public void CombatStartTransition(string enemyName, Action onFinished)
     {
+        Debug.Log($"Combat start w '{enemyName}'");
         StartCoroutine(CombatStartTransitionCoroutine(enemyName, onFinished));
     }
 
@@ -92,8 +96,11 @@ public class SFXGameplayManager : MonoBehaviour
     {
         // Show the combat text in ui
         statusBar.text = $"--- Fight ---\n{enemyName}";
-        var pos = statusBar.GetComponent<RectTransform>().position.y;
-        
+        // var pos = statusBar.GetComponent<RectTransform>().position.y;
+
+        statusBar.GetComponent<RectTransform>().position =
+            statusBar.GetComponent<RectTransform>().position.SetY(status_y);
+
         statusBar.gameObject.SetActive(true);
         statusBar.DOFade(0f, 0f);
         statusBar.DOFade(1f, 0.2f);
@@ -106,14 +113,14 @@ public class SFXGameplayManager : MonoBehaviour
 
         // Move the text up
 
-        statusBar.GetComponent<RectTransform>().DOAnchorPos3DY(pos + 500, 0.5f);
+        statusBar.GetComponent<RectTransform>().DOAnchorPos3DY(status_y + 500, 0.5f);
 
         yield return new WaitForSeconds(0.5f);
 
         statusBar.gameObject.SetActive(false);
         statusBar.DOFade(0f, 0f);
         statusBar.GetComponent<RectTransform>().position = 
-            statusBar.GetComponent<RectTransform>().position.SetY(pos);
+            statusBar.GetComponent<RectTransform>().position.SetY(status_y);
 
         onFinished();
     }
@@ -127,7 +134,11 @@ public class SFXGameplayManager : MonoBehaviour
     {
         // Show the combat text in ui
         statusBar.text = $"{name}";
-        var pos = statusBar.GetComponent<RectTransform>().position.y;
+
+        statusBar.GetComponent<RectTransform>().position =
+            statusBar.GetComponent<RectTransform>().position.SetY(status_y);
+
+        // var pos = statusBar.GetComponent<RectTransform>().position.y;
         statusBar.gameObject.SetActive(true);
         statusBar.DOFade(0f, 0f);
         statusBar.DOFade(1f, 0.2f);
@@ -140,14 +151,14 @@ public class SFXGameplayManager : MonoBehaviour
 
         // Move the text up
 
-        statusBar.GetComponent<RectTransform>().DOAnchorPos3DY(pos + 500, 0.5f);
+        statusBar.GetComponent<RectTransform>().DOAnchorPos3DY(status_y + 500, 0.5f);
 
         yield return new WaitForSeconds(0.5f);
 
         statusBar.gameObject.SetActive(false);
         statusBar.DOFade(0f, 0f);
         statusBar.GetComponent<RectTransform>().position =
-            statusBar.GetComponent<RectTransform>().position.SetY(pos);
+            statusBar.GetComponent<RectTransform>().position.SetY(status_y);
     }
 
 
@@ -162,7 +173,11 @@ public class SFXGameplayManager : MonoBehaviour
         // Show victory / loss
         statusBar.text = playerVictory ? "Victory" : "Defeat";
         AudioManager.Instance.PlaySFX(playerVictory ? victoryClip : defeatClip);
-        var pos = statusBar.GetComponent<RectTransform>().position.y;
+        // var pos = statusBar.GetComponent<RectTransform>().position.y;
+
+        statusBar.GetComponent<RectTransform>().position =
+            statusBar.GetComponent<RectTransform>().position.SetY(status_y);
+
         statusBar.gameObject.SetActive(true);
         statusBar.DOFade(0f, 0f);
         statusBar.DOFade(1f, 0.2f);
@@ -183,14 +198,14 @@ public class SFXGameplayManager : MonoBehaviour
 
         // Move the text up
 
-        statusBar.GetComponent<RectTransform>().DOAnchorPos3DY(pos + 500, 0.5f);
+        statusBar.GetComponent<RectTransform>().DOAnchorPos3DY(status_y + 500, 0.5f);
 
         yield return new WaitForSeconds(0.5f);
 
         statusBar.gameObject.SetActive(false);
         statusBar.DOFade(0f, 0f);
         statusBar.GetComponent<RectTransform>().position =
-            statusBar.GetComponent<RectTransform>().position.SetY(pos);
+            statusBar.GetComponent<RectTransform>().position.SetY(status_y);
 
         onFinished();
 

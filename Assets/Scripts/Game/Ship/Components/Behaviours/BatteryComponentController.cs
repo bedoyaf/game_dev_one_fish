@@ -58,6 +58,8 @@ public class BatteryComponentController : BehaviourComponentControllerAbstract
     {
         shipComponentController.OnDeath.AddListener(OnDestroyedBattery);
         CreateDebugText();
+        // hide the debug now...
+        debugText.gameObject.SetActive(false);
     }
 
     private void Update()
