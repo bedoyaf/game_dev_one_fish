@@ -410,10 +410,18 @@ public class CombatController : SmartSingleton<CombatController>
             }
         }
 
-        var wire = ship.transform.Find("wire");
-        if (wire != null) {
-            wire.GetComponent<SpriteRenderer>().sortingOrder = -10;
+        foreach(Transform child in ship.transform) {
+            if (child == ship.componentsParent) continue;
+
+            foreach (var sprite in child.GetComponentsInChildren<SpriteRenderer>()) {
+                sprite.sortingOrder -= 10;
+            }
         }
+
+        //var wire = ship.transform.Find("wire");
+        //if (wire != null) {
+        //    wire.GetComponent<SpriteRenderer>().sortingOrder = -10;
+        //}
     }
 
     /*
