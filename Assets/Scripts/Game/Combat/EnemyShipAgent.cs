@@ -559,6 +559,7 @@ public class EnemyShipAgent : MonoBehaviour
 
     void OnGUI()
     {
+        if (!GameManager.Instance.currentGameplayManager.ShowDebugUI) return;
         if(GameManager.Instance.currentGameplayManager.stateMachine.CurrentStateKey == GameplayFlowManager.GameStates.Combat)
         {
             float width = 140;

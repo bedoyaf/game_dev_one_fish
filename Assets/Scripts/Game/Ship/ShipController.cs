@@ -659,13 +659,12 @@ public class ShipController : MonoBehaviour
         foreach (var comp in allComponents)
         {
             if (types.Contains(comp.componentType))
-                continue;
-
-            var colliders = comp.GetComponentsInChildren<Collider>();
-            foreach (var col in colliders)
             {
-                col.enabled = false;
+                comp.EnableAllColliders();
+                continue;
             }
+
+            comp.DisableAllColliders();
         }
     }
 
@@ -713,5 +712,6 @@ public class ShipController : MonoBehaviour
         }
     }
 }
+
 
 
