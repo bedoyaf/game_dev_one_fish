@@ -5052,6 +5052,38 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3580451792754901194, guid: 9101963b760786d4783a45530197e394, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7408578033752756734, guid: 9101963b760786d4783a45530197e394, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -9.31
+      objectReference: {fileID: 0}
+    - target: {fileID: 7408578033752756734, guid: 9101963b760786d4783a45530197e394, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7408578033752756734, guid: 9101963b760786d4783a45530197e394, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 9023060938975131728, guid: 9101963b760786d4783a45530197e394, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 9023060938975131728, guid: 9101963b760786d4783a45530197e394, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 9037957298328804323, guid: 9101963b760786d4783a45530197e394, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 2.22
+      objectReference: {fileID: 0}
+    - target: {fileID: 9037957298328804323, guid: 9101963b760786d4783a45530197e394, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 288197366060487284, guid: 187c20461725122439c3c40d8368a792, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -8895,38 +8927,6 @@ PrefabInstance:
     - target: {fileID: 9190990793083743621, guid: 187c20461725122439c3c40d8368a792, type: 3}
       propertyPath: m_Name
       value: Player Ship
-      objectReference: {fileID: 0}
-    - target: {fileID: 3580451792754901194, guid: 9101963b760786d4783a45530197e394, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 7408578033752756734, guid: 9101963b760786d4783a45530197e394, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -9.31
-      objectReference: {fileID: 0}
-    - target: {fileID: 7408578033752756734, guid: 9101963b760786d4783a45530197e394, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 7408578033752756734, guid: 9101963b760786d4783a45530197e394, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 9023060938975131728, guid: 9101963b760786d4783a45530197e394, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 9023060938975131728, guid: 9101963b760786d4783a45530197e394, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 9037957298328804323, guid: 9101963b760786d4783a45530197e394, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 2.22
-      objectReference: {fileID: 0}
-    - target: {fileID: 9037957298328804323, guid: 9101963b760786d4783a45530197e394, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
@@ -14596,7 +14596,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -100
   m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: 75ee54b1d5097314ea87a3a6777fccc1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -14905,6 +14905,7 @@ MonoBehaviour:
   rocketRightIcon: {fileID: 2800000, guid: 4bf96b635ef4e144499165152c684013, type: 3}
   failSound: {fileID: 11400000, guid: bca5f1c12a7ef74468a4d1dcc0f2c420, type: 2}
   highlightMaterial: {fileID: 2100000, guid: cda624106eb1c3c4ba479815a852bd77, type: 2}
+  spriteHighlightMaterial: {fileID: 2100000, guid: c19d8880db49b1446ab2b717d0ab3c28, type: 2}
   outlineWidth: 1.2
   fadeTime: 0.2
   rocketHighlightColor: {r: 1, g: 0, b: 0.011764706, a: 1}

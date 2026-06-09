@@ -488,6 +488,7 @@ public class MouseController : MonoBehaviour
 
 
     public Material highlightMaterial;
+    public Material spriteHighlightMaterial;
     public float outlineWidth = 1.2f;
     public float fadeTime = 0.2f;
     private List<ShipComponentController> highlightedComponents = new();
@@ -577,7 +578,7 @@ public class MouseController : MonoBehaviour
 
     private void HighlightComponents(List<ShipComponentController> highlightedComponents, Color color) {
         foreach (var highlight in highlightedComponents) {
-            highlight.Highlight(highlightMaterial, color, outlineWidth, fadeTime);
+            highlight.Highlight(highlightMaterial, color, outlineWidth, fadeTime, spriteOutlineMaterial: spriteHighlightMaterial);
         }
     }
 

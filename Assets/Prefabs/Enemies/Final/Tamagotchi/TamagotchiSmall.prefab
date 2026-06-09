@@ -4915,6 +4915,10 @@ PrefabInstance:
       value: -0.5
       objectReference: {fileID: 0}
     - target: {fileID: 6070221825425194104, guid: 000e575ef242d4a45b45fc67b3b52758, type: 3}
+      propertyPath: spriteToOutline
+      value: 
+      objectReference: {fileID: 6742432121696136422}
+    - target: {fileID: 6070221825425194104, guid: 000e575ef242d4a45b45fc67b3b52758, type: 3}
       propertyPath: placementRules.connectedTile.x
       value: 4
       objectReference: {fileID: 0}
@@ -4953,5 +4957,10 @@ MonoBehaviour:
 --- !u!4 &6638136220506022038 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3441270942042456270, guid: 000e575ef242d4a45b45fc67b3b52758, type: 3}
+  m_PrefabInstance: {fileID: 8349317504115073112}
+  m_PrefabAsset: {fileID: 0}
+--- !u!212 &6742432121696136422 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 3336976292902554814, guid: 000e575ef242d4a45b45fc67b3b52758, type: 3}
   m_PrefabInstance: {fileID: 8349317504115073112}
   m_PrefabAsset: {fileID: 0}
