@@ -11,12 +11,14 @@ public class ShieldMainCabinTask : TutorialTaskSO
     [SerializeField] private float pauseDelay = 2f;
 
     private ShipComponentController shieldComponent;
+    private bool shieldDone = false;
+
     public override void BeginTask()
     {
         GameManager.Instance.currentGameplayManager.EnemyShip.DisableAllCollidersExcept();
 
 
-        GameManager.Instance.currentGameplayManager.playerShip.DisableAllCollidersExcept(new ComponentType[] { ComponentType.Shield, ComponentType.Generator, ComponentType.MainCabin });
+        GameManager.Instance.currentGameplayManager.playerShip.DisableAllCollidersExcept(new ComponentType[] { ComponentType.Shield, ComponentType.Generator });
 
         List<MissileComponentController> component2 = GameManager.Instance.currentGameplayManager.EnemyShip.componentGrid.GetComponentsOfType<MissileComponentController>();
         component2[0].OnShotFired.AddListener(LaunchCoroutineForPause);
@@ -46,6 +48,8 @@ public class ShieldMainCabinTask : TutorialTaskSO
     {
         yield return MyTime.WaitForSeconds(pauseDelay);
 
+        if (shieldDone) yield break;
+
         fadeScreen.color = new Color(fadeScreen.color.r, fadeScreen.color.g, fadeScreen.color.b, 0.3f);
         MyTime.pausedOverride = 0f;
         shieldComponent.Highlight(highlightMaterial, highlightColor, 1.2f, 0.3f);
@@ -71,6 +75,7 @@ public class ShieldMainCabinTask : TutorialTaskSO
 
     private void EvaluateComponent()
     {
+        shieldDone = true;
         fadeScreen.color = new Color(fadeScreen.color.r, fadeScreen.color.g, fadeScreen.color.b, 0f);
         MyTime.pausedOverride = 1f;
         GameManager.Instance.currentGameplayManager.playerShip.GetMainCabin().RemoveHighlight();

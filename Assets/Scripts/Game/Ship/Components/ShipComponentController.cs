@@ -11,6 +11,7 @@ using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Serialization;
+using static Unity.Burst.Intrinsics.X86.Avx;
 
 /// <summary>
 /// main components manages, handles activation, damage and more
@@ -293,6 +294,23 @@ public class ShipComponentController : MonoBehaviour
         }
     }
 
+    public void EnableAllColliders()
+    {
+        var colliders = GetComponentsInChildren<Collider>();
+        foreach (var col in colliders)
+        {
+            col.enabled = true;
+        }
+    }
+
+    public void DisableAllColliders()
+    {
+        var colliders = GetComponentsInChildren<Collider>();
+        foreach (var col in colliders)
+        {
+            col.enabled = false;
+        }
+    }
 
     public void ChangeVisualToBroken() {
         shipComponentMeshController.ChangeMeshToBroken();

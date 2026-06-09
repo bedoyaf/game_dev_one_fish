@@ -5617,6 +5617,38 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3580451792754901194, guid: 9101963b760786d4783a45530197e394, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7408578033752756734, guid: 9101963b760786d4783a45530197e394, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -9.31
+      objectReference: {fileID: 0}
+    - target: {fileID: 7408578033752756734, guid: 9101963b760786d4783a45530197e394, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7408578033752756734, guid: 9101963b760786d4783a45530197e394, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 9023060938975131728, guid: 9101963b760786d4783a45530197e394, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 9023060938975131728, guid: 9101963b760786d4783a45530197e394, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 9037957298328804323, guid: 9101963b760786d4783a45530197e394, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 2.22
+      objectReference: {fileID: 0}
+    - target: {fileID: 9037957298328804323, guid: 9101963b760786d4783a45530197e394, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 288197366060487284, guid: 187c20461725122439c3c40d8368a792, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -9461,38 +9493,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player Ship
       objectReference: {fileID: 0}
-    - target: {fileID: 3580451792754901194, guid: 9101963b760786d4783a45530197e394, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 7408578033752756734, guid: 9101963b760786d4783a45530197e394, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -9.31
-      objectReference: {fileID: 0}
-    - target: {fileID: 7408578033752756734, guid: 9101963b760786d4783a45530197e394, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 7408578033752756734, guid: 9101963b760786d4783a45530197e394, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 9023060938975131728, guid: 9101963b760786d4783a45530197e394, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 9023060938975131728, guid: 9101963b760786d4783a45530197e394, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 9037957298328804323, guid: 9101963b760786d4783a45530197e394, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 2.22
-      objectReference: {fileID: 0}
-    - target: {fileID: 9037957298328804323, guid: 9101963b760786d4783a45530197e394, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.5
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 5601050381040963383, guid: 187c20461725122439c3c40d8368a792, type: 3}
@@ -11614,10 +11614,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PopupWindowsController
   textComponent: {fileID: 556763498}
   textPages:
-  - Easy, now let's take it!
-  - 'Use the grappling hook to get it for yourself.
-
-    (Dont forget energy)'
+  - Rocket destroyed! Now for the best part - the loot.
+  - Before we d0estroy the ship lets get some.
+  - Use the Grappling Hook to pull in the rocket. (Make sure you have enough Energy!)"
   nextAction: {fileID: 3548868426734250604, guid: 2e1ac59e68c820249b308e18ab9c4975, type: 3}
   OnSequenceCompleted:
     m_PersistentCalls:
@@ -14671,9 +14670,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PopupWindowsController
   textComponent: {fileID: 1255902641}
   textPages:
-  - Nice! Now shoot at their rockets.
-  - Without rockets, it can't hurt us!
-  - Shoot the rockets!
+  - Nice block! Now it's our turn.
+  - Target their Rocket Launchers. A ship without weapons is just floating junk!
   nextAction: {fileID: 3548868426734250604, guid: 2e1ac59e68c820249b308e18ab9c4975, type: 3}
   OnSequenceCompleted:
     m_PersistentCalls:
@@ -15880,10 +15878,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PopupWindowsController
   textComponent: {fileID: 270139575}
   textPages:
-  - Glup glup
-  - Hi there fish friend!
-  - Ready for an adventure?
-  - 'Our space ship could use some improvements... '
+  - Wake up, fish friend! Our ship is barely holding together.
+  - Don't worry
+  - I'll guide you through the basics before our real adventure begins.
   nextAction: {fileID: 3548868426734250604, guid: 2e1ac59e68c820249b308e18ab9c4975, type: 3}
   OnSequenceCompleted:
     m_PersistentCalls:
@@ -16097,10 +16094,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PopupWindowsController
   textComponent: {fileID: 87244882}
   textPages:
-  - Watch out!
-  - It's an enemy ship!
-  - Wait a minute... It looks pretty beaten up.
-  - Might as well take what remains of it.
+  - Radar contact! It's an enemy ship!
+  - Wait... it looks heavily damaged. Let's scrap it for parts.
   nextAction: {fileID: 3548868426734250604, guid: 2e1ac59e68c820249b308e18ab9c4975, type: 3}
   OnSequenceCompleted:
     m_PersistentCalls:
@@ -16746,8 +16741,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PopupWindowsController
   textComponent: {fileID: 1284810695}
   textPages:
-  - Great! Now it's defenseless.
-  - Shoot the core component next!\n (Btw use your mouse wheel)
+  - Great! They are defenseless.
+  - 'Finish them off! Target the Core Component. (Tip: Use your mouse wheel to change
+    firing direction)'
   nextAction: {fileID: 3548868426734250604, guid: 2e1ac59e68c820249b308e18ab9c4975, type: 3}
   OnSequenceCompleted:
     m_PersistentCalls:
@@ -17893,9 +17889,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PopupWindowsController
   textComponent: {fileID: 650536857}
   textPages:
-  - Great job!
-  - No one can stand in your way now!
-  - Let's embark on our adventure...
+  - Excellent work! The sector is clear.
+  - Systems are fully operational. Let's embark on our real adventure!
   nextAction: {fileID: 3548868426734250604, guid: 2e1ac59e68c820249b308e18ab9c4975, type: 3}
   OnSequenceCompleted:
     m_PersistentCalls:
@@ -18753,9 +18748,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PopupWindowsController
   textComponent: {fileID: 1869861586}
   textPages:
-  - Look out!
-  - They are attacking us
-  - Activate the shield generator over your main cabin
+  - Incoming fire! They're targeting us!
+  - Quick, activate the Shield Generator to protect our main cabin!
   nextAction: {fileID: 3548868426734250604, guid: 2e1ac59e68c820249b308e18ab9c4975, type: 3}
   OnSequenceCompleted:
     m_PersistentCalls:
@@ -19203,8 +19197,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PopupWindowsController
   textComponent: {fileID: 19303040}
   textPages:
-  - But firstly, we need energy to do anything.
-  - Press the generator to gather energy.
+  - 'First things first: we can''t do anything without power.'
+  - Click on the Generator to gather Energy.
   nextAction: {fileID: 3548868426734250604, guid: 2e1ac59e68c820249b308e18ab9c4975, type: 3}
   OnSequenceCompleted:
     m_PersistentCalls:
