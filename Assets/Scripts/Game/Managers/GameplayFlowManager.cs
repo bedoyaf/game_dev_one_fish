@@ -490,7 +490,15 @@ public class GameplayFlowManager : MonoBehaviour
         {
             if (GUI.Button(new Rect(x, y, width, height), "DEBUG INSTAKILL ENEMY"))
             {
-                enemyShip.GetMainCabin().TakeDamage(1000);
+                if (enemyShip.boss) {
+                    var mainCabins = enemyShip.GetMainCabins();
+                    foreach(var mc in mainCabins) {
+                        mc.TakeDamage(1000);
+                    }
+                }
+                else {
+                    enemyShip.GetMainCabin().TakeDamage(1000);
+                }
                 //playerShip.GetMainCabin().TakeDamage(1000);
                 return;
             }

@@ -15,6 +15,7 @@ public class ShipController : MonoBehaviour
 {
     public bool playerShip = true;
     public bool boss = false;
+    public MainCabinComponentController bossMainMainComponent;
     public ShipBuildingController shipEditor;
     public Transform componentsParent;
 
@@ -342,7 +343,14 @@ public class ShipController : MonoBehaviour
     }
 
 
-
+    public List<ShipComponentController> GetMainCabins() {
+        List<ShipComponentController> mainCabins = new();
+        var cabins = componentGrid.GetComponentsOfType<MainCabinComponentController>();
+        foreach (var cab in cabins) {
+            mainCabins.Add(cab.GetComponent<ShipComponentController>());
+        }
+        return mainCabins;
+    }
 
     public ShipComponentController GetMainCabin()
     {

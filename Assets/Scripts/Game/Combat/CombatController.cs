@@ -219,7 +219,15 @@ public class CombatController : SmartSingleton<CombatController>
         // enemyShip.ResetShipForCombat();
 
         // enemyShip.GetMainCabin().OnDeath.RemoveAllListeners();
-        currentEnemyInstance.GetMainCabin().OnDeath.AddListener(EndCombat);
+        if (currentEnemyInstance.boss) {
+            var mainCabins = currentEnemyInstance.GetMainCabins();
+            foreach(var mcab in mainCabins) {
+                mcab.OnDeath.AddListener(EvaluateBossDeath);
+            }
+        }
+        else {
+            currentEnemyInstance.GetMainCabin().OnDeath.AddListener(EndCombat);
+        }
 
         if (gameplayFlowManager.tutorialRunning) {
             AudioManager.Instance.ToggleSFX(false);
@@ -278,6 +286,23 @@ public class CombatController : SmartSingleton<CombatController>
         Debug.Log("Combat Start");
         
         combatEnded = false;
+    }
+
+    public void EvaluateBossDeath(ShipComponentController mainCabin) {
+        var mainCabins = currentEnemyInstance.GetMainCabins();
+        //bool allDead = true;
+        mainCabins.RemoveAll(x => x.broken);
+        //foreach (var mcab in mainCabins) {
+        //    if (!mcab.broken) {
+        //        allDead = false;
+        //        break;
+        //    }
+        //}
+
+        // On death is called before the component is broken
+        if (mainCabins.Count == 1) {
+            EndCombat(mainCabin);
+        }
     }
 
     public void EndCombat(ShipComponentController mainCabin)

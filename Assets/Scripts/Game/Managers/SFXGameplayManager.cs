@@ -293,6 +293,10 @@ public class SFXGameplayManager : MonoBehaviour
         var comps = ship.componentGrid.GetAllComponents();
         var cabin = ship.GetMainCabin();
 
+        if (ship.boss && ship.bossMainMainComponent != null) {
+            cabin = ship.bossMainMainComponent.shipComponentController;
+        }
+
         var shake = ship.componentsParent.transform.DOShakePosition(100f, 0.2f);
         Tweener wireShake = null; 
         var wire = ship.transform.Find("wire");
