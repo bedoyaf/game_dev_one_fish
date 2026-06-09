@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using static ShipComponentController;
 
@@ -8,6 +9,8 @@ public class ShieldMainCabinTask : TutorialTaskSO
 {
     [SerializeField] private float shotDelay = 3f;
     [SerializeField] private float pauseDelay = 2f;
+
+    private ShipComponentController shieldComponent;
     public override void BeginTask()
     {
         GameManager.Instance.currentGameplayManager.EnemyShip.DisableAllCollidersExcept();
@@ -20,7 +23,7 @@ public class ShieldMainCabinTask : TutorialTaskSO
 
         List<ShieldComponentController> component = GameManager.Instance.currentGameplayManager.playerShip.componentGrid.GetComponentsOfType<ShieldComponentController>();
 
-
+        shieldComponent = component[0].shipComponentController;
         component[0].OnShieldActivated.AddListener(EvaluateComponent);
         component[0].OnEnteredTargeting.AddListener(turnOfMostColliders);
 
@@ -29,6 +32,8 @@ public class ShieldMainCabinTask : TutorialTaskSO
 
     private void turnOfMostColliders()
     {
+        shieldComponent.RemoveHighlight();
+        GameManager.Instance.currentGameplayManager.playerShip.GetMainCabin().Highlight(highlightMaterial, highlightColor, 1.2f, 0.2f);
         GameManager.Instance.currentGameplayManager.playerShip.DisableAllCollidersExcept(new ComponentType[] { ComponentType.MainCabin });
     }
 
@@ -43,6 +48,7 @@ public class ShieldMainCabinTask : TutorialTaskSO
 
         fadeScreen.color = new Color(fadeScreen.color.r, fadeScreen.color.g, fadeScreen.color.b, 0.3f);
         MyTime.pausedOverride = 0f;
+        shieldComponent.Highlight(highlightMaterial, highlightColor, 1.2f, 0.3f);
 
         // MyTime.slowDownOverride = 0.1f;
     }
@@ -67,6 +73,7 @@ public class ShieldMainCabinTask : TutorialTaskSO
     {
         fadeScreen.color = new Color(fadeScreen.color.r, fadeScreen.color.g, fadeScreen.color.b, 0f);
         MyTime.pausedOverride = 1f;
+        GameManager.Instance.currentGameplayManager.playerShip.GetMainCabin().RemoveHighlight();
         CompleteTask();
     }
 }

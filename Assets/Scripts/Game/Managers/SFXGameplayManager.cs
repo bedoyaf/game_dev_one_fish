@@ -197,7 +197,7 @@ public class SFXGameplayManager : MonoBehaviour
         // Wait for explosion to finish
         while (shipExplosionOngoing) {
             yield return null;
-            Debug.Log("Waiting");
+            // Debug.Log("Waiting");
         }
 
         // Leave the text for the player to read

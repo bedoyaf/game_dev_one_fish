@@ -10,6 +10,9 @@ public abstract class TutorialTaskSO : ScriptableObject
 
     public Image fadeScreen;
 
+    [SerializeField] protected Material highlightMaterial;
+    [SerializeField] protected Color highlightColor;
+
     public virtual void BeginTask() { }
 
 

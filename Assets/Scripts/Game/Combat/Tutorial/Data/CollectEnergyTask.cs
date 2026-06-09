@@ -12,6 +12,9 @@ public class GatherEnergyTask : TutorialTaskSO
         GameManager.Instance.currentGameplayManager.EnemyShip.DisableAllCollidersExcept();
 
         GameManager.Instance.currentGameplayManager.playerShip.DisableAllCollidersExcept(new ComponentType[] { ComponentType.Generator });
+
+        GameManager.Instance.currentGameplayManager.playerShip.componentGrid.GetComponentsOfType<GeneratorComponentController>()[0]
+            .shipComponentController.Highlight(highlightMaterial, highlightColor, 1.2f, 0.5f);
     }
 
     public override void EndTask()
@@ -19,6 +22,9 @@ public class GatherEnergyTask : TutorialTaskSO
         GameManager.Instance.currentGameplayManager.EnemyShip.EnableAllColliders();
 
         GameManager.Instance.currentGameplayManager.playerShip.EnableAllColliders();
+
+        GameManager.Instance.currentGameplayManager.playerShip.componentGrid.GetComponentsOfType<GeneratorComponentController>()[0]
+    .shipComponentController.RemoveHighlight();
     }
 
     private void EvaluateEnergy()

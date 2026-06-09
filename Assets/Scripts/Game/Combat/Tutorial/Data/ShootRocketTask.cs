@@ -15,12 +15,18 @@ public class ShootRocketTask : TutorialTaskSO
         GameManager.Instance.currentGameplayManager.playerShip.DisableAllCollidersExcept(new ComponentType[] { ComponentType.Rocket, ComponentType.Generator });
 
         component[0].shipComponentController.OnDeath.AddListener(EvaluateComponent);
+
+        GameManager.Instance.currentGameplayManager.playerShip.componentGrid.GetComponentsOfType<MissileComponentController>()[0]
+    .shipComponentController.Highlight(highlightMaterial, highlightColor, 1.2f, 0.5f);
     }
     public override void EndTask()
     {
         GameManager.Instance.currentGameplayManager.EnemyShip.EnableAllColliders();
 
         GameManager.Instance.currentGameplayManager.playerShip.EnableAllColliders();
+
+        GameManager.Instance.currentGameplayManager.playerShip.componentGrid.GetComponentsOfType<MissileComponentController>()[0]
+    .shipComponentController.RemoveHighlight();
     }
 
     private void EvaluateComponent(ShipComponentController component)

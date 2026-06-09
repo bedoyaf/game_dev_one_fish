@@ -15,12 +15,16 @@ public class CaptureRocketTask : TutorialTaskSO
         GameManager.Instance.currentGameplayManager.playerShip.DisableAllCollidersExcept(new ComponentType[] { ComponentType.MainCabin, ComponentType.Generator });
 
         ((MainCabinComponentController)component.componentBehaviour).onComponentPickup.AddListener(CompleteTask);
+
+        component.Highlight(highlightMaterial, highlightColor, 1.2f, 0.5f);
     }
     public override void EndTask()
     {
         GameManager.Instance.currentGameplayManager.EnemyShip.EnableAllColliders();
 
         GameManager.Instance.currentGameplayManager.playerShip.EnableAllColliders();
+
+        GameManager.Instance.currentGameplayManager.playerShip.GetMainCabin().RemoveHighlight();
     }
 
     /*private void EvaluateComponent(ShipComponentController component)
