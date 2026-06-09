@@ -360,17 +360,20 @@ public class GameplayFlowManager : MonoBehaviour
         // kill the enemy / remove them
         if (combatController.playerWon)
         {
-            if(combatController.bossKilled)
-            {
-                OnBossDeath();
-                return;
-            }
+            //if(combatController.bossKilled)
+            //{
+            //    OnBossDeath();
+            //    return;
+            //}
             // Spawn loot
             //sfx.CombatEndTransition(true, () => { stateMachine.ChangeState(GameStates.RewardSelection); });
             sfx.CombatEndTransition(true, () => {
                 Debug.Log("Entering ship mod");
-                if (!tutorialRunning)
+                if (!tutorialRunning && !combatController.bossKilled)
                     stateMachine.ChangeState(GameStates.ShipModification);
+                else if (combatController.bossKilled) {
+                    OnBossDeath();
+                }
 
                 Debug.Log($"Current state {stateMachine.CurrentStateKey}");
             });
