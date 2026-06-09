@@ -57,6 +57,12 @@ public class CabinHookIndicator : MonoBehaviour
             }
         }
 
+        if (cabin.shipComponentController == null)
+            return;
+
+        if (cabin.shipComponentController.shipController == null)
+            return;
+
         bool clickable = cabin.CanClickOnNow;
 
         if (!cabin.shipComponentController.shipController.playerShip)

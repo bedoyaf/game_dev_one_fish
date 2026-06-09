@@ -323,7 +323,9 @@ public class ShipBuildingController : MonoBehaviour
                 }
             }
             var successful = RaycastAndPlaceComponent(currentlyDragging.componentPrefab, false, index, currentlyDragging);
-            shipController.AddEnergy(0); // Updates the energy ui
+            
+            if(shipController != null)
+                shipController.AddEnergy(0); // Updates the energy ui
 
             // Destroy the object and possibly the original one as well
             if (isPlayer) {
