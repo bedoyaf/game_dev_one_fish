@@ -99,7 +99,7 @@ public class HookShotScript : MonoBehaviour
                 hook.transform.localScale = restScale;
 
                 // where want to be now 
-                float angle = 90 - 2*angleRange + Mathf.Cos(MyTime.time) * angleRange;
+                float angle = - 2*angleRange + Mathf.Cos(MyTime.time) * angleRange;
 
                 float ropeAngularVelocity = Mathf.DeltaAngle(prevAngle, angle);
                 hookSwing += -ropeAngularVelocity * 0.5f;
@@ -124,7 +124,7 @@ public class HookShotScript : MonoBehaviour
         }
 
         // always trying to connect the line
-        hookLine.SetPosition(0, hookLine.transform.position);
+        hookLine.SetPosition(0, hookPivot.position);
         hookLine.SetPosition(1, hook.transform.position);
     }
 

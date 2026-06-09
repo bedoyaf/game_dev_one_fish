@@ -11,6 +11,7 @@ public class GameOverState : IGameState
 
     public void Enter()
     {
+        manager.gameUi.HideResignButton();
         manager.ShowGameOver();
     }
 
