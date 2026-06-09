@@ -292,6 +292,7 @@ public class SFXGameplayManager : MonoBehaviour
         // Take all components in the ship's grid
         var comps = ship.componentGrid.GetAllComponents();
         var cabin = ship.GetMainCabin();
+        var mainCabins = ship.GetMainCabins();
 
         if (ship.boss && ship.bossMainMainComponent != null) {
             cabin = ship.bossMainMainComponent.shipComponentController;
@@ -313,8 +314,14 @@ public class SFXGameplayManager : MonoBehaviour
         //StartCoroutine(PlayExplosionSounds());
 
         // Except cabin
-        comps.Remove(cabin);
-
+        //if (ship.boss) {
+        foreach(var mc in mainCabins) {
+            comps.Remove(mc);
+        }
+        //}
+        //else {
+        //    comps.Remove(cabin);
+        //}
         // Explode in parts
         comps.Shuffle();
         //int explosionCount = minExplosionCount;
@@ -392,20 +399,24 @@ public class SFXGameplayManager : MonoBehaviour
         yield return MyTime.WaitForSeconds(waitBeforeShipExplosionTime);
 
         // Explode main cabin and scatter parts
-        var shipParticles = Instantiate(shipExplosion, cabin.GetComponentCenter() + Vector3.up * 5, Quaternion.identity);
-        MyTime.CallAfterTime(particlesLifetime, () => {
-            if (shipParticles != null) {
-                foreach (var particle in shipParticles.GetComponentsInChildren<ParticleSystem>()) {
-                    var main = particle.main;
-                    main.stopAction = ParticleSystemStopAction.Destroy;
+        foreach(var mc in mainCabins) {
+            var shipParticles = Instantiate(shipExplosion, mc.GetComponentCenter() + Vector3.up * 5, Quaternion.identity);
+            MyTime.CallAfterTime(particlesLifetime, () => {
+                if (shipParticles != null) {
+                    foreach (var particle in shipParticles.GetComponentsInChildren<ParticleSystem>()) {
+                        var main = particle.main;
+                        main.stopAction = ParticleSystemStopAction.Destroy;
 
-                    particle.Stop(false, ParticleSystemStopBehavior.StopEmitting);
+                        particle.Stop(false, ParticleSystemStopBehavior.StopEmitting);
+                    }
+
                 }
+            });
+            AudioManager.Instance.PlaySFX(shipExplosionSound);
+            yield return MyTime.WaitForSeconds(0.1f);
+        }
 
-            }
-        });
         //Destroy(shipParticles.gameObject, particlesLifetime);
-        AudioManager.Instance.PlaySFX(shipExplosionSound);
         shake.Kill();
         if (wireShake != null) wireShake.Kill();
         yield return MyTime.WaitForSeconds(waitAfterShipExplosionTime);
