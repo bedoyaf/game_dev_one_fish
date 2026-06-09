@@ -575,4 +575,5 @@ public class EnemyShipAgent : MonoBehaviour
             }
         }
     }
+    //skibidi beskydy amogus
 }
