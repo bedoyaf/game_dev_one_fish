@@ -17,6 +17,12 @@ public class HookIndicatorScript : IndicatorScript
         if (cabin == null)
             return;
 
+        if (cabin.shipComponentController == null)
+            return;
+
+        if (cabin.shipComponentController.shipController == null)
+            return;
+
         if (!cabin.shipComponentController.shipController.playerShip) {
             quadIndicator.transform.localScale = Vector3.zero;
             return;
