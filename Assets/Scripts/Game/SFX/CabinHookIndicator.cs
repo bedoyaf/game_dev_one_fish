@@ -77,7 +77,7 @@ public class CabinHookIndicator : MonoBehaviour
         }
         else
         {
-            quadIndicator.color = cooldown.IsReady ? defaultColor : unusableColor;
+            quadIndicator.color = (clickable && cooldown.IsReady) ? defaultColor : unusableColor;
         }
     }
 }
