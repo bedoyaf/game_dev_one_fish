@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EventData
   eventID: loterry
   eventType: 0
-  eventImage: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
+  eventImage: {fileID: 21300000, guid: 26fac023ddb431d47a682f351da4832c, type: 3}
   minimumStage: 0
   eventText: You meet a colony in space. They desperately need some help, or they
     might not survive.
@@ -24,49 +24,49 @@ MonoBehaviour:
     effects:
     - effectType: 6
       effectData:
-        rid: 3958358620652175471
+        rid: 4087197205068775558
     - effectType: 3
       effectData:
-        rid: 3958358620652175473
+        rid: 4087197205068775560
     conditions:
     - conditionType: 1
       eventCondition:
-        rid: 3958358620652175474
+        rid: 4087197205068775561
   - choiceID: steal
     choiceText: Steal even the little scrap they have
     effects:
     - effectType: 3
       effectData:
-        rid: 3958358620652175475
+        rid: 4087197205068775562
     conditions: []
   - choiceID: leave
     choiceText: Just leave them be
     effects:
     - effectType: 2
       effectData:
-        rid: 3958358620652175476
+        rid: 4087197205068775564
     conditions: []
   references:
     version: 2
     RefIds:
-    - rid: 3958358620652175471
+    - rid: 4087197205068775558
       type: {class: AddEventEffect, ns: , asm: Assembly-CSharp}
       data:
         eventToAdd: {fileID: 11400000, guid: 0edd88b7ba9241d4399c22c820e9458c, type: 2}
-    - rid: 3958358620652175473
+    - rid: 4087197205068775560
       type: {class: ChangeCurrencyAmountEffect, ns: , asm: Assembly-CSharp}
       data:
         amount: -5
         randomness: 0
-    - rid: 3958358620652175474
+    - rid: 4087197205068775561
       type: {class: HasCurrencyCondition, ns: , asm: Assembly-CSharp}
       data:
         currencyCount: 5
-    - rid: 3958358620652175475
+    - rid: 4087197205068775562
       type: {class: ChangeCurrencyAmountEffect, ns: , asm: Assembly-CSharp}
       data:
         amount: 5
         randomness: 0
-    - rid: 3958358620652175476
+    - rid: 4087197205068775564
       type: {class: RunEffect, ns: , asm: Assembly-CSharp}
       data: 

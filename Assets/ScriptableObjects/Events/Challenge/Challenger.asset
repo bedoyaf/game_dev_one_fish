@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EventData
   eventID: mafia_attack
   eventType: 2
-  eventImage: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
+  eventImage: {fileID: 21300000, guid: 26fac023ddb431d47a682f351da4832c, type: 3}
   minimumStage: 4
   eventText: You meet a fighting maniac. He wants to fight you (warning - he is strong)
   choices:
@@ -23,23 +23,23 @@ MonoBehaviour:
     effects:
     - effectType: 1
       effectData:
-        rid: 3958358620652175501
+        rid: 4087197205068775517
     conditions: []
   - choiceID: leave
     choiceText: Leave, you don't feel like fighting
     effects:
     - effectType: 2
       effectData:
-        rid: 3958358620652175503
+        rid: 4087197205068775518
     conditions: []
   references:
     version: 2
     RefIds:
-    - rid: 3958358620652175501
+    - rid: 4087197205068775517
       type: {class: FightEffect, ns: , asm: Assembly-CSharp}
       data:
         enemyShipPrefab: {fileID: 0}
         elite: 1
-    - rid: 3958358620652175503
+    - rid: 4087197205068775518
       type: {class: RunEffect, ns: , asm: Assembly-CSharp}
       data: 

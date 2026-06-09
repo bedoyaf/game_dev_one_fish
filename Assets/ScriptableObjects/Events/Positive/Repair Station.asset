@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EventData
   eventID: shop
   eventType: 0
-  eventImage: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
+  eventImage: {fileID: 21300000, guid: 26fac023ddb431d47a682f351da4832c, type: 3}
   minimumStage: 2
   eventText: You find a repair station in the wild.
   choices:
@@ -23,21 +23,21 @@ MonoBehaviour:
     effects:
     - effectType: 10
       effectData:
-        rid: 3958358620652175466
+        rid: 4087197205068775567
     conditions: []
   - choiceID: leave
     choiceText: You are not interested
     effects:
     - effectType: 2
       effectData:
-        rid: 3958358620652175467
+        rid: 4087197205068775568
     conditions: []
   references:
     version: 2
     RefIds:
-    - rid: 3958358620652175466
+    - rid: 4087197205068775567
       type: {class: RepairEffect, ns: , asm: Assembly-CSharp}
       data: 
-    - rid: 3958358620652175467
+    - rid: 4087197205068775568
       type: {class: RunEffect, ns: , asm: Assembly-CSharp}
       data: 

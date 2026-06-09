@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EventData
   eventID: pirates_attack
   eventType: 2
-  eventImage: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
+  eventImage: {fileID: 21300000, guid: 26fac023ddb431d47a682f351da4832c, type: 3}
   minimumStage: 0
   eventText: 'The pirates appear ahead of you, blocking your path. They are deadly,
     but maybe they are willing to talk? '
@@ -24,49 +24,49 @@ MonoBehaviour:
     effects:
     - effectType: 1
       effectData:
-        rid: 3958358620652175513
+        rid: 4087197205068775526
     conditions: []
   - choiceID: pay
     choiceText: Pay them 5 scrap to let you go
     effects:
     - effectType: 3
       effectData:
-        rid: 3958358620652175515
+        rid: 4087197205068775527
     conditions:
     - conditionType: 1
       eventCondition:
-        rid: 3958358620652175516
+        rid: 4087197205068775528
   - choiceID: run
     choiceText: Run away from the fight using your fast engines
     effects:
     - effectType: 2
       effectData:
-        rid: 3958358620652175517
+        rid: 4087197205068775530
     conditions:
     - conditionType: 2
       eventCondition:
-        rid: 3958358620652175518
+        rid: 4087197205068775531
   references:
     version: 2
     RefIds:
-    - rid: 3958358620652175513
+    - rid: 4087197205068775526
       type: {class: FightEffect, ns: , asm: Assembly-CSharp}
       data:
         enemyShipPrefab: {fileID: 0}
         elite: 0
-    - rid: 3958358620652175515
+    - rid: 4087197205068775527
       type: {class: ChangeCurrencyAmountEffect, ns: , asm: Assembly-CSharp}
       data:
         amount: -5
         randomness: 0
-    - rid: 3958358620652175516
+    - rid: 4087197205068775528
       type: {class: HasCurrencyCondition, ns: , asm: Assembly-CSharp}
       data:
         currencyCount: 5
-    - rid: 3958358620652175517
+    - rid: 4087197205068775530
       type: {class: RunEffect, ns: , asm: Assembly-CSharp}
       data: 
-    - rid: 3958358620652175518
+    - rid: 4087197205068775531
       type: {class: HasComponentsCondition, ns: , asm: Assembly-CSharp}
       data:
         componentType: 2

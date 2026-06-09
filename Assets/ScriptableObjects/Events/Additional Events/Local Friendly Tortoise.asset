@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EventData
   eventID: loterry
   eventType: 0
-  eventImage: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
+  eventImage: {fileID: 21300000, guid: 26fac023ddb431d47a682f351da4832c, type: 3}
   minimumStage: 0
   eventText: You meet the colony again. They are now thriving, thanks to your generosity,
     and offer you help.
@@ -24,45 +24,45 @@ MonoBehaviour:
     effects:
     - effectType: 3
       effectData:
-        rid: 3958358620652175522
+        rid: 4087197205068775508
     conditions: []
   - choiceID: component
     choiceText: Receive free component (rocket, generator or shield)
     effects:
     - effectType: 8
       effectData:
-        rid: 3958358620652175524
+        rid: 4087197205068775510
     conditions: []
   - choiceID: repair
     choiceText: Receive 5 scrap and repair your ship
     effects:
     - effectType: 3
       effectData:
-        rid: 3958358620652175525
+        rid: 4087197205068775512
     - effectType: 10
       effectData:
-        rid: 3958358620652175526
+        rid: 4087197205068775514
     conditions: []
   references:
     version: 2
     RefIds:
-    - rid: 3958358620652175522
+    - rid: 4087197205068775508
       type: {class: ChangeCurrencyAmountEffect, ns: , asm: Assembly-CSharp}
       data:
         amount: 15
         randomness: 0
-    - rid: 3958358620652175524
+    - rid: 4087197205068775510
       type: {class: GetRandomComponentEffect, ns: , asm: Assembly-CSharp}
       data:
         components:
         - {fileID: 6845047944256034405, guid: 6f05b655c31756b40a087f6dcfe7ee9c, type: 3}
         - {fileID: 6845047944256034405, guid: b08409fe63a51854697c0a666f536de1, type: 3}
         - {fileID: 6845047944256034405, guid: 2830b339b4f764746b89c4505b1d6cbf, type: 3}
-    - rid: 3958358620652175525
+    - rid: 4087197205068775512
       type: {class: ChangeCurrencyAmountEffect, ns: , asm: Assembly-CSharp}
       data:
         amount: 5
         randomness: 0
-    - rid: 3958358620652175526
+    - rid: 4087197205068775514
       type: {class: RepairEffect, ns: , asm: Assembly-CSharp}
       data: 

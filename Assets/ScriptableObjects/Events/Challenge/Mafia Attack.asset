@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EventData
   eventID: mafia_attack
   eventType: 2
-  eventImage: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
+  eventImage: {fileID: 21300000, guid: 26fac023ddb431d47a682f351da4832c, type: 3}
   minimumStage: 5
   eventText: 'Space mafia sent a hitman to stop you. His ship is faster then yours,
     and he is not willing to talk. '
@@ -24,24 +24,24 @@ MonoBehaviour:
     effects:
     - effectType: 1
       effectData:
-        rid: 3958358620652175507
+        rid: 4087197205068775521
     conditions: []
   - choiceID: run
     choiceText: Try to escape anyway while he shoots. Break 2 components
     effects:
     - effectType: 9
       effectData:
-        rid: 3958358620652175509
+        rid: 4087197205068775522
     conditions: []
   references:
     version: 2
     RefIds:
-    - rid: 3958358620652175507
+    - rid: 4087197205068775521
       type: {class: FightEffect, ns: , asm: Assembly-CSharp}
       data:
         enemyShipPrefab: {fileID: 8735679993859663466, guid: 3964c196efb04b04591b1fdefbb7e903, type: 3}
         elite: 0
-    - rid: 3958358620652175509
+    - rid: 4087197205068775522
       type: {class: BreakComponentsEffect, ns: , asm: Assembly-CSharp}
       data:
         amount: 2

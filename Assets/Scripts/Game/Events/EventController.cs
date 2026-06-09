@@ -71,7 +71,7 @@ public class EventController : MonoBehaviour
         instantiatedEventUI.selfGroup.DOFade(1f, 0.1f);
 
         // Move, so that the pause menu is always in front
-        instantiatedEventUI.transform.SetAsFirstSibling();
+        // instantiatedEventUI.transform.SetAsFirstSibling();
         instantiatedEventUI.EventImage.sprite = eventData.eventImage;
         instantiatedEventUI.EventText.text = eventData.eventText;
 
