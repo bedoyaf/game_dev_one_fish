@@ -10,9 +10,14 @@ public class RepairCostTooltip : MonoBehaviour
 
     private Camera uiCamera;
 
+    // Do not use...
+    // When this is called, it won't be actually done
+    // Until the object is active in the scene
+    // So when it gets shown for the first time
+    // this will trigger and hide it immediately
     private void Awake()
     {
-        Hide();
+        // Hide();
     }
 
     private void Update()

@@ -413,6 +413,8 @@ public class MouseController : MonoBehaviour
                     // (only outside editor)
 #if !UNITY_EDITOR
                     Cursor.SetCursor(defaultMouseIcon, Vector2.zero, CursorMode.Auto);
+#else
+                    Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
 #endif
                     // Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
                 }
