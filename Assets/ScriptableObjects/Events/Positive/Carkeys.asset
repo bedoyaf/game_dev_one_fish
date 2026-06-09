@@ -20,77 +20,77 @@ MonoBehaviour:
     of it for ourself.
   choices:
   - choiceID: rocket
-    choiceText: Detach the rocket for 5 scrap
+    choiceText: Get rocket from it for 5 scrap
     effects:
     - effectType: 3
       effectData:
-        rid: 3958358620652175480
+        rid: 3958358632015069188
     - effectType: 7
       effectData:
-        rid: 3958358620652175482
+        rid: 3958358632015069190
     conditions:
     - conditionType: 1
       eventCondition:
-        rid: 3958358620652175483
+        rid: 3958358632015069191
   - choiceID: battery
-    choiceText: Detach the battery for 5 scrap
+    choiceText: Get a battery from it for 5 scrap
     effects:
     - effectType: 7
       effectData:
-        rid: 3958358620652175484
+        rid: 3958358632015069193
     conditions:
     - conditionType: 1
       eventCondition:
-        rid: 3958358620652175485
+        rid: 3958358632015069194
   - choiceID: repair
-    choiceText: Detach the repair thingy for 15 scrap
+    choiceText: Get a repair thingy from it for 15 scrap
     effects:
     - effectType: 7
       effectData:
-        rid: 3958358620652175486
+        rid: 3958358632015069195
     conditions:
     - conditionType: 1
       eventCondition:
-        rid: 3958358620652175487
+        rid: 3958358632015069196
   - choiceID: leave
     choiceText: You are not interested (they seem important)
     effects:
     - effectType: 2
       effectData:
-        rid: 3958358620652175490
+        rid: 3958358632015069197
     conditions: []
   references:
     version: 2
     RefIds:
-    - rid: 3958358620652175480
+    - rid: 3958358632015069188
       type: {class: ChangeCurrencyAmountEffect, ns: , asm: Assembly-CSharp}
       data:
         amount: -5
         randomness: 0
-    - rid: 3958358620652175482
+    - rid: 3958358632015069190
       type: {class: GetComponentEffect, ns: , asm: Assembly-CSharp}
       data:
         component: {fileID: 6845047944256034405, guid: 2830b339b4f764746b89c4505b1d6cbf, type: 3}
-    - rid: 3958358620652175483
+    - rid: 3958358632015069191
       type: {class: HasCurrencyCondition, ns: , asm: Assembly-CSharp}
       data:
         currencyCount: 5
-    - rid: 3958358620652175484
+    - rid: 3958358632015069193
       type: {class: GetComponentEffect, ns: , asm: Assembly-CSharp}
       data:
         component: {fileID: 6845047944256034405, guid: 8b861ca9d28fd524fa290b025e2c0f81, type: 3}
-    - rid: 3958358620652175485
+    - rid: 3958358632015069194
       type: {class: HasCurrencyCondition, ns: , asm: Assembly-CSharp}
       data:
         currencyCount: 5
-    - rid: 3958358620652175486
+    - rid: 3958358632015069195
       type: {class: GetComponentEffect, ns: , asm: Assembly-CSharp}
       data:
         component: {fileID: 6845047944256034405, guid: 0a116e11bf70077489ff96ae96f870b9, type: 3}
-    - rid: 3958358620652175487
+    - rid: 3958358632015069196
       type: {class: HasCurrencyCondition, ns: , asm: Assembly-CSharp}
       data:
         currencyCount: 15
-    - rid: 3958358620652175490
+    - rid: 3958358632015069197
       type: {class: RunEffect, ns: , asm: Assembly-CSharp}
       data: 
