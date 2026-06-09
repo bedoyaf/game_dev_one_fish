@@ -89,11 +89,15 @@ public class SFXGameplayManager : MonoBehaviour
     public void CombatStartTransition(string enemyName, Action onFinished)
     {
         Debug.Log($"Combat start w '{enemyName}'");
+        this.StopAllCoroutines();
         StartCoroutine(CombatStartTransitionCoroutine(enemyName, onFinished));
     }
 
     private IEnumerator CombatStartTransitionCoroutine(string enemyName, Action onFinished)
     {
+        statusBar.DOKill();
+        statusBar.GetComponent<RectTransform>().DOKill();
+        Debug.Log("Here");
         // Show the combat text in ui
         statusBar.text = $"--- Fight ---\n{enemyName}";
         // var pos = statusBar.GetComponent<RectTransform>().position.y;
@@ -106,16 +110,19 @@ public class SFXGameplayManager : MonoBehaviour
         statusBar.DOFade(1f, 0.2f);
 
         yield return new WaitForSeconds(0.2f);
+        Debug.Log("Here2");
 
         // Leave the text for the player to read
 
         yield return new WaitForSeconds(3f);
+        Debug.Log("Here3");
 
         // Move the text up
 
         statusBar.GetComponent<RectTransform>().DOAnchorPos3DY(status_y + 500, 0.5f);
 
         yield return new WaitForSeconds(0.5f);
+        Debug.Log("Here4");
 
         statusBar.gameObject.SetActive(false);
         statusBar.DOFade(0f, 0f);
@@ -123,6 +130,7 @@ public class SFXGameplayManager : MonoBehaviour
             statusBar.GetComponent<RectTransform>().anchoredPosition.SetY(status_y);
 
         onFinished();
+        Debug.Log("Here5");
     }
 
     public void EncounterTransition(string name)
@@ -132,6 +140,8 @@ public class SFXGameplayManager : MonoBehaviour
 
     private IEnumerator EncounterTransitionCoroutine(string name)
     {
+        statusBar.DOKill();
+        statusBar.GetComponent<RectTransform>().DOKill();
         // Show the combat text in ui
         statusBar.text = $"{name}";
 
