@@ -35,6 +35,9 @@ public class CombatController : SmartSingleton<CombatController>
     [SerializeField] private GameUIScript gameUI;
 
     [SerializeField] private GameObject RemoveLootButton;
+
+    [SerializeField] private SoundData BossMusic;
+    [SerializeField] private SoundData VictoryMusic;
     public void InformEnemyOfComponentRemoved()
     {
         currentEnemyAI.ComponentRemoved();
@@ -220,6 +223,9 @@ public class CombatController : SmartSingleton<CombatController>
 
         // enemyShip.GetMainCabin().OnDeath.RemoveAllListeners();
         if (currentEnemyInstance.boss) {
+
+            AudioManager.Instance.PlayMusic(BossMusic);
+
             var mainCabins = currentEnemyInstance.GetMainCabins();
             foreach(var mcab in mainCabins) {
                 mcab.OnDeath.AddListener(EvaluateBossDeath);
@@ -301,6 +307,7 @@ public class CombatController : SmartSingleton<CombatController>
 
         // On death is called before the component is broken
         if (mainCabins.Count == 1) {
+            AudioManager.Instance.PlayMusic(VictoryMusic);
             EndCombat(mainCabin);
         }
     }
