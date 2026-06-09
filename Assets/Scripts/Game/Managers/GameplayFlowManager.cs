@@ -20,7 +20,7 @@ using static UnityEngine.Timeline.DirectorControlPlayable;
 /// </summary>
 public class GameplayFlowManager : MonoBehaviour
 {
-    public bool ShowDebugUI = true;
+    public bool ShowDebugUI = false;
 
     [Tooltip("SFX Manager for the gameplay scene")]
     public SFXGameplayManager sfx;
