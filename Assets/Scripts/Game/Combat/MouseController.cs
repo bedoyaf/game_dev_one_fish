@@ -410,9 +410,11 @@ public class MouseController : MonoBehaviour
                 else
                 {
                     // Default
-                    // NOTE: kinda buggy now, so using system default
-                    // Cursor.SetCursor(defaultMouseIcon, Vector2.zero, CursorMode.Auto);
-                    Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
+                    // (only outside editor)
+#if !UNITY_EDITOR
+                    Cursor.SetCursor(defaultMouseIcon, Vector2.zero, CursorMode.Auto);
+#endif
+                    // Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
                 }
 
                 // End highlight
