@@ -100,7 +100,8 @@ public class ShipBuildingController : MonoBehaviour
         }
 
         InitializeDraggableComponents(componentPrefabs);
-        MouseController.Instance.enabled = false;
+        // MouseController.Instance.enabled = false;
+        MouseController.Instance.IconUpdatesOnly = true;
     }
 
     /// <summary>
@@ -113,7 +114,8 @@ public class ShipBuildingController : MonoBehaviour
 
         draggablesParent.DestroyAllChildren();
         draggableComponents.Clear();
-        MouseController.Instance.enabled = true;
+        // MouseController.Instance.enabled = true;
+        MouseController.Instance.IconUpdatesOnly = false;
 
         if (unplaceButton != null) unplaceButton.SetActive(false);
     }
