@@ -89,11 +89,15 @@ public class SFXGameplayManager : MonoBehaviour
     public void CombatStartTransition(string enemyName, Action onFinished)
     {
         Debug.Log($"Combat start w '{enemyName}'");
+        this.StopAllCoroutines();
         StartCoroutine(CombatStartTransitionCoroutine(enemyName, onFinished));
     }
 
     private IEnumerator CombatStartTransitionCoroutine(string enemyName, Action onFinished)
     {
+        statusBar.DOKill();
+        statusBar.GetComponent<RectTransform>().DOKill();
+        Debug.Log("Here");
         // Show the combat text in ui
         statusBar.text = $"--- Fight ---\n{enemyName}";
         // var pos = statusBar.GetComponent<RectTransform>().position.y;
@@ -106,16 +110,19 @@ public class SFXGameplayManager : MonoBehaviour
         statusBar.DOFade(1f, 0.2f);
 
         yield return new WaitForSeconds(0.2f);
+        Debug.Log("Here2");
 
         // Leave the text for the player to read
 
         yield return new WaitForSeconds(3f);
+        Debug.Log("Here3");
 
         // Move the text up
 
         statusBar.GetComponent<RectTransform>().DOAnchorPos3DY(status_y + 500, 0.5f);
 
         yield return new WaitForSeconds(0.5f);
+        Debug.Log("Here4");
 
         statusBar.gameObject.SetActive(false);
         statusBar.DOFade(0f, 0f);
@@ -123,6 +130,7 @@ public class SFXGameplayManager : MonoBehaviour
             statusBar.GetComponent<RectTransform>().anchoredPosition.SetY(status_y);
 
         onFinished();
+        Debug.Log("Here5");
     }
 
     public void EncounterTransition(string name)
@@ -132,6 +140,8 @@ public class SFXGameplayManager : MonoBehaviour
 
     private IEnumerator EncounterTransitionCoroutine(string name)
     {
+        statusBar.DOKill();
+        statusBar.GetComponent<RectTransform>().DOKill();
         // Show the combat text in ui
         statusBar.text = $"{name}";
 
@@ -185,8 +195,10 @@ public class SFXGameplayManager : MonoBehaviour
         yield return new WaitForSeconds(0.2f);
 
         // Wait for explosion to finish
-        while (shipExplosionOngoing)
+        while (shipExplosionOngoing) {
             yield return null;
+            Debug.Log("Waiting");
+        }
 
         // Leave the text for the player to read
         yield return new WaitForSeconds(1f);
@@ -292,6 +304,11 @@ public class SFXGameplayManager : MonoBehaviour
         // Take all components in the ship's grid
         var comps = ship.componentGrid.GetAllComponents();
         var cabin = ship.GetMainCabin();
+        var mainCabins = ship.GetMainCabins();
+
+        if (ship.boss && ship.bossMainMainComponent != null) {
+            cabin = ship.bossMainMainComponent.shipComponentController;
+        }
 
         var shake = ship.componentsParent.transform.DOShakePosition(100f, 0.2f);
         Tweener wireShake = null; 
@@ -309,8 +326,14 @@ public class SFXGameplayManager : MonoBehaviour
         //StartCoroutine(PlayExplosionSounds());
 
         // Except cabin
-        comps.Remove(cabin);
-
+        //if (ship.boss) {
+        foreach(var mc in mainCabins) {
+            comps.Remove(mc);
+        }
+        //}
+        //else {
+        //    comps.Remove(cabin);
+        //}
         // Explode in parts
         comps.Shuffle();
         //int explosionCount = minExplosionCount;
@@ -388,20 +411,24 @@ public class SFXGameplayManager : MonoBehaviour
         yield return MyTime.WaitForSeconds(waitBeforeShipExplosionTime);
 
         // Explode main cabin and scatter parts
-        var shipParticles = Instantiate(shipExplosion, cabin.GetComponentCenter() + Vector3.up * 5, Quaternion.identity);
-        MyTime.CallAfterTime(particlesLifetime, () => {
-            if (shipParticles != null) {
-                foreach (var particle in shipParticles.GetComponentsInChildren<ParticleSystem>()) {
-                    var main = particle.main;
-                    main.stopAction = ParticleSystemStopAction.Destroy;
+        foreach(var mc in mainCabins) {
+            var shipParticles = Instantiate(shipExplosion, mc.GetComponentCenter() + Vector3.up * 5, Quaternion.identity);
+            MyTime.CallAfterTime(particlesLifetime, () => {
+                if (shipParticles != null) {
+                    foreach (var particle in shipParticles.GetComponentsInChildren<ParticleSystem>()) {
+                        var main = particle.main;
+                        main.stopAction = ParticleSystemStopAction.Destroy;
 
-                    particle.Stop(false, ParticleSystemStopBehavior.StopEmitting);
+                        particle.Stop(false, ParticleSystemStopBehavior.StopEmitting);
+                    }
+
                 }
+            });
+            AudioManager.Instance.PlaySFX(shipExplosionSound);
+            yield return MyTime.WaitForSeconds(0.1f);
+        }
 
-            }
-        });
         //Destroy(shipParticles.gameObject, particlesLifetime);
-        AudioManager.Instance.PlaySFX(shipExplosionSound);
         shake.Kill();
         if (wireShake != null) wireShake.Kill();
         yield return MyTime.WaitForSeconds(waitAfterShipExplosionTime);

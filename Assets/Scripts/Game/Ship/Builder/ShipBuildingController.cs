@@ -1,6 +1,8 @@
 using DG.Tweening;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Runtime.InteropServices;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -100,7 +102,8 @@ public class ShipBuildingController : MonoBehaviour
         }
 
         InitializeDraggableComponents(componentPrefabs);
-        MouseController.Instance.enabled = false;
+        // MouseController.Instance.enabled = false;
+        MouseController.Instance.IconUpdatesOnly = true;
     }
 
     /// <summary>
@@ -113,7 +116,8 @@ public class ShipBuildingController : MonoBehaviour
 
         draggablesParent.DestroyAllChildren();
         draggableComponents.Clear();
-        MouseController.Instance.enabled = true;
+        // MouseController.Instance.enabled = true;
+        MouseController.Instance.IconUpdatesOnly = false;
 
         if (unplaceButton != null) unplaceButton.SetActive(false);
     }
@@ -199,8 +203,13 @@ public class ShipBuildingController : MonoBehaviour
             mesh.transform.DestroyAllChildren();
             var collider = Instantiate(comp.ComponentHitbox, parent.transform);
             Destroy(collider.GetComponent<ShipComponentMeshController>());
-            var outline = comp.Highlight(highlightMaterial, hightlightColor, 1.1f, 0.2f, parent.transform, mesh, this);
-            outline.transform.DOScale(0.05f, 1f).SetRelative().SetLoops(-1, LoopType.Yoyo);
+
+            GameObject outline = null;
+            if (highlightMaterial != null) {
+                outline = comp.Highlight(highlightMaterial, hightlightColor, 1.1f, 0.2f, parent.transform, mesh, this);
+                outline.transform.DOScale(0.05f, 1f).SetRelative().SetLoops(-1, LoopType.Yoyo);
+            }
+
 
             // Decor add (if enabled)
             if (!removeDesigns)
@@ -212,7 +221,10 @@ public class ShipBuildingController : MonoBehaviour
 
             var draggable = parent.AddComponent<ComponentBuildingDrag>();
             draggable.componentPrefab = componentPrefabs[i];
-            draggable.outline = outline;
+            draggable.player = isPlayer;
+            if (highlightMaterial != null) {
+                draggable.outline = outline;
+            }
             draggableComponents.Add(draggable);
 
             //Destroy(tmp);
@@ -252,8 +264,10 @@ public class ShipBuildingController : MonoBehaviour
 
                 currentlyDraggingPrefab = draggable;
                 currentlyDragging = Instantiate(draggable, draggablesParent);
-                currentlyDragging.outline.SetActive(false);
+                if (currentlyDragging.outline != null)
+                    currentlyDragging.outline.SetActive(false);
                 currentlyDragging.Setup(transform, draggable, componentGrid);
+
                 if (isPlayer) {
                     currentlyDragging.originalObject.gameObject.SetActive(false);
                 }
@@ -270,6 +284,7 @@ public class ShipBuildingController : MonoBehaviour
                     var tile = valid[i];
                     var arrow = instantiatedArrows[i];
                     arrow.gameObject.SetActive(true);
+                    arrow.transform.DOKill();
                     arrow.transform.localPosition = new Vector3(tile.x, 0, tile.z) + arrowOffset;
 
                     Vector2Int sum = Vector2Int.zero;
@@ -287,6 +302,7 @@ public class ShipBuildingController : MonoBehaviour
                         Vector2 arrowDirection = new Vector2(sum.x, sum.y).normalized;
                         float angle = Mathf.Atan2(arrowDirection.y, arrowDirection.x) * Mathf.Rad2Deg + 90;
                         arrow.transform.eulerAngles = Vector3.up * angle;
+                        arrow.transform.DOMove(arrow.transform.position + new Vector3(arrowDirection.x, 0, -arrowDirection.y) / 20f, 0.5f).SetLoops(-1, LoopType.Yoyo).SetEase(Ease.Linear);
                     }
                     else {
                         arrow.transform.eulerAngles = Vector3.left * -90;
@@ -306,8 +322,10 @@ public class ShipBuildingController : MonoBehaviour
                     break;
                 }
             }
-            var successful = RaycastAndPlaceComponent(currentlyDragging.componentPrefab, false, index);
-            shipController.AddEnergy(0); // Updates the energy ui
+            var successful = RaycastAndPlaceComponent(currentlyDragging.componentPrefab, false, index, currentlyDragging);
+            
+            if(shipController != null)
+                shipController.AddEnergy(0); // Updates the energy ui
 
             // Destroy the object and possibly the original one as well
             if (isPlayer) {
@@ -336,7 +354,7 @@ public class ShipBuildingController : MonoBehaviour
     /// <summary>
     /// Raycasts in the scene and tries to place the given component
     /// </summary>
-    private bool RaycastAndPlaceComponent(ShipComponentController componentPrefab, bool isPlaceholder = false, int draggableIndex = -1) {
+    private bool RaycastAndPlaceComponent(ShipComponentController componentPrefab, bool isPlaceholder = false, int draggableIndex = -1, ComponentBuildingDrag draggable = null) {
         if (Physics.Raycast(Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue()), out RaycastHit hit, 100)) {
             var component = hit.collider.gameObject.GetComponentInParent<ShipComponentController>();
             if (component == null) return false;
@@ -344,6 +362,11 @@ public class ShipBuildingController : MonoBehaviour
             var position = hit.point - component.transform.position + component.transform.localPosition;
             int x = (int)position.x;
             int z = (int)position.z;
+
+            if (draggable != null) {
+                x = (int)(draggable.transform.position.x + 0.5f - componentGrid.componentParent.transform.position.x);
+                z = (int)(draggable.transform.position.z + 0.5f - componentGrid.componentParent.transform.position.z);
+            }
 
             // Check if the placement is valid/we are not out of bounds
             //if (enabledPlacementRules) {

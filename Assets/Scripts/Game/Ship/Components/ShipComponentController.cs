@@ -3,9 +3,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using Unity.VisualScripting;
-using Unity.VisualScripting.Antlr3.Runtime;
 #if UNITY_EDITOR
 using UnityEditor;
 using UnityEditor.SceneManagement;
@@ -322,9 +319,12 @@ public class ShipComponentController : MonoBehaviour
     private float fadeTime;
     private Color currentHightlightColor = Color.black;
     public GameObject OutlineMesh => outlineMesh;
+    public SpriteRenderer spriteToOutline;
+    private SpriteRenderer spriteOutline;
 
     // Sorry, I butchered the code a bit to be callable when only prefab
-    public GameObject Highlight(Material highlightMaterial, Color color, float outlineSize, float fadeTime, Transform parent = null, GameObject componentMesh = null, MonoBehaviour caller = null) {
+    // Caller is not null when we are calling this as a prefab
+    public GameObject Highlight(Material highlightMaterial, Color color, float outlineSize, float fadeTime, Transform parent = null, GameObject componentMesh = null, MonoBehaviour caller = null, Material spriteOutlineMaterial = null) {
         if (parent == null) parent = transform;
         if (componentMesh == null) componentMesh = ComponentMesh;
 
@@ -345,9 +345,11 @@ public class ShipComponentController : MonoBehaviour
         }
         else {
             outlineMesh.SetActive(true);
+            if (spriteOutline != null) spriteOutline.gameObject.SetActive(true);
             mesh = outlineMesh.GetComponent<MeshRenderer>();
         }
 
+        // Create new materials for the mesh
         int materialsCount = componentMesh.GetComponent<MeshRenderer>().materials.Length;
         var materials = new List<Material>();
         for (int i = 0; i < materialsCount; i++) {
@@ -357,6 +359,27 @@ public class ShipComponentController : MonoBehaviour
         }
 
         mesh.materials = materials.ToArray();
+
+        // Handle sprite
+        if (spriteToOutline != null && caller == null) {
+            if (spriteOutline == null) {
+                spriteOutline = new GameObject($"{spriteToOutline.name} Outline").AddComponent<SpriteRenderer>();
+                spriteOutline.transform.parent = spriteToOutline.transform.parent;
+                spriteOutline.transform.position = spriteToOutline.transform.position;
+                spriteOutline.transform.rotation = spriteToOutline.transform.rotation;
+                spriteOutline.transform.localScale = spriteToOutline.transform.localScale;
+                spriteOutline.sprite = spriteToOutline.sprite;
+                spriteOutline.sortingOrder = spriteToOutline.sortingOrder - 1;
+            }
+
+            if (spriteOutlineMaterial != null) {
+                var spriteMat = new Material(spriteOutlineMaterial);
+                spriteMat.SetColor("_Color", color);
+                spriteMat.SetFloat("_OutlineSize", baseOutlineWidth);
+                spriteOutline.material = spriteMat;
+            }
+        }
+
         if (caller == null)
             StartCoroutine(FadeOutline(materials, outlineSize, fadeTime, false));
         else
@@ -372,16 +395,20 @@ public class ShipComponentController : MonoBehaviour
         foreach (var mat in materials) {
             mat.DOColor(color, fadeTime);
         }
+
+        if (spriteOutline != null) spriteOutline.material.DOColor(color, fadeTime);
     }
 
     public IEnumerator FadeOutline(List<Material> highlightMaterials, float target, float fadeTime, bool disable) {
         foreach(var mat in highlightMaterials) {
             mat.DOFloat(target, "_OutlineSize", fadeTime);
         }
+        if (spriteOutline != null) spriteOutline.material.DOFloat(target, "_OutlineSize", fadeTime);
 
         if (disable) {
             yield return MyTime.WaitForSeconds(fadeTime);
             outlineMesh.SetActive(false);
+            if (spriteOutline != null) spriteOutline.gameObject.SetActive(false);
         }
     }
 
@@ -524,4 +551,5 @@ public class ComponentDescription
 
     public MeshFilter meshFilter;
     public MeshRenderer meshRenderer;
+    public Sprite decorPreview;
 }

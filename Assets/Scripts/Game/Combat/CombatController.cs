@@ -171,6 +171,8 @@ public class CombatController : SmartSingleton<CombatController>
         currentEnemyInstance.transform.position = enemySpawnPosition.position;
         currentEnemyInstance.AssignShipController();
 
+        CorrectShipSprites(currentEnemyInstance);
+
         currentEnemyAI = currentEnemyInstance.gameObject.GetComponent<EnemyShipAgent>();
         
         shipGiven = false;        
@@ -217,7 +219,15 @@ public class CombatController : SmartSingleton<CombatController>
         // enemyShip.ResetShipForCombat();
 
         // enemyShip.GetMainCabin().OnDeath.RemoveAllListeners();
-        currentEnemyInstance.GetMainCabin().OnDeath.AddListener(EndCombat);
+        if (currentEnemyInstance.boss) {
+            var mainCabins = currentEnemyInstance.GetMainCabins();
+            foreach(var mcab in mainCabins) {
+                mcab.OnDeath.AddListener(EvaluateBossDeath);
+            }
+        }
+        else {
+            currentEnemyInstance.GetMainCabin().OnDeath.AddListener(EndCombat);
+        }
 
         if (gameplayFlowManager.tutorialRunning) {
             AudioManager.Instance.ToggleSFX(false);
@@ -276,6 +286,23 @@ public class CombatController : SmartSingleton<CombatController>
         Debug.Log("Combat Start");
         
         combatEnded = false;
+    }
+
+    public void EvaluateBossDeath(ShipComponentController mainCabin) {
+        var mainCabins = currentEnemyInstance.GetMainCabins();
+        //bool allDead = true;
+        mainCabins.RemoveAll(x => x.broken);
+        //foreach (var mcab in mainCabins) {
+        //    if (!mcab.broken) {
+        //        allDead = false;
+        //        break;
+        //    }
+        //}
+
+        // On death is called before the component is broken
+        if (mainCabins.Count == 1) {
+            EndCombat(mainCabin);
+        }
     }
 
     public void EndCombat(ShipComponentController mainCabin)
@@ -393,6 +420,33 @@ public class CombatController : SmartSingleton<CombatController>
         }
         Debug.Log("picked diffuclty " + lowerDifficulty);
         return enemyShipPrefabs.FindAll(x => x.shipData.enemyDifficulty == lowerDifficulty).GetRandom();
+    }
+
+    // Corrects sprites for shields
+    private void CorrectShipSprites(ShipController ship) {
+        foreach (Transform comp in ship.componentsParent.transform) {
+            // Get the child named "Decor"
+            var decors = comp.Find("Decor");
+            if (decors != null) {
+                foreach (Transform child in decors.transform) {
+                    var spriteRenderer = child.GetComponent<SpriteRenderer>();
+                    spriteRenderer.sortingOrder -= 1;
+                }
+            }
+        }
+
+        foreach(Transform child in ship.transform) {
+            if (child == ship.componentsParent) continue;
+
+            foreach (var sprite in child.GetComponentsInChildren<SpriteRenderer>()) {
+                sprite.sortingOrder -= 10;
+            }
+        }
+
+        //var wire = ship.transform.Find("wire");
+        //if (wire != null) {
+        //    wire.GetComponent<SpriteRenderer>().sortingOrder = -10;
+        //}
     }
 
     /*

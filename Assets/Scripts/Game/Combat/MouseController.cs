@@ -3,7 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
+using static Unity.Burst.Intrinsics.X86.Avx;
 
 public class MouseController : MonoBehaviour
 {
@@ -12,6 +15,9 @@ public class MouseController : MonoBehaviour
     private InputAction cancelAction;
 
     public static MouseController Instance { get; private set; }
+
+    public bool IconUpdatesOnly = false;
+
 
     private ClickMode currentMode = ClickMode.Default;
     private ClickMode previousMode = ClickMode.Default;
@@ -128,6 +134,9 @@ public class MouseController : MonoBehaviour
 
     private void OnClick(InputAction.CallbackContext ctx)
     {
+        if (IconUpdatesOnly)
+            return;
+
         // Ignore when the game is paused
         if (GameManager.IsPaused && !GameManager.Instance.currentGameplayManager.tutorialRunning)
             return;
@@ -199,7 +208,8 @@ public class MouseController : MonoBehaviour
         //       Debug.Log("Default click: " + comp.name);
         var clickResult = comp.OnMouseClick();
 
-        if (!clickResult) {
+        if (!clickResult)
+        {
             ShowShortTermMouseIcon(ShortTermMouseEvent.FAIL, 0.1f);
             AudioManager.Instance.PlaySFX(failSound);
         }
@@ -231,16 +241,17 @@ public class MouseController : MonoBehaviour
         // Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
     }
 
-    public void ExitTargetingMode(bool clickResult=true)
+    public void ExitTargetingMode(bool clickResult = true)
     {
         activeComponent = null;
         currentMode = ClickMode.Default;
         MyTime.slowDownOverride = 1f;
 
-      //  Debug.Log("Exited targeting mode");
+        //  Debug.Log("Exited targeting mode");
 
         // TODO: maybe fail sound ?
-        if (!clickResult) {
+        if (!clickResult)
+        {
             ShowShortTermMouseIcon(ShortTermMouseEvent.FAIL, 0.3f);
             AudioManager.Instance.PlaySFX(failSound);
         }
@@ -260,6 +271,21 @@ public class MouseController : MonoBehaviour
 
     private void Update()
     {
+        if (UpdateUIMouse())
+            return;
+
+        if (IconUpdatesOnly)
+        {
+#if !UNITY_EDITOR
+                    Cursor.SetCursor(defaultMouseIcon, Vector2.zero, CursorMode.Auto);
+#else
+            Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
+#endif
+
+            return;
+        }
+
+
         // No icon changes when paused
         if (GameManager.IsPaused)
             return;
@@ -313,7 +339,52 @@ public class MouseController : MonoBehaviour
     }
 
 
+    bool UpdateUIMouse()
+    {
+        // If ever over a button -> highlight
+        var data = new PointerEventData(EventSystem.current)
+        {
+            position = Input.mousePosition
+        };
 
+        var results = new List<RaycastResult>();
+        EventSystem.current.RaycastAll(data, results);
+
+        if (results.Count > 0)
+        {
+            // Early return (assume buttons are not over anything else)
+            if (results[0].gameObject.TryGetComponent<Button>(out Button b))
+            {
+                // If node button hard-coded only if clickable
+                if (b.gameObject.TryGetComponent<MapNodeButton>(out MapNodeButton bb))
+                {
+                    if (!bb.CanClick)
+                    {
+                        return false;
+                    }
+                }
+
+                Cursor.SetCursor(highlightMouseIcon, Vector2.zero, CursorMode.Auto);
+                return true;
+            }
+        }
+
+        // Component builder
+        Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
+        if (Physics.Raycast(ray, out var hit))
+        {
+            // nasty I know
+            if (hit.collider.gameObject.transform.parent.
+                TryGetComponent<ComponentBuildingDrag>(out var _))
+            {
+
+                Cursor.SetCursor(highlightMouseIcon, Vector2.zero, CursorMode.Auto);
+                return true;
+            }
+        }
+
+        return false;
+    }
 
 
     void OnDestroy()
@@ -401,7 +472,7 @@ public class MouseController : MonoBehaviour
                 // Try to get the BehaviourComponent on the parent object
                 // NOTE: not very sleek I guess :(
                 if (target != null &&
-                    target.BelongsToPlayer && 
+                    target.BelongsToPlayer &&
                     target.gameObject.transform.parent.gameObject.TryGetComponent<BehaviourComponentControllerAbstract>(out var comp) &&
                     comp.CanClickOnNow)
                 {
@@ -420,8 +491,10 @@ public class MouseController : MonoBehaviour
                 }
 
                 // End highlight
-                if (highlightedComponents.Count > 0) {
-                    foreach(var highlight in highlightedComponents) {
+                if (highlightedComponents.Count > 0)
+                {
+                    foreach (var highlight in highlightedComponents)
+                    {
                         highlight.RemoveHighlight();
                     }
                     highlightedComponents.Clear();
@@ -452,11 +525,13 @@ public class MouseController : MonoBehaviour
                         HighlightShields();
                     }
 
-                    else if (activeComponent is RepairerComponentController) {
+                    else if (activeComponent is RepairerComponentController)
+                    {
                         HighlightRepair(true);
                     }
 
-                    else if (activeComponent is MainCabinComponentController) {
+                    else if (activeComponent is MainCabinComponentController)
+                    {
                         HighlightHook();
                     }
                 }
@@ -488,6 +563,7 @@ public class MouseController : MonoBehaviour
 
 
     public Material highlightMaterial;
+    public Material spriteHighlightMaterial;
     public float outlineWidth = 1.2f;
     public float fadeTime = 0.2f;
     private List<ShipComponentController> highlightedComponents = new();
@@ -498,49 +574,60 @@ public class MouseController : MonoBehaviour
     public Color hookStealHighlightColor = new Color(38, 255, 0);
 
 
-    private void HighlightAttack(Color color) {
+    private void HighlightAttack(Color color)
+    {
         var enemyShip = GameManager.Instance.currentGameplayManager.EnemyShip;
         var newHighlighted = enemyShip.componentGrid.GetAllNonBrokenComponents();
 
-        if (highlightedComponents.Count == 0) {
+        if (highlightedComponents.Count == 0)
+        {
             HighlightComponents(newHighlighted, color);
         }
-        else if (currentMode == previousMode) {
+        else if (currentMode == previousMode)
+        {
             CalculateDiffBetweenLists(highlightedComponents, newHighlighted, out var added, out var removed);
             HandleChangesInHighlight(added, removed, color);
         }
 
         highlightedComponents = newHighlighted;
     }
-    private void HighlightShields() {
+    private void HighlightShields()
+    {
         var playerShip = GameManager.Instance.currentGameplayManager.PlayerShip;
         var newHighlighted = playerShip.componentGrid.GetAllNonBrokenComponents();
 
-        if (highlightedComponents.Count == 0) {
+        if (highlightedComponents.Count == 0)
+        {
             HighlightComponents(newHighlighted, shieldHighlightColor);
         }
-        else if (currentMode == previousMode) {
+        else if (currentMode == previousMode)
+        {
             CalculateDiffBetweenLists(highlightedComponents, newHighlighted, out var added, out var removed);
             HandleChangesInHighlight(added, removed, shieldHighlightColor);
         }
 
         highlightedComponents = newHighlighted;
     }
-    private void HighlightRepair(bool component) {
+    private void HighlightRepair(bool component)
+    {
         List<ShipComponentController> newHighlighted;
         var playerShip = GameManager.Instance.currentGameplayManager.PlayerShip;
 
-        if (component) {
+        if (component)
+        {
             newHighlighted = playerShip.componentGrid.GetAllComponents().Where(x => x.IsBroken).ToList();
         }
-        else {
+        else
+        {
             newHighlighted = playerShip.componentGrid.GetAllComponents().Where(x => x.CanRepairThisComponent).ToList();
         }
 
-        if (highlightedComponents.Count == 0) {
+        if (highlightedComponents.Count == 0)
+        {
             HighlightComponents(newHighlighted, repairHighlightColor);
         }
-        else {
+        else
+        {
             CalculateDiffBetweenLists(highlightedComponents, newHighlighted, out var added, out var removed);
             HandleChangesInHighlight(added, removed, repairHighlightColor);
         }
@@ -549,16 +636,19 @@ public class MouseController : MonoBehaviour
     }
 
     // Hook is bit more complicated than others
-    private void HighlightHook() {
+    private void HighlightHook()
+    {
         var enemyShip = GameManager.Instance.currentGameplayManager.EnemyShip;
         var brokenComponents = enemyShip.componentGrid.GetAllBrokenComponents();
 
-        if (highlightedComponents.Count == 0) {
+        if (highlightedComponents.Count == 0)
+        {
             HighlightAttack(hookAttackHighlightColor);
             HighlightComponents(brokenComponents, hookStealHighlightColor);
             highlightedComponents.AddRange(brokenComponents);
         }
-        else {
+        else
+        {
             var targets = enemyShip.componentGrid.GetAllNonBrokenComponents();
             var together = new List<ShipComponentController>();
             together.AddRange(targets);
@@ -566,10 +656,12 @@ public class MouseController : MonoBehaviour
 
             CalculateDiffBetweenLists(highlightedComponents, together, out var added, out var removed);
             HandleChangesInHighlight(added, removed, hookAttackHighlightColor);
-            foreach (var target in targets) {
+            foreach (var target in targets)
+            {
                 target.ChangeHighlightColor(hookAttackHighlightColor);
             }
-            foreach (var broken in brokenComponents) {
+            foreach (var broken in brokenComponents)
+            {
                 broken.ChangeHighlightColor(hookStealHighlightColor);
             }
         }
@@ -577,28 +669,33 @@ public class MouseController : MonoBehaviour
 
     private void HighlightComponents(List<ShipComponentController> highlightedComponents, Color color) {
         foreach (var highlight in highlightedComponents) {
-            highlight.Highlight(highlightMaterial, color, outlineWidth, fadeTime);
+            highlight.Highlight(highlightMaterial, color, outlineWidth, fadeTime, spriteOutlineMaterial: spriteHighlightMaterial);
         }
     }
 
     /// <summary>
     /// Calculates difference in members between the original list and new list.
     /// </summary>
-    private void CalculateDiffBetweenLists<T>(List<T> original, List<T> newValues, out List<T> added, out List<T> removed) {
+    private void CalculateDiffBetweenLists<T>(List<T> original, List<T> newValues, out List<T> added, out List<T> removed)
+    {
         added = new List<T>();
         removed = new List<T>(original);
 
-        foreach (var item in newValues) {
-            if (!removed.Remove(item)) {
+        foreach (var item in newValues)
+        {
+            if (!removed.Remove(item))
+            {
                 added.Add(item);
             }
         }
     }
 
-    private void HandleChangesInHighlight(List<ShipComponentController> added, List<ShipComponentController> removed, Color componentColor) {
+    private void HandleChangesInHighlight(List<ShipComponentController> added, List<ShipComponentController> removed, Color componentColor)
+    {
         HighlightComponents(added, componentColor);
 
-        foreach (var highlight in removed) {
+        foreach (var highlight in removed)
+        {
             highlight.RemoveHighlight();
         }
     }

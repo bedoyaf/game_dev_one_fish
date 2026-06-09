@@ -1,8 +1,8 @@
 using DG.Tweening;
-using NUnit.Framework.Internal;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ComponentDescriptionUI : MonoBehaviour
 {
@@ -11,11 +11,11 @@ public class ComponentDescriptionUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI costsText;
     [SerializeField] private TextMeshProUGUI nameText;
     [SerializeField] private TextMeshProUGUI descriptionText;
-    
+
 
     [SerializeField] private MeshFilter meshFilter;
     [SerializeField] private MeshRenderer meshPreview;
-
+    [SerializeField] private SpriteRenderer decorPreview;
 
     [SerializeField] private CanvasGroup group;
 
@@ -25,13 +25,22 @@ public class ComponentDescriptionUI : MonoBehaviour
         nameText.text = ParseString(description.displayName);
         descriptionText.text = ParseString(description.textDescription);
 
-        if(description.meshFilter != null) meshFilter.mesh = description.meshFilter.sharedMesh;
+        if (description.meshFilter != null) meshFilter.mesh = description.meshFilter.sharedMesh;
         if (description.meshRenderer != null) meshPreview.materials = description.meshRenderer.sharedMaterials;
+        if (description.decorPreview != null)
+        {
+            decorPreview.sprite = description.decorPreview;
+            decorPreview.color = Color.white;
+        }
+        else
+        {
+            decorPreview.color = Color.clear;
+        }
 
         // TODO: animation ? or fade
         panel.SetActive(true);
         group.DOFade(1f, 0.2f);
-        
+
     }
 
     public void HideDescription()

@@ -8,12 +8,14 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Serialization;
 using static ShipComponentController;
+using static Unity.Burst.Intrinsics.X86.Avx;
 using static UnityEngine.EventSystems.EventTrigger;
 
 public class ShipController : MonoBehaviour
 {
     public bool playerShip = true;
     public bool boss = false;
+    public MainCabinComponentController bossMainMainComponent;
     public ShipBuildingController shipEditor;
     public Transform componentsParent;
 
@@ -143,6 +145,25 @@ public class ShipController : MonoBehaviour
         }
 
         Start();
+
+        var wire = transform.Find("wire");
+        if (wire != null) {
+            wire.GetComponent<SpriteRenderer>().sortingOrder = -10;
+        }
+
+        // Move the sprites down a layer so that the shield is ahead of them
+        // Not in previous section because I want it to be on player too (for debugging)
+        // Same thing is in combat controller
+        foreach (Transform comp in componentsParent.transform) {
+            // Get the child named "Decor"
+            var decors = comp.Find("Decor");
+            if (decors != null) {
+                foreach (Transform child in decors.transform) {
+                    var spriteRenderer = child.GetComponent<SpriteRenderer>();
+                    spriteRenderer.sortingOrder -= 1;
+                }
+            }
+        }
 
         // Needs to be here for Unity to save the ship
 #if UNITY_EDITOR
@@ -322,7 +343,14 @@ public class ShipController : MonoBehaviour
     }
 
 
-
+    public List<ShipComponentController> GetMainCabins() {
+        List<ShipComponentController> mainCabins = new();
+        var cabins = componentGrid.GetComponentsOfType<MainCabinComponentController>();
+        foreach (var cab in cabins) {
+            mainCabins.Add(cab.GetComponent<ShipComponentController>());
+        }
+        return mainCabins;
+    }
 
     public ShipComponentController GetMainCabin()
     {
@@ -374,7 +402,7 @@ public class ShipController : MonoBehaviour
                 GameManager.Instance.SFXManager.EnergyTransmissionEffect(originComponent, component.shipComponentController);
         }
 
-        if (remaining > 0 && originComponent !=null)
+        if (remaining > 0 && originComponent !=null && mainCabin != null)
             GameManager.Instance.SFXManager.EnergyTransmissionEffect(originComponent, mainCabin.shipComponentController);
 
         storedEnergy = totalEnergy;
@@ -419,7 +447,7 @@ public class ShipController : MonoBehaviour
                 GameManager.Instance.SFXManager.EnergyTransmissionEffect(component.shipComponentController, originComponent);
         }
 
-        if (remaining > 0)
+        if (remaining > 0 && mainCabin != null)
             GameManager.Instance.SFXManager.EnergyTransmissionEffect(mainCabin.shipComponentController, originComponent);
 
         storedEnergy = totalEnergy;

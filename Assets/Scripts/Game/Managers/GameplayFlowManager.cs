@@ -385,17 +385,20 @@ public class GameplayFlowManager : MonoBehaviour
         // kill the enemy / remove them
         if (combatController.playerWon)
         {
-            if(combatController.bossKilled)
-            {
-                OnBossDeath();
-                return;
-            }
+            //if(combatController.bossKilled)
+            //{
+            //    OnBossDeath();
+            //    return;
+            //}
             // Spawn loot
             //sfx.CombatEndTransition(true, () => { stateMachine.ChangeState(GameStates.RewardSelection); });
             sfx.CombatEndTransition(true, () => {
                 Debug.Log("Entering ship mod");
-                if (!tutorialRunning)
+                if (!tutorialRunning && !combatController.bossKilled)
                     stateMachine.ChangeState(GameStates.ShipModification);
+                else if (combatController.bossKilled) {
+                    OnBossDeath();
+                }
 
                 Debug.Log($"Current state {stateMachine.CurrentStateKey}");
             });
@@ -517,7 +520,15 @@ public class GameplayFlowManager : MonoBehaviour
         {
             if (GUI.Button(new Rect(x, y, width, height), "DEBUG INSTAKILL ENEMY"))
             {
-                enemyShip.GetMainCabin().TakeDamage(1000);
+                if (enemyShip.boss) {
+                    var mainCabins = enemyShip.GetMainCabins();
+                    foreach(var mc in mainCabins) {
+                        mc.TakeDamage(1000);
+                    }
+                }
+                else {
+                    enemyShip.GetMainCabin().TakeDamage(1000);
+                }
                 //playerShip.GetMainCabin().TakeDamage(1000);
                 return;
             }

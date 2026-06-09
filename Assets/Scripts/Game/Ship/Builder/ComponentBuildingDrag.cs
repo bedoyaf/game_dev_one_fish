@@ -18,6 +18,7 @@ public class ComponentBuildingDrag : MonoBehaviour
     public ComponentBuildingDrag originalObject;
     public bool beingDragged;
     public GameObject outline;
+    public bool player;
     private ComponentGrid componentGrid;
     private Camera cam;
     private Vector3 builderOffsetFromGrid;
@@ -56,7 +57,8 @@ public class ComponentBuildingDrag : MonoBehaviour
                 //Debug.Log($"{worldPosition} {builderWorldPos} {builderCoordinates}");
 
                 // If we are inside the grid, don't go inside other components
-                if (componentGrid.ValidCoordinates((int)builderCoordinates.x, (int)builderCoordinates.z) && 
+                if (player &&
+                    componentGrid.ValidCoordinates((int)builderCoordinates.x, (int)builderCoordinates.z) && 
                         componentGrid.IsAnyComponentAtLocation(componentPrefab, (int)builderCoordinates.x, (int)builderCoordinates.z)){
                     return;
                 }

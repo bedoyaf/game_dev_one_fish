@@ -19,6 +19,7 @@ public class MapNodeButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     public UnityEngine.UI.Image icon;
     public UnityEngine.UI.Image highlight;
 
+    public bool CanClick => isReachable && !visited;
 
     private bool isReachable;
 
@@ -87,7 +88,7 @@ public class MapNodeButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     {
         icon.transform.DOKill();
         highlight.transform.DOKill();
-        if (isReachable && !visited)
+        if (CanClick)
         {
             icon.transform.DOScale(1.45f, 0.15f);
             highlight.transform.DOScale(1.45f, 0.15f);

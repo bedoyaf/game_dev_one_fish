@@ -116,7 +116,8 @@ public class AudioManager : SmartSingleton<AudioManager>
         }
 
         var source = obj.AddComponent<AudioSource>();
-        source.outputAudioMixerGroup = sfxSource.outputAudioMixerGroup;
+        if(sfxSource != null) 
+            source.outputAudioMixerGroup = sfxSource.outputAudioMixerGroup;
         source.transform.position = position;
         source.clip = clip;
         source.loop = false;

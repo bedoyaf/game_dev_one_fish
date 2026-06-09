@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 /// <summary>
@@ -105,7 +106,7 @@ public class MapUI : MonoBehaviour
 
             ui.Init(node, HandleNodeClicked);
 
-            ui.transform.DOPunchScale(Vector3.one * 0.05f, 0.3f);
+            // ui.transform.DOPunchScale(Vector3.one * 0.05f, 0.3f);
 
             spawnedNodes[node] = ui;
         }

@@ -21,9 +21,21 @@ public class HeartBeatScriptIndicator : MonoBehaviour
         float pulse = 1f + Mathf.Sin(MyTime.time * speed) * scaleAmount;
         transform.localScale = baseScale * pulse;
 
+
+        if (!meshMat.gameObject.scene.IsValid())
+        {
+            return; // it's a prefab asset
+        }
+
         // Copy mesh material damage value to the sprite
-        float dam = meshMat.materials[0].GetFloat("_damageAmount");
-        selfMat.material.SetFloat("_damageAmount", dam);
+        if (meshMat != null &&
+            meshMat.materials != null &&
+            meshMat.materials.Length > 0 &&
+            meshMat.materials[0] != null)
+        {
+            float dam = meshMat.materials[0].GetFloat("_damageAmount");
+            selfMat.material.SetFloat("_damageAmount", dam);
+        }
 
     }
 }
