@@ -171,6 +171,8 @@ public class CombatController : SmartSingleton<CombatController>
         currentEnemyInstance.transform.position = enemySpawnPosition.position;
         currentEnemyInstance.AssignShipController();
 
+        CorrectShipSprites(currentEnemyInstance);
+
         currentEnemyAI = currentEnemyInstance.gameObject.GetComponent<EnemyShipAgent>();
         
         shipGiven = false;        
@@ -393,6 +395,25 @@ public class CombatController : SmartSingleton<CombatController>
         }
         Debug.Log("picked diffuclty " + lowerDifficulty);
         return enemyShipPrefabs.FindAll(x => x.shipData.enemyDifficulty == lowerDifficulty).GetRandom();
+    }
+
+    // Corrects sprites for shields
+    private void CorrectShipSprites(ShipController ship) {
+        foreach (Transform comp in ship.componentsParent.transform) {
+            // Get the child named "Decor"
+            var decors = comp.Find("Decor");
+            if (decors != null) {
+                foreach (Transform child in decors.transform) {
+                    var spriteRenderer = child.GetComponent<SpriteRenderer>();
+                    spriteRenderer.sortingOrder -= 1;
+                }
+            }
+        }
+
+        var wire = ship.transform.Find("wire");
+        if (wire != null) {
+            wire.GetComponent<SpriteRenderer>().sortingOrder = -10;
+        }
     }
 
     /*

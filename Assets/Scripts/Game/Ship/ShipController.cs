@@ -8,6 +8,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Serialization;
 using static ShipComponentController;
+using static Unity.Burst.Intrinsics.X86.Avx;
 using static UnityEngine.EventSystems.EventTrigger;
 
 public class ShipController : MonoBehaviour
@@ -143,6 +144,25 @@ public class ShipController : MonoBehaviour
         }
 
         Start();
+
+        var wire = transform.Find("wire");
+        if (wire != null) {
+            wire.GetComponent<SpriteRenderer>().sortingOrder = -10;
+        }
+
+        // Move the sprites down a layer so that the shield is ahead of them
+        // Not in previous section because I want it to be on player too (for debugging)
+        // Same thing is in combat controller
+        foreach (Transform comp in componentsParent.transform) {
+            // Get the child named "Decor"
+            var decors = comp.Find("Decor");
+            if (decors != null) {
+                foreach (Transform child in decors.transform) {
+                    var spriteRenderer = child.GetComponent<SpriteRenderer>();
+                    spriteRenderer.sortingOrder -= 1;
+                }
+            }
+        }
 
         // Needs to be here for Unity to save the ship
 #if UNITY_EDITOR
