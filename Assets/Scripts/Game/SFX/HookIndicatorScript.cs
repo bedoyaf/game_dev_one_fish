@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class HookIndicatorScript : IndicatorScript
 {
@@ -15,6 +16,11 @@ public class HookIndicatorScript : IndicatorScript
     {
         if (cabin == null)
             return;
+
+        if (!cabin.shipComponentController.shipController.playerShip) {
+            quadIndicator.transform.localScale = Vector3.zero;
+            return;
+        }
 
         if (actuallyUpdate)
             CooldownUpdate(cooldown, cabin.CanClickOnNow);

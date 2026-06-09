@@ -1,6 +1,8 @@
 using DG.Tweening;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Runtime.InteropServices;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -270,6 +272,7 @@ public class ShipBuildingController : MonoBehaviour
                     var tile = valid[i];
                     var arrow = instantiatedArrows[i];
                     arrow.gameObject.SetActive(true);
+                    arrow.transform.DOKill();
                     arrow.transform.localPosition = new Vector3(tile.x, 0, tile.z) + arrowOffset;
 
                     Vector2Int sum = Vector2Int.zero;
@@ -287,6 +290,7 @@ public class ShipBuildingController : MonoBehaviour
                         Vector2 arrowDirection = new Vector2(sum.x, sum.y).normalized;
                         float angle = Mathf.Atan2(arrowDirection.y, arrowDirection.x) * Mathf.Rad2Deg + 90;
                         arrow.transform.eulerAngles = Vector3.up * angle;
+                        arrow.transform.DOMove(arrow.transform.position + new Vector3(arrowDirection.x, 0, -arrowDirection.y) / 20f, 0.5f).SetLoops(-1, LoopType.Yoyo).SetEase(Ease.Linear);
                     }
                     else {
                         arrow.transform.eulerAngles = Vector3.left * -90;
@@ -306,7 +310,7 @@ public class ShipBuildingController : MonoBehaviour
                     break;
                 }
             }
-            var successful = RaycastAndPlaceComponent(currentlyDragging.componentPrefab, false, index);
+            var successful = RaycastAndPlaceComponent(currentlyDragging.componentPrefab, false, index, currentlyDragging);
             shipController.AddEnergy(0); // Updates the energy ui
 
             // Destroy the object and possibly the original one as well
@@ -336,7 +340,7 @@ public class ShipBuildingController : MonoBehaviour
     /// <summary>
     /// Raycasts in the scene and tries to place the given component
     /// </summary>
-    private bool RaycastAndPlaceComponent(ShipComponentController componentPrefab, bool isPlaceholder = false, int draggableIndex = -1) {
+    private bool RaycastAndPlaceComponent(ShipComponentController componentPrefab, bool isPlaceholder = false, int draggableIndex = -1, ComponentBuildingDrag draggable = null) {
         if (Physics.Raycast(Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue()), out RaycastHit hit, 100)) {
             var component = hit.collider.gameObject.GetComponentInParent<ShipComponentController>();
             if (component == null) return false;
@@ -344,6 +348,11 @@ public class ShipBuildingController : MonoBehaviour
             var position = hit.point - component.transform.position + component.transform.localPosition;
             int x = (int)position.x;
             int z = (int)position.z;
+
+            if (draggable != null) {
+                x = (int)(draggable.transform.position.x + 0.5f - componentGrid.componentParent.transform.position.x);
+                z = (int)(draggable.transform.position.z + 0.5f - componentGrid.componentParent.transform.position.z);
+            }
 
             // Check if the placement is valid/we are not out of bounds
             //if (enabledPlacementRules) {
