@@ -679,7 +679,7 @@ MonoBehaviour:
   unusableQuadMaterial: {fileID: 2100000, guid: 0b34e77349ad5044594b52c9ac45bc31, type: 2}
   cabin: {fileID: 334562515920405706}
   cooldown: {fileID: 7937591298072591688}
-  actuallyUpdate: 0
+  actuallyUpdate: 1
 --- !u!1001 &1459925618552488819
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -864,6 +864,10 @@ PrefabInstance:
       propertyPath: myDescription.displayName
       value: Ship Cabin
       objectReference: {fileID: 0}
+    - target: {fileID: 5385403880273499414, guid: 76b53dd701359c84195162e28f3a0cbb, type: 3}
+      propertyPath: myDescription.decorPreview
+      value: 
+      objectReference: {fileID: 21300000, guid: f25e9362cdb3bbe4fa61e08d18de55c8, type: 3}
     - target: {fileID: 5385403880273499414, guid: 76b53dd701359c84195162e28f3a0cbb, type: 3}
       propertyPath: myDescription.meshRenderer
       value: 
