@@ -11,7 +11,7 @@ public class GatherEnergyTask : TutorialTaskSO
 
         GameManager.Instance.currentGameplayManager.EnemyShip.DisableAllCollidersExcept();
 
-        GameManager.Instance.currentGameplayManager.playerShip.DisableAllCollidersExcept(ComponentType.Generator);
+        GameManager.Instance.currentGameplayManager.playerShip.DisableAllCollidersExcept(new ComponentType[] { ComponentType.Generator });
     }
 
     public override void EndTask()

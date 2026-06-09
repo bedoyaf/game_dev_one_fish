@@ -10,9 +10,9 @@ public class ShootMainCabinTask : TutorialTaskSO
 
         ShipComponentController component = GameManager.Instance.currentGameplayManager.EnemyShip.GetMainCabin();
 
-        GameManager.Instance.currentGameplayManager.EnemyShip.DisableAllCollidersExcept(ComponentType.MainCabin);
+        GameManager.Instance.currentGameplayManager.EnemyShip.DisableAllCollidersExcept(new ComponentType[] { ComponentType.MainCabin });
 
-        GameManager.Instance.currentGameplayManager.playerShip.DisableAllCollidersExcept(ComponentType.Rocket, ComponentType.Generator);
+        GameManager.Instance.currentGameplayManager.playerShip.DisableAllCollidersExcept(new ComponentType[] { ComponentType.Rocket, ComponentType.Generator});
 
         component.OnDeath.AddListener(EvaluateComponent);
 

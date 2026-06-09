@@ -23,23 +23,23 @@ MonoBehaviour:
     effects:
     - effectType: 1
       effectData:
-        rid: 3958358603026661617
+        rid: 3958358620652175501
     conditions: []
   - choiceID: leave
     choiceText: Leave, you don't feel like fighting
     effects:
     - effectType: 2
       effectData:
-        rid: 3958358603026661619
+        rid: 3958358620652175503
     conditions: []
   references:
     version: 2
     RefIds:
-    - rid: 3958358603026661617
+    - rid: 3958358620652175501
       type: {class: FightEffect, ns: , asm: Assembly-CSharp}
       data:
         enemyShipPrefab: {fileID: 0}
         elite: 1
-    - rid: 3958358603026661619
+    - rid: 3958358620652175503
       type: {class: RunEffect, ns: , asm: Assembly-CSharp}
       data: 

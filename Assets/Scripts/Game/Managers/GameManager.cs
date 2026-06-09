@@ -35,7 +35,6 @@ public class GameManager : SmartSingleton<GameManager> {
 
 
 
-
     // NOTE: maybe overcomplicated
     // But I like the split of certain features between
     //                                      the GameManager (high level management - starting/killing the game) 

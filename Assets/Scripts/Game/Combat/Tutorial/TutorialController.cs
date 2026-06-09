@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using static ShipComponentController; // Z tvého kódu
 
 public class TutorialController : MonoBehaviour
@@ -13,6 +14,8 @@ public class TutorialController : MonoBehaviour
 
     [Header("Settings")]
     [SerializeField] public List<ComponentType> typesToDestroyForTutorial;
+
+    [SerializeField] private Image fadeImage;
 
     public bool IsRunning { get; private set; }
     public bool IsPaused { get; private set; }
@@ -96,6 +99,7 @@ public class TutorialController : MonoBehaviour
         {
             currentStep.task.OnTaskCompleted.AddListener(NextStep);
             currentStep.task.step = currentStep;
+            currentStep.task.fadeScreen = fadeImage;
             currentStep.task.BeginTask();
         }
     }

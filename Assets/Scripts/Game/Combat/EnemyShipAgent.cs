@@ -130,6 +130,16 @@ public class EnemyShipAgent : MonoBehaviour
         }
     }
 
+    public void ShootAtComponent(ShipComponentController target)
+    {
+        Debug.Log("shooting at " + target.name);
+        generators[0].AgentActivateComponent();
+        shipController.AddEnergy(3);
+        missiles[0].AgentActivateComponent(new TargetingData(
+                target.shipComponentMeshController,
+                MouseController.ENEMY_DIRECTIONS[0]
+                ));
+    }
 
     public void ComponentRemoved()
     {

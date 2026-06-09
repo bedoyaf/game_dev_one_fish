@@ -23,24 +23,24 @@ MonoBehaviour:
     effects:
     - effectType: 3
       effectData:
-        rid: 3958358603026661521
+        rid: 3958358620652175462
     conditions: []
   - choiceID: component
     choiceText: Take one random component
     effects:
     - effectType: 8
       effectData:
-        rid: 3958358603026661523
+        rid: 3958358620652175463
     conditions: []
   references:
     version: 2
     RefIds:
-    - rid: 3958358603026661521
+    - rid: 3958358620652175462
       type: {class: ChangeCurrencyAmountEffect, ns: , asm: Assembly-CSharp}
       data:
         amount: 5
         randomness: 2
-    - rid: 3958358603026661523
+    - rid: 3958358620652175463
       type: {class: GetRandomComponentEffect, ns: , asm: Assembly-CSharp}
       data:
         components:

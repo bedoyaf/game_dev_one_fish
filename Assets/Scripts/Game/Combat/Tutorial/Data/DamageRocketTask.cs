@@ -10,9 +10,9 @@ public class DamageRocketTask : TutorialTaskSO
 
         List<MissileComponentController> component = GameManager.Instance.currentGameplayManager.EnemyShip.componentGrid.GetComponentsOfType<MissileComponentController>();
 
-        GameManager.Instance.currentGameplayManager.EnemyShip.DisableAllCollidersExcept(ComponentType.Rocket);
+        GameManager.Instance.currentGameplayManager.EnemyShip.DisableAllCollidersExcept(new ComponentType[] { ComponentType.Rocket });
 
-        GameManager.Instance.currentGameplayManager.playerShip.DisableAllCollidersExcept(ComponentType.Rocket, ComponentType.Generator);
+        GameManager.Instance.currentGameplayManager.playerShip.DisableAllCollidersExcept(new ComponentType[] { ComponentType.Rocket, ComponentType.Generator });
 
         component[0].shipComponentController.OnDamage.AddListener(CompleteTask);
     }

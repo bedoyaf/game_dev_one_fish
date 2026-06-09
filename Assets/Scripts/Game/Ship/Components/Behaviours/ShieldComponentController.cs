@@ -2,6 +2,7 @@ using NUnit.Framework;
 using UnityEngine;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using UnityEngine.Events;
 
 /// <summary>
 /// spawns a shield on a ship component
@@ -20,6 +21,9 @@ public class ShieldComponentController : BehaviourComponentControllerAbstract
     private int physicalShieldsUp = 0;
 
     public SoundData shieldActivationClip;
+
+    public UnityEvent OnEnteredTargeting = new UnityEvent();
+    public UnityEvent OnShieldActivated = new UnityEvent();
 
     public override bool CanClickOnNow
     {
@@ -48,6 +52,7 @@ public class ShieldComponentController : BehaviourComponentControllerAbstract
         Debug.Log("Shield Up");
      //   SpawnShield();
         MouseController.Instance.EnterTargetingMode(this);
+        OnEnteredTargeting.Invoke();
         //   shipComponentController.DeactivateComponent();
         return true;
     }
@@ -89,6 +94,8 @@ public class ShieldComponentController : BehaviourComponentControllerAbstract
             //shipComponentController.DeactivateComponent();
             return false;
         }
+
+        OnShieldActivated.Invoke();
 
         if (usesPhysicalShields)
             SpawnPhysicalShield(target);

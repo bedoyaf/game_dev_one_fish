@@ -129,7 +129,7 @@ public class MouseController : MonoBehaviour
     private void OnClick(InputAction.CallbackContext ctx)
     {
         // Ignore when the game is paused
-        if (GameManager.IsPaused)
+        if (GameManager.IsPaused && !GameManager.Instance.currentGameplayManager.tutorialRunning)
             return;
 
         // Ignore if not in combat / repairing

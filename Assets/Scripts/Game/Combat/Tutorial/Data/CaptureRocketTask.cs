@@ -10,9 +10,9 @@ public class CaptureRocketTask : TutorialTaskSO
 
         ShipComponentController component = GameManager.Instance.currentGameplayManager.playerShip.GetMainCabin();
 
-        GameManager.Instance.currentGameplayManager.EnemyShip.DisableAllCollidersExcept(ComponentType.Rocket);
+        GameManager.Instance.currentGameplayManager.EnemyShip.DisableAllCollidersExcept(new ComponentType[] { ComponentType.Rocket });
 
-        GameManager.Instance.currentGameplayManager.playerShip.DisableAllCollidersExcept(ComponentType.MainCabin, ComponentType.Generator);
+        GameManager.Instance.currentGameplayManager.playerShip.DisableAllCollidersExcept(new ComponentType[] { ComponentType.MainCabin, ComponentType.Generator });
 
         ((MainCabinComponentController)component.componentBehaviour).onComponentPickup.AddListener(CompleteTask);
     }

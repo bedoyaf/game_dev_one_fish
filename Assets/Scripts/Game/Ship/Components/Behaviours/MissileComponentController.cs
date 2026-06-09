@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 
 
 
@@ -13,6 +14,7 @@ public class MissileComponentController : BehaviourComponentControllerAbstract
 
     [SerializeField] private SoundData missileShootClip;
 
+    public UnityEvent OnShotFired = new UnityEvent();
     public override bool CanClickOnNow
     {
         get
@@ -45,6 +47,18 @@ public class MissileComponentController : BehaviourComponentControllerAbstract
 
     public override void OnAgentActivate(TargetingData data)
     {
+        Debug.Log("shooting rocket");
+
+        Debug.Log("[MISSILE] OnAgentActivate called");
+
+        if (data == null)
+        {
+            Debug.LogError("[MISSILE] TargetingData is NULL");
+            return;
+        }
+
+        Debug.Log("[MISSILE] Target exists: " + data.target);
+
         OnTargetSelected(data);
 
         var cooldown = GetComponent<ComponentCooldown>();
@@ -155,7 +169,7 @@ public class MissileComponentController : BehaviourComponentControllerAbstract
             proj.Init(shootDir);
         }
         */
-
+        OnShotFired?.Invoke();
     }
 
     IEnumerator SpawnRocket(Vector3 spawnPos, Vector3 shootDir)

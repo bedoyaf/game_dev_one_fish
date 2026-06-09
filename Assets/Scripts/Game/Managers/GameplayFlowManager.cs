@@ -1,7 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using static MapController;
+using static UnityEngine.Timeline.DirectorControlPlayable;
 
 
 
@@ -17,6 +20,8 @@ using static MapController;
 /// </summary>
 public class GameplayFlowManager : MonoBehaviour
 {
+    public bool ShowDebugUI = true;
+
     [Tooltip("SFX Manager for the gameplay scene")]
     public SFXGameplayManager sfx;
 
@@ -56,6 +61,26 @@ public class GameplayFlowManager : MonoBehaviour
     [SerializeField] private SoundData combatMusic;
 
     [SerializeField] private float timeTillEndingCutscene = 10f;
+    [SerializeField] private InputActionReference toggleDebug;
+
+    private void OnEnable()
+    {
+        toggleDebug.action.performed += toggleDebugBool;
+        toggleDebug.action.Enable();
+    }
+
+    private void toggleDebugBool(InputAction.CallbackContext context)
+    {
+        ShowDebugUI = !ShowDebugUI;
+    }
+
+    private void OnDisable()
+    {
+        toggleDebug.action.performed -= toggleDebugBool;
+        toggleDebug.action.Disable();
+    }
+
+
     void Awake()
     {
         GameManager.Instance.SetGameplayFlowInstance(this);
@@ -474,6 +499,8 @@ public class GameplayFlowManager : MonoBehaviour
 
     void OnGUI()
     {
+        if (!ShowDebugUI) return;
+
         float width = 180;
         float height = 40;
 

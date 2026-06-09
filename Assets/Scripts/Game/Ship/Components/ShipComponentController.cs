@@ -178,8 +178,9 @@ public class ShipComponentController : MonoBehaviour
         if (broken) return;
         if (componentBehaviour == null) return;
 
-        if (cooldown != null && !cooldown.IsReady)
+        if (cooldown != null && !cooldown.IsReady && !GameManager.Instance.currentGameplayManager.tutorialRunning)
         {
+            Debug.Log("cooldown not ready");
             return;
         }
 
