@@ -131,6 +131,7 @@ public class ShipComponentController : MonoBehaviour
 
         if (health <= 0)
         {
+            health = 0;
             Die();
         }
     }
