@@ -79,7 +79,7 @@ public class ShieldPhysical : MonoBehaviour
         OnShieldDestroyed?.Invoke(this);
     }
     private void OnCollisionEnter(Collision collision) {
-        Debug.Log("Shield hit: " + collision.gameObject.name);
+       // Debug.Log("Shield hit: " + collision.gameObject.name);
 
         var projectile = collision.gameObject.GetComponent<Projectile>();
 
