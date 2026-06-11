@@ -287,7 +287,7 @@ public class MouseController : MonoBehaviour
 
 
         // No icon changes when paused
-        if (GameManager.IsPaused)
+        if (GameManager.IsPaused && !GameManager.Instance.currentGameplayManager.tutorialRunning)
             return;
 
         if (Mouse.current == null)
@@ -593,6 +593,7 @@ public class MouseController : MonoBehaviour
     }
     private void HighlightShields()
     {
+        if (GameManager.Instance.currentGameplayManager.tutorialRunning) return;
         var playerShip = GameManager.Instance.currentGameplayManager.PlayerShip;
         var newHighlighted = playerShip.componentGrid.GetAllNonBrokenComponents();
 
@@ -668,9 +669,20 @@ public class MouseController : MonoBehaviour
     }
 
     private void HighlightComponents(List<ShipComponentController> highlightedComponents, Color color) {
-        foreach (var highlight in highlightedComponents) {
-            highlight.Highlight(highlightMaterial, color, outlineWidth, fadeTime, spriteOutlineMaterial: spriteHighlightMaterial);
+        // In tutorial, don't highlight disabled components
+        // The outer and inner if is just optimalization...
+        if (GameManager.Instance.currentGameplayManager.tutorialRunning) {
+            foreach (var highlight in highlightedComponents) {
+                if (highlight.CollidersEnabled)
+                    highlight.Highlight(highlightMaterial, color, outlineWidth, fadeTime, spriteOutlineMaterial: spriteHighlightMaterial);
+            }
         }
+        else {
+            foreach (var highlight in highlightedComponents) {
+                highlight.Highlight(highlightMaterial, color, outlineWidth, fadeTime, spriteOutlineMaterial: spriteHighlightMaterial);
+            }
+        }
+
     }
 
     /// <summary>

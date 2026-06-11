@@ -48,7 +48,7 @@ public class GameManager : SmartSingleton<GameManager> {
     public bool TutorialFinished => tutorialFinished;
 
 
-    public static bool IsPaused => MyTime.pausedOverride < 1;
+    public static bool IsPaused => MyTime.pausedOverride < 1;   
     public bool IsInCombat =>
         // In Combat state and not dead
            currentGameplayManager.stateMachine.CurrentStateKey == GameplayFlowManager.GameStates.Combat

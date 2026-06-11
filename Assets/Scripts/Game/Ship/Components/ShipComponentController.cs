@@ -294,8 +294,10 @@ public class ShipComponentController : MonoBehaviour
         }
     }
 
+    public bool CollidersEnabled { get; private set; } = true;
     public void EnableAllColliders()
     {
+        CollidersEnabled = true;
         var colliders = GetComponentsInChildren<Collider>();
         foreach (var col in colliders)
         {
@@ -305,6 +307,7 @@ public class ShipComponentController : MonoBehaviour
 
     public void DisableAllColliders()
     {
+        CollidersEnabled = false;
         var colliders = GetComponentsInChildren<Collider>();
         foreach (var col in colliders)
         {

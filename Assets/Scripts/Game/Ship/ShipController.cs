@@ -638,6 +638,7 @@ public class ShipController : MonoBehaviour
                 continue;
 
             component.KillComponent();
+            //componentGrid.RemoveComponent(component.placementRules.connectedTile, false, false);
             return;
         }
     }

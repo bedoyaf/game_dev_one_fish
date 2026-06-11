@@ -15,6 +15,7 @@ public class ShieldMainCabinTask : TutorialTaskSO
 
     public override void BeginTask()
     {
+        shieldDone = false;
         GameManager.Instance.currentGameplayManager.EnemyShip.DisableAllCollidersExcept();
 
 
