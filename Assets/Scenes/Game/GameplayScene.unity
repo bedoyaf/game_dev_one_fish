@@ -2574,6 +2574,9 @@ MonoBehaviour:
   RemoveLootButton: {fileID: 7631620363523017665, guid: 45f75b35f0b4a874ba6f7ff3204dc33b, type: 3}
   BossMusic: {fileID: 11400000, guid: be46c9b0633c8ec43b767042b3326267, type: 2}
   VictoryMusic: {fileID: 11400000, guid: 07e79ece9a1d91543a323bbed302c29c, type: 2}
+  selfDestructEnemiesOnSoftlock: 1
+  selfDestructSequenceTime: 10
+  mainText: {fileID: 8237810407722717933}
   debug_override: 0
 --- !u!4 &224720032
 Transform:
@@ -11989,6 +11992,7 @@ GameObject:
   - component: {fileID: 968719240}
   - component: {fileID: 968719244}
   - component: {fileID: 968719245}
+  - component: {fileID: 968719246}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -12142,6 +12146,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CameraMouseFollowScript
   movementOffset: {x: 0.3, y: 0, z: 0}
   smoothSpeed: 5
+--- !u!114 &968719246
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 968719239}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 190438af0d934dd42937b97d1ba0376e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CameraShake
+  _persistent: 0
 --- !u!1001 &990633820
 PrefabInstance:
   m_ObjectHideFlags: 0

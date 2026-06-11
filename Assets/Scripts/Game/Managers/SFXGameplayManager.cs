@@ -131,7 +131,7 @@ public class SFXGameplayManager : MonoBehaviour
             statusBar.GetComponent<RectTransform>().anchoredPosition.SetY(status_y);
 
         onFinished();
-        Debug.Log("Here5");
+        //Debug.Log("Here5");
     }
 
     public void EncounterTransition(string name)
@@ -331,6 +331,9 @@ public class SFXGameplayManager : MonoBehaviour
         //}
         // Explode in parts
         comps.Shuffle();
+
+        
+
         //int explosionCount = minExplosionCount;
         //int perPhase = comps.Count / explosionCount;
         //while (explosionCount < maxExplosionCount) {
@@ -390,6 +393,8 @@ public class SFXGameplayManager : MonoBehaviour
                     RotateMode.LocalAxisAdd
                 );
 
+                CameraShake.Instance.Shake(0.3f, 0.3f);
+
                 // move & don't destroy
                 comp.gameObject.transform.DOMove(target, 30f);
             }
@@ -404,9 +409,9 @@ public class SFXGameplayManager : MonoBehaviour
         }
 
         yield return MyTime.WaitForSeconds(waitBeforeShipExplosionTime);
-
+        CameraShake.Instance.Shake();
         // Explode main cabin and scatter parts
-        foreach(var mc in mainCabins) {
+        foreach (var mc in mainCabins) {
             var shipParticles = Instantiate(shipExplosion, mc.GetComponentCenter() + Vector3.up * 5, Quaternion.identity);
             MyTime.CallAfterTime(particlesLifetime, () => {
                 if (shipParticles != null) {

@@ -691,11 +691,11 @@ public class ShipController : MonoBehaviour
 
     public bool IsSoftLocked()
     {
-        bool hasWeapon = !(componentGrid.GetComponentsOfType<MissileComponentController>(false).Count == 0);
+        bool hasWeapon = componentGrid.GetComponentsOfType<MissileComponentController>(false).Count > 0;
 
-        bool hasGenerator = !(componentGrid.GetComponentsOfType<GeneratorComponentController>(false).Count == 0);
+        bool hasGenerator = componentGrid.GetComponentsOfType<GeneratorComponentController>(false).Count > 0;
 
-        bool hasRepair = !(componentGrid.GetComponentsOfType<RepairerComponentController>(false).Count == 0);
+        bool hasRepair = componentGrid.GetComponentsOfType<RepairerComponentController>(false).Count > 0;
 
         return !hasRepair && (!hasWeapon || !hasGenerator);
     }
@@ -703,12 +703,12 @@ public class ShipController : MonoBehaviour
     public void CheckFailState()
     {
         Debug.Log("checking failstate");
-        if (!playerShip)
-            return;
+        /*if (!playerShip)
+            return;*/
 
         if (IsSoftLocked())
         {
-            Debug.Log("Player is softlocked.");
+            Debug.Log("is softlocked.");
 
             OnSoftLock?.Invoke();
         }

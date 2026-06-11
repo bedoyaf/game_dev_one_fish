@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using DG.Tweening;
 using System;
 using System.Collections;
+using TMPro;
 
 public class CombatController : SmartSingleton<CombatController>
 {
@@ -38,6 +39,11 @@ public class CombatController : SmartSingleton<CombatController>
 
     [SerializeField] private SoundData BossMusic;
     [SerializeField] private SoundData VictoryMusic;
+    [SerializeField] private bool selfDestructEnemiesOnSoftlock = true;
+
+    [SerializeField] private float selfDestructSequenceTime = 10f;
+
+    [SerializeField] private TextMeshProUGUI mainText;
     public void InformEnemyOfComponentRemoved()
     {
         currentEnemyAI.ComponentRemoved();
@@ -241,6 +247,8 @@ public class CombatController : SmartSingleton<CombatController>
             playerShip.UseCurrency(playerShip.storedMoney);
             AudioManager.Instance.ToggleSFX(true);
         }
+
+        currentEnemyInstance.OnSoftLock.AddListener(TriggerEnemySoftLockSequence);
 
         return currentEnemyInstance;
     }
@@ -450,48 +458,82 @@ public class CombatController : SmartSingleton<CombatController>
             }
         }
 
-        //var wire = ship.transform.Find("wire");
-        //if (wire != null) {
-        //    wire.GetComponent<SpriteRenderer>().sortingOrder = -10;
-        //}
     }
 
-    /*
-    void OnGUI()
+    public void TriggerEnemySoftLockSequence()
     {
-        GUIStyle style = new GUIStyle(GUI.skin.button);
-        style.fontSize = 20;
+        if (!selfDestructEnemiesOnSoftlock) return;
+        float duration = selfDestructSequenceTime;
 
-        string pauseText = isPaused ? "RESUME" : "PAUSE";
+        if (currentEnemyInstance == null || combatEnded) return;
 
-        if (GUI.Button(new Rect(200, 10, 150, 40), pauseText, style))
+        if (currentEnemyAI != null) currentEnemyAI.thinking = false;
+
+        float shakeStrength = 0.05f;
+        int shakeVibrato = 3;
+        float flashSpeed = 1.4f;
+        Color targetColor = Color.red;
+
+        Transform enemyTransform = currentEnemyInstance.transform;
+        Tween shakeTween = enemyTransform.DOShakePosition(100f, strength: shakeStrength, vibrato: shakeVibrato, randomness: 90, fadeOut: false)
+            .SetUpdate(true);
+
+        SpriteRenderer[] sprites = currentEnemyInstance.GetComponentsInChildren<SpriteRenderer>();
+        List<Tween> colorTweens = new List<Tween>();
+
+        foreach (var sprite in sprites)
         {
-            if (isPaused)
-                ResumeGame();
-            else
-                StopGame();
+            if (sprite == null) continue;
+
+            Tween colorTween = sprite.DOColor(targetColor, flashSpeed)
+                .SetLoops(-1, LoopType.Yoyo)
+                .SetUpdate(true); 
+
+            colorTweens.Add(colorTween);
         }
 
-        if (combatEnded)
+        System.Action explodeAction = () =>
         {
-            if (GUI.Button(new Rect(500, 400, 150, 40), "RESTART", style))
+            if (shakeTween != null) shakeTween.Kill();
+            foreach (var tween in colorTweens) tween.Kill();
+
+            foreach (var sprite in sprites)
             {
-                StartCombat();
+                if (sprite != null) sprite.color = Color.white;
             }
 
-            if (!repairing)
+            if (mainText != null)
             {
-                if (GUI.Button(new Rect(500, 350, 150, 40), "BEGIN REPAIR", style))
-                {
-                    StartRepairs();
-                }
-            } else
+                mainText.gameObject.SetActive(false);
+            }
+
+            if (currentEnemyInstance != null && !combatEnded)
             {
-                if (GUI.Button(new Rect(500, 350, 150, 40), "STOP REPAIR", style))
+                var mainCabin = currentEnemyInstance.GetMainCabin();
+                if (mainCabin != null)
                 {
-                    StopRepairs();
+                    Debug.Log("Enemy softlock timer finished. Instakilling main cabin.");
+                    mainCabin.TakeDamage(1000);
                 }
             }
+        };
+
+        if (mainText != null)
+        {
+            mainText.gameObject.SetActive(true);
+            mainText.alpha = 1f; 
+
+            DOVirtual.Float(duration, 0f, duration, (timeRemaining) =>
+            {
+                mainText.text = "SELFDESTRUCT IN "+ Mathf.CeilToInt(timeRemaining).ToString();
+            })
+            .SetEase(Ease.Linear)
+            .SetUpdate(true) 
+            .OnComplete(() => explodeAction()); 
         }
-    }*/
+        else
+        {
+            DOVirtual.DelayedCall(duration, () => explodeAction()).SetUpdate(true);
+        }
+    }
 }
