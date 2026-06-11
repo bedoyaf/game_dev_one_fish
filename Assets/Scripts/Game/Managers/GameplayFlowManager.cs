@@ -407,6 +407,7 @@ public class GameplayFlowManager : MonoBehaviour
         {
             // Display Game Over (TODO)
             sfx.CombatEndTransition(false, () => { stateMachine.ChangeState(GameStates.GameOver); });
+            sfx.SetFishFace(Moods.Dead);
         }
 
     }

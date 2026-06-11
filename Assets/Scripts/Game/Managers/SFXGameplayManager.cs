@@ -489,4 +489,32 @@ public class SFXGameplayManager : MonoBehaviour
         public Vector3 direction;
         //public List<bool> hemispheres;
     }
+
+    [SerializeField]
+    private FishBehaviourScript fishSfx;
+
+    /// <summary>
+    /// What face to set
+    /// </summary>
+    /// <param name="mood"> The face </param>
+    /// <param name="temporary"> if only for a little bit</param>
+    /// <param name="duration"> how long that little bit is </param>
+    public void SetFishFace(Moods mood, bool temporary=true, float duration=1.0f)
+    {
+        if(mood == Moods.Dead)
+        {
+            fishSfx.Die(duration);
+        }
+        else
+        {
+            if(temporary)
+            {
+                fishSfx.SetMoodOverride(mood, duration);
+            } else
+            {
+                fishSfx.SetCurrentMood(mood);
+            }
+        }
+    }
+
 }
