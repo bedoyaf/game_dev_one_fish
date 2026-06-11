@@ -44,6 +44,7 @@ public class ShipController : MonoBehaviour
     public int batteryCapacity { get; private set; } = 0;
     private List<BatteryComponentController> batteries = new List<BatteryComponentController>();
     private MainCabinComponentController mainCabin;
+    public bool IsDead => mainCabin == null || mainCabin.shipComponentController.broken;
 
     //CURRENCY PARTS
     public int storedMoney = 0;
