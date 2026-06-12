@@ -28,9 +28,6 @@ public class FishBehaviourScript : MonoBehaviour
     [SerializeField]
     private Sprite[] moodSprites = new Sprite[System.Enum.GetValues(typeof(Moods)).Length];
 
-
-
-
     // Current mood
     [SerializeField]
     private Moods currentMood;
@@ -48,7 +45,6 @@ public class FishBehaviourScript : MonoBehaviour
     {
         currentMood = mood;
     }
-
 
     public void SetMoodOverride(Moods mood, float time)
     {
@@ -132,6 +128,7 @@ public class FishBehaviourScript : MonoBehaviour
     [SerializeField] private Transform bodyTransform;
 
     [SerializeField] private SpriteRenderer faceSpriteRenderer;
+
 
     private void RotateBody()
     {
@@ -234,4 +231,6 @@ public class FishBehaviourScript : MonoBehaviour
 
         Gizmos.DrawWireCube(pos, size);
     }
+
+
 }

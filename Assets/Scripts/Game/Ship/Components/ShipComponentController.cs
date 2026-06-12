@@ -256,7 +256,7 @@ public class ShipComponentController : MonoBehaviour
         // Destroys the component and works with the grid.
         //shipController.componentGrid.OnComponentDeath(placementRules.connectedTile);
 
-        if (shipController.playerShip) CameraShake.Instance.Shake(0.5f,0.3f);
+        if (shipController.playerShip) CameraShake.Instance.Shake(0.2f,0.1f);
 
         BreakComponent();
 
@@ -338,6 +338,8 @@ public class ShipComponentController : MonoBehaviour
         if (shipController != null) shipController.UpdateEnergyUI();
 
         shipController.CheckFailState();
+        if (shipController.playerShip) GameManager.Instance.SFXManager.SetFishFace(Moods.Sad);
+        else GameManager.Instance.SFXManager.SetFishFace(Moods.FeelsGood);
     }
 
 
@@ -446,12 +448,6 @@ public class ShipComponentController : MonoBehaviour
         }
     }
 
-
-    public void RepairFromComponent()
-    {
-
-    }
-
     // NOTE: maybe could adjust ?
     public int repairCost { get;  private set; } = 1;
 
@@ -463,6 +459,7 @@ public class ShipComponentController : MonoBehaviour
     {
         if(CanRepairThisComponent)
         {
+            GameManager.Instance.SFXManager.SetFishFace(Moods.FeelsGood);
             Debug.Log("Can repair");
 
             // use the currency

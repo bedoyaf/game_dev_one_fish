@@ -229,7 +229,7 @@ public class CombatController : SmartSingleton<CombatController>
 
         // enemyShip.GetMainCabin().OnDeath.RemoveAllListeners();
         if (currentEnemyInstance.boss) {
-
+            GameManager.Instance.SFXManager.SetFishFace(Moods.OoO);
             AudioManager.Instance.PlayMusic(BossMusic);
 
             var mainCabins = currentEnemyInstance.GetMainCabins();
@@ -276,6 +276,7 @@ public class CombatController : SmartSingleton<CombatController>
 
     public void OnSoftLock()
     {
+        GameManager.Instance.SFXManager.SetFishFace(Moods.ThisIsFine, false);
         gameUI.ShowResignButton();
     }
 
@@ -345,6 +346,10 @@ public class CombatController : SmartSingleton<CombatController>
 
         currentEnemyAI.thinking = false;
         combatEnded = true;
+
+        if (playerWon) GameManager.Instance.SFXManager.SetFishFace(Moods.VeryHappy, true, 10);
+        else   GameManager.Instance.SFXManager.SetFishFace(Moods.Sad, false);
+
         gameplayFlowManager.OnCombatEnd();
     }
 
@@ -462,7 +467,7 @@ public class CombatController : SmartSingleton<CombatController>
 
     public void TriggerEnemySoftLockSequence()
     {
-        if (!selfDestructEnemiesOnSoftlock) return;
+        if (!selfDestructEnemiesOnSoftlock || GameManager.Instance.currentGameplayManager.tutorialRunning) return;
         float duration = selfDestructSequenceTime;
 
         if (currentEnemyInstance == null || combatEnded) return;

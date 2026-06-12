@@ -12,7 +12,7 @@ public class CameraShake : SmartSingleton<CameraShake>
         originalLocalPosition = transform.localPosition;
     }
 
-    public void Shake(float duration = 0.2f, float magnitude = 0.1f)
+    public void Shake(float duration = 0.2f, float magnitude = 0.07f)
     {
         if (shakeCoroutine != null)
         {

@@ -393,7 +393,7 @@ public class SFXGameplayManager : MonoBehaviour
                     RotateMode.LocalAxisAdd
                 );
 
-                CameraShake.Instance.Shake(0.3f, 0.3f);
+                CameraShake.Instance.Shake(0.1f, 0.1f);
 
                 // move & don't destroy
                 comp.gameObject.transform.DOMove(target, 30f);

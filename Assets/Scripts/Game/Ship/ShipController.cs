@@ -60,6 +60,7 @@ public class ShipController : MonoBehaviour
     public float DebugTextOffset = 0;
 
     public UnityEvent onEnergyChanged;
+    public UnityEvent onEnergyCollected;
     public UnityEvent onScrapChanged;
 
     public UnityEvent OnSoftLock;
@@ -408,6 +409,7 @@ public class ShipController : MonoBehaviour
 
         storedEnergy = totalEnergy;
         // Debug.Log("energy" + totalEnergy);
+        if(energy > 0)  onEnergyCollected.Invoke();
         onEnergyChanged.Invoke();
 
     }
