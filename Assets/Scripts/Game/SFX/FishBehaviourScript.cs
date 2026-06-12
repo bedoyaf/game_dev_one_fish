@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -81,6 +82,7 @@ public class FishBehaviourScript : MonoBehaviour
         }
 
         var actualMood = moodOverride != Moods.None ? moodOverride : currentMood;
+        movingEyesParent.SetActive(actualMood == movingEyesMood);
 
         // -------------------
 
@@ -115,6 +117,7 @@ public class FishBehaviourScript : MonoBehaviour
 
     // --------------------
 
+    [Header("Movement settings")]
     public float tailMovementSpeed = 0.01f;
     public float finMovementSpeed = 1.2f;
     public float bodyMovementSpeed = 1.2f;
@@ -186,15 +189,26 @@ public class FishBehaviourScript : MonoBehaviour
             RandomDir = (Random.insideUnitCircle).normalized;
 
             nextRandomDirTime = MyTime.time + randomSwimDirTime;
+
+            // If going left, switch scale
+            bodyTransform.localScale = new Vector3(Mathf.Sign(RandomDir.x), bodyTransform.localScale.y, 1f);
+
+            if (Mathf.Sign(RandomDir.x) != Mathf.Sign(bodyTransform.localScale.x)) {
+                eyes.ForEach(eye => eye.OnFlip());
+            }
         }
 
         // Move Randomly
         bodyTransform.localPosition += (Vector3) RandomDir * MyTime.deltaTime * swimSpeed;
-
-        // If going left, switch scale
-        bodyTransform.localScale = new Vector3(Mathf.Sign(RandomDir.x), bodyTransform.localScale.y, 1f);
     }
 
+    [Header("Moving eyes")]
+    [SerializeField] private Moods movingEyesMood;
+    [SerializeField] private GameObject movingEyesParent;
+    [SerializeField] private List<FishEyeMouseFollow> eyes;
+
+
+    [Header("Movement bounds")]
     [SerializeField]
     private Vector2 leftBottom;
 
