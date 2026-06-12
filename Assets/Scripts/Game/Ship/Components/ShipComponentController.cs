@@ -121,6 +121,9 @@ public class ShipComponentController : MonoBehaviour
             shield.TakeDamage(dmg);
             return;
         }
+
+        if(shipController.playerShip) CameraShake.Instance.Shake();
+
         OnDamage?.Invoke();
     //    Debug.Log("No shield -> damaging HP");
 
@@ -246,15 +249,15 @@ public class ShipComponentController : MonoBehaviour
     {
         OnDeath?.Invoke(this);
 
-        if (shipController.playerShip)
-        {
-            shipController.CheckFailState();
-        }
+        
         // Award money 
         CombatController.Instance.ComponentDestroyed(this, shipController);
 
         // Destroys the component and works with the grid.
         //shipController.componentGrid.OnComponentDeath(placementRules.connectedTile);
+
+        if (shipController.playerShip) CameraShake.Instance.Shake(0.2f,0.1f);
+
         BreakComponent();
 
 
@@ -294,8 +297,10 @@ public class ShipComponentController : MonoBehaviour
         }
     }
 
+    public bool CollidersEnabled { get; private set; } = true;
     public void EnableAllColliders()
     {
+        CollidersEnabled = true;
         var colliders = GetComponentsInChildren<Collider>();
         foreach (var col in colliders)
         {
@@ -305,6 +310,7 @@ public class ShipComponentController : MonoBehaviour
 
     public void DisableAllColliders()
     {
+        CollidersEnabled = false;
         var colliders = GetComponentsInChildren<Collider>();
         foreach (var col in colliders)
         {
@@ -330,6 +336,10 @@ public class ShipComponentController : MonoBehaviour
         if (componentBreakParticles != null)
             Instantiate(componentBreakParticles, GetComponentCenter().SetY(3.5f), Quaternion.identity);
         if (shipController != null) shipController.UpdateEnergyUI();
+
+        shipController.CheckFailState();
+        if (shipController.playerShip) GameManager.Instance.SFXManager.SetFishFace(Moods.Sad);
+        else GameManager.Instance.SFXManager.SetFishFace(Moods.FeelsGood);
     }
 
 
@@ -438,12 +448,6 @@ public class ShipComponentController : MonoBehaviour
         }
     }
 
-
-    public void RepairFromComponent()
-    {
-
-    }
-
     // NOTE: maybe could adjust ?
     public int repairCost { get;  private set; } = 1;
 
@@ -455,6 +459,7 @@ public class ShipComponentController : MonoBehaviour
     {
         if(CanRepairThisComponent)
         {
+            GameManager.Instance.SFXManager.SetFishFace(Moods.FeelsGood);
             Debug.Log("Can repair");
 
             // use the currency

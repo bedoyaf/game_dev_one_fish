@@ -2574,6 +2574,9 @@ MonoBehaviour:
   RemoveLootButton: {fileID: 7631620363523017665, guid: 45f75b35f0b4a874ba6f7ff3204dc33b, type: 3}
   BossMusic: {fileID: 11400000, guid: be46c9b0633c8ec43b767042b3326267, type: 2}
   VictoryMusic: {fileID: 11400000, guid: 07e79ece9a1d91543a323bbed302c29c, type: 2}
+  selfDestructEnemiesOnSoftlock: 1
+  selfDestructSequenceTime: 10
+  mainText: {fileID: 8237810407722717933}
   debug_override: 0
 --- !u!4 &224720032
 Transform:
@@ -11615,8 +11618,8 @@ MonoBehaviour:
   textComponent: {fileID: 556763498}
   textPages:
   - Rocket destroyed! Now for the best part - the loot.
-  - Before we d0estroy the ship lets get some.
-  - Use the Grappling Hook to pull in the rocket. (Make sure you have enough Energy!)"
+  - Before we destroy the ship lets get some.
+  - Use the Grappling Hook to pull in the rocket. (Make sure you have enough Energy!)
   nextAction: {fileID: 3548868426734250604, guid: 2e1ac59e68c820249b308e18ab9c4975, type: 3}
   OnSequenceCompleted:
     m_PersistentCalls:
@@ -11989,6 +11992,7 @@ GameObject:
   - component: {fileID: 968719240}
   - component: {fileID: 968719244}
   - component: {fileID: 968719245}
+  - component: {fileID: 968719246}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -12142,6 +12146,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CameraMouseFollowScript
   movementOffset: {x: 0.3, y: 0, z: 0}
   smoothSpeed: 5
+--- !u!114 &968719246
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 968719239}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 190438af0d934dd42937b97d1ba0376e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CameraShake
+  _persistent: 0
 --- !u!1001 &990633820
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -15611,6 +15628,7 @@ MonoBehaviour:
   waitBeforeShipExplosionTime: 0.5
   timeBetweenExplosions: {x: 0.3, y: 0.5}
   particlesLifetime: 1
+  fishSfx: {fileID: 1949306049}
 --- !u!4 &1441420336
 Transform:
   m_ObjectHideFlags: 0
@@ -18227,6 +18245,38 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1788065541}
   m_CullTransparentMesh: 1
+--- !u!1 &1837559238
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1837559239}
+  m_Layer: 0
+  m_Name: JustKeepThisHerePlease
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1837559239
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1837559238}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 17.28, y: 0, z: 9.51}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1949306050}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1844998269 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8104129731451459766, guid: c1d7f5ae81e6ff44c8b0d64959e7732e, type: 3}
@@ -18840,6 +18890,115 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &1949306048
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 1837559239}
+    m_Modifications:
+    - target: {fileID: 607915748386617790, guid: 970b0a8c28b05b44fab7c07e85cb2757, type: 3}
+      propertyPath: leftBottom.x
+      value: -22.18
+      objectReference: {fileID: 0}
+    - target: {fileID: 607915748386617790, guid: 970b0a8c28b05b44fab7c07e85cb2757, type: 3}
+      propertyPath: leftBottom.y
+      value: -17.74
+      objectReference: {fileID: 0}
+    - target: {fileID: 607915748386617790, guid: 970b0a8c28b05b44fab7c07e85cb2757, type: 3}
+      propertyPath: widthHeight.x
+      value: 37.21
+      objectReference: {fileID: 0}
+    - target: {fileID: 607915748386617790, guid: 970b0a8c28b05b44fab7c07e85cb2757, type: 3}
+      propertyPath: widthHeight.y
+      value: 39.96
+      objectReference: {fileID: 0}
+    - target: {fileID: 3817754886450791398, guid: 970b0a8c28b05b44fab7c07e85cb2757, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.24
+      objectReference: {fileID: 0}
+    - target: {fileID: 3817754886450791398, guid: 970b0a8c28b05b44fab7c07e85cb2757, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.24
+      objectReference: {fileID: 0}
+    - target: {fileID: 3817754886450791398, guid: 970b0a8c28b05b44fab7c07e85cb2757, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.24
+      objectReference: {fileID: 0}
+    - target: {fileID: 3817754886450791398, guid: 970b0a8c28b05b44fab7c07e85cb2757, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3817754886450791398, guid: 970b0a8c28b05b44fab7c07e85cb2757, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3817754886450791398, guid: 970b0a8c28b05b44fab7c07e85cb2757, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3817754886450791398, guid: 970b0a8c28b05b44fab7c07e85cb2757, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 3817754886450791398, guid: 970b0a8c28b05b44fab7c07e85cb2757, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 3817754886450791398, guid: 970b0a8c28b05b44fab7c07e85cb2757, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3817754886450791398, guid: 970b0a8c28b05b44fab7c07e85cb2757, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3817754886450791398, guid: 970b0a8c28b05b44fab7c07e85cb2757, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 3817754886450791398, guid: 970b0a8c28b05b44fab7c07e85cb2757, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3817754886450791398, guid: 970b0a8c28b05b44fab7c07e85cb2757, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3817754886450791398, guid: 970b0a8c28b05b44fab7c07e85cb2757, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5700537154357358900, guid: 970b0a8c28b05b44fab7c07e85cb2757, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 2.78
+      objectReference: {fileID: 0}
+    - target: {fileID: 7379983806152587114, guid: 970b0a8c28b05b44fab7c07e85cb2757, type: 3}
+      propertyPath: m_Name
+      value: Fish
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 970b0a8c28b05b44fab7c07e85cb2757, type: 3}
+--- !u!114 &1949306049 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 607915748386617790, guid: 970b0a8c28b05b44fab7c07e85cb2757, type: 3}
+  m_PrefabInstance: {fileID: 1949306048}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7cf5fbf946983d449a2da302de4cef6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FishBehaviourScript
+--- !u!4 &1949306050 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3817754886450791398, guid: 970b0a8c28b05b44fab7c07e85cb2757, type: 3}
+  m_PrefabInstance: {fileID: 1949306048}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1949961648
 GameObject:
   m_ObjectHideFlags: 0
@@ -22112,6 +22271,7 @@ SceneRoots:
   - {fileID: 1346388512}
   - {fileID: 440240993}
   - {fileID: 417649866}
+  - {fileID: 1837559239}
   - {fileID: 372859703}
   - {fileID: 968719243}
   - {fileID: 521051805}

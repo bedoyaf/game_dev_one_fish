@@ -44,6 +44,7 @@ public class ShipController : MonoBehaviour
     public int batteryCapacity { get; private set; } = 0;
     private List<BatteryComponentController> batteries = new List<BatteryComponentController>();
     private MainCabinComponentController mainCabin;
+    public bool IsDead => mainCabin == null || mainCabin.shipComponentController.broken;
 
     //CURRENCY PARTS
     public int storedMoney = 0;
@@ -59,6 +60,7 @@ public class ShipController : MonoBehaviour
     public float DebugTextOffset = 0;
 
     public UnityEvent onEnergyChanged;
+    public UnityEvent onEnergyCollected;
     public UnityEvent onScrapChanged;
 
     public UnityEvent OnSoftLock;
@@ -407,6 +409,7 @@ public class ShipController : MonoBehaviour
 
         storedEnergy = totalEnergy;
         // Debug.Log("energy" + totalEnergy);
+        if(energy > 0)  onEnergyCollected.Invoke();
         onEnergyChanged.Invoke();
 
     }
@@ -637,6 +640,7 @@ public class ShipController : MonoBehaviour
                 continue;
 
             component.KillComponent();
+            //componentGrid.RemoveComponent(component.placementRules.connectedTile, false, false);
             return;
         }
     }
@@ -689,11 +693,11 @@ public class ShipController : MonoBehaviour
 
     public bool IsSoftLocked()
     {
-        bool hasWeapon = !(componentGrid.GetComponentsOfType<MissileComponentController>(false).Count == 0);
+        bool hasWeapon = componentGrid.GetComponentsOfType<MissileComponentController>(false).Count > 0;
 
-        bool hasGenerator = !(componentGrid.GetComponentsOfType<GeneratorComponentController>(false).Count == 0);
+        bool hasGenerator = componentGrid.GetComponentsOfType<GeneratorComponentController>(false).Count > 0;
 
-        bool hasRepair = !(componentGrid.GetComponentsOfType<RepairerComponentController>(false).Count == 0);
+        bool hasRepair = componentGrid.GetComponentsOfType<RepairerComponentController>(false).Count > 0;
 
         return !hasRepair && (!hasWeapon || !hasGenerator);
     }
@@ -701,12 +705,12 @@ public class ShipController : MonoBehaviour
     public void CheckFailState()
     {
         Debug.Log("checking failstate");
-        if (!playerShip)
-            return;
+        /*if (!playerShip)
+            return;*/
 
         if (IsSoftLocked())
         {
-            Debug.Log("Player is softlocked.");
+            Debug.Log("is softlocked.");
 
             OnSoftLock?.Invoke();
         }

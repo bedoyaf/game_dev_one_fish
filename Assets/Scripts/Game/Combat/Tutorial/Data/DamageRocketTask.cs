@@ -20,6 +20,7 @@ public class DamageRocketTask : TutorialTaskSO
     }
     public override void EndTask()
     {
+        GameManager.Instance.SFXManager.SetFishFace(Moods.VeryHappy);
         GameManager.Instance.currentGameplayManager.EnemyShip.EnableAllColliders();
 
         GameManager.Instance.currentGameplayManager.playerShip.EnableAllColliders();

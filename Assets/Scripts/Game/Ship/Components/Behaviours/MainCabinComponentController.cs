@@ -1,4 +1,5 @@
 using DG.Tweening;
+using System;
 using System.ComponentModel;
 using UnityEngine;
 using UnityEngine.Events;
@@ -108,7 +109,11 @@ public class MainCabinComponentController : BehaviourComponentControllerAbstract
                     // don't pull the component toward the main ship
                     return false;
                 }
-                
+
+                // Don't take anything after ship dies
+                if (targetShipComponent.shipController.IsDead) {
+                    return false;
+                }
 
                 BreakOffComponent(targetShipComponent);
                 // else pull back 
@@ -152,9 +157,9 @@ public class MainCabinComponentController : BehaviourComponentControllerAbstract
         {
             // down position + slightly random left/right
             var target = item.transform.position.SetZ(-5f) 
-                + 2f * (0.5f - Random.value) * Vector3.right;
+                + 2f * (0.5f - UnityEngine.Random.value) * Vector3.right;
 
-            float randomAngle = Random.Range(0f, 10f);
+            float randomAngle = UnityEngine.Random.Range(0f, 10f);
 
             item.gameObject.transform.DOLocalRotate(
                 new Vector3(0f, randomAngle, 0f),

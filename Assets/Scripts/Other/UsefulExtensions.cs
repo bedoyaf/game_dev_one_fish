@@ -1,7 +1,9 @@
+using JetBrains.Annotations;
 using System.Collections.Generic;
 using System.Text;
 using Unity.VisualScripting;
 using UnityEngine;
+using static UnityEngine.Rendering.DebugUI;
 
 public static class GameObjectExtensions {
     /// <summary>
@@ -77,6 +79,21 @@ public static class VectorExtensions
         return new Vector3(v.x, v.y, z);
     }
 
+    public static Vector3 AddX(this Vector3 v, float x)
+    {
+        return new Vector3(v.x + x, v.y, v.z);
+    }
+
+    public static Vector3 AddY(this Vector3 v, float y)
+    {
+        return new Vector3(v.x, v.y + y, v.z);
+    }
+
+    public static Vector3 AddZ(this Vector3 v, float z)
+    {
+        return new Vector3(v.x, v.y, v.z + z);
+    }
+
     public static Vector2 SetX(this Vector2 v, float x)
     {
         return new Vector3(x, v.y);
@@ -87,3 +104,11 @@ public static class VectorExtensions
         return new Vector3(v.x, y);
     }
 }
+
+public static class FloatExtensions
+{
+    public static float Fract(this float f)
+    {
+        return f - Mathf.Floor(f);
+    }
+} 

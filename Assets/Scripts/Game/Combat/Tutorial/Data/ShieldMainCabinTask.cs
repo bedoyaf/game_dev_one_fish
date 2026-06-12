@@ -15,6 +15,7 @@ public class ShieldMainCabinTask : TutorialTaskSO
 
     public override void BeginTask()
     {
+        shieldDone = false;
         GameManager.Instance.currentGameplayManager.EnemyShip.DisableAllCollidersExcept();
 
 
@@ -68,6 +69,7 @@ public class ShieldMainCabinTask : TutorialTaskSO
 
     public override void EndTask()
     {
+        GameManager.Instance.SFXManager.SetFishFace(Moods.JustHappy);
         GameManager.Instance.currentGameplayManager.EnemyShip.EnableAllColliders();
 
         GameManager.Instance.currentGameplayManager.playerShip.EnableAllColliders();

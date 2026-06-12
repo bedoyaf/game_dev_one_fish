@@ -20,6 +20,7 @@ public class CaptureRocketTask : TutorialTaskSO
     }
     public override void EndTask()
     {
+        GameManager.Instance.SFXManager.SetFishFace(Moods.OoO);
         GameManager.Instance.currentGameplayManager.EnemyShip.EnableAllColliders();
 
         GameManager.Instance.currentGameplayManager.playerShip.EnableAllColliders();

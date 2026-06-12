@@ -14,8 +14,12 @@ public class ShieldPhysical : MonoBehaviour
 
     [Header("Shader settings")]
     [SerializeField] private float shieldFadeTime = 0.2f;
+    [SerializeField] private float shieldOverFadeTime = 0.2f;
+    [SerializeField] private float shieldOverSize = 1.5f;
+
     [SerializeField] private float hurtFadeTime = 0.2f;
     [SerializeField] private float hurtMaxDistance = 1f;
+    [SerializeField] private SoundData hitSound;
 
     public UnityEvent<ShieldPhysical> OnShieldDestroyed;
 
@@ -25,7 +29,13 @@ public class ShieldPhysical : MonoBehaviour
     private void Awake() {
         shieldMaterial = GetComponent<MeshRenderer>().material;
         shieldMaterial.SetFloat("_Progress", 0.0f);
-        shieldMaterial.DOFloat(1, "_Progress", shieldFadeTime);
+        shieldMaterial.DOFloat(1f, "_Progress", shieldFadeTime);
+        shieldMaterial.SetFloat("_VisualScale", 0.8f);
+        shieldMaterial.SetFloat("_TimeOffset", Random.Range(0.0f, 100f));
+        Sequence sequence = DOTween.Sequence();
+        sequence.Append(shieldMaterial.DOFloat(shieldOverSize, "_VisualScale", shieldFadeTime)/*.SetEase(Ease.OutCubic)*/);
+        sequence.Append(shieldMaterial.DOFloat(1, "_VisualScale", shieldOverFadeTime).SetEase(Ease.Linear)/*.SetLoops(2, LoopType.Yoyo)*//*.SetEase(Ease.InCubic)*/);
+
     }
 
     public void Start()
@@ -37,7 +47,7 @@ public class ShieldPhysical : MonoBehaviour
     public void TakeDamage(float dmg)
     {
         health -= dmg;
-
+        AudioManager.Instance.PlaySFX(hitSound);
         if (health <= 0)
         {
             Die();
@@ -79,7 +89,7 @@ public class ShieldPhysical : MonoBehaviour
         OnShieldDestroyed?.Invoke(this);
     }
     private void OnCollisionEnter(Collision collision) {
-        Debug.Log("Shield hit: " + collision.gameObject.name);
+       // Debug.Log("Shield hit: " + collision.gameObject.name);
 
         var projectile = collision.gameObject.GetComponent<Projectile>();
 

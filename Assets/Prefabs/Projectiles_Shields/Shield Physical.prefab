@@ -128,9 +128,12 @@ MonoBehaviour:
   health: 10
   lifeSpan: 5
   shieldEndClip: {fileID: 11400000, guid: 3468df3b8988ba1499cb410d34c24f5c, type: 2}
-  shieldFadeTime: 0.3
-  hurtFadeTime: 0.15
+  shieldFadeTime: 0.8
+  shieldOverFadeTime: 0.2
+  shieldOverSize: 1.1
+  hurtFadeTime: 0.1
   hurtMaxDistance: 1.2
+  hitSound: {fileID: 11400000, guid: 86152c58b561f564885d3b5770a2ce7d, type: 2}
   OnShieldDestroyed:
     m_PersistentCalls:
       m_Calls: []

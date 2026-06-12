@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using static ShipComponentController;
 
 /// <summary>
 /// Special Effects for the Gameplay Scene.
@@ -130,7 +131,7 @@ public class SFXGameplayManager : MonoBehaviour
             statusBar.GetComponent<RectTransform>().anchoredPosition.SetY(status_y);
 
         onFinished();
-        Debug.Log("Here5");
+        //Debug.Log("Here5");
     }
 
     public void EncounterTransition(string name)
@@ -255,20 +256,11 @@ public class SFXGameplayManager : MonoBehaviour
     public void EnergyTransmissionEffect(ShipComponentController start, ShipComponentController end) {
         if (energyParticlesPrefab == null) return;
         var startPoint = start.transform.position;
-        //bool playerShip = start.shipController.playerShip;
-        //if (playerShip)
-        //    startPoint += new Vector3(0.5f, 0, 0.5f);
-        //else
-        //    startPoint += new Vector3(-0.5f, 0, 0.5f);
-
         startPoint = start.GetComponentCenter();
         startPoint.y = 5;
 
         var endPoint = end.transform.position;
-        //if (playerShip)
-        //    endPoint += new Vector3(0.5f, 0, 0.5f);
-        //else
-        //    endPoint += new Vector3(-0.5f, 0, 0.5f);
+
         endPoint = end.GetComponentCenter();
         endPoint.y = 5;
 
@@ -301,6 +293,9 @@ public class SFXGameplayManager : MonoBehaviour
     private bool shipExplosionOngoing = false;
 
     private IEnumerator ExplodeShipCoroutine(ShipController ship) {
+        // Disable clicking
+        //GameManager.Instance.currentGameplayManager.EnemyShip.DisableAllCollidersExcept(new ComponentType[] {});
+
         // Take all components in the ship's grid
         var comps = ship.componentGrid.GetAllComponents();
         var cabin = ship.GetMainCabin();
@@ -336,6 +331,9 @@ public class SFXGameplayManager : MonoBehaviour
         //}
         // Explode in parts
         comps.Shuffle();
+
+        
+
         //int explosionCount = minExplosionCount;
         //int perPhase = comps.Count / explosionCount;
         //while (explosionCount < maxExplosionCount) {
@@ -395,6 +393,8 @@ public class SFXGameplayManager : MonoBehaviour
                     RotateMode.LocalAxisAdd
                 );
 
+                CameraShake.Instance.Shake(0.1f, 0.1f);
+
                 // move & don't destroy
                 comp.gameObject.transform.DOMove(target, 30f);
             }
@@ -409,9 +409,9 @@ public class SFXGameplayManager : MonoBehaviour
         }
 
         yield return MyTime.WaitForSeconds(waitBeforeShipExplosionTime);
-
+        CameraShake.Instance.Shake();
         // Explode main cabin and scatter parts
-        foreach(var mc in mainCabins) {
+        foreach (var mc in mainCabins) {
             var shipParticles = Instantiate(shipExplosion, mc.GetComponentCenter() + Vector3.up * 5, Quaternion.identity);
             MyTime.CallAfterTime(particlesLifetime, () => {
                 if (shipParticles != null) {
@@ -494,4 +494,32 @@ public class SFXGameplayManager : MonoBehaviour
         public Vector3 direction;
         //public List<bool> hemispheres;
     }
+
+    [SerializeField]
+    private FishBehaviourScript fishSfx;
+
+    /// <summary>
+    /// What face to set
+    /// </summary>
+    /// <param name="mood"> The face </param>
+    /// <param name="temporary"> if only for a little bit</param>
+    /// <param name="duration"> how long that little bit is </param>
+    public void SetFishFace(Moods mood, bool temporary=true, float duration=1.0f)
+    {
+        if(mood == Moods.Dead)
+        {
+            fishSfx.Die(duration);
+        }
+        else
+        {
+            if(temporary)
+            {
+                fishSfx.SetMoodOverride(mood, duration);
+            } else
+            {
+                fishSfx.SetCurrentMood(mood);
+            }
+        }
+    }
+
 }
