@@ -8,6 +8,8 @@ public class FishEyeMouseFollow : MonoBehaviour
 
     public float maxMovementDistanceX;
     public float maxMovementDistanceZ;
+    public float minMovementDistanceX;
+    public float minMovementDistanceZ;
     public float eyeSpeed;
     public float maxDistanceAtRatio = 0.3f;
 
@@ -24,8 +26,8 @@ public class FishEyeMouseFollow : MonoBehaviour
         // Calculate how much to move in each direction
         var xRatio = Mathf.Abs(toMouse.x) / Screen.width;
         var zRatio = Mathf.Abs(toMouse.y) / Screen.height;
-        var xMovement = maxMovementDistanceX * Mathf.Min(1, xRatio / maxDistanceAtRatio);
-        var zMovement = maxMovementDistanceZ * Mathf.Min(1, zRatio / maxDistanceAtRatio);
+        var xMovement = Mathf.Max(maxMovementDistanceX * Mathf.Min(1, xRatio / maxDistanceAtRatio), minMovementDistanceX);
+        var zMovement = Mathf.Max(maxMovementDistanceZ * Mathf.Min(1, zRatio / maxDistanceAtRatio), minMovementDistanceZ);
 
         // Do smooth movement
         var direction = toMouse.normalized;
