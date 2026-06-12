@@ -7,7 +7,7 @@ public class GatherEnergyTask : TutorialTaskSO
     public override void BeginTask()
     {
 
-        GameManager.Instance.currentGameplayManager.playerShip.onEnergyChanged.AddListener(EvaluateEnergy);
+        GameManager.Instance.currentGameplayManager.playerShip.onEnergyCollected.AddListener(EvaluateEnergy);
 
         GameManager.Instance.currentGameplayManager.EnemyShip.DisableAllCollidersExcept();
 
@@ -19,6 +19,7 @@ public class GatherEnergyTask : TutorialTaskSO
 
     public override void EndTask()
     {
+        GameManager.Instance.SFXManager.SetFishFace(Moods.FeelsGood);
         GameManager.Instance.currentGameplayManager.EnemyShip.EnableAllColliders();
 
         GameManager.Instance.currentGameplayManager.playerShip.EnableAllColliders();

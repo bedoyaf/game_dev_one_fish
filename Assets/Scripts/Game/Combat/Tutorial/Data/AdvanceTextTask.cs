@@ -17,6 +17,7 @@ public class AdvanceTextTask : TutorialTaskSO
 
     public override void EndTask()
     {
+
         GameManager.Instance.currentGameplayManager.EnemyShip.EnableAllColliders();
 
         GameManager.Instance.currentGameplayManager.playerShip.EnableAllColliders();

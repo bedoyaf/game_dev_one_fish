@@ -11,6 +11,7 @@ public class CombatState : IGameState
 
     public void Enter()
     {
+        GameManager.Instance.SFXManager.SetFishFace(Moods.JustHappy, false);
         manager.EnterCombat();
         
         manager.EnemyShip.componentsActive = true;
