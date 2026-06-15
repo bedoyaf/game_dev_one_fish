@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.NetworkInformation;
 using UnityEngine;
 
 /// <summary>
@@ -530,6 +531,9 @@ public class SFXGameplayManager : MonoBehaviour
     [SerializeField]
     private SpriteRenderer lightBack;
 
+    [SerializeField]
+    private SpriteRenderer ground;
+
 
     public void SetDayTime(bool night, bool fast=false)
     {
@@ -563,5 +567,90 @@ public class SFXGameplayManager : MonoBehaviour
             });
         });
     }
+
+
+    [SerializeField]
+    private Transform plantsParent;
+
+    [SerializeField]
+    private ParticleSystem SpeedParticlesPrefab;
+
+    private GameObject speedInstance = null;
+
+    private float camera_start_size = 8.93f;
+    private float camera_start_x = 17.06f;
+    
+    private float camera_map_size = 6.42f;
+    private float camera_map_x = 13.44f;
+
+    [SerializeField]
+    private Camera mainCamera;
+
+    [SerializeField]
+    private Transform playerShipShaker;
+
+    private Tween shaking = null;
+
+    public void Lightspeed(bool active)
+    {
+        // show / hide everything
+        foreach (Transform t in plantsParent)
+        {
+            t.GetComponentInChildren<SpriteRenderer>().DOFade(active ? 0f : 1f, 1.5f);
+        }
+
+        foreach (Transform t in bubblesParent)
+        {
+            t.GetComponent<BubbleFloatingScript>().moving = !active;
+        }
+        
+        lightBack.DOFade(active ? 0f : 1f, 1.5f);
+        ground.DOFade(active ? 0f : 1f, 1.5f);
+
+        if (active)
+        {
+            // show particles
+            speedInstance = Instantiate(SpeedParticlesPrefab).gameObject;
+
+            // move cam
+            mainCamera.DOOrthoSize(camera_map_size, 1f);
+            mainCamera.transform.DOMoveX(camera_map_x, 1f);
+
+            mainCamera.GetComponent<CameraMouseFollowScript>().MovedXTo(camera_map_x);
+
+            // shake player
+            shaking = playerShipShaker.transform.DOLocalMoveX
+                (0.1f, 0.3f).SetLoops(-1, LoopType.Yoyo);
+
+        } 
+        else
+        {
+            // stop particles emitting
+            speedInstance.GetComponent<ParticleSystem>().Stop();
+            // kill particles
+            DOVirtual.DelayedCall(0.5f, () =>
+            {
+                if (speedInstance != null)
+                {
+                    Destroy(speedInstance);
+                    speedInstance = null;
+                }
+            });
+
+            // stop shaking
+            if (shaking != null)
+            {
+                shaking.Kill();
+                shaking = null;
+            }
+
+            // move cam
+            mainCamera.DOOrthoSize(camera_start_size, 1f);
+            mainCamera.transform.DOMoveX(camera_start_x, 1f);
+
+            mainCamera.GetComponent<CameraMouseFollowScript>().MovedXTo(camera_start_x);
+        }
+    }
+
 
 }

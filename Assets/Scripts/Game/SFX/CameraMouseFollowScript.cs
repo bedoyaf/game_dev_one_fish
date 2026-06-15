@@ -16,6 +16,11 @@ public class CameraMouseFollowScript : MonoBehaviour
         startPosition = transform.localPosition;
     }
 
+    public void MovedXTo(float x)
+    {
+        startPosition.x = x;
+    }
+
     private void Update()
     {
         if (Mouse.current == null)
