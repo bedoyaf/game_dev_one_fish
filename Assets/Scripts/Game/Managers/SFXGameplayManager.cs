@@ -4,7 +4,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using static ShipComponentController;
 
 /// <summary>
 /// Special Effects for the Gameplay Scene.
@@ -516,6 +515,49 @@ public class SFXGameplayManager : MonoBehaviour
                 fishSfx.SetCurrentMood(mood);
             }
         }
+    }
+
+    [SerializeField]
+    private Transform bubblesParent;
+
+    [SerializeField]
+    private Transform starsParent;
+
+    [SerializeField]
+    private SpriteRenderer lightBack;
+
+
+    public void SetDayTime(bool night, bool fast=false)
+    {
+
+        foreach (Transform t in bubblesParent)
+        {
+            t.GetComponent<BubbleFloatingScript>().moving = !night;
+        }
+
+        // delay 
+        DOVirtual.DelayedCall(fast ? 0.1f : 1.5f, () =>
+        {
+
+            if (night)
+            {
+                lightBack.DOFade(0f, 1.5f);
+            }
+            else
+            {
+                lightBack.DOFade(1f, 1.5f);
+            }
+
+            // tiny delay 
+
+            DOVirtual.DelayedCall(2f, () =>
+            {
+                foreach (Transform t in starsParent)
+                {
+                    t.GetComponent<StarFadeScript>().Fade(night ? 1f : 0f, 3f);
+                }
+            });
+        });
     }
 
 }
