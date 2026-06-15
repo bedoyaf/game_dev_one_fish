@@ -11,7 +11,9 @@ public class BubbleFloatingScript : MonoBehaviour
 
     Vector3 startPos;
     Vector3 direction;
-    
+
+    public bool moving = true;
+
     
     private void Start()
     {
@@ -32,15 +34,22 @@ public class BubbleFloatingScript : MonoBehaviour
 
     void Update()
     {
-        transform.position += MyTime.deltaTime * velocity * direction;
+
 
         // When offscreen -> reset position, and randomize
 
-        if((transform.position-startPos).magnitude > maxDistance)
+        if ((transform.position - startPos).magnitude > maxDistance)
         {
-            transform.position = startPos;
+            if (moving) { 
+                transform.position = startPos;
 
-            PickRandomDirection();
+                PickRandomDirection();
+            }
+        }
+        // only move when under the threshold
+        else
+        {
+            transform.position += MyTime.deltaTime * velocity * direction;
         }
     }
 }

@@ -43,7 +43,9 @@ public class FishBehaviourScript : MonoBehaviour
 
     public void SetCurrentMood(Moods mood)
     {
-        currentMood = mood;
+        // Dead is final...
+        if(currentMood != Moods.Dead)
+            currentMood = mood;
     }
 
     public void SetMoodOverride(Moods mood, float time)
@@ -163,11 +165,11 @@ public class FishBehaviourScript : MonoBehaviour
     private void DeadBody()
     {
         // Rotate the body
-        var scale = -((t_override * 2f) - 1f);
-        bodyTransform.localScale = new Vector3(bodyTransform.localScale.x, scale, 1f);
+        // var scale = -((t_override * 2f) - 1f);
+        // bodyTransform.localScale = new Vector3(bodyTransform.localScale.x, scale, 1f);
 
         // Float the body up
-        bodyTransform.localPosition = bodyTransform.localPosition.AddY(floatingSpeed * MyTime.deltaTime);
+        // bodyTransform.localPosition = bodyTransform.localPosition.AddY(floatingSpeed * MyTime.deltaTime);
     }
 
     [SerializeField]
