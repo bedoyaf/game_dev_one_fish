@@ -240,7 +240,7 @@ public class ShipComponentController : MonoBehaviour
         // Refund energy to ship
         if (shipController != null && requiredEnergy > 0)
         {
-            shipController.AddEnergy(requiredEnergy);
+            shipController.AddEnergy(requiredEnergy, this);
         }
 
         activated = false;
