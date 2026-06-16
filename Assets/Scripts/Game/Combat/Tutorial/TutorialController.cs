@@ -1,6 +1,8 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.UI;
 using static ShipComponentController; // Z tvého kódu
 
@@ -25,6 +27,18 @@ public class TutorialController : MonoBehaviour
     private void Start()
     {
         tutorialRoot.SetActive(false);
+
+        mainCabin = GameManager.Instance.currentGameplayManager.playerShip.componentGrid.GetComponentsOfType<MainCabinComponentController>()[0];
+        mainCabin.SavePosition();
+    }
+
+    private MainCabinComponentController mainCabin;
+
+    private void Update() {
+        if (GameManager.Instance.currentGameplayManager.tutorialRunning)
+            mainCabin.RestorePosition(); // I have no idea why this is needed...
+        else
+            enabled = false;
     }
 
     public void StartTutorial()

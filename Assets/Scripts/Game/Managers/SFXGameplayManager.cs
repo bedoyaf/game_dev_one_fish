@@ -98,7 +98,6 @@ public class SFXGameplayManager : MonoBehaviour
     {
         statusBar.DOKill();
         statusBar.GetComponent<RectTransform>().DOKill();
-        Debug.Log("Here");
         // Show the combat text in ui
         statusBar.text = $"--- Fight ---\n{enemyName}";
         // var pos = statusBar.GetComponent<RectTransform>().position.y;
@@ -111,19 +110,16 @@ public class SFXGameplayManager : MonoBehaviour
         statusBar.DOFade(1f, 0.2f);
 
         yield return new WaitForSeconds(0.2f);
-        Debug.Log("Here2");
 
         // Leave the text for the player to read
 
         yield return new WaitForSeconds(3f);
-        Debug.Log("Here3");
 
         // Move the text up
 
         statusBar.GetComponent<RectTransform>().DOAnchorPos3DY(status_y + 500, 0.5f);
 
         yield return new WaitForSeconds(0.5f);
-        Debug.Log("Here4");
 
         statusBar.gameObject.SetActive(false);
         statusBar.DOFade(0f, 0f);

@@ -80,6 +80,9 @@ public class ShipComponentController : MonoBehaviour
       //  componentBehaviour.set
        // if (componentBehaviour == null) Debug.LogWarning("Missing behaviour");//Make it error
         cooldown = GetComponent<ComponentCooldown>();
+        if (componentType == ComponentType.MainCabin && spriteToOutline == null) {
+            spriteToOutline = Decor.GetComponentInChildren<SpriteRenderer>();
+        }
     }
 
     /// <summary>
@@ -349,6 +352,7 @@ public class ShipComponentController : MonoBehaviour
     public GameObject OutlineMesh => outlineMesh;
     public SpriteRenderer spriteToOutline;
     private SpriteRenderer spriteOutline;
+    private List<Material> materials;
 
     // Sorry, I butchered the code a bit to be callable when only prefab
     // Caller is not null when we are calling this as a prefab
@@ -375,11 +379,12 @@ public class ShipComponentController : MonoBehaviour
             outlineMesh.SetActive(true);
             if (spriteOutline != null) spriteOutline.gameObject.SetActive(true);
             mesh = outlineMesh.GetComponent<MeshRenderer>();
+            outlineMesh.transform.position = componentMesh.transform.position;
         }
 
         // Create new materials for the mesh
         int materialsCount = componentMesh.GetComponent<MeshRenderer>().materials.Length;
-        var materials = new List<Material>();
+        materials = new List<Material>();
         for (int i = 0; i < materialsCount; i++) {
             materials.Add(new Material(highlightMaterial));
             materials[i].SetColor("_Color", color);
@@ -405,6 +410,7 @@ public class ShipComponentController : MonoBehaviour
                 spriteMat.SetColor("_Color", color);
                 spriteMat.SetFloat("_OutlineSize", baseOutlineWidth);
                 spriteOutline.material = spriteMat;
+                spriteOutline.transform.position = spriteToOutline.transform.position;
             }
         }
 
@@ -415,22 +421,66 @@ public class ShipComponentController : MonoBehaviour
         return outlineMesh;
     }
 
-    public void ChangeHighlightColor(Color color) {
-        if (color == currentHightlightColor || outlineMesh == null) return;
+    public void ChangeHighlightColor(Color color, bool enforceChange = false) {
+        if (priorityHighlightColor != Color.black || (color == currentHightlightColor && !enforceChange) || outlineMesh == null) return;
 
         currentHightlightColor = color;
-        var materials = outlineMesh.GetComponent<MeshRenderer>().materials;
+        //var materials = outlineMesh.GetComponent<MeshRenderer>().materials;
         foreach (var mat in materials) {
-            mat.DOKill();
+            //mat.DOKill();
             mat.DOColor(color, fadeTime);
         }
 
         if (spriteOutline != null) spriteOutline.material.DOColor(color, fadeTime);
     }
 
+    private Color priorityHighlightColor = Color.black;
+    private float componentY;
+    private float spriteY;
+    public void PriorityHighlightColor(Color color) {
+        if (color == priorityHighlightColor || outlineMesh == null) return;
+
+        componentY = ComponentMesh.transform.position.y;
+        ComponentMesh.transform.position = ComponentMesh.transform.position.SetY(componentY + 5);
+        outlineMesh.transform.position = outlineMesh.transform.position.SetY(componentY + 5);
+
+        priorityHighlightColor = color;
+        //var materials = outlineMesh.GetComponent<MeshRenderer>().materials;
+        foreach (var mat in materials) {
+            //mat.DOKill();
+            mat.DOColor(color, fadeTime / 2f);
+        }
+
+        if (spriteOutline != null) {
+            spriteOutline.material.DOColor(color, fadeTime / 2f);
+            spriteY = spriteOutline.transform.position.y;
+            spriteOutline.transform.position = spriteOutline.transform.position.SetY(spriteY + 5);
+            spriteToOutline.transform.position = spriteOutline.transform.position.SetY(spriteY + 5);
+        }
+    }
+
+    public void RemovePriorityHighlight(bool changeBack = true) {
+        priorityHighlightColor = Color.black;
+        ComponentMesh.transform.position = ComponentMesh.transform.position.SetY(componentY);
+        if (outlineMesh != null)
+            outlineMesh.transform.position = outlineMesh.transform.position.SetY(componentY);
+
+        if (spriteOutline != null) {
+            spriteOutline.transform.position = spriteOutline.transform.position.SetY(spriteY);
+            spriteToOutline.transform.position = spriteOutline.transform.position.SetY(spriteY);
+        }
+
+        if (changeBack)
+            ChangeHighlightColor(currentHightlightColor, true);
+    }
+
     public IEnumerator FadeOutline(List<Material> highlightMaterials, float target, float fadeTime, bool disable) {
+        //Debug.Log($"{this} {target} {fadeTime}");
+        //if (componentType == ComponentType.Generator) {
+        //    Debug.Log("Here");
+        //}
         foreach(var mat in highlightMaterials) {
-            mat.DOKill();
+            //mat.DOKill();
             mat.DOFloat(target, "_OutlineSize", fadeTime);
         }
         if (spriteOutline != null) spriteOutline.material.DOFloat(target, "_OutlineSize", fadeTime);
@@ -444,6 +494,9 @@ public class ShipComponentController : MonoBehaviour
 
     public void RemoveHighlight() {
         if (outlineMesh != null) {
+            if (priorityHighlightColor != Color.black) {
+                RemovePriorityHighlight(false);
+            }
             StartCoroutine(FadeOutline(outlineMesh.GetComponent<MeshRenderer>().materials.ToList(), baseOutlineWidth, fadeTime, true));
         }
     }
