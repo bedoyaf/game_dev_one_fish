@@ -44,6 +44,7 @@ public class CombatController : SmartSingleton<CombatController>
     [SerializeField] private float selfDestructSequenceTime = 10f;
 
     [SerializeField] private TextMeshProUGUI mainText;
+
     public void InformEnemyOfComponentRemoved()
     {
         currentEnemyAI.ComponentRemoved();
@@ -283,6 +284,7 @@ public class CombatController : SmartSingleton<CombatController>
     public void StartCombat()
     {
         ResetListeners();
+        GameManager.Instance.SFXManager.MoveShips(playerShip, currentEnemyInstance);
 
         if (gameplayFlowManager.tutorialRunning) {
             AudioManager.Instance.ToggleSFX(false);
@@ -350,6 +352,8 @@ public class CombatController : SmartSingleton<CombatController>
 
         if (playerWon) GameManager.Instance.SFXManager.SetFishFace(Moods.VeryHappy, true, 10);
         else   GameManager.Instance.SFXManager.SetFishFace(Moods.Sad, false);
+
+        GameManager.Instance.SFXManager.StopMovingShips();
 
         gameplayFlowManager.OnCombatEnd();
     }

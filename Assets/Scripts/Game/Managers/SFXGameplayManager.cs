@@ -3,7 +3,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.NetworkInformation;
 using UnityEngine;
 
 /// <summary>
@@ -648,4 +647,57 @@ public class SFXGameplayManager : MonoBehaviour
     }
 
 
+
+    // --------------------- Ships moving up and down
+    private bool movePlayerShip;
+    private bool moveEnemyShip;
+    public void MoveShips(ShipController playerShip, ShipController enemyShip) {
+        if (GameManager.Instance.currentGameplayManager.tutorialRunning) return;
+        StartCoroutine(MovePlayerShip(playerShip));
+        StartCoroutine(MoveEnemyShip(enemyShip));
+    }
+
+    public void StopMovingShips() {
+        movePlayerShip = false;
+        moveEnemyShip = false;
+    }
+
+    private IEnumerator MovePlayerShip(ShipController playerShip) {
+        movePlayerShip = true;
+        yield return MyTime.WaitForSeconds(UnityEngine.Random.Range(0f, 0.3f)); // Random starting offset
+        float duration = UnityEngine.Random.Range(1.4f, 1.6f);
+        while (movePlayerShip) {
+            yield return MoveTween(playerShip.transform, 0.1f, duration);
+            yield return MoveTween(playerShip.transform, -0.1f, duration);
+        }
+    }
+
+    private IEnumerator MoveEnemyShip(ShipController enemyShip) {
+        var enemyParent = new GameObject("EnemyMoverParent");
+        enemyShip.transform.parent = enemyParent.transform;
+
+        moveEnemyShip = true;
+        yield return MyTime.WaitForSeconds(UnityEngine.Random.Range(0f, 0.3f)); // Random starting offset
+        float duration = UnityEngine.Random.Range(1.4f, 1.6f);
+        while (moveEnemyShip) {
+            yield return MoveTween(enemyParent.transform, 0.1f, duration);
+            yield return MoveTween(enemyParent.transform, -0.1f, duration);
+        }
+
+        enemyShip.transform.SetParent(null);
+        Destroy(enemyParent);
+    }
+
+    private IEnumerator MoveTween(Transform transform, float z, float duration) {
+        var startTime = MyTime.time;
+        var endTime = startTime + duration;
+        var startZ = transform.position.z;
+        while (MyTime.time < endTime) {
+            float t = 1f - ((endTime - MyTime.time) / duration);
+            transform.position = transform.position.SetZ(startZ + t * z);
+            yield return null;
+        }
+
+        transform.position = transform.position.SetZ(startZ + z);
+    }
 }
