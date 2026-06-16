@@ -22,6 +22,8 @@ public class CombatState : IGameState
         manager.PlayerShip.componentsActive = true;
         manager.PlayerShip.ResetComponentEffects();
 
+        
+
     }
 
     public void Exit()
@@ -37,5 +39,7 @@ public class CombatState : IGameState
 
         // If was doing some action (like aiming a rocket or a shield) -> reset on combat end
         manager.mouseController.Reset();
+
+        manager.sfx.SetDayTime(false, true);
     }
 }

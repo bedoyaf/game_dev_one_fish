@@ -44,6 +44,7 @@ public class CombatController : SmartSingleton<CombatController>
     [SerializeField] private float selfDestructSequenceTime = 10f;
 
     [SerializeField] private TextMeshProUGUI mainText;
+
     public void InformEnemyOfComponentRemoved()
     {
         currentEnemyAI.ComponentRemoved();
@@ -283,6 +284,7 @@ public class CombatController : SmartSingleton<CombatController>
     public void StartCombat()
     {
         ResetListeners();
+        GameManager.Instance.SFXManager.MoveShips(playerShip, currentEnemyInstance);
 
         if (gameplayFlowManager.tutorialRunning) {
             AudioManager.Instance.ToggleSFX(false);
@@ -296,6 +298,7 @@ public class CombatController : SmartSingleton<CombatController>
         combatEnded = false;
 
         currentEnemyAI.ActivateAgent();
+        currentEnemyInstance.AddCurrency(currentEnemyInstance.boss ? 10 : 5, false);
         currentEnemyAI.thinking = true;
 
         Debug.Log("Combat Start");
@@ -349,6 +352,8 @@ public class CombatController : SmartSingleton<CombatController>
 
         if (playerWon) GameManager.Instance.SFXManager.SetFishFace(Moods.VeryHappy, true, 10);
         else   GameManager.Instance.SFXManager.SetFishFace(Moods.Sad, false);
+
+        GameManager.Instance.SFXManager.StopMovingShips();
 
         gameplayFlowManager.OnCombatEnd();
     }
@@ -450,7 +455,8 @@ public class CombatController : SmartSingleton<CombatController>
             if (decors != null) {
                 foreach (Transform child in decors.transform) {
                     var spriteRenderer = child.GetComponent<SpriteRenderer>();
-                    spriteRenderer.sortingOrder -= 1;
+                    if(spriteRenderer != null)
+                        spriteRenderer.sortingOrder -= 1;
                 }
             }
         }

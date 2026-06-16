@@ -33,6 +33,7 @@ public class BatteryComponentController : BehaviourComponentControllerAbstract
 
     public override void ResetBehaviour()
     {
+        Debug.Log("Reset called");
         energyStored = 0;
     }
 

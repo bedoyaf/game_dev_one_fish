@@ -199,7 +199,19 @@ public class MouseController : MonoBehaviour
         // if targeting -> cancel
         if (currentMode == ClickMode.ComponentTargeting)
         {
+            if (activeComponent != null) {
+                (activeComponent as BehaviourComponentControllerAbstract).shipComponentController.DeactivateAimingAndRefund();
+                ExitTargetingMode(false);
+            }
             // NOT worth now, rework energy consumption on succesfull usage only if want this
+        }
+    }
+
+
+    public void StopTargetingAndRefund() {
+        if (activeComponent != null) {
+            (activeComponent as BehaviourComponentControllerAbstract).shipComponentController.DeactivateAimingAndRefund();
+            ExitTargetingMode(false);
         }
     }
 
@@ -214,6 +226,7 @@ public class MouseController : MonoBehaviour
             AudioManager.Instance.PlaySFX(failSound);
         }
     }
+
 
     private void HandleComponentTargetClick(ShipComponentMeshController target, Vector3 componentOffset)
     {
@@ -558,9 +571,28 @@ public class MouseController : MonoBehaviour
                 break;
         }
 
+        // Highlighting on hover
+        if (target != null && activeComponent != null) {
+            var comp = target.GetShipComponent;
+            if (hoverHighlighted != null && hoverHighlighted != comp) {
+                hoverHighlighted.RemovePriorityHighlight();
+            }
+
+            hoverHighlighted = comp;
+            if (hoverHighlighted != null && highlightedComponents.Contains(hoverHighlighted)) {
+                hoverHighlighted.PriorityHighlightColor(hoverHighlightColor);
+            }
+        }
+        else if (hoverHighlighted != null && activeComponent != null) {
+            hoverHighlighted.RemovePriorityHighlight();
+            hoverHighlighted = null;
+        }
+
         previousMode = currentMode;
     }
 
+
+    private ShipComponentController hoverHighlighted;
 
     public Material highlightMaterial;
     public Material spriteHighlightMaterial;
@@ -572,6 +604,7 @@ public class MouseController : MonoBehaviour
     public Color repairHighlightColor = new Color(255, 204, 0);
     public Color hookAttackHighlightColor = new Color(255, 0, 3);
     public Color hookStealHighlightColor = new Color(38, 255, 0);
+    public Color hoverHighlightColor = new Color(202, 255, 0);
 
 
     private void HighlightAttack(Color color)

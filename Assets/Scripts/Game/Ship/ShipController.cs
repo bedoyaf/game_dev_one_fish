@@ -137,7 +137,15 @@ public class ShipController : MonoBehaviour
                     foreach (Transform child in decor.transform)
                     {
                         child.localPosition = child.localPosition.SetY(-child.localPosition.y);
+
+                        // if decor has a particle system on it, flip it 
+                        if (child.TryGetComponent(out ParticleSystemRenderer p))
+                        {
+                            p.flip = new Vector3(0, 1, 0);
+                        }
                     }
+
+                    
                 }
 
             }
@@ -162,7 +170,8 @@ public class ShipController : MonoBehaviour
             if (decors != null) {
                 foreach (Transform child in decors.transform) {
                     var spriteRenderer = child.GetComponent<SpriteRenderer>();
-                    spriteRenderer.sortingOrder -= 1;
+                    if(spriteRenderer != null)
+                        spriteRenderer.sortingOrder -= 1;
                 }
             }
         }
@@ -466,19 +475,20 @@ public class ShipController : MonoBehaviour
     }
 
     public int GetCurrency => storedMoney;
-    public void AddCurrency(int amount)
+    public void AddCurrency(int amount, bool playSound = true)
     {
         // TODO: maybe limit via some components like energy
 
         storedMoney += amount;
-        if (amount >= 5)
-        {
-            AudioManager.Instance.PlaySFX(moneyBigClip, transform.position);
+        if (playSound) {
+            if (amount >= 5) {
+                AudioManager.Instance.PlaySFX(moneyBigClip, transform.position);
+            }
+            else {
+                AudioManager.Instance.PlaySFX(moneyClip, transform.position);
+            }
         }
-        else
-        {
-            AudioManager.Instance.PlaySFX(moneyClip, transform.position);
-        }
+
         onScrapChanged.Invoke();
     }
 
@@ -693,13 +703,17 @@ public class ShipController : MonoBehaviour
 
     public bool IsSoftLocked()
     {
-        bool hasWeapon = componentGrid.GetComponentsOfType<MissileComponentController>(false).Count > 0;
-
-        bool hasGenerator = componentGrid.GetComponentsOfType<GeneratorComponentController>(false).Count > 0;
-
         bool hasRepair = componentGrid.GetComponentsOfType<RepairerComponentController>(false).Count > 0;
-
-        return !hasRepair && (!hasWeapon || !hasGenerator);
+        if (hasRepair) {
+            bool hasWeapon = componentGrid.GetComponentsOfType<MissileComponentController>(true).Count > 0;
+            bool hasGenerator = componentGrid.GetComponentsOfType<GeneratorComponentController>(true).Count > 0;
+            return !hasWeapon || !hasGenerator; // Will not work correctly if it has broken generators and no energy, but that is unlikely
+        }
+        else {
+            bool hasWeapon = componentGrid.GetComponentsOfType<MissileComponentController>(false).Count > 0;
+            bool hasGenerator = componentGrid.GetComponentsOfType<GeneratorComponentController>(false).Count > 0;
+            return !hasWeapon || !hasGenerator;
+        }
     }
 
     public void CheckFailState()
@@ -708,12 +722,12 @@ public class ShipController : MonoBehaviour
         /*if (!playerShip)
             return;*/
 
-        if (IsSoftLocked())
-        {
-            Debug.Log("is softlocked.");
+        //if (IsSoftLocked())
+        //{
+        //    Debug.Log("is softlocked.");
 
-            OnSoftLock?.Invoke();
-        }
+        //    OnSoftLock?.Invoke();
+        //}
     }
 }
 

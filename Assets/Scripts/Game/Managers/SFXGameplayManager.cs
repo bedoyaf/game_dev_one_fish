@@ -4,7 +4,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using static ShipComponentController;
 
 /// <summary>
 /// Special Effects for the Gameplay Scene.
@@ -98,7 +97,6 @@ public class SFXGameplayManager : MonoBehaviour
     {
         statusBar.DOKill();
         statusBar.GetComponent<RectTransform>().DOKill();
-        Debug.Log("Here");
         // Show the combat text in ui
         statusBar.text = $"--- Fight ---\n{enemyName}";
         // var pos = statusBar.GetComponent<RectTransform>().position.y;
@@ -111,19 +109,16 @@ public class SFXGameplayManager : MonoBehaviour
         statusBar.DOFade(1f, 0.2f);
 
         yield return new WaitForSeconds(0.2f);
-        Debug.Log("Here2");
 
         // Leave the text for the player to read
 
         yield return new WaitForSeconds(3f);
-        Debug.Log("Here3");
 
         // Move the text up
 
         statusBar.GetComponent<RectTransform>().DOAnchorPos3DY(status_y + 500, 0.5f);
 
         yield return new WaitForSeconds(0.5f);
-        Debug.Log("Here4");
 
         statusBar.gameObject.SetActive(false);
         statusBar.DOFade(0f, 0f);
@@ -220,6 +215,11 @@ public class SFXGameplayManager : MonoBehaviour
         statusBar.GetComponent<RectTransform>().anchoredPosition =
             statusBar.GetComponent<RectTransform>().anchoredPosition.SetY(status_y);
 
+        // Reset batteries
+        foreach (var battery in playersShip.componentGrid.GetComponentsOfType<BatteryComponentController>()) {
+            battery.DrainEnergy(1000);
+        }
+
         onFinished();
 
     }
@@ -295,7 +295,6 @@ public class SFXGameplayManager : MonoBehaviour
     private IEnumerator ExplodeShipCoroutine(ShipController ship) {
         // Disable clicking
         //GameManager.Instance.currentGameplayManager.EnemyShip.DisableAllCollidersExcept(new ComponentType[] {});
-
         // Take all components in the ship's grid
         var comps = ship.componentGrid.GetAllComponents();
         var cabin = ship.GetMainCabin();
@@ -312,55 +311,25 @@ public class SFXGameplayManager : MonoBehaviour
             wireShake = ship.componentsParent.transform.DOShakePosition(100f, 0.2f);
         }
 
+        // Clear shields
+        foreach(var comp in comps) {
+            comp.RemoveShield();
+        }
+        
         shipExplosionOngoing = true;
-        // Play explode particles
-        //var particles = Instantiate(shipExplosion,
-        //    cabin.transform.position + Vector3.up * 5,
-        //    Quaternion.identity);
-        //Destroy(particles.gameObject, particlesLifetime);
-        //StartCoroutine(PlayExplosionSounds());
-
-        // Except cabin
-        //if (ship.boss) {
         foreach(var mc in mainCabins) {
             comps.Remove(mc);
         }
-        //}
-        //else {
-        //    comps.Remove(cabin);
-        //}
+
         // Explode in parts
         comps.Shuffle();
-
-        
-
-        //int explosionCount = minExplosionCount;
-        //int perPhase = comps.Count / explosionCount;
-        //while (explosionCount < maxExplosionCount) {
-        //    if (perPhase <= 2 || (perPhase <= 3 && UnityEngine.Random.Range(0.0f, 1.0f) < 0.33))
-        //        break;
-
-        //    explosionCount++;
-        //    perPhase = comps.Count / explosionCount;
-        //}
-
-        //explosionCount = Mathf.Min(explosionCount, comps.Count);
-        //if (explosionCount > 0)
-        //    perPhase = comps.Count / explosionCount;
-
-        //for (int i = 0; i < explosionCount; i++) {
 
         bool canTwoAtOnce = comps.Count > 5;
         while(comps.Count > 0) {
             var surroundings = AnalyzeComponentSurroundings(comps, ship);
-            //int end = perPhase;
 
             // How many will we explode now
             int explodeCount = UnityEngine.Random.Range(1, canTwoAtOnce ? 3 : 2);
-
-            // On last, get all remaining components
-            //if (i == explosionCount - 1)
-            //    end = surroundings.Count;
 
             // Do explosion effect on each component and blast it away
             for(int j = 0; j < Mathf.Min(explodeCount, surroundings.Count); j++) {
@@ -433,6 +402,8 @@ public class SFXGameplayManager : MonoBehaviour
         if (wireShake != null) wireShake.Kill();
         yield return MyTime.WaitForSeconds(waitAfterShipExplosionTime);
 
+        // Stop targeting
+        MouseController.Instance.StopTargetingAndRefund();
         shipExplosionOngoing = false;
     }
 
@@ -522,4 +493,211 @@ public class SFXGameplayManager : MonoBehaviour
         }
     }
 
+    [SerializeField]
+    private Transform bubblesParent;
+
+    [SerializeField]
+    private Transform starsParent;
+
+    [SerializeField]
+    private SpriteRenderer lightBack;
+
+    [SerializeField]
+    private SpriteRenderer ground;
+
+
+    public void SetDayTime(bool night, bool fast=false)
+    {
+
+        foreach (Transform t in bubblesParent)
+        {
+            t.GetComponent<BubbleFloatingScript>().moving = !night;
+        }
+
+        // delay 
+        DOVirtual.DelayedCall(fast ? 0.1f : 1.6f, () =>
+        {
+            lightBack.DOKill();
+
+            if (night)
+            {
+                lightBack.DOFade(0f, 1.5f);
+            }
+            else
+            {
+                lightBack.DOFade(1f, 1.5f);
+            }
+
+            // tiny delay 
+
+            DOVirtual.DelayedCall(2f, () =>
+            {
+                foreach (Transform t in starsParent)
+                {
+                    t.GetComponent<StarFadeScript>().Fade(night ? 1f : 0f, 3f);
+                }
+            });
+        });
+    }
+
+
+    [SerializeField]
+    private Transform plantsParent;
+
+    [SerializeField]
+    private ParticleSystem SpeedParticlesPrefab;
+
+    private GameObject speedInstance = null;
+
+    private float camera_start_size = 8.93f;
+    private float camera_start_x = 17.06f;
+    
+    private float camera_map_size = 6.42f;
+    private float camera_map_x = 13.44f;
+
+    [SerializeField]
+    private Camera mainCamera;
+
+    [SerializeField]
+    private Transform playerShipShaker;
+
+    private Tween shaking = null;
+
+    public void Lightspeed(bool active)
+    {
+        // show / hide everything
+        foreach (Transform t in plantsParent)
+        {
+            t.DOKill();
+            foreach(SpriteRenderer s in t.GetComponentsInChildren<SpriteRenderer>())
+                s.DOFade(active ? 0f : 1f, 0.5f).SetDelay(UnityEngine.Random.value * 0.3f);
+        }
+
+        foreach (Transform t in bubblesParent)
+        {
+            t.GetComponent<BubbleFloatingScript>().moving = !active;
+        }
+
+        //lightBack.DOKill();
+        //lightBack.DOFade(active ? 0f : 1f, 0.5f);
+        // ground.DOKill();
+        // ground.DOFade(active ? 0f : 1f, 0.5f).SetDelay(0.2f);
+
+        mainCamera.DOKill();
+
+        if (active)
+        {
+            lightBack.DOKill();
+            // Hide stars and sky
+            lightBack.DOFade(0f, 0.5f);
+            foreach (Transform t in starsParent) {
+                t.GetComponent<StarFadeScript>().SetAlpha(0.0f);
+            }
+
+            // show particles
+            speedInstance = Instantiate(SpeedParticlesPrefab).gameObject;
+
+            // move cam
+            mainCamera.DOOrthoSize(camera_map_size, 1f);
+            mainCamera.transform.DOMoveX(camera_map_x, 1f);
+
+            mainCamera.GetComponent<CameraMouseFollowScript>().MovedXTo(camera_map_x);
+
+            // shake player
+            shaking = playerShipShaker.transform.DOLocalMoveX
+                (0.1f, 0.3f).SetLoops(-1, LoopType.Yoyo);
+
+            foreach(var engine in playersShip.GetComponentsInChildren<EngineFlameIndicator>()) {
+                engine.SpawnTravelFlames();
+            }
+        } 
+        else
+        {
+            // stop particles emitting
+            speedInstance.GetComponent<ParticleSystem>().Stop();
+            // kill particles
+            DOVirtual.DelayedCall(0.5f, () =>
+            {
+                if (speedInstance != null)
+                {
+                    Destroy(speedInstance);
+                    speedInstance = null;
+                }
+
+                // move cam
+                mainCamera.DOOrthoSize(camera_start_size, 1f);
+                mainCamera.transform.DOMoveX(camera_start_x, 1f);
+
+                mainCamera.GetComponent<CameraMouseFollowScript>().MovedXTo(camera_start_x);
+            });
+
+            foreach (var engine in playersShip.GetComponentsInChildren<EngineFlameIndicator>()) {
+                engine.StopTravelFlames();
+            }
+
+            // stop shaking
+            if (shaking != null)
+            {
+                shaking.Kill();
+                shaking = null;
+            }
+
+            
+        }
+    }
+
+
+
+    // --------------------- Ships moving up and down
+    private bool movePlayerShip;
+    private bool moveEnemyShip;
+    public void MoveShips(ShipController playerShip, ShipController enemyShip) {
+        if (GameManager.Instance.currentGameplayManager.tutorialRunning) return;
+        StartCoroutine(MovePlayerShip(playerShip));
+        StartCoroutine(MoveEnemyShip(enemyShip));
+    }
+
+    public void StopMovingShips() {
+        movePlayerShip = false;
+        moveEnemyShip = false;
+    }
+
+    private IEnumerator MovePlayerShip(ShipController playerShip) {
+        movePlayerShip = true;
+        yield return MyTime.WaitForSeconds(UnityEngine.Random.Range(0f, 0.3f)); // Random starting offset
+        float duration = UnityEngine.Random.Range(1.4f, 1.6f);
+        while (movePlayerShip) {
+            yield return MoveTween(playerShip.transform, 0.1f, duration);
+            yield return MoveTween(playerShip.transform, -0.1f, duration);
+        }
+    }
+
+    private IEnumerator MoveEnemyShip(ShipController enemyShip) {
+        var enemyParent = new GameObject("EnemyMoverParent");
+        enemyShip.transform.parent = enemyParent.transform;
+
+        moveEnemyShip = true;
+        yield return MyTime.WaitForSeconds(UnityEngine.Random.Range(0f, 0.3f)); // Random starting offset
+        float duration = UnityEngine.Random.Range(1.4f, 1.6f);
+        while (moveEnemyShip) {
+            yield return MoveTween(enemyParent.transform, 0.1f, duration);
+            yield return MoveTween(enemyParent.transform, -0.1f, duration);
+        }
+
+        enemyShip.transform.SetParent(null);
+        Destroy(enemyParent);
+    }
+
+    private IEnumerator MoveTween(Transform transform, float z, float duration) {
+        var startTime = MyTime.time;
+        var endTime = startTime + duration;
+        var startZ = transform.position.z;
+        while (MyTime.time < endTime) {
+            float t = 1f - ((endTime - MyTime.time) / duration);
+            transform.position = transform.position.SetZ(startZ + t * z);
+            yield return null;
+        }
+
+        transform.position = transform.position.SetZ(startZ + z);
+    }
 }

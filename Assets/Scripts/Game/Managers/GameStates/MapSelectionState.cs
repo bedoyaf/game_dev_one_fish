@@ -12,9 +12,11 @@ public class MapSelectionState : IGameState
     public void Enter()
     {
         manager.OpenMapController();
+        manager.sfx.Lightspeed(true);
     }
 
     public void Exit()
     {
+        manager.sfx.Lightspeed(false);
     }
 }

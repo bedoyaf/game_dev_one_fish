@@ -26,7 +26,7 @@ public class EventController : MonoBehaviour
     /// Selects event and shows it on the screen
     /// </summary>
     public void NextEvent(MapNode currentNode) {
-        if (addedEvents.Count > 0 && Random.Range(0, 3) == 0) {
+        if (addedEvents.Count > 0 && Random.Range(0, 5) > 0) { // 80 % chance to choose the event
             SelectRandomEvent(addedEvents, currentNode.depth);
         }
         else {

@@ -215,6 +215,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 3143172193047539597, guid: 76b53dd701359c84195162e28f3a0cbb, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2819476261514164234}
+    - targetCorrespondingSourceObject: {fileID: 8104800591989940212, guid: 76b53dd701359c84195162e28f3a0cbb, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4668852318134323278}
   m_SourcePrefab: {fileID: 100100000, guid: 76b53dd701359c84195162e28f3a0cbb, type: 3}
 --- !u!1 &4601685864176397566 stripped
 GameObject:
@@ -238,6 +241,28 @@ MeshRenderer:
   m_CorrespondingSourceObject: {fileID: 4898772173142610036, guid: 76b53dd701359c84195162e28f3a0cbb, type: 3}
   m_PrefabInstance: {fileID: 1459925618552488819}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &7221728366821366919 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8104800591989940212, guid: 76b53dd701359c84195162e28f3a0cbb, type: 3}
+  m_PrefabInstance: {fileID: 1459925618552488819}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &4668852318134323278
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7221728366821366919}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f6ff9e522f43b342a5ca5383a8cea71, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EngineFlameIndicator
+  flamePrefab: {fileID: 3482343678898837779, guid: 71985c49a505fd94185607205368f33d, type: 3}
+  posOffset: {x: 3.19, y: 0, z: 0}
+  controller: {fileID: 2819476261514164234}
+  travelFlamePrefab: {fileID: 2375557050198074850, guid: 11b15f6295ca024499d53afb087b7c5f, type: 3}
+  travelPosOffset: {x: 0.57, y: -0.02, z: 0.5}
 --- !u!33 &7577069833932368215 stripped
 MeshFilter:
   m_CorrespondingSourceObject: {fileID: 9035797840035424804, guid: 76b53dd701359c84195162e28f3a0cbb, type: 3}

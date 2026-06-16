@@ -24,7 +24,6 @@ public class ParticleSlowDown : MonoBehaviour
         //}
     }
 
-
     void Update() {
         var timeSpeed = MyTime.CurrentTimeScale;
         if (timeSpeed != currentSpeed) {

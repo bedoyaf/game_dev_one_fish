@@ -35,6 +35,13 @@ public class HeartBeatScriptIndicator : MonoBehaviour
         {
             float dam = meshMat.materials[0].GetFloat("_damageAmount");
             selfMat.material.SetFloat("_damageAmount", dam);
+
+            // broke the sprite, stop moving
+            if(dam >= 1f)
+            {
+                selfMat.color = Color.gray;
+                scaleAmount = 0f;
+            }
         }
 
     }
