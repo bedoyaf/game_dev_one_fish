@@ -215,6 +215,9 @@ public class ShipBuildingController : MonoBehaviour
             if (!removeDesigns)
                 Instantiate(comp.Decor, parent.transform);
 
+            // Particles inside decor -> always
+            
+
             parent.transform.localPosition = new Vector3(left, 0, 0);
             left += comp.placementRules.width;
             left += draggableDistance;

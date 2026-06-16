@@ -450,7 +450,8 @@ public class CombatController : SmartSingleton<CombatController>
             if (decors != null) {
                 foreach (Transform child in decors.transform) {
                     var spriteRenderer = child.GetComponent<SpriteRenderer>();
-                    spriteRenderer.sortingOrder -= 1;
+                    if(spriteRenderer != null)
+                        spriteRenderer.sortingOrder -= 1;
                 }
             }
         }
