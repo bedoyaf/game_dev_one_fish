@@ -544,8 +544,9 @@ public class SFXGameplayManager : MonoBehaviour
         }
 
         // delay 
-        DOVirtual.DelayedCall(fast ? 0.1f : 1.5f, () =>
+        DOVirtual.DelayedCall(fast ? 0.1f : 1.6f, () =>
         {
+            lightBack.DOKill();
 
             if (night)
             {
@@ -593,19 +594,28 @@ public class SFXGameplayManager : MonoBehaviour
 
     public void Lightspeed(bool active)
     {
+
+
+
         // show / hide everything
         foreach (Transform t in plantsParent)
         {
-            t.GetComponentInChildren<SpriteRenderer>().DOFade(active ? 0f : 1f, 1.5f);
+            t.DOKill();
+            t.GetComponentInChildren<SpriteRenderer>().DOFade(active ? 0f : 1f, 
+                0.5f).SetDelay(UnityEngine.Random.value * 0.3f);
         }
 
         foreach (Transform t in bubblesParent)
         {
             t.GetComponent<BubbleFloatingScript>().moving = !active;
         }
-        
-        lightBack.DOFade(active ? 0f : 1f, 1.5f);
-        ground.DOFade(active ? 0f : 1f, 1.5f);
+
+        lightBack.DOKill();
+        lightBack.DOFade(active ? 0f : 1f, 0.5f);
+        // ground.DOKill();
+        // ground.DOFade(active ? 0f : 1f, 0.5f).SetDelay(0.2f);
+
+        mainCamera.DOKill();
 
         if (active)
         {
@@ -635,6 +645,12 @@ public class SFXGameplayManager : MonoBehaviour
                     Destroy(speedInstance);
                     speedInstance = null;
                 }
+
+                // move cam
+                mainCamera.DOOrthoSize(camera_start_size, 1f);
+                mainCamera.transform.DOMoveX(camera_start_x, 1f);
+
+                mainCamera.GetComponent<CameraMouseFollowScript>().MovedXTo(camera_start_x);
             });
 
             // stop shaking
@@ -644,11 +660,7 @@ public class SFXGameplayManager : MonoBehaviour
                 shaking = null;
             }
 
-            // move cam
-            mainCamera.DOOrthoSize(camera_start_size, 1f);
-            mainCamera.transform.DOMoveX(camera_start_x, 1f);
-
-            mainCamera.GetComponent<CameraMouseFollowScript>().MovedXTo(camera_start_x);
+            
         }
     }
 
