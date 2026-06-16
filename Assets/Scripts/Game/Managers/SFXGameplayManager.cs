@@ -216,6 +216,11 @@ public class SFXGameplayManager : MonoBehaviour
         statusBar.GetComponent<RectTransform>().anchoredPosition =
             statusBar.GetComponent<RectTransform>().anchoredPosition.SetY(status_y);
 
+        // Reset batteries
+        foreach (var battery in playersShip.componentGrid.GetComponentsOfType<BatteryComponentController>()) {
+            battery.DrainEnergy(1000);
+        }
+
         onFinished();
 
     }
@@ -291,10 +296,6 @@ public class SFXGameplayManager : MonoBehaviour
     private IEnumerator ExplodeShipCoroutine(ShipController ship) {
         // Disable clicking
         //GameManager.Instance.currentGameplayManager.EnemyShip.DisableAllCollidersExcept(new ComponentType[] {});
-
-        // Stop targeting
-        MouseController.Instance.StopTargetingAndRefund();
-
         // Take all components in the ship's grid
         var comps = ship.componentGrid.GetAllComponents();
         var cabin = ship.GetMainCabin();
@@ -402,6 +403,8 @@ public class SFXGameplayManager : MonoBehaviour
         if (wireShake != null) wireShake.Kill();
         yield return MyTime.WaitForSeconds(waitAfterShipExplosionTime);
 
+        // Stop targeting
+        MouseController.Instance.StopTargetingAndRefund();
         shipExplosionOngoing = false;
     }
 
