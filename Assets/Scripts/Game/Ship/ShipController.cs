@@ -137,7 +137,15 @@ public class ShipController : MonoBehaviour
                     foreach (Transform child in decor.transform)
                     {
                         child.localPosition = child.localPosition.SetY(-child.localPosition.y);
+
+                        // if decor has a particle system on it, flip it 
+                        if (child.TryGetComponent(out ParticleSystemRenderer p))
+                        {
+                            p.flip = new Vector3(0, 1, 0);
+                        }
                     }
+
+                    
                 }
 
             }
@@ -162,7 +170,8 @@ public class ShipController : MonoBehaviour
             if (decors != null) {
                 foreach (Transform child in decors.transform) {
                     var spriteRenderer = child.GetComponent<SpriteRenderer>();
-                    spriteRenderer.sortingOrder -= 1;
+                    if(spriteRenderer != null)
+                        spriteRenderer.sortingOrder -= 1;
                 }
             }
         }

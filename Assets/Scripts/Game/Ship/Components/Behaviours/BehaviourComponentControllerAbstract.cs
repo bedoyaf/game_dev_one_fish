@@ -14,6 +14,9 @@ public abstract class BehaviourComponentControllerAbstract : MonoBehaviour, IShi
 
     public bool CanRepairNow => shipComponentController.CanRepairThisComponent;
 
+    // don't question this...
+    public bool IsPlayers => shipController == null || shipController.playerShip;
+
     public void Awake()
     {
         //shipController = GetComponentInParent<ShipController>(); // componentcontroller sets it for him:)
