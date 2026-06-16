@@ -26,6 +26,8 @@ public class ShieldPhysical : MonoBehaviour
     private Material shieldMaterial;
     private bool dieCalled = false;
 
+    private float creationTime;
+
     private void Awake() {
         shieldMaterial = GetComponent<MeshRenderer>().material;
         shieldMaterial.SetFloat("_Progress", 0.0f);
@@ -35,7 +37,7 @@ public class ShieldPhysical : MonoBehaviour
         Sequence sequence = DOTween.Sequence();
         sequence.Append(shieldMaterial.DOFloat(shieldOverSize, "_VisualScale", shieldFadeTime)/*.SetEase(Ease.OutCubic)*/);
         sequence.Append(shieldMaterial.DOFloat(1, "_VisualScale", shieldOverFadeTime).SetEase(Ease.Linear)/*.SetLoops(2, LoopType.Yoyo)*//*.SetEase(Ease.InCubic)*/);
-
+        creationTime = MyTime.time;
     }
 
     public void Start()
@@ -51,6 +53,10 @@ public class ShieldPhysical : MonoBehaviour
         if (health <= 0)
         {
             Die();
+        }
+
+        if (MyTime.time - creationTime < 0.2f) {
+            GameManager.Instance.SFXManager.SetFishFace(Moods.ThisIsFine);
         }
     }
 
