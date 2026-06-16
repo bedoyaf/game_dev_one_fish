@@ -435,7 +435,7 @@ public class ShipComponentController : MonoBehaviour
     }
 
     private Color priorityHighlightColor = Color.black;
-    private float componentY;
+    private float componentY = -100;
     private float spriteY;
     public void PriorityHighlightColor(Color color) {
         if (color == priorityHighlightColor || outlineMesh == null) return;
@@ -460,6 +460,7 @@ public class ShipComponentController : MonoBehaviour
     }
 
     public void RemovePriorityHighlight(bool changeBack = true) {
+        if (priorityHighlightColor == Color.black || componentY == -100) return;
         priorityHighlightColor = Color.black;
         ComponentMesh.transform.position = ComponentMesh.transform.position.SetY(componentY);
         if (outlineMesh != null)

@@ -466,19 +466,20 @@ public class ShipController : MonoBehaviour
     }
 
     public int GetCurrency => storedMoney;
-    public void AddCurrency(int amount)
+    public void AddCurrency(int amount, bool playSound = true)
     {
         // TODO: maybe limit via some components like energy
 
         storedMoney += amount;
-        if (amount >= 5)
-        {
-            AudioManager.Instance.PlaySFX(moneyBigClip, transform.position);
+        if (playSound) {
+            if (amount >= 5) {
+                AudioManager.Instance.PlaySFX(moneyBigClip, transform.position);
+            }
+            else {
+                AudioManager.Instance.PlaySFX(moneyClip, transform.position);
+            }
         }
-        else
-        {
-            AudioManager.Instance.PlaySFX(moneyClip, transform.position);
-        }
+
         onScrapChanged.Invoke();
     }
 

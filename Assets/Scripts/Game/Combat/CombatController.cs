@@ -296,6 +296,7 @@ public class CombatController : SmartSingleton<CombatController>
         combatEnded = false;
 
         currentEnemyAI.ActivateAgent();
+        currentEnemyInstance.AddCurrency(currentEnemyInstance.boss ? 10 : 5, false);
         currentEnemyAI.thinking = true;
 
         Debug.Log("Combat Start");
