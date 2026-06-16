@@ -28,6 +28,8 @@ public class EnemyShipAgent : MonoBehaviour
     private ShipController shipController;
     //player
     [SerializeField] private ShipController playerShip;
+
+    private float perfectShieldFailChance = 0.15f;
     public void SetPlayerShip(ShipController player)
     {
         playerShip = player;
@@ -123,7 +125,13 @@ public class EnemyShipAgent : MonoBehaviour
             if (shieldComp.activated) continue;
 
             // Activate this shield targeting the incoming component
-            shieldComp.AgentActivateComponent(new TargetingData(targetComponent.shipComponentMeshController));
+            if (Random.Range(0, 1.0f) > perfectShieldFailChance) {
+                shieldComp.AgentActivateComponent(new TargetingData(targetComponent.shipComponentMeshController));
+            }
+            else {
+                var surroundings = targetComponent.shipController.componentGrid.GetTilesAroundComponent(targetComponent.placementRules.connectedTile.x, targetComponent.placementRules.connectedTile.z);
+                shieldComp.AgentActivateComponent(new TargetingData(surroundings.GetRandom().component.shipComponentMeshController));
+            }
             perfectShieldReaction = false;
             perfectShieldTime = MyTime.time + perfectShieldInterval;
             return;

@@ -199,7 +199,19 @@ public class MouseController : MonoBehaviour
         // if targeting -> cancel
         if (currentMode == ClickMode.ComponentTargeting)
         {
+            if (activeComponent != null) {
+                (activeComponent as BehaviourComponentControllerAbstract).shipComponentController.DeactivateAimingAndRefund();
+                ExitTargetingMode(false);
+            }
             // NOT worth now, rework energy consumption on succesfull usage only if want this
+        }
+    }
+
+
+    public void StopTargetingAndRefund() {
+        if (activeComponent != null) {
+            (activeComponent as BehaviourComponentControllerAbstract).shipComponentController.DeactivateAimingAndRefund();
+            ExitTargetingMode(false);
         }
     }
 
@@ -214,6 +226,7 @@ public class MouseController : MonoBehaviour
             AudioManager.Instance.PlaySFX(failSound);
         }
     }
+
 
     private void HandleComponentTargetClick(ShipComponentMeshController target, Vector3 componentOffset)
     {
@@ -558,6 +571,7 @@ public class MouseController : MonoBehaviour
                 break;
         }
 
+        // Highlighting on hover
         if (target != null && activeComponent != null) {
             var comp = target.GetShipComponent;
             if (hoverHighlighted != null && hoverHighlighted != comp) {

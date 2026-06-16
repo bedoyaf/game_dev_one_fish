@@ -292,6 +292,9 @@ public class SFXGameplayManager : MonoBehaviour
         // Disable clicking
         //GameManager.Instance.currentGameplayManager.EnemyShip.DisableAllCollidersExcept(new ComponentType[] {});
 
+        // Stop targeting
+        MouseController.Instance.StopTargetingAndRefund();
+
         // Take all components in the ship's grid
         var comps = ship.componentGrid.GetAllComponents();
         var cabin = ship.GetMainCabin();
@@ -308,55 +311,25 @@ public class SFXGameplayManager : MonoBehaviour
             wireShake = ship.componentsParent.transform.DOShakePosition(100f, 0.2f);
         }
 
+        // Clear shields
+        foreach(var comp in comps) {
+            comp.RemoveShield();
+        }
+        
         shipExplosionOngoing = true;
-        // Play explode particles
-        //var particles = Instantiate(shipExplosion,
-        //    cabin.transform.position + Vector3.up * 5,
-        //    Quaternion.identity);
-        //Destroy(particles.gameObject, particlesLifetime);
-        //StartCoroutine(PlayExplosionSounds());
-
-        // Except cabin
-        //if (ship.boss) {
         foreach(var mc in mainCabins) {
             comps.Remove(mc);
         }
-        //}
-        //else {
-        //    comps.Remove(cabin);
-        //}
+
         // Explode in parts
         comps.Shuffle();
-
-        
-
-        //int explosionCount = minExplosionCount;
-        //int perPhase = comps.Count / explosionCount;
-        //while (explosionCount < maxExplosionCount) {
-        //    if (perPhase <= 2 || (perPhase <= 3 && UnityEngine.Random.Range(0.0f, 1.0f) < 0.33))
-        //        break;
-
-        //    explosionCount++;
-        //    perPhase = comps.Count / explosionCount;
-        //}
-
-        //explosionCount = Mathf.Min(explosionCount, comps.Count);
-        //if (explosionCount > 0)
-        //    perPhase = comps.Count / explosionCount;
-
-        //for (int i = 0; i < explosionCount; i++) {
 
         bool canTwoAtOnce = comps.Count > 5;
         while(comps.Count > 0) {
             var surroundings = AnalyzeComponentSurroundings(comps, ship);
-            //int end = perPhase;
 
             // How many will we explode now
             int explodeCount = UnityEngine.Random.Range(1, canTwoAtOnce ? 3 : 2);
-
-            // On last, get all remaining components
-            //if (i == explosionCount - 1)
-            //    end = surroundings.Count;
 
             // Do explosion effect on each component and blast it away
             for(int j = 0; j < Mathf.Min(explodeCount, surroundings.Count); j++) {
