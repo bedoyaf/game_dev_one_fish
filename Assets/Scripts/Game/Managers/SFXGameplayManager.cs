@@ -311,6 +311,11 @@ public class SFXGameplayManager : MonoBehaviour
             wireShake = ship.componentsParent.transform.DOShakePosition(100f, 0.2f);
         }
 
+        // Clear shields
+        foreach(var comp in comps) {
+            comp.RemoveShield();
+        }
+        
         shipExplosionOngoing = true;
         foreach(var mc in mainCabins) {
             comps.Remove(mc);
