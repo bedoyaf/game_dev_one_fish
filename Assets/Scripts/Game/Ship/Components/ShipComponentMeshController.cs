@@ -4,6 +4,7 @@ using UnityEngine;
 public class ShipComponentMeshController : MonoBehaviour, IDamagableCollider
 {
     private ShipComponentController shipComponentController;
+    public ShipComponentController GetShipComponent => shipComponentController;
 
     private Collider meshCollider;
 

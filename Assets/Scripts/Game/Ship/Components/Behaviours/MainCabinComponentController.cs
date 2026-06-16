@@ -1,5 +1,6 @@
 using DG.Tweening;
 using System;
+using System.Collections;
 using System.ComponentModel;
 using UnityEngine;
 using UnityEngine.Events;
@@ -34,6 +35,9 @@ public class MainCabinComponentController : BehaviourComponentControllerAbstract
         }
     }
 
+    private Vector3 originalMeshPosition;
+    private Vector3 originalSpritePosition = new Vector3(-100, -100, -100);
+
     public void Start()
     {
         if (shipController != null && !shipController.playerShip)
@@ -41,7 +45,24 @@ public class MainCabinComponentController : BehaviourComponentControllerAbstract
 
         // maybe set by parent ?
         cooldown = GetComponent<ComponentCooldown>();
-    
+    }
+
+    //private IEnumerator WeirdThingsHappen() {
+    //    yield return null;
+    //    originalMeshPosition = shipComponentController.ComponentMesh.transform.position;
+    //    if (shipComponentController.spriteToOutline != null) originalSpritePosition = shipComponentController.spriteToOutline.transform.position;
+    //}
+
+    public void SavePosition() {
+        originalMeshPosition = shipComponentController.ComponentMesh.transform.position;
+        if (shipComponentController.spriteToOutline != null) originalSpritePosition = shipComponentController.spriteToOutline.transform.position;
+    }
+    public void RestorePosition() {
+        shipComponentController.ComponentMesh.transform.position = originalMeshPosition;
+        if (shipComponentController.spriteToOutline != null) {
+            if (originalSpritePosition == new Vector3(-100, -100, -100)) SavePosition();
+            shipComponentController.spriteToOutline.transform.position = originalSpritePosition;
+        }
     }
 
 

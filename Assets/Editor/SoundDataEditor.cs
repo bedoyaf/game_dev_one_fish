@@ -17,7 +17,7 @@ public class SoundDataEditor : Editor {
     }
 
     private IEnumerator DestroyThis(SoundData sound, GameObject gameObject) {
-        yield return new WaitForSeconds(sound.clip.length);
+        yield return new WaitForSeconds(sound.clip.length + 1);
         gameObject.SmartDestroy();
     }
 }
