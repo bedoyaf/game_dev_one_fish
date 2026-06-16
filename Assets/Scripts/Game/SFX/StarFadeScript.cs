@@ -1,4 +1,5 @@
 using DG.Tweening;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class StarFadeScript : MonoBehaviour
@@ -23,4 +24,11 @@ public class StarFadeScript : MonoBehaviour
             .SetDelay(Random.value * 0.5f);
     }
 
+    public void SetAlpha(float alpha) {
+        if (selfRenderer == null) return;
+        selfRenderer.DOKill();
+        var color = selfRenderer.color;
+        color.a = alpha;
+        selfRenderer.color = color;
+    }
 }

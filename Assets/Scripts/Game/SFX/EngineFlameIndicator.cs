@@ -13,6 +13,14 @@ public class EngineFlameIndicator : MonoBehaviour
     [SerializeField]
     private EngineComponentController controller;
 
+    [Header("Travel flames")]
+    [SerializeField]
+    private ParticleSystem travelFlamePrefab;
+
+    private ParticleSystem travelFlamesInstance;
+
+    [SerializeField] private Vector3 travelPosOffset;
+
     private void Start()
     {
         // add the particles
@@ -26,12 +34,27 @@ public class EngineFlameIndicator : MonoBehaviour
 
     private void Update()
     {
+        if (flamesInstance == null) {
+            enabled = false;
+            return;
+        }
+
         bool inactiveInMap = GameManager.Instance.currentGameplayManager.stateMachine.CurrentStateKey != GameplayFlowManager.GameStates.MapSelection;
 
         bool inactiveInBuilder = GameManager.Instance.currentGameplayManager.stateMachine.CurrentStateKey != GameplayFlowManager.GameStates.ShipModification;
 
         // disable in map
         flamesInstance.SetActive(inactiveInMap && inactiveInBuilder);
-        
+    }
+
+    public void SpawnTravelFlames() {
+        travelFlamesInstance = Instantiate(travelFlamePrefab, transform);
+        travelFlamesInstance.transform.localPosition = travelPosOffset;
+    }
+
+    public void StopTravelFlames() {
+        var main = travelFlamesInstance.main;
+        main.stopAction = ParticleSystemStopAction.Destroy;
+        travelFlamesInstance.Stop(false, ParticleSystemStopBehavior.StopEmitting);
     }
 }

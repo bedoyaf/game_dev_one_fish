@@ -566,9 +566,6 @@ public class SFXGameplayManager : MonoBehaviour
 
     public void Lightspeed(bool active)
     {
-
-
-
         // show / hide everything
         foreach (Transform t in plantsParent)
         {
@@ -582,8 +579,8 @@ public class SFXGameplayManager : MonoBehaviour
             t.GetComponent<BubbleFloatingScript>().moving = !active;
         }
 
-        lightBack.DOKill();
-        lightBack.DOFade(active ? 0f : 1f, 0.5f);
+        //lightBack.DOKill();
+        //lightBack.DOFade(active ? 0f : 1f, 0.5f);
         // ground.DOKill();
         // ground.DOFade(active ? 0f : 1f, 0.5f).SetDelay(0.2f);
 
@@ -591,6 +588,13 @@ public class SFXGameplayManager : MonoBehaviour
 
         if (active)
         {
+            lightBack.DOKill();
+            // Hide stars and sky
+            lightBack.DOFade(0f, 0.5f);
+            foreach (Transform t in starsParent) {
+                t.GetComponent<StarFadeScript>().SetAlpha(0.0f);
+            }
+
             // show particles
             speedInstance = Instantiate(SpeedParticlesPrefab).gameObject;
 
@@ -604,6 +608,9 @@ public class SFXGameplayManager : MonoBehaviour
             shaking = playerShipShaker.transform.DOLocalMoveX
                 (0.1f, 0.3f).SetLoops(-1, LoopType.Yoyo);
 
+            foreach(var engine in playersShip.GetComponentsInChildren<EngineFlameIndicator>()) {
+                engine.SpawnTravelFlames();
+            }
         } 
         else
         {
@@ -624,6 +631,10 @@ public class SFXGameplayManager : MonoBehaviour
 
                 mainCamera.GetComponent<CameraMouseFollowScript>().MovedXTo(camera_start_x);
             });
+
+            foreach (var engine in playersShip.GetComponentsInChildren<EngineFlameIndicator>()) {
+                engine.StopTravelFlames();
+            }
 
             // stop shaking
             if (shaking != null)
