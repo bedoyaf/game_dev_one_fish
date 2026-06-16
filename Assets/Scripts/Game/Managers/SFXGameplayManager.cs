@@ -597,8 +597,8 @@ public class SFXGameplayManager : MonoBehaviour
         foreach (Transform t in plantsParent)
         {
             t.DOKill();
-            t.GetComponentInChildren<SpriteRenderer>().DOFade(active ? 0f : 1f, 
-                0.5f).SetDelay(UnityEngine.Random.value * 0.3f);
+            foreach(SpriteRenderer s in t.GetComponentsInChildren<SpriteRenderer>())
+                s.DOFade(active ? 0f : 1f, 0.5f).SetDelay(UnityEngine.Random.value * 0.3f);
         }
 
         foreach (Transform t in bubblesParent)
