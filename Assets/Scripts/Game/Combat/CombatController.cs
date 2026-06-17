@@ -249,7 +249,7 @@ public class CombatController : SmartSingleton<CombatController>
             AudioManager.Instance.ToggleSFX(true);
         }
 
-        currentEnemyInstance.OnSoftLock.AddListener(TriggerEnemySoftLockSequence);
+        //currentEnemyInstance.OnSoftLock.AddListener(TriggerEnemySoftLockSequence);
 
         return currentEnemyInstance;
     }
