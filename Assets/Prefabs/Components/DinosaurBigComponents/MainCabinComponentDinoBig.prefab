@@ -52,6 +52,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7391571773637799411, guid: 9190658838a60b344af20b15098d4a8a, type: 3}
+      propertyPath: meshMat
+      value: 
+      objectReference: {fileID: 1275023304357845361}
+    - target: {fileID: 7391571773637799411, guid: 9190658838a60b344af20b15098d4a8a, type: 3}
+      propertyPath: selfMat
+      value: 
+      objectReference: {fileID: 4417979958854752060}
     - target: {fileID: 7449386927338994059, guid: 9190658838a60b344af20b15098d4a8a, type: 3}
       propertyPath: guid
       value: 5
@@ -70,3 +78,13 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9190658838a60b344af20b15098d4a8a, type: 3}
+--- !u!23 &1275023304357845361 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 7937219328011091177, guid: 9190658838a60b344af20b15098d4a8a, type: 3}
+  m_PrefabInstance: {fileID: 9193922839134021016}
+  m_PrefabAsset: {fileID: 0}
+--- !u!212 &4417979958854752060 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 4816794694987690660, guid: 9190658838a60b344af20b15098d4a8a, type: 3}
+  m_PrefabInstance: {fileID: 9193922839134021016}
+  m_PrefabAsset: {fileID: 0}

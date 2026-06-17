@@ -16,9 +16,45 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[1]'
       value: 
       objectReference: {fileID: 2100000, guid: 91e30a739259e2348b306ec6a9e19534, type: 2}
+    - target: {fileID: 103488743557296065, guid: 2f4985ec027b29e4cafef24cd514b857, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 333ce5f3450e6304d82725c6f84b66ef, type: 3}
     - target: {fileID: 697638125547566027, guid: 2f4985ec027b29e4cafef24cd514b857, type: 3}
       propertyPath: guid
       value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 731238591605427222, guid: 2f4985ec027b29e4cafef24cd514b857, type: 3}
+      propertyPath: meshMat
+      value: 
+      objectReference: {fileID: 3538167848664690471}
+    - target: {fileID: 731238591605427222, guid: 2f4985ec027b29e4cafef24cd514b857, type: 3}
+      propertyPath: selfMat
+      value: 
+      objectReference: {fileID: 3502696254367053391}
+    - target: {fileID: 4547428112706944139, guid: 2f4985ec027b29e4cafef24cd514b857, type: 3}
+      propertyPath: m_LocalScale.x
+      value: -0.10999999
+      objectReference: {fileID: 0}
+    - target: {fileID: 4547428112706944139, guid: 2f4985ec027b29e4cafef24cd514b857, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.10999999
+      objectReference: {fileID: 0}
+    - target: {fileID: 4547428112706944139, guid: 2f4985ec027b29e4cafef24cd514b857, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.10999999
+      objectReference: {fileID: 0}
+    - target: {fileID: 4547428112706944139, guid: 2f4985ec027b29e4cafef24cd514b857, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.022
+      objectReference: {fileID: 0}
+    - target: {fileID: 4547428112706944139, guid: 2f4985ec027b29e4cafef24cd514b857, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.054
+      objectReference: {fileID: 0}
+    - target: {fileID: 4547428112706944139, guid: 2f4985ec027b29e4cafef24cd514b857, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7533541493198653776, guid: 2f4985ec027b29e4cafef24cd514b857, type: 3}
       propertyPath: m_Name
@@ -65,7 +101,20 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 7526195470896775585, guid: 2f4985ec027b29e4cafef24cd514b857, type: 3}
+    - {fileID: 3867542112031431427, guid: 2f4985ec027b29e4cafef24cd514b857, type: 3}
+    - {fileID: 2495557080916582683, guid: 2f4985ec027b29e4cafef24cd514b857, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2f4985ec027b29e4cafef24cd514b857, type: 3}
+--- !u!212 &3502696254367053391 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 103488743557296065, guid: 2f4985ec027b29e4cafef24cd514b857, type: 3}
+  m_PrefabInstance: {fileID: 3599424871682562446}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &3538167848664690471 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 65760897758770857, guid: 2f4985ec027b29e4cafef24cd514b857, type: 3}
+  m_PrefabInstance: {fileID: 3599424871682562446}
+  m_PrefabAsset: {fileID: 0}
