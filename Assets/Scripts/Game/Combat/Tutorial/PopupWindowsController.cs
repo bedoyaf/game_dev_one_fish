@@ -21,8 +21,12 @@ public class PopupWindowsController : MonoBehaviour
     [Tooltip("On sequence completed")]
     public UnityEvent OnSequenceCompleted;
 
+    [SerializeField] private SoundData turnPageSound;
+    [SerializeField] private bool playSoundOnStart;
+    [SerializeField] private bool enterShip; // Yes, this should not be here.
 
     private int currentPageIndex = 0;
+    private bool completed = false;
 
     private void OnEnable()
     {
@@ -33,6 +37,14 @@ public class PopupWindowsController : MonoBehaviour
         {
             nextAction.action.Enable();
             nextAction.action.performed += AdvanceText;
+        }
+
+        if (playSoundOnStart) {
+            AudioManager.Instance.PlaySFX(turnPageSound);
+        }
+
+        if (enterShip) {
+            GameManager.Instance.SFXManager.EnterEnemyShip();
         }
     }
 
@@ -48,13 +60,13 @@ public class PopupWindowsController : MonoBehaviour
     {
         currentPageIndex++;
 
-
         if (currentPageIndex >= textPages.Length)
         {
             CompleteSequence();
         }
         else
         {
+            AudioManager.Instance.PlaySFX(turnPageSound);
             UpdateTextDisplay();
         }
     }
@@ -71,5 +83,6 @@ public class PopupWindowsController : MonoBehaviour
     private void CompleteSequence()
     {
         OnSequenceCompleted?.Invoke();
+        completed = true;
     }
 }
