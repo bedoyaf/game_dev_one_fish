@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 432644458731358577}
   - component: {fileID: 8966040154855282023}
   - component: {fileID: 1433632387692285845}
+  - component: {fileID: 6597280686358859911}
   m_Layer: 0
   m_Name: head
   m_TagString: Untagged
@@ -107,6 +108,20 @@ MonoBehaviour:
   angle: 5
   speed: 2
   offset: 0.47
+--- !u!114 &6597280686358859911
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3994959570516774002}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6778723ef4b3e65439c7e530cfe8940b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DamageSpriteScript
+  meshMat: {fileID: 8759837321886898483}
+  selfMat: {fileID: 8966040154855282023}
 --- !u!1001 &1853064571074728999
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -175,5 +190,10 @@ PrefabInstance:
 --- !u!4 &4490100025322743622 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2875374940550394721, guid: f0531711de513bc4ca9091ae208b1071, type: 3}
+  m_PrefabInstance: {fileID: 1853064571074728999}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &8759837321886898483 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 6928323797208681748, guid: f0531711de513bc4ca9091ae208b1071, type: 3}
   m_PrefabInstance: {fileID: 1853064571074728999}
   m_PrefabAsset: {fileID: 0}
