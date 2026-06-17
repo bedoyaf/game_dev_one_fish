@@ -60,6 +60,10 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: -2012676441, guid: f84b391cc7c15b7418e30346dd083d7d, type: 3}
+    - target: {fileID: 6159985621527962822, guid: 4197ee1e20b603b4eb2c79f1f37e68cb, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 204590c95dd896b48956bc23274f5936, type: 2}
     - target: {fileID: 8820017277281295305, guid: 4197ee1e20b603b4eb2c79f1f37e68cb, type: 3}
       propertyPath: m_LocalPosition.y
       value: -0.69
@@ -69,5 +73,37 @@ PrefabInstance:
     m_RemovedGameObjects:
     - {fileID: 5928092854599794155, guid: 4197ee1e20b603b4eb2c79f1f37e68cb, type: 3}
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4299640180443815189, guid: 4197ee1e20b603b4eb2c79f1f37e68cb, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4444858031236163232}
   m_SourcePrefab: {fileID: 100100000, guid: 4197ee1e20b603b4eb2c79f1f37e68cb, type: 3}
+--- !u!1 &1849742779144337595 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4299640180443815189, guid: 4197ee1e20b603b4eb2c79f1f37e68cb, type: 3}
+  m_PrefabInstance: {fileID: 2450231663995938222}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &4444858031236163232
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1849742779144337595}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6778723ef4b3e65439c7e530cfe8940b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DamageSpriteScript
+  meshMat: {fileID: 7831282138143036181}
+  selfMat: {fileID: 8609847839663866216}
+--- !u!23 &7831282138143036181 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 5669668180248032955, guid: 4197ee1e20b603b4eb2c79f1f37e68cb, type: 3}
+  m_PrefabInstance: {fileID: 2450231663995938222}
+  m_PrefabAsset: {fileID: 0}
+--- !u!212 &8609847839663866216 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 6159985621527962822, guid: 4197ee1e20b603b4eb2c79f1f37e68cb, type: 3}
+  m_PrefabInstance: {fileID: 2450231663995938222}
+  m_PrefabAsset: {fileID: 0}

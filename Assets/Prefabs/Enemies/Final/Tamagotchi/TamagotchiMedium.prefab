@@ -1,5 +1,96 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &3627154135321475201
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3728337209143305431}
+  - component: {fileID: 3055016279462102051}
+  m_Layer: 0
+  m_Name: robots_4 (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3728337209143305431
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3627154135321475201}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.00000004371139, y: -1, z: 0.000000119209275, w: 0}
+  m_LocalPosition: {x: -0.28055814, y: 5.381943, z: -2.0180583}
+  m_LocalScale: {x: -0.15277776, y: 0.15277778, z: 0.15277778}
+  m_ConstrainProportionsScale: 1
+  m_Children: []
+  m_Father: {fileID: 4647327568788129567}
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+--- !u!212 &3055016279462102051
+SpriteRenderer:
+  serializedVersion: 2
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3627154135321475201}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_MaskInteraction: 0
+  m_Sprite: {fileID: 21300000, guid: 03a6a7acebaaf074fb5617290d5cd9f7, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 3.89, y: 2.98}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_SpriteSortPoint: 0
 --- !u!1 &6988708989746537720
 GameObject:
   m_ObjectHideFlags: 0
@@ -139,7 +230,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4020766290439809741
 Transform:
   m_ObjectHideFlags: 0
@@ -4460,7 +4551,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 7617360889099210462, guid: 77772a4b6882edc47950cbf143346671, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3728337209143305431}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 77772a4b6882edc47950cbf143346671, type: 3}
 --- !u!114 &283243272604226975 stripped
@@ -4474,6 +4568,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a78efac9f7c46a04db9731659d060f9b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ShipComponentController
+--- !u!4 &4647327568788129567 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7617360889099210462, guid: 77772a4b6882edc47950cbf143346671, type: 3}
+  m_PrefabInstance: {fileID: 3010887883403381185}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8652069538805983529 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5898169548918186216, guid: 77772a4b6882edc47950cbf143346671, type: 3}
@@ -4540,6 +4639,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4659674583006339393, guid: 0b0d7b4ea8764154ea0d3276e46c8bda, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 0728a2cdaccb81043ba106341e3172b9, type: 2}
     - target: {fileID: 7867291382325651952, guid: 0b0d7b4ea8764154ea0d3276e46c8bda, type: 3}
       propertyPath: placementRules.connectedTile.x
       value: 3
@@ -4567,7 +4670,13 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5477010046108821296, guid: 0b0d7b4ea8764154ea0d3276e46c8bda, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 15733448258000509}
+    - targetCorrespondingSourceObject: {fileID: 5477010046108821296, guid: 0b0d7b4ea8764154ea0d3276e46c8bda, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 9218685661138726375}
   m_SourcePrefab: {fileID: 100100000, guid: 0b0d7b4ea8764154ea0d3276e46c8bda, type: 3}
 --- !u!4 &4442733017973798842 stripped
 Transform:
@@ -4585,6 +4694,47 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a78efac9f7c46a04db9731659d060f9b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ShipComponentController
+--- !u!23 &5700706239666556526 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 7235341530935766162, guid: 0b0d7b4ea8764154ea0d3276e46c8bda, type: 3}
+  m_PrefabInstance: {fileID: 3131658527410692860}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &7455671013497161164 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5477010046108821296, guid: 0b0d7b4ea8764154ea0d3276e46c8bda, type: 3}
+  m_PrefabInstance: {fileID: 3131658527410692860}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &15733448258000509
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7455671013497161164}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6778723ef4b3e65439c7e530cfe8940b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DamageSpriteScript
+  meshMat: {fileID: 5700706239666556526}
+  selfMat: {fileID: 7773106917406229437}
+--- !u!114 &9218685661138726375
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7455671013497161164}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27dab1e73f4ead0408abc67a80795ce9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MaterialTransparentRotateUpdate
+--- !u!212 &7773106917406229437 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 4659674583006339393, guid: 0b0d7b4ea8764154ea0d3276e46c8bda, type: 3}
+  m_PrefabInstance: {fileID: 3131658527410692860}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &3762179717797390052
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4665,14 +4815,60 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: -0.742
       objectReference: {fileID: 0}
+    - target: {fileID: 8042594533011804998, guid: 27598e5302e4abe4ba254659d164f1ff, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 0728a2cdaccb81043ba106341e3172b9, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7148703391519561015, guid: 27598e5302e4abe4ba254659d164f1ff, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4676503237842421520}
+    - targetCorrespondingSourceObject: {fileID: 7148703391519561015, guid: 27598e5302e4abe4ba254659d164f1ff, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7844430511731307578}
   m_SourcePrefab: {fileID: 100100000, guid: 27598e5302e4abe4ba254659d164f1ff, type: 3}
 --- !u!4 &995478251693375909 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4171833775483889473, guid: 27598e5302e4abe4ba254659d164f1ff, type: 3}
+  m_PrefabInstance: {fileID: 3762179717797390052}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &6269214498106209235 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7148703391519561015, guid: 27598e5302e4abe4ba254659d164f1ff, type: 3}
+  m_PrefabInstance: {fileID: 3762179717797390052}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &4676503237842421520
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6269214498106209235}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27dab1e73f4ead0408abc67a80795ce9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MaterialTransparentRotateUpdate
+--- !u!114 &7844430511731307578
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6269214498106209235}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6778723ef4b3e65439c7e530cfe8940b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DamageSpriteScript
+  meshMat: {fileID: 9181606027585927281}
+  selfMat: {fileID: 6604805487967139234}
+--- !u!212 &6604805487967139234 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 8042594533011804998, guid: 27598e5302e4abe4ba254659d164f1ff, type: 3}
   m_PrefabInstance: {fileID: 3762179717797390052}
   m_PrefabAsset: {fileID: 0}
 --- !u!114 &8515388892366880019 stripped
@@ -4686,6 +4882,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a78efac9f7c46a04db9731659d060f9b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ShipComponentController
+--- !u!23 &9181606027585927281 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 5430897549502717589, guid: 27598e5302e4abe4ba254659d164f1ff, type: 3}
+  m_PrefabInstance: {fileID: 3762179717797390052}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &4253662815314369066
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4863,10 +5064,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: Rocket ComponentRobotMidLeg
       objectReference: {fileID: 0}
+    - target: {fileID: 9003664864299906932, guid: 69c7c07d96f00c848959591073b44d1c, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 46377379ea8e7aa43ad45b7db2140dd3, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7611870430588755354, guid: 69c7c07d96f00c848959591073b44d1c, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6483220117667958185}
   m_SourcePrefab: {fileID: 100100000, guid: 69c7c07d96f00c848959591073b44d1c, type: 3}
 --- !u!114 &2694009835340885385 stripped
 MonoBehaviour:
@@ -4879,6 +5087,35 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a78efac9f7c46a04db9731659d060f9b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ShipComponentController
+--- !u!23 &3180711999263434987 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 1320230453268127898, guid: 69c7c07d96f00c848959591073b44d1c, type: 3}
+  m_PrefabInstance: {fileID: 4500870829098682481}
+  m_PrefabAsset: {fileID: 0}
+--- !u!212 &4793306998703308549 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 9003664864299906932, guid: 69c7c07d96f00c848959591073b44d1c, type: 3}
+  m_PrefabInstance: {fileID: 4500870829098682481}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &6328830710514882027 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7611870430588755354, guid: 69c7c07d96f00c848959591073b44d1c, type: 3}
+  m_PrefabInstance: {fileID: 4500870829098682481}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &6483220117667958185
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6328830710514882027}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6778723ef4b3e65439c7e530cfe8940b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DamageSpriteScript
+  meshMat: {fileID: 3180711999263434987}
+  selfMat: {fileID: 4793306998703308549}
 --- !u!4 &6818186559326310719 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6983216743009524046, guid: 69c7c07d96f00c848959591073b44d1c, type: 3}
@@ -4997,6 +5234,10 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: -0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 2866302693704807046, guid: 899e32d1d1daf8641a9df7b19275ddad, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 46377379ea8e7aa43ad45b7db2140dd3, type: 2}
     - target: {fileID: 4313613645274897596, guid: 899e32d1d1daf8641a9df7b19275ddad, type: 3}
       propertyPath: m_LocalPosition.x
       value: 6
@@ -5064,8 +5305,16 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3645274341866543208, guid: 899e32d1d1daf8641a9df7b19275ddad, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5578629467248764027}
   m_SourcePrefab: {fileID: 100100000, guid: 899e32d1d1daf8641a9df7b19275ddad, type: 3}
+--- !u!23 &1407763172301370459 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 5288968665796240744, guid: 899e32d1d1daf8641a9df7b19275ddad, type: 3}
+  m_PrefabInstance: {fileID: 6552546002074767667}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1931554100301525305 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4620996576875733002, guid: 899e32d1d1daf8641a9df7b19275ddad, type: 3}
@@ -5080,6 +5329,30 @@ MonoBehaviour:
 --- !u!4 &7003758359068396943 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4313613645274897596, guid: 899e32d1d1daf8641a9df7b19275ddad, type: 3}
+  m_PrefabInstance: {fileID: 6552546002074767667}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &7528273018299058523 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3645274341866543208, guid: 899e32d1d1daf8641a9df7b19275ddad, type: 3}
+  m_PrefabInstance: {fileID: 6552546002074767667}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &5578629467248764027
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7528273018299058523}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6778723ef4b3e65439c7e530cfe8940b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DamageSpriteScript
+  meshMat: {fileID: 1407763172301370459}
+  selfMat: {fileID: 9018588830094566325}
+--- !u!212 &9018588830094566325 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 2866302693704807046, guid: 899e32d1d1daf8641a9df7b19275ddad, type: 3}
   m_PrefabInstance: {fileID: 6552546002074767667}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &8537183261631435264
