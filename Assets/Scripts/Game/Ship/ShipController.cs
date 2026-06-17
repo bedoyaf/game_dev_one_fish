@@ -722,12 +722,11 @@ public class ShipController : MonoBehaviour
         /*if (!playerShip)
             return;*/
 
-        //if (IsSoftLocked())
-        //{
-        //    Debug.Log("is softlocked.");
+        if (IsSoftLocked()) {
+            Debug.Log("is softlocked.");
 
-        //    OnSoftLock?.Invoke();
-        //}
+            OnSoftLock?.Invoke();
+        }
     }
 }
 

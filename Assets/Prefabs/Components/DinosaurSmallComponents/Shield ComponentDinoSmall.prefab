@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8208863067641489193}
   - component: {fileID: 1643450387382211496}
+  - component: {fileID: 582895929591176586}
   m_Layer: 0
   m_Name: dino_small_1
   m_TagString: Untagged
@@ -26,9 +27,9 @@ Transform:
   m_GameObject: {fileID: 987968517518661778}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0.12, y: -0.73, z: -0.1}
-  m_LocalScale: {x: -1.7, y: 1.7, z: 1.7}
-  m_ConstrainProportionsScale: 0
+  m_LocalPosition: {x: 0.055, y: -0.73, z: -0.147}
+  m_LocalScale: {x: -0.12, y: 0.12, z: 0.12}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 3681621297839760335}
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
@@ -58,7 +59,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
+  - {fileID: 2100000, guid: b1e5394ad5a75d643af9fb458f7150df, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -81,7 +82,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 972955963, guid: c620bfeddec2aae4daac1b47f9868f49, type: 3}
+  m_Sprite: {fileID: 21300000, guid: be7cdddb211b2da4f823348eb9e09819, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -91,6 +92,20 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &582895929591176586
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 987968517518661778}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6778723ef4b3e65439c7e530cfe8940b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DamageSpriteScript
+  meshMat: {fileID: 8419062373818752442}
+  selfMat: {fileID: 1643450387382211496}
 --- !u!1001 &61672012668334545
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -162,5 +177,10 @@ PrefabInstance:
 --- !u!4 &3681621297839760335 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3732539945893335582, guid: 941493f41f8f740458b500db62c73e57, type: 3}
+  m_PrefabInstance: {fileID: 61672012668334545}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &8419062373818752442 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 8362514635181468779, guid: 941493f41f8f740458b500db62c73e57, type: 3}
   m_PrefabInstance: {fileID: 61672012668334545}
   m_PrefabAsset: {fileID: 0}

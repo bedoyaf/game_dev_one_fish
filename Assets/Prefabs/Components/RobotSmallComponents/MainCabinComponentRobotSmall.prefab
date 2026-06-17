@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1706043038891880184}
   - component: {fileID: 3336976292902554814}
   - component: {fileID: 5619414164223825086}
+  - component: {fileID: 4267945483580424900}
   m_Layer: 0
   m_Name: robots_0
   m_TagString: Untagged
@@ -106,6 +107,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::HeartBeatScriptIndicator
   speed: 3
   scaleAmount: 0.05
+--- !u!114 &4267945483580424900
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2452935522868634534}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6778723ef4b3e65439c7e530cfe8940b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DamageSpriteScript
   meshMat: {fileID: 6735944181216655642}
   selfMat: {fileID: 3336976292902554814}
 --- !u!1001 &775670544164760093

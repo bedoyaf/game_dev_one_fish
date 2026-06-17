@@ -221,6 +221,7 @@ GameObject:
   - component: {fileID: 4547428112706944139}
   - component: {fileID: 103488743557296065}
   - component: {fileID: 731238591605427222}
+  - component: {fileID: 3335632655564064501}
   m_Layer: 0
   m_Name: submarine_2
   m_TagString: Untagged
@@ -319,6 +320,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::HeartBeatScriptIndicator
   speed: 4
   scaleAmount: 0.05
+--- !u!114 &3335632655564064501
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3880106222170172815}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6778723ef4b3e65439c7e530cfe8940b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DamageSpriteScript
   meshMat: {fileID: 65760897758770857}
   selfMat: {fileID: 103488743557296065}
 --- !u!1 &7526195470896775585
