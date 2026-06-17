@@ -116,6 +116,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1365979368749851299}
   - component: {fileID: 3255089570250651605}
+  - component: {fileID: 3156474323412953542}
   m_Layer: 0
   m_Name: dino_big_1
   m_TagString: Untagged
@@ -197,6 +198,20 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &3156474323412953542
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4510070675257110982}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6778723ef4b3e65439c7e530cfe8940b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DamageSpriteScript
+  meshMat: {fileID: 1073117482881446055}
+  selfMat: {fileID: 3255089570250651605}
 --- !u!1 &4641460230289437639
 GameObject:
   m_ObjectHideFlags: 0
