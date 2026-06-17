@@ -1,10 +1,11 @@
-using NUnit.Framework;
-using UnityEngine;
-using System.Collections.Generic;
 using DG.Tweening;
+using NUnit.Framework;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
+using UnityEngine;
 
 public class CombatController : SmartSingleton<CombatController>
 {
@@ -79,8 +80,15 @@ public class CombatController : SmartSingleton<CombatController>
                 // include Decor child
                 var decor = lootedComponent.gameObject.transform.Find("Decor");
                 if (decor != null)
-                    decor.gameObject.transform.SetParent(mesh.transform);
-
+                {
+                    decor.gameObject.transform.SetParent(lootInventoryParent);
+                    // animate decor flying off
+                    decor.transform.DOMove(
+                        lootedComponent.transform.position - Vector3.forward * 10, 0.5f).onComplete +=
+                        // then destroy it
+                        () => decor.gameObject.SmartDestroy();
+                }
+                
                 lootedComponent.gameObject.SmartDestroy();
 
                 // offset from each other
