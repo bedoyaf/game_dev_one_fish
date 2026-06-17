@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 7765022398406947236}
   - component: {fileID: 4816794694987690660}
   - component: {fileID: 7391571773637799411}
+  - component: {fileID: 5804522552600321364}
   m_Layer: 0
   m_Name: heart
   m_TagString: Untagged
@@ -106,6 +107,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::HeartBeatScriptIndicator
   speed: 2
   scaleAmount: 0.1
+--- !u!114 &5804522552600321364
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6720449260495785387}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6778723ef4b3e65439c7e530cfe8940b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DamageSpriteScript
   meshMat: {fileID: 7937219328011091177}
   selfMat: {fileID: 4816794694987690660}
 --- !u!1001 &4152309131247398894
