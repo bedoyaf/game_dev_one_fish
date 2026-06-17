@@ -26,7 +26,6 @@ public class PopupWindowsController : MonoBehaviour
     [SerializeField] private bool enterShip; // Yes, this should not be here.
 
     private int currentPageIndex = 0;
-    private bool completed = false;
 
     private void OnEnable()
     {
@@ -83,6 +82,5 @@ public class PopupWindowsController : MonoBehaviour
     private void CompleteSequence()
     {
         OnSequenceCompleted?.Invoke();
-        completed = true;
     }
 }

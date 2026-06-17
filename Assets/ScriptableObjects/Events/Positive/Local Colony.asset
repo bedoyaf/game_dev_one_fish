@@ -24,20 +24,20 @@ MonoBehaviour:
     effects:
     - effectType: 6
       effectData:
-        rid: 4087197205068775558
+        rid: 3391801355676156066
     - effectType: 3
       effectData:
-        rid: 4087197205068775560
+        rid: 3391801355676156068
     conditions:
     - conditionType: 1
       eventCondition:
-        rid: 4087197205068775561
+        rid: 3391801355676156069
   - choiceID: steal
     choiceText: Steal even the little scrap they have
     effects:
     - effectType: 3
       effectData:
-        rid: 4087197205068775562
+        rid: 3391801355676156071
     conditions: []
   - choiceID: leave
     choiceText: Just leave them be
@@ -49,20 +49,20 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
-    - rid: 4087197205068775558
+    - rid: 3391801355676156066
       type: {class: AddEventEffect, ns: , asm: Assembly-CSharp}
       data:
         eventToAdd: {fileID: 11400000, guid: 0edd88b7ba9241d4399c22c820e9458c, type: 2}
-    - rid: 4087197205068775560
+    - rid: 3391801355676156068
       type: {class: ChangeCurrencyAmountEffect, ns: , asm: Assembly-CSharp}
       data:
         amount: -5
         randomness: 0
-    - rid: 4087197205068775561
+    - rid: 3391801355676156069
       type: {class: HasCurrencyCondition, ns: , asm: Assembly-CSharp}
       data:
         currencyCount: 5
-    - rid: 4087197205068775562
+    - rid: 3391801355676156071
       type: {class: ChangeCurrencyAmountEffect, ns: , asm: Assembly-CSharp}
       data:
         amount: 5

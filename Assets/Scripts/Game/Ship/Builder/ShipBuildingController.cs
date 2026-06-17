@@ -330,6 +330,10 @@ public class ShipBuildingController : MonoBehaviour
             if(shipController != null)
                 shipController.AddEnergy(0); // Updates the energy ui
 
+            // Happy when finished
+            if (successful && isPlayer)
+                GameManager.Instance.SFXManager.SetFishFace(UnityEngine.Random.Range(0, 2) == 0 ? Moods.FeelsGood : Moods.VeryHappy);
+
             // Destroy the object and possibly the original one as well
             if (isPlayer) {
                 if (successful)
@@ -419,7 +423,11 @@ public class ShipBuildingController : MonoBehaviour
             unplaceButton.SetActive(false);
         }
 
-        shipController.AddEnergy(0); // Updates the energy ui
+        shipController.AddEnergy(0); // Updates the energy ui XD
+
+        // Try because I don't know what the button would do in other scenes
+        if (isPlayer)
+            GameManager.Instance.SFXManager.SetFishFace(Moods.Wonky);
     }
 
     /// <summary>

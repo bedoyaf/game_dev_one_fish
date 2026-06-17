@@ -39,6 +39,10 @@ public class FishBehaviourScript : MonoBehaviour
 
     private float t_override => Mathf.Max(0f, Mathf.Min(1f, (MyTime.time - startOverrideTime) / (nextTime - startOverrideTime)));
 
+    [SerializeField] List<Moods> randomMoods;
+    [SerializeField] Vector2 randomFaceCooldown; // x = min, y = max
+    private float nextRandomFace;
+
     public void SetCurrentMood(Moods mood)
     {
         // Dead is final...
@@ -51,6 +55,7 @@ public class FishBehaviourScript : MonoBehaviour
         moodOverride = mood;
         startOverrideTime = MyTime.time;
         nextTime = MyTime.time + time;
+        ResetRandomFaceCooldown();
     }
 
     public void Die(float animTime)
@@ -62,9 +67,12 @@ public class FishBehaviourScript : MonoBehaviour
 
     private void Start()
     {
-
+        ResetRandomFaceCooldown();
     }
 
+    private void ResetRandomFaceCooldown() {
+        nextRandomFace = MyTime.time + Random.Range(randomFaceCooldown.x, randomFaceCooldown.y);
+    }
 
     private void Update()
     {
@@ -79,6 +87,10 @@ public class FishBehaviourScript : MonoBehaviour
 
         var actualMood = moodOverride != Moods.None ? moodOverride : currentMood;
         movingEyesParent.SetActive(actualMood == movingEyesMood);
+
+        if (nextRandomFace < MyTime.time) {
+            SetMoodOverride(randomMoods.GetRandom(), 1f);
+        }
 
         // -------------------
 
