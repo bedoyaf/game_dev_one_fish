@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 8820017277281295305}
   - component: {fileID: 6159985621527962822}
   - component: {fileID: 4071014749003232980}
+  - component: {fileID: 3379404217693660821}
   m_Layer: 0
   m_Name: robots_2
   m_TagString: Untagged
@@ -60,7 +61,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
+  - {fileID: 2100000, guid: 204590c95dd896b48956bc23274f5936, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -108,6 +109,20 @@ MonoBehaviour:
   angle: 4.7
   speed: 2
   offset: 2.08
+--- !u!114 &3379404217693660821
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4299640180443815189}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6778723ef4b3e65439c7e530cfe8940b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DamageSpriteScript
+  meshMat: {fileID: 5669668180248032955}
+  selfMat: {fileID: 6159985621527962822}
 --- !u!1 &5928092854599794155
 GameObject:
   m_ObjectHideFlags: 0
@@ -118,6 +133,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5755132253115557871}
   - component: {fileID: 4206629986487504365}
+  - component: {fileID: 6607852659326531627}
   m_Layer: 0
   m_Name: robots_11
   m_TagString: Untagged
@@ -166,7 +182,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
+  - {fileID: 2100000, guid: 204590c95dd896b48956bc23274f5936, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -199,6 +215,20 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &6607852659326531627
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5928092854599794155}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6778723ef4b3e65439c7e530cfe8940b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DamageSpriteScript
+  meshMat: {fileID: 5669668180248032955}
+  selfMat: {fileID: 4206629986487504365}
 --- !u!1001 &4677306030581487993
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -266,5 +296,10 @@ PrefabInstance:
 --- !u!4 &679918906803374286 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5298115152544813495, guid: 4bfa30d337c1ee344bccf12626785544, type: 3}
+  m_PrefabInstance: {fileID: 4677306030581487993}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &5669668180248032955 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 1028953931287293890, guid: 4bfa30d337c1ee344bccf12626785544, type: 3}
   m_PrefabInstance: {fileID: 4677306030581487993}
   m_PrefabAsset: {fileID: 0}
