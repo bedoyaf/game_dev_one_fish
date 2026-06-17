@@ -37,10 +37,12 @@ public class UIMover : MonoBehaviour
     private void MoveDown() {
         targetImage.DOAnchorPosY(y - offsetDistance, moveDuration);
         faderImage.DOFade(0f, moveDuration);
+        faderImage.raycastTarget = false;
     }
 
     private void MoveUp() {
         targetImage.DOAnchorPosY(y, moveDuration);
         faderImage.DOFade(0.8f, moveDuration);
+        faderImage.raycastTarget = true;
     }
 }

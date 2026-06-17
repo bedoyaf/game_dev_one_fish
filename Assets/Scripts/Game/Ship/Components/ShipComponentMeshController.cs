@@ -18,7 +18,10 @@ public class ShipComponentMeshController : MonoBehaviour, IDamagableCollider
     private int defaultLayer = -1;
 
     // Whether this component belongs to the player ship
-    public bool BelongsToPlayer => shipComponentController.shipController.playerShip;
+    public bool BelongsToPlayer => 
+        shipComponentController != null && 
+        shipComponentController.shipController != null && 
+        shipComponentController.shipController.playerShip;
     public ComponentDescription GetDescription => shipComponentController.GetDescription();
 
     public void Start()

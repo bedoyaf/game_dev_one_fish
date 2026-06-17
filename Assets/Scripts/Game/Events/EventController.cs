@@ -22,6 +22,9 @@ public class EventController : MonoBehaviour
 
     public EventData selectThisEvent;
 
+    [SerializeField]
+    private Sprite redButton;
+
     /// <summary>
     /// Selects event and shows it on the screen
     /// </summary>
@@ -81,7 +84,9 @@ public class EventController : MonoBehaviour
             int a = i; // Avoiding variable transfer for lambdas
 
             if (!eventData.choices[i].DoConditionsHold()) {
-                button.image.color = Color.red;
+                //button.image.color = Color.red;
+                button.image.sprite = redButton;
+
                 button.onClick.AddListener(() => ShowReason(a));
             }
             else {
