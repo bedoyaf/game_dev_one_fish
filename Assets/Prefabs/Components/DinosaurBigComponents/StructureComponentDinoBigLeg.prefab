@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 8171182636525572001}
   - component: {fileID: 950922038976336702}
   - component: {fileID: 4467112670924398933}
+  - component: {fileID: 5118358831499233252}
   m_Layer: 0
   m_Name: dino_big_6
   m_TagString: Untagged
@@ -120,6 +121,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27dab1e73f4ead0408abc67a80795ce9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MaterialTransparentRotateUpdate
+--- !u!114 &5118358831499233252
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5396123287064317081}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6778723ef4b3e65439c7e530cfe8940b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DamageSpriteScript
+  meshMat: {fileID: 3451378559663717193}
+  selfMat: {fileID: 8171182636525572001}
 --- !u!1001 &6624177628149493201
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -184,6 +199,11 @@ PrefabInstance:
       addedObject: {fileID: 3975244491661940209}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 13c8665e40f6f13408b1265acfdff387, type: 3}
+--- !u!23 &3451378559663717193 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 8360946964767381144, guid: 13c8665e40f6f13408b1265acfdff387, type: 3}
+  m_PrefabInstance: {fileID: 6624177628149493201}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &7504396711326188860 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3731574756378781933, guid: 13c8665e40f6f13408b1265acfdff387, type: 3}
