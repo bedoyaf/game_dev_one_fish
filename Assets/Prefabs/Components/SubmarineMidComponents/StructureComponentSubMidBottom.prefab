@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 577814159995416369}
   - component: {fileID: 4810203743243604094}
+  - component: {fileID: 6438316852809342489}
   m_Layer: 0
   m_Name: sub_mid_4
   m_TagString: Untagged
@@ -26,9 +27,9 @@ Transform:
   m_GameObject: {fileID: 8115306735146502741}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0.91, y: -0.87, z: -0.7}
-  m_LocalScale: {x: -2.7, y: 2.7, z: 2.7}
-  m_ConstrainProportionsScale: 0
+  m_LocalPosition: {x: 0.41, y: -0.87, z: -0.31}
+  m_LocalScale: {x: -0.2, y: 0.2, z: 0.2}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1072643942023414633}
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
@@ -58,7 +59,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
+  - {fileID: 2100000, guid: b1e5394ad5a75d643af9fb458f7150df, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -81,7 +82,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: -462660890, guid: 1fa33dd134ef20442b9bdb412f8fbccd, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 62cc3269e8e869d4d86cc7ed3a1d8932, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -91,6 +92,20 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &6438316852809342489
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8115306735146502741}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6778723ef4b3e65439c7e530cfe8940b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DamageSpriteScript
+  meshMat: {fileID: 5270320371786415388}
+  selfMat: {fileID: 4810203743243604094}
 --- !u!1001 &3265521574495080980
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -158,5 +173,10 @@ PrefabInstance:
 --- !u!4 &1072643942023414633 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2572608072453230973, guid: 7be9624072975724d8fa5a2371e33fe2, type: 3}
+  m_PrefabInstance: {fileID: 3265521574495080980}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &5270320371786415388 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 7237995875198447368, guid: 7be9624072975724d8fa5a2371e33fe2, type: 3}
   m_PrefabInstance: {fileID: 3265521574495080980}
   m_PrefabAsset: {fileID: 0}
