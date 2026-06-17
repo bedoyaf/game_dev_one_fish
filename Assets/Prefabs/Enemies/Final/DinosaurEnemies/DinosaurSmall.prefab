@@ -42,6 +42,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6080460818635345768}
   - component: {fileID: 6284120913551090829}
+  - component: {fileID: 8004568330344868286}
   m_Layer: 0
   m_Name: dino_small_3
   m_TagString: Untagged
@@ -123,6 +124,20 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &8004568330344868286
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8135573535888409389}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6778723ef4b3e65439c7e530cfe8940b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DamageSpriteScript
+  meshMat: {fileID: 1252915267107166089}
+  selfMat: {fileID: 6284120913551090829}
 --- !u!1 &8203040803382772392
 GameObject:
   m_ObjectHideFlags: 0
@@ -522,6 +537,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ccc262d35724b0046853937d542f8f5a, type: 3}
+--- !u!23 &1252915267107166089 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 1876031153164143366, guid: ccc262d35724b0046853937d542f8f5a, type: 3}
+  m_PrefabInstance: {fileID: 822539876803828879}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1739547044300428011 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1391088337768926820, guid: ccc262d35724b0046853937d542f8f5a, type: 3}

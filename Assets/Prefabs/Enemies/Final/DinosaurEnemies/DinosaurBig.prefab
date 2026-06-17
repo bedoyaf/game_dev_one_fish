@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1975949609409047008}
   - component: {fileID: 8416728445482376611}
+  - component: {fileID: 4588885101705419022}
   m_Layer: 0
   m_Name: dino_big_0
   m_TagString: Untagged
@@ -27,8 +28,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: -5.19, y: -0.32798, z: 18.2}
-  m_LocalScale: {x: 0.16, y: 0.16, z: 0.09411764}
-  m_ConstrainProportionsScale: 1
+  m_LocalScale: {x: 0.16, y: 0.16, z: 0.16}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6871512183449289004}
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
@@ -58,7 +59,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
+  - {fileID: 2100000, guid: 7a457f8475c6738468636ce6ca812699, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -91,6 +92,20 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &4588885101705419022
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1526827684855825611}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6778723ef4b3e65439c7e530cfe8940b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DamageSpriteScript
+  meshMat: {fileID: 1073117482881446055}
+  selfMat: {fileID: 8416728445482376611}
 --- !u!1 &4510070675257110982
 GameObject:
   m_ObjectHideFlags: 0
@@ -4944,6 +4959,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a78efac9f7c46a04db9731659d060f9b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ShipComponentController
+--- !u!23 &1073117482881446055 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 1275023304357845361, guid: 5b9af8f7996417c45aff342d7882549e, type: 3}
+  m_PrefabInstance: {fileID: 2257904692580379094}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8961954976066652531 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7136783515773804709, guid: 5b9af8f7996417c45aff342d7882549e, type: 3}

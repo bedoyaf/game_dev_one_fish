@@ -81,12 +81,21 @@ public class CombatController : SmartSingleton<CombatController>
                 var decor = lootedComponent.gameObject.transform.Find("Decor");
                 if (decor != null)
                 {
-                    decor.gameObject.transform.SetParent(lootInventoryParent);
-                    // animate decor flying off
-                    decor.transform.DOMove(
-                        lootedComponent.transform.position - Vector3.forward * 10, 0.5f).onComplete +=
-                        // then destroy it
-                        () => decor.gameObject.SmartDestroy();
+                    // keep for cabins
+                    if (lootedComponent.gameObject.TryGetComponent(out MainCabinComponentController c))
+                    {
+                        decor.gameObject.transform.SetParent(mesh.transform);
+                    }
+                    else
+                    {
+
+                        decor.gameObject.transform.SetParent(lootInventoryParent);
+                        // animate decor flying off
+                        decor.transform.DOMove(
+                            lootedComponent.transform.position - Vector3.forward * 10, 0.5f).onComplete +=
+                            // then destroy it
+                            () => decor.gameObject.SmartDestroy();
+                    }
                 }
                 
                 lootedComponent.gameObject.SmartDestroy();

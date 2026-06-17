@@ -320,6 +320,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::HeartBeatScriptIndicator
   speed: 4
   scaleAmount: 0.05
+  meshMat: {fileID: 1947205286038331359}
+  selfMat: {fileID: 8176189761827045080}
 --- !u!114 &882262000638121980
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -332,7 +334,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6778723ef4b3e65439c7e530cfe8940b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DamageSpriteScript
-  meshMat: {fileID: 0}
+  meshMat: {fileID: 1947205286038331359}
   selfMat: {fileID: 8176189761827045080}
 --- !u!1 &7491432360558515326
 GameObject:
@@ -512,6 +514,11 @@ PrefabInstance:
       addedObject: {fileID: 3178922988183658464}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4eda08639ae93264c82420439d8950c0, type: 3}
+--- !u!23 &1947205286038331359 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 3538167848664690471, guid: 4eda08639ae93264c82420439d8950c0, type: 3}
+  m_PrefabInstance: {fileID: 3035360236606992632}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &6684722193957478826 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8564478039739552082, guid: 4eda08639ae93264c82420439d8950c0, type: 3}

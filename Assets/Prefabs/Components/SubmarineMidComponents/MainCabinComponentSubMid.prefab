@@ -24,6 +24,14 @@ PrefabInstance:
       propertyPath: guid
       value: 100
       objectReference: {fileID: 0}
+    - target: {fileID: 731238591605427222, guid: 2f4985ec027b29e4cafef24cd514b857, type: 3}
+      propertyPath: meshMat
+      value: 
+      objectReference: {fileID: 3538167848664690471}
+    - target: {fileID: 731238591605427222, guid: 2f4985ec027b29e4cafef24cd514b857, type: 3}
+      propertyPath: selfMat
+      value: 
+      objectReference: {fileID: 3502696254367053391}
     - target: {fileID: 4547428112706944139, guid: 2f4985ec027b29e4cafef24cd514b857, type: 3}
       propertyPath: m_LocalScale.x
       value: -0.10999999
@@ -100,3 +108,13 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2f4985ec027b29e4cafef24cd514b857, type: 3}
+--- !u!212 &3502696254367053391 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 103488743557296065, guid: 2f4985ec027b29e4cafef24cd514b857, type: 3}
+  m_PrefabInstance: {fileID: 3599424871682562446}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &3538167848664690471 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 65760897758770857, guid: 2f4985ec027b29e4cafef24cd514b857, type: 3}
+  m_PrefabInstance: {fileID: 3599424871682562446}
+  m_PrefabAsset: {fileID: 0}
