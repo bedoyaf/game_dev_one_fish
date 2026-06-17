@@ -607,6 +607,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::HeartBeatScriptIndicator
   speed: 4
   scaleAmount: 0.05
+  meshMat: {fileID: 0}
+  selfMat: {fileID: 0}
 --- !u!114 &6210161968941207266
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7571,8 +7573,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyShipAgent
   thinking: 1
-  cycleBehaviors: 0000000000000000020000000000000005000000000000000100000004000000
-  behaviorSwitchInterval: 3.5
+  cycleBehaviors: 000000000000000002000000000000000500000002000000000000000100000004000000
+  behaviorSwitchInterval: 2.5
   actActionDuration: 0.01
   perfectShieldInterval: 5
   playerShip: {fileID: 0}

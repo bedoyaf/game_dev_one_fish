@@ -20,7 +20,7 @@ public class HeartBeatScriptIndicator : MonoBehaviour
         float pulse = 1f + Mathf.Sin(MyTime.time * speed) * scaleAmount;
         transform.localScale = baseScale * pulse;
 
-        if (!meshMat.gameObject.scene.IsValid())
+        if (meshMat == null || !meshMat.gameObject.scene.IsValid())
         {
             return; // it's a prefab asset
         }
