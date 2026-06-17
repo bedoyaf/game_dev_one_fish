@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5068351642839377078}
   - component: {fileID: 3627512485327416408}
+  - component: {fileID: 2815380319390409859}
   m_Layer: 0
   m_Name: sub_big_1
   m_TagString: Untagged
@@ -27,8 +28,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: -0.38, y: -0.56, z: 0.8}
-  m_LocalScale: {x: -2.7, y: 2.7, z: 2.7}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: -0.33, y: 0.33, z: 0.33}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 8051782190044767080}
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
@@ -58,7 +59,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
+  - {fileID: 2100000, guid: 204590c95dd896b48956bc23274f5936, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -81,7 +82,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: -243070516, guid: 4fc0560038ed533478cbd209d678690b, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 27aaf95e78c7a0940b68765127108395, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -91,6 +92,20 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &2815380319390409859
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4290157659234611794}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6778723ef4b3e65439c7e530cfe8940b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DamageSpriteScript
+  meshMat: {fileID: 2917372353576819997}
+  selfMat: {fileID: 3627512485327416408}
 --- !u!1001 &1058560313134430030
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -155,6 +170,11 @@ PrefabInstance:
       addedObject: {fileID: 5068351642839377078}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b66230b8a360bf749be9487e200ff207, type: 3}
+--- !u!23 &2917372353576819997 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 2795702161899121235, guid: b66230b8a360bf749be9487e200ff207, type: 3}
+  m_PrefabInstance: {fileID: 1058560313134430030}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8051782190044767080 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6993368678944953382, guid: b66230b8a360bf749be9487e200ff207, type: 3}
