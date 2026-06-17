@@ -10,6 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 2305412970638571490}
   - component: {fileID: 6926239470483624279}
+  - component: {fileID: 6289079914421834948}
+  - component: {fileID: 8125864108373116006}
+  - component: {fileID: 5026339071085989649}
   m_Layer: 0
   m_Name: sub_small_2
   m_TagString: Untagged
@@ -26,8 +29,8 @@ Transform:
   m_GameObject: {fileID: 7352737569502784891}
   serializedVersion: 2
   m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -0.11, y: 0.681, z: -0.62}
-  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
+  m_LocalPosition: {x: -0.071, y: 0.681, z: 0.002}
+  m_LocalScale: {x: -0.16, y: -0.16, z: -0.16}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 741811827813211219}
@@ -58,7 +61,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
+  - {fileID: 2100000, guid: 03b81886aa859d647a13af51e04e3cc8, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -81,7 +84,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 1459596327, guid: bcf6d56e731378641ac1f75c3cedb664, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 10dde462751caa54c923b5de84e8090b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -91,6 +94,47 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &6289079914421834948
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7352737569502784891}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6778723ef4b3e65439c7e530cfe8940b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DamageSpriteScript
+  meshMat: {fileID: 5587360073898779174}
+  selfMat: {fileID: 6926239470483624279}
+--- !u!114 &8125864108373116006
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7352737569502784891}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc1c07132ad83f2469edfc9744ab4639, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SlightlyRotateScript
+  angle: 3.87
+  speed: 1.4
+  offset: 0.32
+--- !u!114 &5026339071085989649
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7352737569502784891}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27dab1e73f4ead0408abc67a80795ce9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MaterialTransparentRotateUpdate
 --- !u!1001 &1887878683667231009
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -166,5 +210,10 @@ PrefabInstance:
 --- !u!4 &741811827813211219 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1186810945565437298, guid: 2830b339b4f764746b89c4505b1d6cbf, type: 3}
+  m_PrefabInstance: {fileID: 1887878683667231009}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &5587360073898779174 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 6321186679993111303, guid: 2830b339b4f764746b89c4505b1d6cbf, type: 3}
   m_PrefabInstance: {fileID: 1887878683667231009}
   m_PrefabAsset: {fileID: 0}

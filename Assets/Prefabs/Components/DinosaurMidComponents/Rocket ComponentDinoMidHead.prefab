@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 432644458731358577}
   - component: {fileID: 8966040154855282023}
   - component: {fileID: 1433632387692285845}
+  - component: {fileID: 6597280686358859911}
   m_Layer: 0
   m_Name: head
   m_TagString: Untagged
@@ -27,9 +28,9 @@ Transform:
   m_GameObject: {fileID: 3994959570516774002}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: -0.446, y: 0.68, z: 0.263}
-  m_LocalScale: {x: -1.8367, y: 1.8367, z: 1.8367}
-  m_ConstrainProportionsScale: 0
+  m_LocalPosition: {x: -0.316, y: 0.68, z: 0.309}
+  m_LocalScale: {x: -0.13, y: 0.13, z: 0.13}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 4490100025322743622}
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
@@ -59,7 +60,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: ca09c461d33c66e48ad33710d57f2809, type: 2}
+  - {fileID: 2100000, guid: cc0e7c0e85aa8694788efb46a1114c18, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -82,7 +83,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: -346863624, guid: 4e49bdb629c248246b9cd7ffc6af9075, type: 3}
+  m_Sprite: {fileID: 21300000, guid: ff6fffcfc4ee36349bfed27f0c1c54b4, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -107,6 +108,20 @@ MonoBehaviour:
   angle: 5
   speed: 2
   offset: 0.47
+--- !u!114 &6597280686358859911
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3994959570516774002}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6778723ef4b3e65439c7e530cfe8940b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DamageSpriteScript
+  meshMat: {fileID: 8759837321886898483}
+  selfMat: {fileID: 8966040154855282023}
 --- !u!1001 &1853064571074728999
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -175,5 +190,10 @@ PrefabInstance:
 --- !u!4 &4490100025322743622 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2875374940550394721, guid: f0531711de513bc4ca9091ae208b1071, type: 3}
+  m_PrefabInstance: {fileID: 1853064571074728999}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &8759837321886898483 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 6928323797208681748, guid: f0531711de513bc4ca9091ae208b1071, type: 3}
   m_PrefabInstance: {fileID: 1853064571074728999}
   m_PrefabAsset: {fileID: 0}

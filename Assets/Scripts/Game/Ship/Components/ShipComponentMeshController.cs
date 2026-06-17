@@ -98,7 +98,8 @@ public class ShipComponentMeshController : MonoBehaviour, IDamagableCollider
             // not sure why yet...
             // HOTFIX
             var value = Mathf.Max(0.0f, Mathf.Min(1.0f, 1f - fraction));
-            meshRenderer.materials[materialIndex].SetFloat("_damageAmount", value);
+            foreach(var mat in  meshRenderer.materials)
+                mat.SetFloat("_damageAmount", value);
         }
     }
     public void OnDamagableCollision(int amount)

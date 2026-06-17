@@ -2,16 +2,16 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.InputSystem;
 using UnityEngine.Events;
+using UnityEngine.UI;
 
 public class PopupWindowsController : MonoBehaviour
 {
     [Header("UI Settings")]
     [Tooltip("Text component")]
-    [SerializeField] private TextMeshProUGUI textComponent;
+    [SerializeField] private Image tutorialNote;
 
     [Tooltip("List of texts")]
-    [TextArea(3, 5)]
-    [SerializeField] private string[] textPages;
+    [SerializeField] private Sprite[] textPages;
 
     [Header("Input settings")]
     [Tooltip("Advance")]
@@ -21,7 +21,6 @@ public class PopupWindowsController : MonoBehaviour
     [Tooltip("On sequence completed")]
     public UnityEvent OnSequenceCompleted;
 
-    [SerializeField] private GameObject tipToHide;
 
     private int currentPageIndex = 0;
 
@@ -62,14 +61,10 @@ public class PopupWindowsController : MonoBehaviour
 
     private void UpdateTextDisplay()
     {
-        if (!(tipToHide == null) && currentPageIndex == textPages.Length - 1)
-        {
-            tipToHide.SetActive(false);
-        }
 
-        if (textPages.Length > 0 && textComponent != null)
+        if (textPages.Length > 0 && tutorialNote != null)
         {
-            textComponent.text = textPages[currentPageIndex];
+            tutorialNote.sprite = textPages[currentPageIndex];
         }
     }
 
