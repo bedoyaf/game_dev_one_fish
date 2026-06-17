@@ -257,7 +257,9 @@ public class GameplayFlowManager : MonoBehaviour
     public void LoadEnemy()
     {
         enemyShip = combatController.LoadEnemyShip(playerShip);
-        sfx.EnterEnemyShip();
+
+        if (!tutorialRunning)
+            sfx.EnterEnemyShip();
     }
     public void LoadPlayer()
     {

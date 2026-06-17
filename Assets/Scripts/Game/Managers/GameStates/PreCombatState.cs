@@ -14,8 +14,9 @@ public class PreCombatState : IGameState
         manager.LoadEnemy();
 
         // only outside the tutorial I think...
-        if(!manager.tutorialRunning)
+        if (!manager.tutorialRunning) {
             manager.sfx.SetDayTime(true);
+        }
     }
 
     public void Exit() { }
