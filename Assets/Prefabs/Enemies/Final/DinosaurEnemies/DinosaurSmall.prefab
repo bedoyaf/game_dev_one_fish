@@ -30,7 +30,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6080460818635345768}
-  - {fileID: 4429605480017167071}
   m_Father: {fileID: 2727651776973279573}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8135573535888409389
@@ -59,8 +58,8 @@ Transform:
   m_GameObject: {fileID: 8135573535888409389}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -5.65, y: -0.55, z: 10.25}
-  m_LocalScale: {x: 1.7, y: 1.7, z: 1.7}
+  m_LocalPosition: {x: -5.29, y: -0.55, z: 15.06}
+  m_LocalScale: {x: 0.12, y: 0.12, z: 0.12}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3326628435309084140}
@@ -114,7 +113,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: -548044535, guid: c620bfeddec2aae4daac1b47f9868f49, type: 3}
+  m_Sprite: {fileID: 21300000, guid: bd87b19717a883a46a90505bc85e9182, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -135,6 +134,7 @@ GameObject:
   - component: {fileID: 4429605480017167071}
   - component: {fileID: 4819867235342696000}
   - component: {fileID: 1089026713410520749}
+  - component: {fileID: 469457020831534714}
   m_Layer: 0
   m_Name: dino_small_7
   m_TagString: Untagged
@@ -150,12 +150,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8203040803382772392}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -5.88, y: -0.92, z: 10.13}
-  m_LocalScale: {x: 1.7, y: 1.7, z: 1.7}
-  m_ConstrainProportionsScale: 0
+  m_LocalRotation: {x: 0.00000003090862, y: 0.7071069, z: 0.70710677, w: -0.00000003090862}
+  m_LocalPosition: {x: 0.28999996, y: 1.420001, z: 0.6499996}
+  m_LocalScale: {x: 0.12999997, y: 0.13, z: 0.13}
+  m_ConstrainProportionsScale: 1
   m_Children: []
-  m_Father: {fileID: 3326628435309084140}
+  m_Father: {fileID: 5304018723370886553}
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!212 &4819867235342696000
 SpriteRenderer:
@@ -183,7 +183,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
+  - {fileID: 2100000, guid: b1e5394ad5a75d643af9fb458f7150df, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -206,7 +206,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: -1314940779, guid: c620bfeddec2aae4daac1b47f9868f49, type: 3}
+  m_Sprite: {fileID: 21300000, guid: fa3a3e2b4fa73564682660f633934a96, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -231,6 +231,20 @@ MonoBehaviour:
   angle: 5
   speed: 2
   offset: 1.44
+--- !u!114 &469457020831534714
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8203040803382772392}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6778723ef4b3e65439c7e530cfe8940b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DamageSpriteScript
+  meshMat: {fileID: 1034301114936744940}
+  selfMat: {fileID: 4819867235342696000}
 --- !u!1 &9128217826982043599
 GameObject:
   m_ObjectHideFlags: 0
@@ -247,7 +261,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4020766290439809741
 Transform:
   m_ObjectHideFlags: 0
@@ -4779,7 +4793,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 1430495546382340538, guid: 3cd3f35c00dade14eae7294ff2b04238, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4429605480017167071}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3cd3f35c00dade14eae7294ff2b04238, type: 3}
 --- !u!114 &512759995227823758 stripped
@@ -4793,6 +4810,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a78efac9f7c46a04db9731659d060f9b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ShipComponentController
+--- !u!23 &1034301114936744940 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 6060472434626621391, guid: 3cd3f35c00dade14eae7294ff2b04238, type: 3}
+  m_PrefabInstance: {fileID: 6503634314862736419}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &5304018723370886553 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1430495546382340538, guid: 3cd3f35c00dade14eae7294ff2b04238, type: 3}
+  m_PrefabInstance: {fileID: 6503634314862736419}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8998661930991215160 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2783268184921265691, guid: 3cd3f35c00dade14eae7294ff2b04238, type: 3}

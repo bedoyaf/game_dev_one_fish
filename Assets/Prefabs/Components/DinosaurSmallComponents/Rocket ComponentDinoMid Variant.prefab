@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4925077509428123397}
   - component: {fileID: 5481975126307208197}
+  - component: {fileID: 6192291875088364732}
   m_Layer: 0
   m_Name: dino_small_6
   m_TagString: Untagged
@@ -27,8 +28,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: -0.465, y: -0.635, z: -0.32}
-  m_LocalScale: {x: -1.383, y: 1.383, z: 1.383}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: -0.1, y: 0.1, z: 0.1}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 5263551378019627265}
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
@@ -58,7 +59,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
+  - {fileID: 2100000, guid: b1e5394ad5a75d643af9fb458f7150df, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -81,7 +82,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: -139004724, guid: c620bfeddec2aae4daac1b47f9868f49, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 2e2909d1120bce640a8b69c4b9e20c83, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -91,6 +92,20 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &6192291875088364732
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2445370300067518253}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6778723ef4b3e65439c7e530cfe8940b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DamageSpriteScript
+  meshMat: {fileID: 1065910106793840500}
+  selfMat: {fileID: 5481975126307208197}
 --- !u!1001 &7540776516066172178
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -163,6 +178,11 @@ PrefabInstance:
       addedObject: {fileID: 4925077509428123397}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 86b1239d1ce198642a092b78fc619c8b, type: 3}
+--- !u!23 &1065910106793840500 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 7380528777933705830, guid: 86b1239d1ce198642a092b78fc619c8b, type: 3}
+  m_PrefabInstance: {fileID: 7540776516066172178}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &5263551378019627265 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2426838074221390867, guid: 86b1239d1ce198642a092b78fc619c8b, type: 3}
