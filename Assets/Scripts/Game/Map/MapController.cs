@@ -107,6 +107,8 @@ public class MapController : MonoBehaviour
         });
     }
 
+    public SoundData normalEnemySound;
+    public SoundData eliteEnemySound;
     private void ResolveNode(MapNode node)
     {
         MapChoiceData data = new MapChoiceData();
@@ -116,11 +118,13 @@ public class MapController : MonoBehaviour
             case NodeType.Combat:
                 data.fight = true;
                 data.difficulty = CalculateDifficulty(node);
+                //AudioManager.Instance.PlaySFX(normalEnemySound);
                 break;
 
             case NodeType.Elite:
                 data.fight = true;
                 data.difficulty = CalculateDifficulty(node) + 3;
+                //AudioManager.Instance.PlaySFX(eliteEnemySound);
                 break;
 
             case NodeType.Event:
@@ -138,6 +142,7 @@ public class MapController : MonoBehaviour
             case NodeType.Boss:
                 data.fight = true;
                 data.boss = true;
+                //AudioManager.Instance.PlaySFX(eliteEnemySound);
                 break;
         }
 

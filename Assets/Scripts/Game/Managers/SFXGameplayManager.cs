@@ -91,6 +91,9 @@ public class SFXGameplayManager : MonoBehaviour
     [SerializeField]
     private RectTransform bannerImageTransform;
 
+    //[SerializeField]
+    //private List<SoundData> bannerSounds;
+
     // I cannot anymore... 
     [SerializeField]
     private Sprite[] banners;
@@ -134,6 +137,8 @@ public class SFXGameplayManager : MonoBehaviour
         // statusBar.gameObject.SetActive(true);
         // statusBar.DOFade(0f, 0f);
         // statusBar.DOFade(1f, 0.2f);
+
+        //AudioManager.Instance.PlaySFX(bannerSounds.GetRandom());
 
         // scale up to one
         bannerImageTransform.DOScale(Vector3.one, 0.1f);
