@@ -17,7 +17,6 @@ public class MapNodeButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     private Action<MapNode> onClick;
 
     public UnityEngine.UI.Image icon;
-    public UnityEngine.UI.Image highlight;
 
     public bool CanClick => isReachable && !visited;
 
@@ -31,7 +30,6 @@ public class MapNodeButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         button.onClick.RemoveAllListeners();
         button.onClick.AddListener(() => this.onClick?.Invoke(node));
 
-        highlight.DOFade(0, 0);
     }
 
     public void SetTypeColor(Color c)
@@ -54,10 +52,6 @@ public class MapNodeButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         }
 
 
-        if(alpha > 0f)
-        {
-            highlight.DOFade(0.5f, 0);
-        }
 
         var col = icon.color;
         col = tint;
@@ -87,19 +81,15 @@ public class MapNodeButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     public void OnPointerEnter(PointerEventData eventData)
     {
         icon.transform.DOKill();
-        highlight.transform.DOKill();
         if (CanClick)
         {
             icon.transform.DOScale(1.45f, 0.15f);
-            highlight.transform.DOScale(1.45f, 0.15f);
         }
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
         icon.transform.DOKill();
-        highlight.transform.DOKill();
         icon.transform.DOScale(1.35f, 0.15f);
-        highlight.transform.DOScale(1.35f, 0.15f);
     }
 }

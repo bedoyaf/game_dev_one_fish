@@ -24,45 +24,45 @@ MonoBehaviour:
     effects:
     - effectType: 3
       effectData:
-        rid: 4087197375860047940
+        rid: 4087197375860047998
     conditions: []
   - choiceID: component
     choiceText: Receive free component (rocket, generator or shield)
     effects:
     - effectType: 8
       effectData:
-        rid: 4087197375860047941
+        rid: 4087197375860048000
     conditions: []
   - choiceID: repair
     choiceText: Receive 5 scrap and repair your ship
     effects:
     - effectType: 3
       effectData:
-        rid: 4087197375860047943
+        rid: 4087197375860048002
     - effectType: 10
       effectData:
-        rid: 4087197375860047945
+        rid: 4087197375860048004
     conditions: []
   references:
     version: 2
     RefIds:
-    - rid: 4087197375860047940
+    - rid: 4087197375860047998
       type: {class: ChangeCurrencyAmountEffect, ns: , asm: Assembly-CSharp}
       data:
         amount: 15
         randomness: 0
-    - rid: 4087197375860047941
+    - rid: 4087197375860048000
       type: {class: GetRandomComponentEffect, ns: , asm: Assembly-CSharp}
       data:
         components:
         - {fileID: 6845047944256034405, guid: 6f05b655c31756b40a087f6dcfe7ee9c, type: 3}
         - {fileID: 6845047944256034405, guid: b08409fe63a51854697c0a666f536de1, type: 3}
         - {fileID: 6845047944256034405, guid: 2830b339b4f764746b89c4505b1d6cbf, type: 3}
-    - rid: 4087197375860047943
+    - rid: 4087197375860048002
       type: {class: ChangeCurrencyAmountEffect, ns: , asm: Assembly-CSharp}
       data:
         amount: 5
         randomness: 0
-    - rid: 4087197375860047945
+    - rid: 4087197375860048004
       type: {class: RepairEffect, ns: , asm: Assembly-CSharp}
       data: 

@@ -23,6 +23,7 @@ public class MapUI : MonoBehaviour
 
     [Header("Parent")]
     [SerializeField] private RectTransform nodeParent;
+    [SerializeField] private RectTransform linesParent;
 
     private Dictionary<MapNode, MapNodeButton> spawnedNodes = new();
 
@@ -253,7 +254,7 @@ public class MapUI : MonoBehaviour
                 if (!spawnedNodes.ContainsKey(target))
                     continue;
 
-                var line = Instantiate(linePrefab, nodeParent);
+                var line = Instantiate(linePrefab, linesParent);
 
                 Vector2 a = spawnedNodes[node].GetComponent<RectTransform>().anchoredPosition;
                 Vector2 b = spawnedNodes[target].GetComponent<RectTransform>().anchoredPosition;
