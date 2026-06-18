@@ -236,7 +236,7 @@ public class GameplayFlowManager : MonoBehaviour
     
     public void EnterRepairsMode()
     {
-        sfx.EncounterTransition("Repaire stage");
+        sfx.EncounterTransition("Repaire stage", false);
         stateMachine.ChangeState(GameStates.Repairs);
     }
 

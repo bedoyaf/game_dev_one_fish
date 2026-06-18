@@ -81,8 +81,11 @@ public class SFXGameplayManager : MonoBehaviour
 
     [SerializeField]
     private TMPro.TMP_Text statusBar;
+
+    [SerializeField]
+    private StatusBarUIImagesScript statusBarImages;
     // hack :(
-    private float status_y = 330;
+    private float status_y = 371;
 
 
     // NOTE: maybe move constants from the methods to like here...
@@ -99,10 +102,14 @@ public class SFXGameplayManager : MonoBehaviour
         statusBar.GetComponent<RectTransform>().DOKill();
         // Show the combat text in ui
         statusBar.text = $"--- Fight ---\n{enemyName}";
+        statusBarImages.SetState(StatusType.None);
         // var pos = statusBar.GetComponent<RectTransform>().position.y;
 
         statusBar.GetComponent<RectTransform>().anchoredPosition =
-            statusBar.GetComponent<RectTransform>().anchoredPosition.SetY(status_y);
+            statusBar.GetComponent<RectTransform>().anchoredPosition.SetY(status_y + 500);
+        statusBar.GetComponent<RectTransform>().DOAnchorPos3DY(status_y, 0.5f);
+        //statusBar.GetComponent<RectTransform>().anchoredPosition =
+        //    statusBar.GetComponent<RectTransform>().anchoredPosition.SetY(status_y);
 
         statusBar.gameObject.SetActive(true);
         statusBar.DOFade(0f, 0f);
@@ -122,27 +129,32 @@ public class SFXGameplayManager : MonoBehaviour
 
         statusBar.gameObject.SetActive(false);
         statusBar.DOFade(0f, 0f);
-        statusBar.GetComponent<RectTransform>().anchoredPosition =
-            statusBar.GetComponent<RectTransform>().anchoredPosition.SetY(status_y);
+        //statusBar.GetComponent<RectTransform>().anchoredPosition =
+        //    statusBar.GetComponent<RectTransform>().anchoredPosition.SetY(status_y);
 
         onFinished();
         //Debug.Log("Here5");
     }
 
-    public void EncounterTransition(string name)
+    public void EncounterTransition(string name, bool building = true)
     {
-        StartCoroutine(EncounterTransitionCoroutine(name));
+        StartCoroutine(EncounterTransitionCoroutine(name, building));
     }
 
-    private IEnumerator EncounterTransitionCoroutine(string name)
+    private IEnumerator EncounterTransitionCoroutine(string name, bool building=true)
     {
         statusBar.DOKill();
         statusBar.GetComponent<RectTransform>().DOKill();
         // Show the combat text in ui
         statusBar.text = $"{name}";
 
+        statusBarImages.SetState(building ? StatusType.Building : StatusType.Repair);
+
         statusBar.GetComponent<RectTransform>().anchoredPosition =
-            statusBar.GetComponent<RectTransform>().anchoredPosition.SetY(status_y);
+            statusBar.GetComponent<RectTransform>().anchoredPosition.SetY(status_y + 500);
+        statusBar.GetComponent<RectTransform>().DOAnchorPos3DY(status_y, 0.5f);
+        //statusBar.GetComponent<RectTransform>().anchoredPosition =
+        //    statusBar.GetComponent<RectTransform>().anchoredPosition.SetY(status_y);
 
         // var pos = statusBar.GetComponent<RectTransform>().position.y;
         statusBar.gameObject.SetActive(true);
@@ -163,8 +175,9 @@ public class SFXGameplayManager : MonoBehaviour
 
         statusBar.gameObject.SetActive(false);
         statusBar.DOFade(0f, 0f);
-        statusBar.GetComponent<RectTransform>().anchoredPosition =
-            statusBar.GetComponent<RectTransform>().anchoredPosition.SetY(status_y);
+        
+        //statusBar.GetComponent<RectTransform>().anchoredPosition =
+        //    statusBar.GetComponent<RectTransform>().anchoredPosition.SetY(status_y);
     }
 
 
@@ -178,11 +191,15 @@ public class SFXGameplayManager : MonoBehaviour
     {
         // Show victory / loss
         statusBar.text = playerVictory ? "Victory" : "Defeat";
+        statusBarImages.SetState(playerVictory ? StatusType.Victory : StatusType.Defeat);
         AudioManager.Instance.PlaySFX(playerVictory ? victoryClip : defeatClip);
         // var pos = statusBar.GetComponent<RectTransform>().position.y;
 
         statusBar.GetComponent<RectTransform>().anchoredPosition =
-            statusBar.GetComponent<RectTransform>().anchoredPosition.SetY(status_y);
+            statusBar.GetComponent<RectTransform>().anchoredPosition.SetY(status_y + 500);
+        statusBar.GetComponent<RectTransform>().DOAnchorPos3DY(status_y, 0.5f);
+        //statusBar.GetComponent<RectTransform>().anchoredPosition =
+        //    statusBar.GetComponent<RectTransform>().anchoredPosition.SetY(status_y);
 
         statusBar.gameObject.SetActive(true);
         statusBar.DOFade(0f, 0f);
@@ -212,8 +229,9 @@ public class SFXGameplayManager : MonoBehaviour
 
         statusBar.gameObject.SetActive(false);
         statusBar.DOFade(0f, 0f);
-        statusBar.GetComponent<RectTransform>().anchoredPosition =
-            statusBar.GetComponent<RectTransform>().anchoredPosition.SetY(status_y);
+        
+        // statusBar.GetComponent<RectTransform>().anchoredPosition =
+        //     statusBar.GetComponent<RectTransform>().anchoredPosition.SetY(status_y);
 
         // Reset batteries
         foreach (var battery in playersShip.componentGrid.GetComponentsOfType<BatteryComponentController>()) {
