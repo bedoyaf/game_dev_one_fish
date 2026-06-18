@@ -29,7 +29,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 1, w: 0}
   m_LocalPosition: {x: 0, y: -0, z: 0.601}
-  m_LocalScale: {x: 1.36, y: 1.36, z: 1.36}
+  m_LocalScale: {x: 1.8299999, y: 1.8299999, z: 1.8299999}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 4350326794468354101}
@@ -309,6 +309,12 @@ MonoBehaviour:
   physicalShieldPrefab: {fileID: 8459617928677406710, guid: 7a8ebd4ff326cf3429069859f72ae9c4, type: 3}
   usesPhysicalShields: 1
   shieldActivationClip: {fileID: 11400000, guid: 156c0636532dd454cbabb96ad2022138, type: 2}
+  OnEnteredTargeting:
+    m_PersistentCalls:
+      m_Calls: []
+  OnShieldActivated:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &3522242297305419921
 MonoBehaviour:
   m_ObjectHideFlags: 0

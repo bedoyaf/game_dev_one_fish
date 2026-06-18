@@ -29,8 +29,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: -0, z: 1.606}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 1.38, y: 1.38, z: 1.38}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 4350326794468354101}
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
@@ -107,6 +107,7 @@ MonoBehaviour:
   unusableQuadMaterial: {fileID: 2100000, guid: af382e7dd1627f14a9013ad61ad6e463, type: 2}
   generator: {fileID: 5564892331900611739}
   colored: 1
+  scaleMult: 2
 --- !u!1 &6344699693319949097
 GameObject:
   m_ObjectHideFlags: 0
@@ -214,6 +215,7 @@ MonoBehaviour:
   unusableQuadMaterial: {fileID: 2100000, guid: af382e7dd1627f14a9013ad61ad6e463, type: 2}
   generator: {fileID: 5564892331900611739}
   colored: 0
+  scaleMult: 1
 --- !u!1001 &1459925618552488819
 PrefabInstance:
   m_ObjectHideFlags: 0

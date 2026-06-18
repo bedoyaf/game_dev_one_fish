@@ -12,9 +12,12 @@ public class RocketReadyIndicatorScript : IndicatorScript
     [SerializeField]
     private SpriteRenderer spriteIndicator;
 
+    private Vector3 localScale = new Vector3(0.37f, 0.37f, 0.37f);
+
     public override void OnStart()
     {
         // start hidden
+        // localScale = transform.localScale;
         spriteIndicator.transform.localScale = Vector3.zero;
     }
 
@@ -23,6 +26,6 @@ public class RocketReadyIndicatorScript : IndicatorScript
             return;
 
         CooldownUpdate(cooldown, missiles.CanClickOnNow);
-        spriteIndicator.transform.localScale = missiles.CanClickOnNow ? Vector3.one : Vector3.zero;
+        spriteIndicator.transform.localScale = missiles.CanClickOnNow ? localScale : Vector3.zero;
     }
 }

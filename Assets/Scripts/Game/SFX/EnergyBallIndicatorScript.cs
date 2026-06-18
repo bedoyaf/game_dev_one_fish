@@ -10,7 +10,10 @@ public class EnergyBallIndicator : IndicatorScript
     [SerializeField]
     private bool colored;
 
-    private static readonly float baseScale = 0.3f;
+    [SerializeField]
+    private float scaleMult = 1f;
+
+    private static readonly float baseScale = 0.45f;
 
     void Update()
     {
@@ -18,7 +21,7 @@ public class EnergyBallIndicator : IndicatorScript
             if (generator.GetCurrentEnergy == 0)
                 quadIndicator.transform.localScale = Vector3.zero;
             else
-                quadIndicator.transform.localScale = (baseScale + (1f - baseScale) * ((float)generator.GetCurrentEnergy / generator.GetEnergyCapacity))
+                quadIndicator.transform.localScale = scaleMult * (baseScale + (1f - baseScale) * ((float)generator.GetCurrentEnergy / generator.GetEnergyCapacity))
                     * Vector3.one;
         }
         else {

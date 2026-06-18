@@ -58,13 +58,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1841068141453422723}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.414, y: -0.102, z: 2.223}
-  m_LocalScale: {x: 1.0331523, y: 1.0331517, z: 1.0331517}
+  m_LocalRotation: {x: -0, y: -0, z: 0.5666919, w: 0.8239298}
+  m_LocalPosition: {x: 0.4, y: -0.117, z: 2.22}
+  m_LocalScale: {x: 2.11, y: 2.11, z: 2.11}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 4350326794468354101}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 69.04}
 --- !u!33 &8430670525511138968
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -495,7 +495,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CabinHookIndicator
   cabin: {fileID: 334562515920405706}
   cooldown: {fileID: 7937591298072591688}
-  unusableColor: {r: 0.19496846, g: 0.19496846, b: 0.19496846, a: 1}
+  unusableColor: {r: 0.19496846, g: 0.19496846, b: 0.19496846, a: 0.78431374}
   defaultColor: {r: 0.6392157, g: 0.22745098, b: 0.7882353, a: 1}
   quadIndicator: {fileID: 6763882538690414947}
 --- !u!1 &7247473571322283696
