@@ -45,7 +45,8 @@ public class Projectile : MonoBehaviour
                 {
                     float distance = hit.distance;
                     float timeToImpact = distance / Mathf.Max(0.0001f, speed);
-                    meshController.OnIncomingProjectile(hit.point, timeToImpact, this);
+                    if(meshController != null)
+                        meshController.OnIncomingProjectile(hit.point, timeToImpact, this);
                     incomingNotified = true;
                 }
             }
