@@ -455,24 +455,24 @@ MonoBehaviour:
   mainImage: {fileID: 1204049162}
   imageTransform: {fileID: 1204049161}
   scenes:
-  - sprite: {fileID: 21300000, guid: 37fa08b30d691414a99ac3ac51473fb4, type: 3}
+  - sprite: {fileID: 21300000, guid: 3250b87c8c679d34192850e9031b0199, type: 3}
     startOffset: {x: 0, y: 0}
     endOffset: {x: 0, y: 0}
-    time: 12
-    startScale: {x: 1.1, y: 1.1, z: 1}
-    endScale: {x: 1, y: 1, z: 1}
+    time: 10
+    startScale: {x: 1, y: 1, z: 1}
+    endScale: {x: 1.1, y: 1.1, z: 1.1}
   - sprite: {fileID: 21300000, guid: baec9a7ec927fa848a67069814ef5350, type: 3}
     startOffset: {x: 0, y: 0}
     endOffset: {x: 0, y: 0}
-    time: 12
-    startScale: {x: 1.1, y: 1.1, z: 1}
+    time: 10
+    startScale: {x: 1.1, y: 1.1, z: 1.1}
     endScale: {x: 1, y: 1, z: 1}
   - sprite: {fileID: 21300000, guid: d91ea462d5d8d42409ec85c6f724b736, type: 3}
     startOffset: {x: 0, y: 0}
     endOffset: {x: 0, y: 0}
-    time: 12
-    startScale: {x: 1.1, y: 1.1, z: 1}
-    endScale: {x: 1, y: 1, z: 1}
+    time: 10
+    startScale: {x: 1.1, y: 1.1, z: 1.1}
+    endScale: {x: 1.1, y: 1.1, z: 1.1}
   endingCutscene: 1
   skipAction: {fileID: -2099379676528639254, guid: 2e1ac59e68c820249b308e18ab9c4975, type: 3}
 --- !u!1 &1204049160
@@ -582,11 +582,11 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1107428326}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 850, y: -507}
+  m_AnchorMin: {x: 1, y: 0}
+  m_AnchorMax: {x: 1, y: 0}
+  m_AnchoredPosition: {x: -26, y: 20.400024}
   m_SizeDelta: {x: 200, y: 50}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_Pivot: {x: 1, y: 0}
 --- !u!114 &1390951264
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -609,8 +609,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Press -SPACE- to skip
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 090cdeeb1fef5974dab716856315d7d7, type: 2}
+  m_sharedMaterial: {fileID: -1118778609193636593, guid: 090cdeeb1fef5974dab716856315d7d7, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -634,15 +634,15 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
-  m_fontSizeBase: 36
+  m_fontSize: 23.08
+  m_fontSizeBase: 23.08
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 1
-  m_VerticalAlignment: 256
+  m_HorizontalAlignment: 4
+  m_VerticalAlignment: 1024
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_characterHorizontalScale: 1
@@ -673,7 +673,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: -176.40405, y: 0, z: 0, w: 0}
+  m_margin: {x: -176.40405, y: 0, z: 0, w: 6.115906}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
