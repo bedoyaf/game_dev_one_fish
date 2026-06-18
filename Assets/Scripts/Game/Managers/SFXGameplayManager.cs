@@ -110,7 +110,10 @@ public class SFXGameplayManager : MonoBehaviour
     {
         // if in tutorial just ignore it all
         if (!GameManager.Instance.TutorialFinished)
+        {
+            onFinished();
             yield break;
+        }
 
         // set the thingy
         bannerImageTransform.gameObject.GetComponent<Image>().sprite = banners[bannerId];
