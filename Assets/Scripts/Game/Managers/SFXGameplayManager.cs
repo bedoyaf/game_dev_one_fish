@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 
 /// <summary>
 /// Special Effects for the Gameplay Scene.
@@ -87,14 +88,79 @@ public class SFXGameplayManager : MonoBehaviour
     // hack :(
     private float status_y = 371;
 
+    [SerializeField]
+    private RectTransform bannerImageTransform;
+
+    // I cannot anymore... 
+    [SerializeField]
+    private Sprite[] banners;
 
     // NOTE: maybe move constants from the methods to like here...
-    public void CombatStartTransition(string enemyName, Action onFinished)
+    public void CombatStartTransition(string enemyName, Action onFinished, int bannerId=-1)
     {
         Debug.Log($"Combat start w '{enemyName}'");
         this.StopAllCoroutines();
-        StartCoroutine(CombatStartTransitionCoroutine(enemyName, onFinished));
+        if(bannerId == -1)
+            StartCoroutine(CombatStartTransitionCoroutine(enemyName, onFinished));
+        else
+            StartCoroutine(CombatStartTransitionCoroutine(enemyName, onFinished, bannerId));
     }
+
+    private IEnumerator CombatStartTransitionCoroutine(string enemyName, Action onFinished, int bannerId)
+    {
+        // if in tutorial just ignore it all
+        if (!GameManager.Instance.TutorialFinished)
+            yield break;
+
+        // set the thingy
+        bannerImageTransform.gameObject.GetComponent<Image>().sprite = banners[bannerId];
+
+        statusBar.DOKill();
+        statusBar.GetComponent<RectTransform>().DOKill();
+        // Show the combat text in ui
+        // statusBar.text = $"--- Fight ---\n{enemyName}";
+        statusBarImages.SetState(StatusType.None);
+        // var pos = statusBar.GetComponent<RectTransform>().position.y;
+
+        // statusBar.GetComponent<RectTransform>().anchoredPosition =
+        //    statusBar.GetComponent<RectTransform>().anchoredPosition.SetY(status_y + 500);
+        //statusBar.GetComponent<RectTransform>().DOAnchorPos3DY(status_y, 0.5f);
+        //statusBar.GetComponent<RectTransform>().anchoredPosition =
+        //    statusBar.GetComponent<RectTransform>().anchoredPosition.SetY(status_y);
+
+        // statusBar.gameObject.SetActive(true);
+        // statusBar.DOFade(0f, 0f);
+        // statusBar.DOFade(1f, 0.2f);
+
+        // scale up to one
+        bannerImageTransform.DOScale(Vector3.one, 0.1f);
+
+        yield return new WaitForSeconds(0.2f);
+
+        // Leave the text for the player to read
+
+        yield return new WaitForSeconds(3f);
+
+        // Move the text up
+
+        // statusBar.GetComponent<RectTransform>().DOAnchorPos3DY(status_y + 500, 0.5f);
+
+        // scale down to zero
+        bannerImageTransform.DOScale(Vector3.zero, 0.1f);
+
+        yield return new WaitForSeconds(0.5f);
+
+        
+
+        // statusBar.gameObject.SetActive(false);
+        // statusBar.DOFade(0f, 0f);
+        //statusBar.GetComponent<RectTransform>().anchoredPosition =
+        //    statusBar.GetComponent<RectTransform>().anchoredPosition.SetY(status_y);
+
+        onFinished();
+        //Debug.Log("Here5");
+    }
+
 
     private IEnumerator CombatStartTransitionCoroutine(string enemyName, Action onFinished)
     {

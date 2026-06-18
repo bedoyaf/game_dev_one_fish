@@ -15891,18 +15891,6 @@ MonoBehaviour:
   missileSFXprefab: {fileID: 7728908910154949495, guid: a29d78f1f9b1ae7408d03483e0c7f301, type: 3}
   statusBar: {fileID: 8237810407722717933}
   statusBarImages: {fileID: 8237810407722717934}
-  bannerImageTransform: {fileID: 1910140489}
-  banners:
-  - {fileID: 21300000, guid: cf10977852a91d841be8bb7b96183ff1, type: 3}
-  - {fileID: 21300000, guid: a7a0ad7ba60e6524695d43866cb24fc6, type: 3}
-  - {fileID: 21300000, guid: a770340b2f581aa4f80226dd79ca91e0, type: 3}
-  - {fileID: 21300000, guid: 0df4f932d9fdc014c894ad22244bec85, type: 3}
-  - {fileID: 21300000, guid: 91497fbe133e4f44c86af5608a5857af, type: 3}
-  - {fileID: 21300000, guid: 365b0156a961fc847a5a51128c76af5f, type: 3}
-  - {fileID: 21300000, guid: 0d836ff10fd5fe949b149837ddc9bb94, type: 3}
-  - {fileID: 21300000, guid: 67cdb22de6b17a441a589cd1405cf230, type: 3}
-  - {fileID: 21300000, guid: 2d6129f8ba48fa043940b9fc7ff47800, type: 3}
-  - {fileID: 21300000, guid: 361aad53bee48bd4085631cf61cca04a, type: 3}
   energyBallSFXprefab: {fileID: 7728908910154949495, guid: a7074a163abac2f408d9c0b8cfc6f72c, type: 3}
   energyIndicatorPosition: {fileID: 1157773759}
   energyParticlesPrefab: {fileID: 7760477601109047459, guid: 6c26ee3862477ce4c94a7165a1cdd577, type: 3}
@@ -19099,97 +19087,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 599971512829890643, guid: 2bcfca9324d920e46b90810ac4f891f9, type: 3}
   m_PrefabInstance: {fileID: 1903108920}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1910140488
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1910140489}
-  - component: {fileID: 1910140492}
-  - component: {fileID: 1910140491}
-  - component: {fileID: 1910140490}
-  m_Layer: 5
-  m_Name: EnemyBanner
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &1910140489
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1910140488}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0, y: 0, z: 0}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 3688762563259272551}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1920, y: 1080}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1910140490
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1910140488}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6b12e321b510249409791cc54fa3a795, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::BannerRotateScript
-  selfTransform: {fileID: 1910140489}
-  rotateAmount: 5
-  timeWant: 0.45
---- !u!114 &1910140491
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1910140488}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
---- !u!222 &1910140492
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1910140488}
-  m_CullTransparentMesh: 1
 --- !u!1 &1921354375
 GameObject:
   m_ObjectHideFlags: 0
@@ -21625,7 +21522,6 @@ RectTransform:
   - {fileID: 1921354376}
   - {fileID: 4722821830955642412}
   - {fileID: 1992682311}
-  - {fileID: 1910140489}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -22282,7 +22178,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4590920964135952280}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 

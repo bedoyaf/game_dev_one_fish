@@ -26,6 +26,8 @@ public class ShipData : ScriptableObject {
     
     public string shipName = "defaultName";
 
+    public int bannerIndex = -1;
+
     /// <summary>
     /// The stored component grid. All things inside are references to prefabs, not instances.
     /// </summary>

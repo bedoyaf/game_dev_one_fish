@@ -465,14 +465,20 @@ public class GameplayFlowManager : MonoBehaviour
         Debug.Log($"Fight called {difficulty}");
         var data = combatController.AssignEnemyByDifficulty(difficulty);
         stateMachine.ChangeState(GameStates.PreCombat);
-        sfx.CombatStartTransition(data.shipName, () => { stateMachine.ChangeState(GameStates.Combat); });
+        sfx.CombatStartTransition(
+            data.shipName, 
+            () => { stateMachine.ChangeState(GameStates.Combat); },
+            data.bannerIndex);
     }
 
     public void Fight(ShipController enemyPrefab) {
         Debug.Log($"Fight called {enemyPrefab.shipData}");
         combatController.AssignEnemy(enemyPrefab);
         stateMachine.ChangeState(GameStates.PreCombat);
-        sfx.CombatStartTransition(enemyPrefab.shipData.shipName, () => { stateMachine.ChangeState(GameStates.Combat); });
+        sfx.CombatStartTransition(
+            enemyPrefab.shipData.shipName, 
+            () => { stateMachine.ChangeState(GameStates.Combat); },
+            enemyPrefab.shipData.bannerIndex);
     }
 
   /*  public void Fight(ShipController enemyPrefab)
