@@ -631,4 +631,6 @@ public class ComponentDescription
     public MeshFilter meshFilter;
     public MeshRenderer meshRenderer;
     public Sprite decorPreview;
+
+    public Color componentColor = Color.gray;
 }

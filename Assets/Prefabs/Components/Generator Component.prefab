@@ -406,8 +406,20 @@ PrefabInstance:
       objectReference: {fileID: 6321186679993111303}
     - target: {fileID: 5385403880273499414, guid: 76b53dd701359c84195162e28f3a0cbb, type: 3}
       propertyPath: myDescription.textDescription
-      value: 'Generates <energy> every couple of seconds. Collect energy to be used
-        by other ship components. '
+      value: 'Generates energy <energy> every couple of seconds. Collect energy to
+        be used by other ship components. '
+      objectReference: {fileID: 0}
+    - target: {fileID: 5385403880273499414, guid: 76b53dd701359c84195162e28f3a0cbb, type: 3}
+      propertyPath: myDescription.componentColor.b
+      value: 0.7176471
+      objectReference: {fileID: 0}
+    - target: {fileID: 5385403880273499414, guid: 76b53dd701359c84195162e28f3a0cbb, type: 3}
+      propertyPath: myDescription.componentColor.g
+      value: 0.9372549
+      objectReference: {fileID: 0}
+    - target: {fileID: 5385403880273499414, guid: 76b53dd701359c84195162e28f3a0cbb, type: 3}
+      propertyPath: myDescription.componentColor.r
+      value: 0.8392157
       objectReference: {fileID: 0}
     - target: {fileID: 5385403880273499414, guid: 76b53dd701359c84195162e28f3a0cbb, type: 3}
       propertyPath: OnDeath.m_PersistentCalls.m_Calls.Array.size

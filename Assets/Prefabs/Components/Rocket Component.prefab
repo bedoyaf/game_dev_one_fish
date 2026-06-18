@@ -411,6 +411,10 @@ PrefabInstance:
       value: Rocket Launcher
       objectReference: {fileID: 0}
     - target: {fileID: 5385403880273499414, guid: 76b53dd701359c84195162e28f3a0cbb, type: 3}
+      propertyPath: myDescription.decorPreview
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5385403880273499414, guid: 76b53dd701359c84195162e28f3a0cbb, type: 3}
       propertyPath: myDescription.meshRenderer
       value: 
       objectReference: {fileID: 6321186679993111303}
@@ -418,6 +422,18 @@ PrefabInstance:
       propertyPath: myDescription.textDescription
       value: Fires a single rocket at the selected target from the chosen direction.\nUse
         <wheel> to select targeting direction.
+      objectReference: {fileID: 0}
+    - target: {fileID: 5385403880273499414, guid: 76b53dd701359c84195162e28f3a0cbb, type: 3}
+      propertyPath: myDescription.componentColor.b
+      value: 0.45098042
+      objectReference: {fileID: 0}
+    - target: {fileID: 5385403880273499414, guid: 76b53dd701359c84195162e28f3a0cbb, type: 3}
+      propertyPath: myDescription.componentColor.g
+      value: 0.5411765
+      objectReference: {fileID: 0}
+    - target: {fileID: 5385403880273499414, guid: 76b53dd701359c84195162e28f3a0cbb, type: 3}
+      propertyPath: myDescription.componentColor.r
+      value: 0.9568628
       objectReference: {fileID: 0}
     - target: {fileID: 9035797840035424804, guid: 76b53dd701359c84195162e28f3a0cbb, type: 3}
       propertyPath: m_Mesh

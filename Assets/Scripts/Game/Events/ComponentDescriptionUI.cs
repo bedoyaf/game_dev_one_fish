@@ -19,11 +19,15 @@ public class ComponentDescriptionUI : MonoBehaviour
 
     [SerializeField] private CanvasGroup group;
 
+    [SerializeField] private Image backColor;
+
     public void ShowDescription(ComponentDescription description)
     {
         costsText.text = ParseString(description.costs);
         nameText.text = ParseString(description.displayName);
         descriptionText.text = ParseString(description.textDescription);
+
+        backColor.color = description.componentColor;
 
         if (description.meshFilter != null) meshFilter.mesh = description.meshFilter.sharedMesh;
         if (description.meshRenderer != null) meshPreview.materials = description.meshRenderer.sharedMaterials;
