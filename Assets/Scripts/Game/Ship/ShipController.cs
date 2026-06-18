@@ -75,7 +75,10 @@ public class ShipController : MonoBehaviour
         AssignShipController();
 
         UpdateEnergyUI();
-        mainCabin = componentGrid.GetComponentsOfType<MainCabinComponentController>()[0];
+        var comps = componentGrid.GetComponentsOfType<MainCabinComponentController>();
+        if(comps.Count > 0)
+            mainCabin = comps[0];
+
         if (playerShip && boss) Debug.LogError("Something went wrong,the player is the boss");
     }
 
@@ -199,7 +202,8 @@ public class ShipController : MonoBehaviour
         var components = componentGrid.GetAllComponents();
         foreach (var component in components)
         {
-            component.SetShipController(this);
+            if(component != null)
+                component.SetShipController(this);
         }
     }
 

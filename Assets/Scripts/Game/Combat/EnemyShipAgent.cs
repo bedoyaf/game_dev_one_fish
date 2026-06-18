@@ -506,7 +506,7 @@ public class EnemyShipAgent : MonoBehaviour
 
         foreach(var comp in shipController.componentGrid.GetAllComponents())
         {
-            if(comp.broken)
+            if(comp != null && comp.broken)
             {
                 // find a repairer that works
                 foreach (var rep in repairers)

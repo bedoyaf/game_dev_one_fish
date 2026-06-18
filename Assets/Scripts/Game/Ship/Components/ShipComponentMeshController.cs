@@ -14,8 +14,8 @@ public class ShipComponentMeshController : MonoBehaviour, IDamagableCollider
     // some meshes have multiple materials -> pick which one
     [SerializeField] private int materialIndex = 0;
 
-    private int deadLayer = -1;
-    private int defaultLayer = -1;
+    private int deadLayer = 0;
+    private int defaultLayer = 0;
 
     // Whether this component belongs to the player ship
     public bool BelongsToPlayer => 

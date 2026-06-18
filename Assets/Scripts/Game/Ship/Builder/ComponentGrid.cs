@@ -508,10 +508,15 @@ public class ComponentGrid {
         // Debug.Log(GetAllComponents().Count);
 
         foreach (var comp in GetAllComponents()) {
-            var behaviour = comp.GetComponent<T>();
 
-            if (behaviour != null && (!behaviour.GetComponent<ShipComponentController>().broken || includeBroken)) {
-                result.Add(behaviour);
+            if (comp != null)
+            {
+                var behaviour = comp.GetComponent<T>();
+
+                if (behaviour != null && (!behaviour.GetComponent<ShipComponentController>().broken || includeBroken))
+                {
+                    result.Add(behaviour);
+                }
             }
         }
 

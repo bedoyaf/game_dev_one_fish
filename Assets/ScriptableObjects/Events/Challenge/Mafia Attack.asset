@@ -24,24 +24,24 @@ MonoBehaviour:
     effects:
     - effectType: 1
       effectData:
-        rid: 3391801361672700190
+        rid: 4087197375860047974
     conditions: []
   - choiceID: run
     choiceText: Try to escape anyway while he shoots. Break 2 components
     effects:
     - effectType: 9
       effectData:
-        rid: 3391801361672700192
+        rid: 4087197375860047976
     conditions: []
   references:
     version: 2
     RefIds:
-    - rid: 3391801361672700190
+    - rid: 4087197375860047974
       type: {class: FightEffect, ns: , asm: Assembly-CSharp}
       data:
         enemyShipPrefab: {fileID: 8735679993859663466, guid: 610eea86b819b1a4cb91037a60a37af7, type: 3}
         elite: 1
-    - rid: 3391801361672700192
+    - rid: 4087197375860047976
       type: {class: BreakComponentsEffect, ns: , asm: Assembly-CSharp}
       data:
         amount: 2
