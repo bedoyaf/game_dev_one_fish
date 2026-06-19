@@ -24,49 +24,49 @@ MonoBehaviour:
     effects:
     - effectType: 1
       effectData:
-        rid: 4087197375860047984
+        rid: 3391801394490245215
     conditions: []
   - choiceID: pay
     choiceText: Pay them 5 scrap to let you go
     effects:
     - effectType: 3
       effectData:
-        rid: 4087197375860047986
+        rid: 3391801394490245217
     conditions:
     - conditionType: 1
       eventCondition:
-        rid: 4087197375860047988
+        rid: 3391801394490245219
   - choiceID: run
     choiceText: Run away from the fight using your fast engines
     effects:
     - effectType: 2
       effectData:
-        rid: 4087197375860047990
+        rid: 3391801394490245221
     conditions:
     - conditionType: 2
       eventCondition:
-        rid: 4087197375860047992
+        rid: 3391801394490245223
   references:
     version: 2
     RefIds:
-    - rid: 4087197375860047984
+    - rid: 3391801394490245215
       type: {class: FightEffect, ns: , asm: Assembly-CSharp}
       data:
         enemyShipPrefab: {fileID: 0}
         elite: 0
-    - rid: 4087197375860047986
+    - rid: 3391801394490245217
       type: {class: ChangeCurrencyAmountEffect, ns: , asm: Assembly-CSharp}
       data:
         amount: -5
         randomness: 0
-    - rid: 4087197375860047988
+    - rid: 3391801394490245219
       type: {class: HasCurrencyCondition, ns: , asm: Assembly-CSharp}
       data:
         currencyCount: 5
-    - rid: 4087197375860047990
+    - rid: 3391801394490245221
       type: {class: RunEffect, ns: , asm: Assembly-CSharp}
       data: 
-    - rid: 4087197375860047992
+    - rid: 3391801394490245223
       type: {class: HasComponentsCondition, ns: , asm: Assembly-CSharp}
       data:
         componentType: 2

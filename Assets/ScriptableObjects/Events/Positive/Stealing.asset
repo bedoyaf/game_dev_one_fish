@@ -23,26 +23,26 @@ MonoBehaviour:
     effects:
     - effectType: 4
       effectData:
-        rid: 4087197205068775578
+        rid: 3391801394490245366
     conditions: []
   - choiceID: high_risk
     choiceText: Steal their tools 30 % to get 10 scrap
     effects:
     - effectType: 4
       effectData:
-        rid: 4087197205068775580
+        rid: 3391801394490245370
     conditions: []
   - choiceID: leave
     choiceText: You are not interested (scared)
     effects:
     - effectType: 2
       effectData:
-        rid: 4087197205068775583
+        rid: 3391801394490245373
     conditions: []
   references:
     version: 2
     RefIds:
-    - rid: 4087197205068775578
+    - rid: 3391801394490245366
       type: {class: RandomChanceEffect, ns: , asm: Assembly-CSharp}
       data:
         possibilities:
@@ -50,13 +50,8 @@ MonoBehaviour:
           effect:
             effectType: 3
             effectData:
-              rid: 4087197205068775579
-    - rid: 4087197205068775579
-      type: {class: ChangeCurrencyAmountEffect, ns: , asm: Assembly-CSharp}
-      data:
-        amount: 5
-        randomness: 0
-    - rid: 4087197205068775580
+              rid: 3391801394490245374
+    - rid: 3391801394490245370
       type: {class: RandomChanceEffect, ns: , asm: Assembly-CSharp}
       data:
         possibilities:
@@ -64,12 +59,17 @@ MonoBehaviour:
           effect:
             effectType: 3
             effectData:
-              rid: 4087197205068775581
-    - rid: 4087197205068775581
+              rid: 3391801394490245375
+    - rid: 3391801394490245373
+      type: {class: RunEffect, ns: , asm: Assembly-CSharp}
+      data: 
+    - rid: 3391801394490245374
+      type: {class: ChangeCurrencyAmountEffect, ns: , asm: Assembly-CSharp}
+      data:
+        amount: 5
+        randomness: 0
+    - rid: 3391801394490245375
       type: {class: ChangeCurrencyAmountEffect, ns: , asm: Assembly-CSharp}
       data:
         amount: 10
         randomness: 0
-    - rid: 4087197205068775583
-      type: {class: RunEffect, ns: , asm: Assembly-CSharp}
-      data: 

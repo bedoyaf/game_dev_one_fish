@@ -15,7 +15,7 @@ MonoBehaviour:
   eventID: meteorite_storm
   eventType: 1
   eventImage: {fileID: 21300000, guid: 26fac023ddb431d47a682f351da4832c, type: 3}
-  minimumStage: 0
+  minimumStage: 3
   eventText: You are flying through a meteorite storm
   choices:
   - choiceID: shoot
@@ -23,50 +23,50 @@ MonoBehaviour:
     effects:
     - effectType: 2
       effectData:
-        rid: 4087197205068775535
+        rid: 3391801394490245195
     conditions:
     - conditionType: 2
       eventCondition:
-        rid: 4087197205068775536
+        rid: 3391801394490245196
   - choiceID: shield
     choiceText: Use your shields to protect yourself
     effects:
     - effectType: 2
       effectData:
-        rid: 4087197205068775537
+        rid: 3391801394490245198
     conditions:
     - conditionType: 2
       eventCondition:
-        rid: 4087197205068775538
+        rid: 3391801394490245200
   - choiceID: damage
     choiceText: Meteorite hits! One random component becomes broken.
     effects:
     - effectType: 9
       effectData:
-        rid: 4087197205068775540
+        rid: 3391801394490245202
     conditions: []
   references:
     version: 2
     RefIds:
-    - rid: 4087197205068775535
+    - rid: 3391801394490245195
       type: {class: RunEffect, ns: , asm: Assembly-CSharp}
       data: 
-    - rid: 4087197205068775536
+    - rid: 3391801394490245196
       type: {class: HasComponentsCondition, ns: , asm: Assembly-CSharp}
       data:
         componentType: 5
         component: {fileID: 0}
         componentCount: 3
-    - rid: 4087197205068775537
+    - rid: 3391801394490245198
       type: {class: RunEffect, ns: , asm: Assembly-CSharp}
       data: 
-    - rid: 4087197205068775538
+    - rid: 3391801394490245200
       type: {class: HasComponentsCondition, ns: , asm: Assembly-CSharp}
       data:
         componentType: 6
         component: {fileID: 0}
         componentCount: 3
-    - rid: 4087197205068775540
+    - rid: 3391801394490245202
       type: {class: BreakComponentsEffect, ns: , asm: Assembly-CSharp}
       data:
         amount: 1
